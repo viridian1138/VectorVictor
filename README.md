@@ -13,3 +13,29 @@ https://www.facebook.com/groups/662160243835320/
 
 
 
+Report A Bug
+============
+
+
+https://www.facebook.com/groups/662160243835320/
+
+
+
+
+How To Build
+============
+
+
+https://www.facebook.com/groups/662160243835320/
+
+
+
+
+Contributing
+============
+
+
+https://www.facebook.com/groups/662160243835320/
+
+
+
