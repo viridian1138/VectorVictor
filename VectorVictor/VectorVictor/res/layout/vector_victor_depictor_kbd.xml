@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+
+
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/traceOn"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_x="17dp"
+        android:layout_y="15dp"
+        android:text="Trace On" />
+
+    <Button
+        android:id="@+id/removeTrace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="134dp"
+        android:layout_y="16dp"
+        android:text="Remove Trace" />
+
+    <Button
+        android:id="@+id/traceOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="253dp"
+        android:layout_y="16dp"
+        android:text="Trace Off" />
+
+    <Button
+        android:id="@+id/clearTrace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="344dp"
+        android:layout_y="16dp"
+        android:text="Clear Trace" />
+
+    <Button
+        android:id="@+id/geoPadHandleRay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="448dp"
+        android:layout_y="16dp"
+        android:text="Ray" />
+
+    <Button
+        android:id="@+id/geoPadHandleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="508dp"
+        android:layout_y="16dp"
+        android:text="Line" />
+
+    <Button
+        android:id="@+id/toggleNumericLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="20dp"
+        android:layout_y="79dp"
+        android:text="Toggle Numeric Label" />
+
+    <Button
+        android:id="@+id/geoPadHandleLabel"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_x="192dp"
+        android:layout_y="82dp"
+        android:text="Toggle Depictor Label" />
+
+    <Button
+        android:id="@+id/geoPadHandleConst"
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:layout_x="387dp"
+        android:layout_y="80dp"
+        android:text="Constrain/Unconstrain" />
+
+    <Button
+        android:id="@+id/geoPadHandleRuler"
+        android:layout_width="92dp"
+        android:layout_height="wrap_content"
+        android:layout_x="567dp"
+        android:layout_y="13dp"
+        android:text="Ruler" />
+
+    <Button
+        android:id="@+id/negateDepictor"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_x="670dp"
+        android:layout_y="15dp"
+        android:text="Negate" />
+
+    <Button
+        android:id="@+id/circleDepictor"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_x="26dp"
+        android:layout_y="138dp"
+        android:text="Circle" />
+
+    <Button
+        android:id="@+id/hideDepic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="143dp"
+        android:layout_y="139dp"
+        android:text="Hide/Show" />
+
+    <Button
+        android:id="@+id/geoPadHandleRulerWithNegative"
+        android:layout_width="92dp"
+        android:layout_height="wrap_content"
+        android:layout_x="592dp"
+        android:layout_y="77dp"
+        android:text="Ruler With Negative" />
+    
+</AbsoluteLayout>
+
+
+
+

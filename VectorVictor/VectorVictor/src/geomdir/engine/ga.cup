@@ -1,0 +1,1347 @@
+// CUP specification for a simple expression evaluator (no actions)
+
+package geomdir.engine;
+import java_cup.runtime.*;
+import meta.*;
+import geomdir.Mvec;
+import geomdir.IntObj;
+import geomdir.ObjObj;
+
+/* Preliminaries to set up and use the scanner.  */
+
+
+
+action code {:
+
+
+
+
+//$$strtCprt
+/**
+* Vector Victor -- Graphing Calculator Program For Android
+* 
+* Copyright (C) 1993-2013 Thornton Green
+* 
+* This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+* published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+* You should have received a copy of the GNU General Public License along with this program; if not, 
+* see <http://www.gnu.org/licenses>.
+* Additional permission under GNU GPL version 3 section 7
+*
+* If you modify this Program, or any covered work, by linking or combining it with Android 
+* (or a modified version of that library), containing parts covered by the terms of the Android licenses, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Android used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with Dexmaker 
+* (or a modified version of that library), containing parts covered by the terms of Apache License 2.0, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Dexmaker used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with JLex 
+* (or a modified version of that library), containing parts covered by the terms of JLex license listed below, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of JLex used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with Java CUP 
+* (or a modified version of that library), containing parts covered by the terms of Java CUP license listed below, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Java CUP used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with TwoDScrollView 
+* (or a modified version of that library), containing parts covered by the terms of Apache License 2.0, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of TwoDScrollView used as well 
+* as that of the covered work.}
+*
+*
+* Android is available at http://android.com
+*
+* Dexmaker is available at https://code.google.com/p/dexmaker/
+*
+* JLex is available at http://freecode.com/projects/jlex
+* 
+* Java CUP is available at http://www2.cs.turn.edu/projects/cup/
+* 
+* TwoDScrollView is available at http://blog.gorges.us/2010/06/android-two-dimensional-scrollview/
+*
+*
+* The licenses for Java CUP and JLex are listed below:
+* 
+* ****************************************************************************
+*
+* JLex COPYRIGHT NOTICE, LICENSE AND DISCLAIMER. 
+*
+* Copyright 1996 by Elliot Joel Berk. 
+*
+* Permission to use, copy, modify, and distribute this software and its documentation for any 
+* purpose and without fee is hereby granted, provided that the above copyright notice appear 
+* in all copies and that both the copyright notice and this permission notice and warranty 
+* disclaimer appear in supporting documentation, and that the name of Elliot Joel Berk not be 
+* used in advertising or publicity pertaining to distribution of the software without specific, 
+* written prior permission. 
+*
+* Elliot Joel Berk disclaims all warranties with regard to this software, including all implied 
+* warranties of merchantability and fitness. In no event shall Elliot Joel Berk be liable for 
+* any special, indirect or consequential damages or any damages whatsoever resulting from loss 
+* of use, data or profits, whether in an action of contract, negligence or other tortious 
+* action, arising out of or in connection with the use or performance of this software. 
+* 
+* ********************************************************************************
+*
+* CUP Parser Generator Copyright Notice, License, and Disclaimer
+* 
+* Copyright 1996-1999 by Scott Hudson, Frank Flannery, C. Scott Ananian 
+* 
+* Permission to use, copy, modify, and distribute this software and its documentation for any 
+* purpose and without fee is hereby granted, provided that the above copyright notice appear 
+* in all copies and that both the copyright notice and this permission notice and warranty 
+* disclaimer appear in supporting documentation, and that the names of the authors or their 
+* employers not be used in advertising or publicity pertaining to distribution of the software 
+* without specific, written prior permission. 
+* 
+* The authors and their employers disclaim all warranties with regard to this software, 
+* including all implied warranties of merchantability and fitness. In no event shall the 
+* authors or their employers be liable for any special, indirect or consequential damages or 
+* any damages whatsoever resulting from loss of use, data or profits, whether in an action of 
+* contract, negligence or other tortious action, arising out of or in connection with the use 
+* or performance of this software.
+*
+* ******************************************************************************
+*
+*
+*/
+//$$endCprt
+
+
+
+/**
+*
+* --- SOURCE MODIFICATION LIST ---
+*
+* Please document all changes to this source file here.
+* Feel free to add rows if needed.
+*
+*
+*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
+*    | Date of Modification  |    Author of Modification                       |    Reason for Modification                                           |    Description of Modification (use multiple rows if needed)  ... 
+*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
+*    |                       |                                                 |                                                                      |
+*    | 9/24/2000             | Thorn Green (viridian_1138@yahoo.com)           | Needed to provide a standard way to document source file changes.    | Added a souce modification list to the documentation so that changes to the souce could be recorded. 
+*    | 10/22/2000            | Thorn Green (viridian_1138@yahoo.com)           | Methods did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
+*    | 10/29/2000            | Thorn Green (viridian_1138@yahoo.com)           | Classes did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
+*    | 01/15/2002            | Thorn Green (viridian_1138@yahoo.com)           | Parse errors in DeCast productions were not being propagated.        | Added exception throwing to the production handlers.
+*    | 07/19/2002            | Thorn Green (viridian_1138@yahoo.com)           | Needed to make GeomEngine competitive with John Cupani's E2D.        | Made parsing changes to improve performance.
+*    | 08/07/2004            | Thorn Green (viridian_1138@yahoo.com)           | Establish baseline for all changes in the last year.                 | Establish baseline for all changes in the last year.
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*
+*
+*/
+
+
+
+protected HighLevelBinTree newTreeNode( Lexeme ThisLex )
+
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+
+	MyTree.addRight( ThisLex );
+	MyTree.setCopyMode( Meta.copyDoNothing );
+	MyTree.setEraseMode( Meta.wake );
+		
+	return( MyTree );
+	};
+
+
+protected HighLevelBinTree standardUnary( Lexeme FunLex , HighLevelBinTree TempTree )
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+
+	MyTree.addRight( FunLex );
+	MyTree.setCopyMode( Meta.copyDoNothing );
+	MyTree.setEraseMode( Meta.wake );
+	TempTree.connectLeft( MyTree );
+	
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree negationOp( Lexeme ThisLex , HighLevelBinTree TempTree )
+	{
+	HighLevelBinTree MyTree = standardUnary( ThisLex , TempTree );
+	ThisLex.setMyMatch( GEval.negation );
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree sequestOP( Lexeme Lex , HighLevelBinTree T1 , HighLevelBinTree T2 )
+	{
+	int Tval = 0;
+
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+
+	boolean Done = false;
+	HighLevelBinTree TempTree = new HighLevelBinTree();
+	T2.copyDataPlusPtrInfo( TempTree );
+
+	if( !( TempTree.empty() ) )
+		{
+		while( !Done )
+			{
+			Lexeme KLex = (Lexeme)( ( TempTree ).getNode() );
+
+			Mvec Kvec = KLex.getMvec();
+			int kval = (int)( Kvec.getBasis() );
+			if( kval == 0 ) { Tval = Tval | 1; }
+			if( kval == 1 ) { Tval = Tval | 6; }
+			if( kval == 2 ) { Tval = Tval | 8; }
+
+			TempTree.right();
+			Done = TempTree.equal( T2 );
+			}
+		}
+
+
+	Lex.setPlugMatch( Tval );
+
+	OutTree.addRight( Lex );
+	OutTree.setCopyMode( Meta.copyDoNothing );
+	OutTree.setEraseMode( Meta.wake );
+	OutTree.copyDataPlusPtrInfo( MyTree );
+	T1.connectLeft( OutTree );
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree binOp( HighLevelBinTree Left , Lexeme Op , HighLevelBinTree Right )
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree NumTree = new HighLevelBinTree();
+
+	MyTree.addRight( Op );
+	MyTree.setCopyMode( Meta.copyDoNothing );
+	MyTree.setEraseMode( Meta.wake );
+	Left.connectLeft( MyTree );
+	MyTree.copyDataPlusPtrInfo( NumTree );
+	NumTree.left();
+	Right.connectRight( NumTree );
+
+	return( MyTree );
+	}
+
+
+private final int countRight( HighLevelBinTree in )
+	{
+	int cnt = 0;
+	boolean Done = false;
+	HighLevelBinTree TempTree = new HighLevelBinTree();
+	in.copyDataPlusPtrInfo( TempTree );
+
+	if( !( TempTree.empty() ) )
+		{
+		while( !Done )
+			{
+			TempTree.right();
+			cnt++;
+			Done = TempTree.equal( in );
+			}
+		}
+
+	return( cnt );
+	}
+
+
+private final int countList( HighLevelList in )
+	{
+	int cnt = 0;
+	boolean Done = false;
+	HighLevelList TempList = new HighLevelList();
+	in.copyDataPlusPtrInfo( TempList );
+
+	if( !( TempList.empty() ) )
+		{
+		TempList.searchHead();
+
+		while( !Done )
+			{
+			TempList.right();
+			cnt++;
+			Done = TempList.getHead();
+			}
+		}
+
+	return( cnt );
+	}
+
+
+protected HighLevelBinTree deCastLeft( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	Lexeme e4 , Lexeme e5 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUr = (int)( ( e5 ).getMvec().getBasis() );
+		Idex = (int)( ( e4 ).getMvec().getBasis() );
+
+		if( ( NumBi < ( NumUr + 1 ) ) ||
+			( Idex >= ( NumBi - NumUr ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+	
+	if( !err )
+		{
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		int[] ival = { NumBi , NumUr , Idex };
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+		
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+		
+
+		( e3 ).connectLeft( OutTree );
+	
+		OutTree.left();
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		
+		}
+
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree deCastRight( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	Lexeme e4 , Lexeme e5 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUr = (int)( ( e5 ).getMvec().getBasis() );
+		Idex = (int)( ( e4 ).getMvec().getBasis() );
+
+		if( ( NumBi < ( NumUr + 1 ) ) ||
+			( Idex >= ( NumBi - NumUr ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+	
+	if( !err )
+		{
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		int[] ival = { NumBi , NumUr , Idex };
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+		
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+		
+
+		( e3 ).connectLeft( OutTree );
+	
+		OutTree.left();
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		
+		}
+
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree deCastBlossomLeft( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	Lexeme e4 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUr = countRight( e3 );
+		Idex = (int)( ( e4 ).getMvec().getBasis() );
+
+		if( ( NumBi < ( NumUr + 1 ) ) ||
+			( Idex >= ( NumBi - NumUr ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+
+	if( !err )
+		{							
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+		ObjObj ooUr = new ObjObj();
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+		ooUr.value = new Mvec[ NumUr ];
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		int[] ival = { NumBi , NumUr , Idex };
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+
+
+
+		( e3 ).connectLeft( OutTree );
+	
+		OutTree.left();
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUr );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		}
+
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree deCastBlossomRight( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	Lexeme e4 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUr = countRight( e3 );
+		Idex = (int)( ( e4 ).getMvec().getBasis() );
+
+		if( ( NumBi < ( NumUr + 1 ) ) ||
+			( Idex >= ( NumBi - NumUr ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+
+	if( !err )
+		{							
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+		ObjObj ooUr = new ObjObj();
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+		ooUr.value = new Mvec[ NumUr ];
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		int[] ival = { NumBi , NumUr , Idex };
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+
+
+
+		( e3 ).connectLeft( OutTree );
+	
+		OutTree.left();
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUr );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		}
+
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree deCastBlossomLeftComp( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	HighLevelList e4 , Lexeme e5 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUl = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUl = countRight( e3 );
+		NumUr = countList( e4 );
+		Idex = (int)( ( e5 ).getMvec().getBasis() );
+
+		if( ( NumUl != NumUr ) ||
+			( NumBi < ( NumUl + 1 ) ) ||
+			( Idex >= ( NumBi - NumUl ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+
+	if( !err )
+		{							
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+		ObjObj ooUl = new ObjObj();
+		ObjObj ooUr = new ObjObj();
+
+		int[] ival = new int[ NumUr + 3 ];
+
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+		Mvec oUl[] = new Mvec[ NumUl ]; ooUl.value = oUl;
+		ooUr.value = new Mvec[ NumUr ];
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		e4.searchHead();
+		for( count = 0 ; count < NumUr ; ++count )
+			{
+			oUl[ count ] = new Mvec();
+			Lexeme MyLex = (Lexeme)( e4.getNode() );
+			FlexString MyStr = (FlexString)( MyLex.getMetaPtr() );
+			ival[ count + 3 ] = 0;
+			if( MyStr.getChar( 1 ) == 'v' )
+				ival[ count + 3 ] = 1;
+			e4.right();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		ival[ 0 ] = NumBi;
+		ival[ 1 ] = NumUr;
+		ival[ 2 ] = Idex;
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+
+
+
+		( e3 ).connectLeft( OutTree );
+
+		OutTree.left();	
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUr );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUl );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		}
+
+	e4.eraseAllInfo();
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree deCastBlossomRightComp( Lexeme e1 , HighLevelBinTree e2 , HighLevelBinTree e3 , 
+	HighLevelList e4 , Lexeme e5 ) throws Exception
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	int NumBi = 0;
+	int NumUl = 0;
+	int NumUr = 0;
+	int Idex = 0;
+	boolean err = false;
+	Lexeme ThisLex = null;
+	int ErrCode = 0;
+
+	if( !err )
+		{
+		NumBi = countRight( e2 );
+		NumUl = countRight( e3 );
+		NumUr = countList( e4 );
+		Idex = (int)( ( e5 ).getMvec().getBasis() );
+
+		if( ( NumUl != NumUr ) ||
+			( NumBi < ( NumUl + 1 ) ) ||
+			( Idex >= ( NumBi - NumUl ) ) ||
+			( Idex < 0 ) )
+			{
+			err = true;
+			ErrCode = EngineConstants.ArgumentMismatch;
+			}
+
+		}
+
+
+	if( !err )
+		{							
+		ObjObj ooBi = new ObjObj();
+		ObjObj ooRes = new ObjObj();
+		ObjObj ooTmp = new ObjObj();
+		ObjObj ooUl = new ObjObj();
+		ObjObj ooUr = new ObjObj();
+
+		int[] ival = new int[ NumUr + 3 ];
+
+
+		ooBi.value = new Mvec[ NumBi ];
+		Mvec oR[] = new Mvec[ NumBi ]; ooRes.value = oR;
+		Mvec oT[] = new Mvec[ NumBi ]; ooTmp.value = oT;
+		Mvec oUl[] = new Mvec[ NumUl ]; ooUl.value = oUl;
+		ooUr.value = new Mvec[ NumUr ];
+
+		int count;
+		for( count = 0 ; count < NumBi ; ++count )
+			{
+			oR[ count ] = new Mvec();
+			oT[ count ] = new Mvec();
+			}
+
+		e4.searchHead();
+		for( count = 0 ; count < NumUr ; ++count )
+			{
+			oUl[ count ] = new Mvec();
+			Lexeme MyLex = (Lexeme)( e4.getNode() );
+			FlexString MyStr = (FlexString)( MyLex.getMetaPtr() );
+			ival[ count + 3 ] = 0;
+			if( MyStr.getChar( 1 ) == 'v' )
+				ival[ count + 3 ] = 1;
+			e4.right();
+			}
+
+		ObjObj ooiv = new ObjObj();
+		ival[ 0 ] = NumBi;
+		ival[ 1 ] = NumUr;
+		ival[ 2 ] = Idex;
+		ooiv.value = ival;
+		e1.setMetaPtr( ooiv );
+
+		OutTree.addRight( e1 );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		OutTree.copyDataPlusPtrInfo( MyTree );
+
+
+
+		( e3 ).connectLeft( OutTree );
+
+		OutTree.left();	
+		while( !( OutTree.rThread() ) ) OutTree.right();
+
+		( e2 ).connectRight( OutTree );
+		
+		while( !( OutTree.rThread() ) ) OutTree.right();
+		
+		
+
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUr );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooUl );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooTmp );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooRes );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+
+		ThisLex = new Lexeme();
+		ThisLex.setMyMatch( GEval.CompObj );
+		ThisLex.setMetaPtr( ooBi );
+		OutTree.addRight( ThisLex );
+		OutTree.setCopyMode( Meta.copyDoNothing );
+		OutTree.setEraseMode( Meta.wake );
+		}
+
+	e4.eraseAllInfo();
+
+	if( err )
+		throw( new Exception( "Parse Failed" ) );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree buildList( HighLevelBinTree e1 , HighLevelBinTree e2 )
+	{
+	e1.connectRight( e2 );
+	return( e2 );
+	}
+
+
+protected HighLevelBinTree buildList( HighLevelBinTree e1 , Lexeme e2 )
+	{
+	HighLevelBinTree e2t = newTreeNode( e2 );
+	return( buildList( e1 , e2t ) );
+	}
+
+
+protected HighLevelList buildStringList( HighLevelList e1 , Lexeme e2 )
+	{
+	e1.searchHead();
+	e1.left();
+	e1.insertRight( e2 );
+	e1.setCopyMode( Meta.copyDoNothing );
+	e1.setEraseMode( Meta.wake );
+	return( e1 );
+	}
+
+
+protected HighLevelList buildStringList( Lexeme e )
+	{
+	HighLevelList MyList = new HighLevelList();
+	MyList.insertRight( e );
+	MyList.setCopyMode( Meta.copyDoNothing );
+	MyList.setEraseMode( Meta.wake );
+	return( MyList );
+	}
+
+
+protected HighLevelBinTree plugOp( Lexeme FunLex , HighLevelBinTree TempTree )
+		throws java.lang.Exception
+	{
+	int count = 0;	
+	HighLevelBinTree ret = null;
+	java.util.Vector Plugs = GeomEngine.getPlugins();
+	int len = Plugs.size();
+	FlexString MyStr = (FlexString)( FunLex.getMetaPtr() );
+
+	while( ( count < len ) && ( ret == null ) )
+		{
+		DepicPlugin MyPlug = (DepicPlugin)( Plugs.elementAt( count ) );
+		ret = MyPlug.parseOps( MyStr , FunLex , TempTree );
+		count++;
+		}
+
+	if( ret == null )
+		throw new Exception( "No such plugin function found" );
+
+	return( ret );
+	}
+
+
+ :};
+
+
+
+
+parser code {: 
+
+public final boolean parseAll( FlexString Instr , HighLevelBinTree ParseTree , 
+			int MyMode )
+			
+/*
+Fun: Given an expression, generates its parse tree.
+In: Character string Instr to be parsed.
+Out: Parse tree.  Returns true iff. there is an error.
+Pre: None.
+Post: Parse tree is returned in ParseTree.  If there's an error, the parse tree is
+	empty.
+Programmed By: Thorn Green.
+*/
+
+	{
+	LexAnal MyLex = /* MyLexAnal; */ getLexAnal( Instr );
+	boolean err = true;
+
+	MyLex.initSymbolMode( Instr , MyMode );
+	Symbol MySym = null;
+	ErrCode = EngineConstants.SyntaxError;
+
+	try{
+	MySym = parse();
+	HighLevelBinTree MyTree = (HighLevelBinTree)( MySym.value );
+	MyTree.copyDataPlusPtrInfo( ParseTree );
+	err = false;
+	} catch( Exception e ) { }
+
+	
+	return( err );
+	};
+	
+		public final boolean verifyVariable( FlexString VarStr , int MyMode )
+		
+/*
+Fun: Verifies that VarStr contains a valid name for a variable.
+In: String VarStr, and the parsing mode.
+Out: Boolean value.
+Pre: VarStr, MyMode valid.
+Post: If VarStr holds a variable, the value one will be returned.  Otherwise zero
+	will be returned.
+Programmed By: Thorn Green
+*/
+		
+	{
+	/* LexAnal MyLex = MyLexAnal; */
+	boolean MyBool = /* MyLex. */ LexAnal.verifyVariable( VarStr , MyMode );
+	return( MyBool );
+	};
+	
+		public final void extractVariable( FlexString instr , int strt ,
+			int endloc , FlexString outstr )
+			
+/*
+Fun: Extracts an machine variable name from a string containing a variable name.
+In: The string containing the variable name, the start of the variable name, the
+	end of the variable name.
+Out: Output string.
+Pre: The string must contain a variable name at position [ strt , endloc ].
+Post: The machine name of the variable will be placed in outstr.
+Programmed By: Thorn Green
+*/
+
+	{
+	/* LexAnal MyLex = MyLexAnal; */
+	/* MyLex. */ LexAnal.extractVariable( instr , strt , endloc , outstr );
+	};
+	
+		public final void clear( )
+		
+/*
+Fun: Releases all memory allocated by the analyzer.
+In: None.
+Out: None.
+Pre: None.
+Post: All nodes allocated by this class will be cleared.
+Programmed By: Thorn Green.
+*/
+
+	{
+	/* LexAnal MyLex = MyLexAnal;
+	MyLex.clear();
+	MyList.eraseAllInfo(); */
+	};
+	
+		public final int getErrCode( )
+			{ return( ErrCode ); };
+
+private final static LexAnal getLexAnal( FlexString in )
+			{
+			if( ThisLexAnal == null )
+				{
+				ThisLexAnal = new LexAnal( in );
+				}
+				else
+				{
+				ThisLexAnal.resetLexer( in );
+				}
+
+			return( ThisLexAnal );
+			}
+
+static LexAnal ThisLexAnal = null;
+private int ErrCode;
+
+:};
+
+
+
+
+init with {: /* ... */ :};
+
+
+scan with {: return( ThisLexAnal.scanSymbol( ) ); :};
+
+
+/* Terminals (tokens returned by the scanner). */
+
+terminal Lexeme     plus, minus, vplus, vminus, prod, div, dot, cross, wedge;
+terminal Lexeme     negation, uplus, Lparen, Rparen;
+terminal Lexeme     exp, cos, sin, sinh, cosh, reverse, inverse;
+terminal Lexeme     magnitude, PhasToVect, UnitOf, ln;
+terminal Lexeme     basis1, basis2, basis12, pi;
+terminal Lexeme     Lbrac, Rbrac, Lbrak, Rbrak, Comma;
+terminal Lexeme     DeCastBlossomLeftComp, DeCastBlossomRightComp;
+terminal Lexeme     DeCastBlossomLeft, DeCastBlossomRight;
+terminal Lexeme     DeCastLeft, DeCastRight;
+terminal Lexeme     eof, err, space, CompObj;
+terminal Lexeme     NumConst, variable, PlugOp, String;
+
+/* Non terminals */
+
+non terminal HighLevelList	STRING_LIST, FORM_STRING;
+non terminal HighLevelBinTree	LINE, SEQUEST, CONST_LIST, EXPR_LIST, FORM_EXPR;
+non terminal HighLevelBinTree	DECASTBLOSSOMLEFTCOMP, DECASTBLOSSOMRIGHTCOMP;
+non terminal HighLevelBinTree	DECASTBLOSSOMLEFT, DECASTBLOSSOMRIGHT;
+non terminal HighLevelBinTree	DECASTLEFT, DECASTRIGHT, PLUG_EXPR;
+non terminal HighLevelBinTree	EXPR;
+
+/* Precedences */
+
+precedence left plus, minus, vplus, vminus;
+precedence left prod, div;
+precedence left dot;
+precedence left cross;
+precedence left wedge;
+precedence left uplus, negation;
+
+/* The grammar */
+
+LINE ::= EXPR:e
+	{: RESULT = e; :};
+
+EXPR ::= EXPR:e1 plus:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :} 
+	| EXPR:e1 minus:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 vplus:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 vminus:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 prod:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 div:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 dot:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 cross:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| EXPR:e1 wedge:e2 EXPR:e3 
+		{: RESULT = binOp( e1 , e2 , e3 ); :}
+	| plus EXPR:e1 
+		{: RESULT = e1; :} %prec uplus 
+	| minus:e1 EXPR:e2 
+		{: RESULT = negationOp( e1 , e2 ); :} %prec negation 
+	| Lparen EXPR:e Rparen 
+		{: RESULT = e; :}
+	| exp:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| cos:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| sin:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| sinh:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| cosh:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| reverse:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| inverse:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| magnitude:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| PhasToVect:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| UnitOf:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| ln:e1 EXPR:e2 Rparen 
+		{: RESULT = standardUnary( e1 , e2 ); :}
+	| SEQUEST:e1
+		{: RESULT = e1; :}
+	| DECASTBLOSSOMLEFTCOMP:e1
+		{: RESULT = e1; :}
+	| DECASTBLOSSOMRIGHTCOMP:e1
+		{: RESULT = e1; :}
+	| DECASTBLOSSOMLEFT:e1
+		{: RESULT = e1; :}
+	| DECASTBLOSSOMRIGHT:e1
+		{: RESULT = e1; :}
+	| DECASTLEFT:e1
+		{: RESULT = e1; :}
+	| DECASTRIGHT:e1
+		{: RESULT = e1; :}
+	| PLUG_EXPR:e1
+		{: RESULT = e1; :}
+	| basis1:e 
+		{: RESULT = newTreeNode( e ); :}
+	| basis2:e 
+		{: RESULT = newTreeNode( e ); :}
+	| basis12:e 
+		{: RESULT = newTreeNode( e ); :}
+	| pi:e 
+		{: RESULT = newTreeNode( e ); :}
+	| NumConst:e 
+		{: RESULT = newTreeNode( e ); :}
+	| variable:e 
+		{: RESULT = newTreeNode( e ); :}
+	;
+
+SEQUEST ::= Lbrac:e1 EXPR:e2 Rbrac Lbrak CONST_LIST:e3 Rbrak
+	{: RESULT = sequestOP( e1 , e2 , e3 ); :};
+
+DECASTBLOSSOMRIGHTCOMP ::= DeCastBlossomRightComp:e1 FORM_EXPR:e2 Comma
+	FORM_EXPR:e3 Comma FORM_STRING:e4 Comma NumConst:e5 Rparen
+	{: RESULT = deCastBlossomRightComp( e1 , e2 , e3 , e4 , e5 ); :};
+
+DECASTBLOSSOMLEFTCOMP ::= DeCastBlossomLeftComp:e1 FORM_EXPR:e2 Comma
+	FORM_EXPR:e3 Comma FORM_STRING:e4 Comma NumConst:e5 Rparen
+	{: RESULT = deCastBlossomLeftComp( e1 , e2 , e3 , e4 , e5 ); :};
+
+DECASTBLOSSOMLEFT ::= DeCastBlossomLeft:e1 FORM_EXPR:e2 Comma
+	FORM_EXPR:e3 Comma NumConst:e4 Rparen
+	{: RESULT = deCastBlossomLeft( e1 , e2 , e3 , e4 ); :};
+
+DECASTBLOSSOMRIGHT ::= DeCastBlossomRight:e1 FORM_EXPR:e2 Comma
+	FORM_EXPR:e3 Comma NumConst:e4 Rparen
+	{: RESULT = deCastBlossomRight( e1 , e2 , e3 , e4 ); :};
+
+DECASTLEFT ::= DeCastLeft:e1 FORM_EXPR:e2 Comma
+	EXPR:e3 Comma NumConst:e4 Comma NumConst:e5 Rparen
+	{: RESULT = deCastLeft( e1 , e2 , e3 , e4 , e5 ); :};
+
+DECASTRIGHT ::= DeCastRight:e1 FORM_EXPR:e2 Comma
+	EXPR:e3 Comma NumConst:e4 Comma NumConst:e5 Rparen
+	{: RESULT = deCastRight( e1 , e2 , e3 , e4 , e5 ); :};
+
+CONST_LIST ::= NumConst:e
+	{: RESULT = newTreeNode( e ); :}
+	| CONST_LIST:e1 Comma NumConst:e2
+	{: RESULT = buildList( e1 , e2 ); :};
+
+EXPR_LIST ::= EXPR:e
+	{: RESULT = e; :}
+	| EXPR_LIST:e1 Comma EXPR:e2
+	{: RESULT = buildList( e1 , e2 ); :};
+
+STRING_LIST ::= String:e
+		{: RESULT = buildStringList( e ); :}
+	| STRING_LIST:e1 Comma String:e2
+		{: RESULT = buildStringList( e1 , e2 ); :};
+
+FORM_STRING ::= Lbrak STRING_LIST:e1 Rbrak
+	{: RESULT = e1; :};
+
+FORM_EXPR ::= Lbrak EXPR_LIST:e1 Rbrak
+	{: RESULT = e1; :};
+
+PLUG_EXPR ::= PlugOp:e1 EXPR_LIST:e2 Rparen
+		{: RESULT = plugOp( e1 , e2 ); :}
+	| PlugOp:e1 Rparen
+		{: RESULT = plugOp( e1 , null ); :};
+
+
+

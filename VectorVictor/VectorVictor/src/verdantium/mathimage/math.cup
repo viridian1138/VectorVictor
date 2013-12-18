@@ -1,0 +1,987 @@
+
+package verdantium.mathimage;
+import java_cup.runtime.*;
+import java.awt.Font;
+import java.awt.font.*;
+import java.awt.FontMetrics;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.lang.reflect.*;
+import java.util.Stack;
+import verdantium.kluges.*;
+import java.lang.Math;
+import meta.*;
+
+/* Preliminaries to set up and use the scanner.  */
+
+
+
+action code {:
+
+
+
+//$$strtCprt
+/**
+* Vector Victor -- Graphing Calculator Program For Android
+* 
+* Copyright (C) 1993-2013 Thornton Green
+* 
+* This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+* published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+* You should have received a copy of the GNU General Public License along with this program; if not, 
+* see <http://www.gnu.org/licenses>.
+* Additional permission under GNU GPL version 3 section 7
+*
+* If you modify this Program, or any covered work, by linking or combining it with Android 
+* (or a modified version of that library), containing parts covered by the terms of the Android licenses, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Android used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with Dexmaker 
+* (or a modified version of that library), containing parts covered by the terms of Apache License 2.0, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Dexmaker used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with JLex 
+* (or a modified version of that library), containing parts covered by the terms of JLex license listed below, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of JLex used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with Java CUP 
+* (or a modified version of that library), containing parts covered by the terms of Java CUP license listed below, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of Java CUP used as well 
+* as that of the covered work.}
+* 
+* If you modify this Program, or any covered work, by linking or combining it with TwoDScrollView 
+* (or a modified version of that library), containing parts covered by the terms of Apache License 2.0, 
+* the licensors of this Program grant you additional permission to convey the resulting work. {Corresponding Source for
+* a non-source form of such a combination shall include the source code for the parts of TwoDScrollView used as well 
+* as that of the covered work.}
+*
+*
+* Android is available at http://android.com
+*
+* Dexmaker is available at https://code.google.com/p/dexmaker/
+*
+* JLex is available at http://freecode.com/projects/jlex
+* 
+* Java CUP is available at http://www2.cs.turn.edu/projects/cup/
+* 
+* TwoDScrollView is available at http://blog.gorges.us/2010/06/android-two-dimensional-scrollview/
+*
+*
+* The licenses for Java CUP and JLex are listed below:
+* 
+* ****************************************************************************
+*
+* JLex COPYRIGHT NOTICE, LICENSE AND DISCLAIMER. 
+*
+* Copyright 1996 by Elliot Joel Berk. 
+*
+* Permission to use, copy, modify, and distribute this software and its documentation for any 
+* purpose and without fee is hereby granted, provided that the above copyright notice appear 
+* in all copies and that both the copyright notice and this permission notice and warranty 
+* disclaimer appear in supporting documentation, and that the name of Elliot Joel Berk not be 
+* used in advertising or publicity pertaining to distribution of the software without specific, 
+* written prior permission. 
+*
+* Elliot Joel Berk disclaims all warranties with regard to this software, including all implied 
+* warranties of merchantability and fitness. In no event shall Elliot Joel Berk be liable for 
+* any special, indirect or consequential damages or any damages whatsoever resulting from loss 
+* of use, data or profits, whether in an action of contract, negligence or other tortious 
+* action, arising out of or in connection with the use or performance of this software. 
+* 
+* ********************************************************************************
+*
+* CUP Parser Generator Copyright Notice, License, and Disclaimer
+* 
+* Copyright 1996-1999 by Scott Hudson, Frank Flannery, C. Scott Ananian 
+* 
+* Permission to use, copy, modify, and distribute this software and its documentation for any 
+* purpose and without fee is hereby granted, provided that the above copyright notice appear 
+* in all copies and that both the copyright notice and this permission notice and warranty 
+* disclaimer appear in supporting documentation, and that the names of the authors or their 
+* employers not be used in advertising or publicity pertaining to distribution of the software 
+* without specific, written prior permission. 
+* 
+* The authors and their employers disclaim all warranties with regard to this software, 
+* including all implied warranties of merchantability and fitness. In no event shall the 
+* authors or their employers be liable for any special, indirect or consequential damages or 
+* any damages whatsoever resulting from loss of use, data or profits, whether in an action of 
+* contract, negligence or other tortious action, arising out of or in connection with the use 
+* or performance of this software.
+*
+* ******************************************************************************
+*
+*
+*/
+//$$endCprt
+
+
+
+/**
+*
+* --- SOURCE MODIFICATION LIST ---
+*
+* Please document all changes to this source file here.
+* Feel free to add rows if needed.
+*
+*
+*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
+*    | Date of Modification  |    Author of Modification                       |    Reason for Modification                                           |    Description of Modification (use multiple rows if needed)  ... 
+*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
+*    |                       |                                                 |                                                                      |
+*    | 9/24/2000             | Thorn Green (viridian_1138@yahoo.com)           | Needed to provide a standard way to document source file changes.    | Added a souce modification list to the documentation so that changes to the souce could be recorded. 
+*    | 10/22/2000            | Thorn Green (viridian_1138@yahoo.com)           | Methods did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
+*    | 10/29/2000            | Thorn Green (viridian_1138@yahoo.com)           | Classes did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
+*    | 12/30/2001            | Thorn Green (viridian_1138@yahoo.com)           | Expand handling of MathImage parse errors.                           | Created and propagated MathImageParseException.
+*    | 08/07/2004            | Thorn Green (viridian_1138@yahoo.com)           | Establish baseline for all changes in the last year.                 | Establish baseline for all changes in the last year.
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*    |                       |                                                 |                                                                      |
+*
+*
+*/
+
+
+
+
+protected int TempMode = 0;
+protected Graphics2D TempGr = null;
+protected FontRenderContext TempFrc = null;
+protected Rectangle2D.Double CrsrRect = null;
+protected SLexeme CrsrLex = null;
+
+
+protected HighLevelBinTree finalMergeExpr( HighLevelBinTree e1 )
+	{
+	if( !( e1.empty() ) )
+		{
+		SLexeme MyLex = (SLexeme)( e1.getNode() );
+
+		if( MyLex.getMyMatch() == SEval.LinearLayout )
+			{
+			HighLevelBinTree TTree = new HighLevelBinTree();
+			e1.copyDataPlusPtrInfo( TTree );
+			TTree.left();
+			double ConX = 0;
+			double ConY = 0;
+			double ImgX = 0;
+			double ImgY = 0;
+			double ConWidth = 0;
+			double ConYMax = 0;
+			double ImgWidth = 0;
+			double ImgYMax = 0;
+
+			double CurConYMax = 0;
+			double CurImgYMax = 0;
+
+			SLexeme ThisLex = (SLexeme)( TTree.getNode() );
+			ImgX = ThisLex.getImgRect().x;
+			ImgWidth = -ImgX;
+
+			while( !( TTree.rThread() ) )
+				{
+				ThisLex = (SLexeme)( TTree.getNode() );
+				ThisLex.setXOffset( ConWidth );
+				ConWidth += ThisLex.getConnRect().width;
+
+				if( ThisLex.getConnRect().y < ConY ) ConY = ThisLex.getConnRect().y;
+				if( ThisLex.getImgRect().y < ImgY ) ImgY = ThisLex.getImgRect().y;
+
+				CurConYMax = ThisLex.getConnRect().y + ThisLex.getConnRect().height;
+				CurImgYMax = ThisLex.getImgRect().y + ThisLex.getImgRect().height;
+				if( CurConYMax > ConYMax ) ConYMax = CurConYMax;
+				if( CurImgYMax > ImgYMax ) ImgYMax = CurImgYMax;
+
+				TTree.right();
+				}
+
+			ImgWidth += ConWidth;
+			ThisLex = (SLexeme)( TTree.getNode() );
+			ThisLex.setXOffset( ConWidth );
+			ConWidth += ThisLex.getConnRect().width;
+			ImgWidth += ThisLex.getImgRect().width + ThisLex.getImgRect().x;
+
+			if( ThisLex.getConnRect().y < ConY ) ConY = ThisLex.getConnRect().y;
+			if( ThisLex.getImgRect().y < ImgY ) ImgY = ThisLex.getImgRect().y;
+
+			CurConYMax = ThisLex.getConnRect().y + ThisLex.getConnRect().height;
+			CurImgYMax = ThisLex.getImgRect().y + ThisLex.getImgRect().height;
+			if( CurConYMax > ConYMax ) ConYMax = CurConYMax;
+			if( CurImgYMax > ImgYMax ) ImgYMax = CurImgYMax;
+
+			MyLex.setConnRect( new SerRectangle2D( ConX , ConY , ConWidth , ConYMax - ConY ) );
+			MyLex.setImgRect( new SerRectangle2D( ImgX , ImgY , ImgWidth , ImgYMax - ImgY ) );
+			}
+		}
+
+	return( e1 );
+	}
+
+
+protected HighLevelBinTree mergeExpr( HighLevelBinTree e1 , HighLevelBinTree e2 )
+	{
+	if( e2.empty() )
+		{
+		return( e1 );
+		}
+
+	if( e1.empty() )
+		{
+		return( e2 );
+		}
+
+	HighLevelBinTree MyTree = null;
+	SLexeme InLex = (SLexeme)( e1.getNode() );
+
+	if( InLex.getMyMatch() == SEval.LinearLayout )
+		{
+		MyTree = e1;
+		HighLevelBinTree OpTree = new HighLevelBinTree();
+		MyTree.copyDataPlusPtrInfo( OpTree );
+		OpTree.left();
+
+		while( !( OpTree.rThread() ) )
+			OpTree.right();
+
+		e2.connectRight( OpTree );
+		}
+		else
+		{
+		MyTree = new HighLevelBinTree();
+		HighLevelBinTree OpTree = new HighLevelBinTree();
+		SLexeme MyLex = new SLexeme();
+		MyLex.setMyMatch( SEval.LinearLayout );
+		MyTree.addRight( MyLex );
+		MyTree.setCopyMode( Meta.copyDoNothing );
+		MyTree.setEraseMode( Meta.wake );
+		e1.connectLeft( MyTree );
+		MyTree.copyDataPlusPtrInfo( OpTree );
+		OpTree.left();
+		e2.connectRight( OpTree );
+		}
+
+	return( MyTree );
+	}
+
+
+	private SLexeme simpLexeme( )
+
+		{
+		SLexeme MyLex = new SLexeme();
+		MyLex.setConnRect( new SerRectangle2D( 0 , 0 , 0 , 0 ) );
+		MyLex.setImgRect( new SerRectangle2D( 0 , 0 , 0 , 0 ) );
+		return( MyLex );
+		}
+
+
+	private Rectangle2D.Double buildConnRect( SLexeme[] in )
+
+		{
+		double x = 0;
+		double y = 0;
+		double maxX = 0;
+		double maxY = 0;
+		int max = in.length;
+		int count;
+
+		for( count = 0 ; count < max ; ++count )
+			{
+			SLexeme MyLex = in[ count ];
+			double OffX = MyLex.getXOffset();
+			double OffY = MyLex.getYOffset();
+
+			if( ( MyLex.getConnRect().x + OffX ) < x ) x = MyLex.getConnRect().x + OffX;
+			if( ( MyLex.getConnRect().y + OffY ) < y ) y = MyLex.getConnRect().y + OffY;
+
+			double xw = MyLex.getConnRect().width + MyLex.getConnRect().x + OffX;
+			double yw = MyLex.getConnRect().height + MyLex.getConnRect().y + OffY;
+
+			if( xw > maxX ) maxX = xw;
+			if( yw > maxY ) maxY = yw;
+			}
+		
+		Rectangle2D.Double MyRect = new SerRectangle2D( x , y , maxX - x , maxY - y );
+		return( MyRect );
+		}
+
+
+	private Rectangle2D.Double buildImgRect( SLexeme[] in )
+
+		{
+		double x = 0;
+		double y = 0;
+		double maxX = 0;
+		double maxY = 0;
+		int max = in.length;
+		int count;
+
+		for( count = 0 ; count < max ; ++count )
+			{
+			SLexeme MyLex = in[ count ];
+			double OffX = MyLex.getXOffset();
+			double OffY = MyLex.getYOffset();
+
+			if( ( MyLex.getImgRect().x + OffX ) < x ) x = MyLex.getImgRect().x + OffX;
+			if( ( MyLex.getImgRect().y + OffY ) < y ) y = MyLex.getImgRect().y + OffY;
+
+			double xw = MyLex.getImgRect().width + MyLex.getImgRect().x + OffX;
+			double yw = MyLex.getImgRect().height + MyLex.getImgRect().y + OffY;
+
+			if( xw > maxX ) maxX = xw;
+			if( yw > maxY ) maxY = yw;
+			}
+		
+		Rectangle2D.Double MyRect = new SerRectangle2D( x , y , maxX - x , maxY - y );
+		return( MyRect );
+		}
+
+
+protected HighLevelBinTree mergeLexpr( HighLevelBinTree Tree1 , HighLevelBinTree Tree2 )
+	{
+	if( Tree2.empty() )
+		return( Tree1 );
+
+	Font InFont = (Font) FontStk.peek();
+	Double size = (Double) DblStk.peek();
+
+	if( Tree1.empty() )
+		{
+		SLexeme Tmp = simpLexeme();
+		Tmp.setColor( Color.black );
+		Tmp.setFont( InFont );
+		Tmp.setMetaPtr( new FlexString() );
+		Tree1.addRight( Tmp );
+		Tree1.setCopyMode( Meta.copyDoNothing );
+		Tree1.setEraseMode( Meta.wake );
+		}
+
+
+	HighLevelBinTree OutTree = new HighLevelBinTree();
+	HighLevelBinTree TempTree = new HighLevelBinTree();
+	SLexeme MyLex = new SLexeme();
+	MyLex.setMyMatch( SEval.FormattedLayout );
+	OutTree.addRight( MyLex );
+	OutTree.setCopyMode( Meta.copyDoNothing );
+	OutTree.setEraseMode( Meta.wake );
+	OutTree.copyDataPlusPtrInfo( TempTree );
+	Tree1.connectLeft( TempTree );
+	TempTree.left();
+	Tree2.connectRight( TempTree );
+
+
+	SLexeme ScriptLex = null;
+	SLexeme OverscriptLex = null;
+	SLexeme UnderscriptLex = null;
+	SLexeme SuperscriptLex = null;
+	SLexeme SubscriptLex = null;
+
+	HighLevelBinTree TTree = new HighLevelBinTree();
+	OutTree.copyDataPlusPtrInfo( TTree );
+	TTree.left();
+
+	SLexeme ThisLex = (SLexeme)( TTree.getNode() );
+	ScriptLex = ThisLex;
+
+	while( !( TTree.rThread() ) )
+		{
+		TTree.right();
+
+		ThisLex = (SLexeme)( TTree.getNode() );
+					
+		switch( ThisLex.getMyMatch() )
+			{
+			case SEval.BeginSub:
+				SubscriptLex = ThisLex;
+				break;
+
+			case SEval.BeginSup:
+				SuperscriptLex = ThisLex;
+				break;
+
+			case SEval.BeginAbove:
+				OverscriptLex = ThisLex;
+				break;
+
+			case SEval.BeginBelow:
+				UnderscriptLex = ThisLex;
+				break;
+
+			}
+
+		}
+
+	if( SuperscriptLex == null ) SuperscriptLex = simpLexeme();
+	if( SubscriptLex == null ) SubscriptLex = simpLexeme();
+	if( OverscriptLex == null ) OverscriptLex = simpLexeme();
+	if( UnderscriptLex == null ) UnderscriptLex = simpLexeme();
+
+	Font SFont = smlFont( InFont , size );
+	double leading = 0.0;
+	if( ( TempMode & MathImageConstants.ParseOnlyMode ) == 0 )
+		{
+		LineMetrics lm = SFont.getLineMetrics( " " , TempFrc );
+		leading = lm.getLeading();
+		}
+
+	double ScriptXOff = 0;
+	double ScriptYOff = 0;
+	double UnderscriptXOff = 0;
+	double UnderscriptYOff = 0;
+	double OverscriptXOff = 0;
+	double OverscriptYOff = 0;
+	double SuperscriptXOff = 0;
+	double SuperscriptYOff = 0;
+	double SubscriptXOff = 0;
+	double SubscriptYOff = 0;
+
+	double minOverYDelta = leading;
+	/* minOverYDelta = 1; */
+
+	OverscriptYOff = ScriptLex.getConnRect().y - minOverYDelta - 
+		( OverscriptLex.getConnRect().height + OverscriptLex.getConnRect().y );
+
+
+	minOverYDelta = leading;
+	/* minOverYDelta = 1; */
+
+	SuperscriptYOff = OverscriptYOff + OverscriptLex.getConnRect().y - minOverYDelta - 
+		( SuperscriptLex.getConnRect().height + SuperscriptLex.getConnRect().y );
+
+
+
+	double minUnderYDelta = leading;
+	/* minUnderYDelta = 1; */
+
+	UnderscriptYOff = minUnderYDelta - UnderscriptLex.getConnRect().y +
+		( ScriptLex.getConnRect().height + ScriptLex.getConnRect().y );
+
+	minUnderYDelta = leading;
+	/* minUnderYDelta = 1; */
+
+	SubscriptYOff = UnderscriptYOff + minUnderYDelta - SubscriptLex.getConnRect().y +
+		( UnderscriptLex.getConnRect().height + UnderscriptLex.getConnRect().y );
+
+	double ScriptCWidth = ( ScriptLex.getConnRect().width + ScriptLex.getConnRect().x ) / 2;
+	double OverscriptCWidth = ( OverscriptLex.getConnRect().width + OverscriptLex.getConnRect().x ) / 2;
+	double UnderscriptCWidth = ( UnderscriptLex.getConnRect().width + UnderscriptLex.getConnRect().x ) / 2;
+
+	double MaxCWidth = ScriptCWidth;
+	if( OverscriptCWidth > MaxCWidth ) MaxCWidth = OverscriptCWidth;
+	if( UnderscriptCWidth > MaxCWidth ) MaxCWidth = UnderscriptCWidth;
+
+	ScriptXOff = MaxCWidth - ScriptCWidth;
+	OverscriptXOff = MaxCWidth - OverscriptCWidth;
+	UnderscriptXOff = MaxCWidth - UnderscriptCWidth;
+
+	double ScriptXMax = ScriptLex.getConnRect().width + ScriptXOff;
+	double OverscriptXMax = OverscriptLex.getConnRect().width + OverscriptXOff;
+	double UnderscriptXMax = UnderscriptLex.getConnRect().width + UnderscriptXOff;
+
+	double MaxXMax = ScriptXMax;
+	if( OverscriptXMax > MaxXMax ) MaxXMax = OverscriptXMax;
+	if( UnderscriptXMax > MaxXMax ) MaxXMax = UnderscriptXMax;
+
+	SuperscriptXOff = MaxXMax;
+	SubscriptXOff = MaxXMax;
+
+	ScriptLex.setXOffset( ScriptXOff );
+	ScriptLex.setYOffset( ScriptYOff );
+	UnderscriptLex.setXOffset( UnderscriptXOff );
+	UnderscriptLex.setYOffset( UnderscriptYOff );
+	OverscriptLex.setXOffset( OverscriptXOff );
+	OverscriptLex.setYOffset( OverscriptYOff );
+	SuperscriptLex.setXOffset( SuperscriptXOff );
+	SuperscriptLex.setYOffset( SuperscriptYOff );
+	SubscriptLex.setXOffset( SubscriptXOff );
+	SubscriptLex.setYOffset( SubscriptYOff );
+				
+	SLexeme[] MyArr = { ScriptLex , SuperscriptLex , SubscriptLex , OverscriptLex , UnderscriptLex };
+	MyLex.setConnRect( buildConnRect( MyArr ) );
+	MyLex.setImgRect( buildImgRect( MyArr ) );
+
+	return( OutTree );
+	}
+
+
+protected HighLevelBinTree mergeModifiers( HighLevelBinTree MyTree , HighLevelBinTree TempTree )
+	{
+	if( MyTree.empty() )
+		{
+		return( TempTree );
+		}
+		
+	if( TempTree.empty() )
+		{
+		return( MyTree );
+		}
+		
+
+	HighLevelBinTree OpTree = new HighLevelBinTree();
+	MyTree.copyDataPlusPtrInfo( OpTree );
+	
+	while( !( OpTree.lThread() ) )
+		OpTree.left();
+
+	OpTree.left();
+
+	TempTree.connectRight( OpTree );
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree handleModifier( SLexeme TopLex , HighLevelBinTree TempTree )
+	{
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+
+	if( !( TempTree.empty() ) )
+		{
+		MyTree.addRight( TopLex );
+		MyTree.setCopyMode( Meta.copyDoNothing );
+		MyTree.setEraseMode( Meta.wake );
+		TempTree.connectLeft( MyTree );
+
+		HighLevelBinTree TTree = new HighLevelBinTree();
+		MyTree.copyDataPlusPtrInfo( TTree );
+		TTree.left();
+		SLexeme TmpLex = (SLexeme)( TTree.getNode() );
+		TopLex.setConnRect( TmpLex.getConnRect() );
+		TopLex.setImgRect( TmpLex.getImgRect() );
+		}
+
+	return( MyTree );
+	}
+
+
+protected HighLevelBinTree handleCursor( HighLevelBinTree in )
+	{
+	HighLevelBinTree e1 = in;
+	HighLevelBinTree e2 = new HighLevelBinTree();
+
+	SLexeme TempLex = new SLexeme();
+	Font InFont = (Font) FontStk.peek();
+	TempLex.setColor( (Color)( ColorStk.peek() ) );
+	TempLex.setFont( InFont );
+	TempLex.setMetaPtr( new FlexString() );
+
+	double ascent = 0.0;
+	if( ( TempMode & MathImageConstants.ParseOnlyMode ) == 0 )
+		{
+		LineMetrics lm = InFont.getLineMetrics( " " , TempFrc );
+		ascent = lm.getAscent();
+		}
+
+	Rectangle2D.Double ConnRect = new SerRectangle2D( 0 , -ascent , 0 , ascent );	
+	Rectangle2D.Double ImgRect = new SerRectangle2D( 0 , -ascent , 0 , ascent );
+	TempLex.setConnRect( ConnRect );
+	TempLex.setImgRect( ImgRect );
+
+	CrsrLex = TempLex;
+
+	e2.addRight( TempLex );
+	e2.setCopyMode( Meta.copyDoNothing );
+	e2.setEraseMode( Meta.wake );
+	HighLevelBinTree e3 = mergeExpr( e1 , e2 );
+	HighLevelBinTree res = finalMergeExpr( e3 );
+
+	SLexeme MyLex = (SLexeme)( res.getNode() );
+	CrsrRect = MyLex.getConnRect();
+
+	return( res );
+	}
+
+
+protected HighLevelBinTree handleHat( SLexeme e1 , HighLevelBinTree e2 )
+	{ /* Future... */ return( e2 ); }
+
+
+protected HighLevelBinTree handleTerm( SLexeme ThisLex )
+	{
+	Font InFont = (Font) FontStk.peek();
+	Double size = (Double) DblStk.peek();
+
+	HighLevelBinTree MyTree = new HighLevelBinTree();
+
+	ThisLex.setColor( (Color)( ColorStk.peek() ) );
+	ThisLex.setFont( InFont );
+	MyTree.addRight( ThisLex );
+	MyTree.setCopyMode( Meta.copyDoNothing );
+	MyTree.setEraseMode( Meta.wake );
+
+	if( ( TempMode & MathImageConstants.ParseOnlyMode ) == 0 )
+		{
+		Graphics2D g = TempGr;
+		g.setFont( InFont );
+		FlexString mys = (FlexString)( ThisLex.getMetaPtr() );
+		String str = mys.exportString();
+		TextLayout tl = new TextLayout( str , InFont , TempFrc );
+		Rectangle2D bounds = tl.getBounds();
+		double cwidth = tl.getAdvance();
+		double ImgX = bounds.getX();
+		double ImgY = bounds.getY();
+		double ImgWidth = bounds.getWidth();
+		double ImgHeight = bounds.getHeight();
+		Rectangle2D.Double ConnRect = new SerRectangle2D( 0 , ImgY , cwidth , ImgHeight );
+
+		Rectangle2D.Double ImgRect = new SerRectangle2D( ImgX , ImgY , ImgWidth , ImgHeight );
+
+		ThisLex.setConnRect( ConnRect );
+		ThisLex.setImgRect( ImgRect );
+		}
+		else
+		{
+		ThisLex.setConnRect( new SerRectangle2D( 0 , 0 , 5 , 5 ) );
+		ThisLex.setImgRect( new SerRectangle2D( 0 , 0 , 5 , 5 ) );
+		}
+		
+	return( MyTree );
+	}
+
+
+protected static final Stack DblStk = new Stack();
+protected static final Stack FontStk = new Stack();
+protected static final Stack ColorStk = new Stack();
+
+
+protected void stackPop( )
+	{
+	DblStk.pop();
+	FontStk.pop();
+	}
+
+
+protected void stackPushBold( )
+	{
+	DblStk.push( DblStk.peek() );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = new Font( InFont.getName() , Font.BOLD + Font.ITALIC , InFont.getSize() );
+	FontStk.push( OutFont );
+	}
+
+
+protected void stackPushUp( )
+	{
+	DblStk.push( DblStk.peek() );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = new Font( InFont.getName() , Font.PLAIN , InFont.getSize() );
+	FontStk.push( OutFont );
+	}
+
+
+protected void stackPushBoldUp( )
+	{
+	DblStk.push( DblStk.peek() );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = new Font( InFont.getName() , Font.BOLD , InFont.getSize() );
+	FontStk.push( OutFont );
+	}
+
+
+protected Font smlFont( Font InFont , Double NSize )	
+	{
+	int sz = Math.round( NSize.floatValue() );
+	if( sz < 1 ) sz = 1;
+	Font MyFont = new Font( InFont.getName() , InFont.getStyle() , sz );
+	return( MyFont );
+	}
+
+
+protected void stackPushAbove( )
+	{
+	Double InDbl = (Double)( DblStk.peek() );
+	Double OutDbl = new Double( InDbl.doubleValue() * 10.0 / 12.0 );
+	DblStk.push( OutDbl );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = smlFont( InFont , OutDbl );
+	FontStk.push( OutFont );
+	}
+
+
+protected void stackPushBelow( )
+	{
+	Double InDbl = (Double)( DblStk.peek() );
+	Double OutDbl = new Double( InDbl.doubleValue() * 10.0 / 12.0 );
+	DblStk.push( OutDbl );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = smlFont( InFont , OutDbl );
+	FontStk.push( OutFont );
+	}
+
+
+protected void stackPushSup( )
+	{
+	Double InDbl = (Double)( DblStk.peek() );
+	Double OutDbl = new Double( InDbl.doubleValue() * 10.0 / 12.0 );
+	DblStk.push( OutDbl );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = smlFont( InFont , OutDbl );
+	FontStk.push( OutFont );
+	}
+
+
+protected void stackPushSub( )
+	{
+	Double InDbl = (Double)( DblStk.peek() );
+	Double OutDbl = new Double( InDbl.doubleValue() * 10.0 / 12.0 );
+	DblStk.push( OutDbl );
+	Font InFont = (Font)( FontStk.peek() );
+	Font OutFont = smlFont( InFont , OutDbl );
+	FontStk.push( OutFont );
+	}
+
+
+protected void colorStackPush( SLexeme e1 )
+	{
+	ColorStk.push( e1.getColor() );
+	}
+
+
+protected void colorStackPop( )
+	{
+	ColorStk.pop();
+	}
+
+public Rectangle2D.Double getCrsrRect( )
+	{ return( CrsrRect ); }
+
+public SLexeme getCrsrLex( )
+	{ return( CrsrLex ); }
+
+public void initActions( Font InFont , Graphics2D g , Color col , int MyMode )
+	{
+	TempGr = g;
+	TempMode = MyMode;
+	if( ( MyMode & MathImageConstants.ParseOnlyMode ) == 0 )
+		TempFrc = g.getFontRenderContext();
+	CrsrLex = null;
+	CrsrRect = null;
+	Double MyDbl = new Double( InFont.getSize() );
+	FontStk.ensureCapacity( 15 );
+	DblStk.ensureCapacity( 15 );
+	ColorStk.ensureCapacity( 15 );
+	FontStk.push( InFont );
+	DblStk.push( MyDbl );
+	ColorStk.push( col );
+	}
+
+
+public void finalizeActions( )
+	{
+	while( !( FontStk.empty() ) )
+		{
+		FontStk.pop();
+		}
+
+	while( !( DblStk.empty() ) )
+		{
+		DblStk.pop();
+		}
+
+	while( !( ColorStk.empty() ) )
+		{
+		ColorStk.pop();
+		}
+
+	}
+
+
+public void chkFinalActions( )
+	{
+	FontStk.pop();
+	DblStk.pop();
+	ColorStk.pop();
+
+	if( !( FontStk.empty() ) )
+		{ finalizeActions(); throw( new RuntimeException( "Font Stack Not Empty." ) ); }
+
+	if( !( DblStk.empty() ) )
+		{ finalizeActions(); throw( new RuntimeException( "Dbl Stack Not Empty." ) ); }
+
+	if( !( ColorStk.empty() ) )
+		{ finalizeActions(); throw( new RuntimeException( "Color Stack Not Empty." ) ); }
+
+	}
+
+
+ :};
+
+
+
+
+parser code {: 
+
+
+protected static int IMode = 0;
+protected static Color ICol = null;
+protected static Font IFont = null;
+protected static Graphics2D IGr = null;
+protected static SLexeme CrsrLex = null;
+protected static Rectangle2D.Double CrsrRect = null;
+
+
+public final void parseAll( FlexString Instr , HighLevelBinTree ParseTree , 
+			int MyMode , Font InFont , Graphics2D g , Color col )
+			throws MathImageParseException
+			
+/*
+Fun: Given an expression, generates its parse tree.
+In: Character string Instr to be parsed.
+Out: Parse tree.  Returns true iff. there is an error.
+Pre: None.
+Post: Parse tree is returned in ParseTree.  If there's an error, the parse tree is
+	empty.
+Programmed By: Thorn Green.
+*/
+
+	{
+	SLexAnal MyLex = /* MySLexAnal; */ getSLexAnal( Instr );
+
+	ICol = col;
+	IFont = InFont;
+	IGr = g;
+	IMode = MyMode;
+	
+	Symbol MySym = null;
+
+	try{
+	MySym = parse();
+	} catch( Exception e ) { action_obj.finalizeActions(); 
+				throw( new MathImageParseException( e ) ); }
+
+	CrsrLex = action_obj.getCrsrLex();
+	CrsrRect = action_obj.getCrsrRect();
+	action_obj.chkFinalActions();
+
+	HighLevelBinTree MyTree = (HighLevelBinTree)( MySym.value );
+	MyTree.copyDataPlusPtrInfo( ParseTree );
+	};
+	
+	
+		public final void clear( )
+		
+/*
+Fun: Releases all memory allocated by the analyzer.
+In: None.
+Out: None.
+Pre: None.
+Post: All nodes allocated by this class will be cleared.
+Programmed By: Thorn Green.
+*/
+
+	{
+	/* SLexAnal MyLex = MySLexAnal;
+	MyLex.clear();
+	MyList.eraseAllInfo(); */
+	};
+	
+		public final int getErrCode( )
+			{ return( ErrCode ); };
+
+public Rectangle2D.Double getCrsrRect( )
+	{ return( CrsrRect ); }
+
+public SLexeme getCrsrLex( )
+	{ return( CrsrLex ); }
+
+private final static SLexAnal getSLexAnal( FlexString in )
+			{
+			if( ThisSLexAnal == null )
+				{
+				ThisSLexAnal = new SLexAnal( in );
+				}
+				else
+				{
+				ThisSLexAnal.resetLexer( in );
+				}
+
+			return( ThisSLexAnal );
+			}
+
+static SLexAnal ThisSLexAnal = null;
+private int ErrCode;
+
+:};
+
+
+
+
+init with {: action_obj.initActions( IFont , IGr , ICol , IMode ); :};
+
+
+scan with {: return( ThisSLexAnal.scanSymbol( ) ); :};
+
+
+/* Terminals (tokens returned by the scanner). */
+
+terminal SLexeme	BeginAbove, EndAbove, BeginBelow, EndBelow, BeginSup, EndSup;
+terminal SLexeme	BeginSub, EndSub, BeginBox, EndBox, BeginBold, EndBold;
+terminal SLexeme	BeginUpright, EndUpright, BeginBoldUp, EndBoldUp, BeginHat, EndHat;
+terminal SLexeme	BeginCursor, EndCursor, EndColor, BeginTagColor;
+terminal SLexeme	term, eof, iterm, PassThrough, LinearLayout, FormattedLayout;
+terminal SLexeme	BeginApply, EndApply;
+
+
+/* Non terminals */
+
+non terminal HighLevelBinTree	LINE, S_EXPR, MODIFIER_LIST, MODIFIER;
+non terminal HighLevelBinTree	EXPR, L_EXPR, T_EXPR;
+
+
+/* The grammar */
+
+LINE ::= EXPR:e {: RESULT = e; :}
+	| {: RESULT = new HighLevelBinTree(); :}
+	;
+
+EXPR ::= T_EXPR:e {: RESULT = finalMergeExpr( e ); :}
+	;
+
+T_EXPR ::= L_EXPR:e {: RESULT = e; :}
+	| T_EXPR:e1 L_EXPR:e2 {: RESULT = mergeExpr( e1 , e2 ); :}
+	;
+
+L_EXPR ::= S_EXPR:e {: RESULT = e; :}
+	| S_EXPR:e1 MODIFIER_LIST:e2 {: RESULT = mergeLexpr( e1 , e2 ); :}
+	;
+
+S_EXPR ::= BeginBox LINE:e EndBox {: RESULT = e; :}
+	| BeginApply LINE:e EndApply {: RESULT = e; :}
+	| BeginBold {: stackPushBold(); :} LINE:e EndBold {: stackPop(); RESULT = e; :}
+	| BeginUpright {: stackPushUp(); :} LINE:e EndUpright {: stackPop(); RESULT = e; :}
+	| BeginBoldUp {: stackPushBoldUp(); :} LINE:e EndBoldUp {: stackPop(); RESULT = e; :}
+	| BeginCursor LINE:e EndCursor {: RESULT = handleCursor( e ); :}
+	| BeginTagColor:e1 {: colorStackPush( e1 ); :} LINE:e EndColor {: colorStackPop(); RESULT = e; :}
+	| BeginHat:e1 LINE:e2 EndHat {: RESULT = handleHat( e1 , e2 ); :}
+	| term:e {: RESULT = handleTerm( e ); :}
+	;
+
+MODIFIER_LIST ::= MODIFIER:e {: RESULT = e; :}
+	| MODIFIER_LIST:e1 MODIFIER:e2 {: RESULT = mergeModifiers( e1 , e2 ); :}
+	;
+
+
+MODIFIER ::= BeginAbove:e1 {: stackPushAbove(); :} LINE:e2 EndAbove {: stackPop(); RESULT = handleModifier( e1 , e2 ); :}
+	| BeginBelow:e1 {: stackPushBelow(); :} LINE:e2 EndBelow {: stackPop(); RESULT = handleModifier( e1 , e2 ); :}
+	| BeginSup:e1 {: stackPushSup(); :} LINE:e2 EndSup {: stackPop(); RESULT = handleModifier( e1 , e2 ); :}
+	| BeginSub:e1 {: stackPushSub(); :} LINE:e2 EndSub {: stackPop(); RESULT = handleModifier( e1 , e2 ); :}
+	;
+
+
