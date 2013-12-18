@@ -1,6 +1,11 @@
 VectorVictor
 ============
 
+
+![alt tag](https://raw.github.com/viridian1138/VectorVictor/master/IMG_20131218_124233.jpg)
+
+
+
 Vector Victor is a Vector Algebra / Geometric Algebra / Physics Calculator For 10.1" Android Tablets.
 
 
