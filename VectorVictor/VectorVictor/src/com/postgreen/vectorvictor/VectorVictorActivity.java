@@ -107,8 +107,7 @@ package com.postgreen.vectorvictor;
 
 
 
-import com.postgreen.vectorvictor.R;
-
+import geomdir.DrawObj;
 import geomdir.GeomConstants;
 import geomdir.applied.EXsym;
 import geomdir.applied.FastSuiEtherEvent;
@@ -121,6 +120,9 @@ import geomdir.config.Config;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.kluges.TwoDScrollView;
+import verdantium.utils.ColorDialog;
+import verdantium.utils.ColorView;
+import verdantium.utils.IColorDef;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -136,6 +138,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
@@ -167,6 +172,8 @@ public class VectorVictorActivity extends Activity {
 	GeoPadKit FreeKit;
 	boolean keyboardOn = false;
 	Button showKeyboard;
+	
+	public static VectorVictorActivity activity;
 
 	
 	
@@ -174,7 +181,7 @@ public class VectorVictorActivity extends Activity {
 	 * 
 	 */
 	public VectorVictorActivity() {
-		// TODO Auto-generated constructor stub
+		activity = this;
 	}
 	
 	
@@ -1672,6 +1679,195 @@ public class VectorVictorActivity extends Activity {
 		}
 	}
     
+    
+    
+    
+    
+    public void colorDialBox(final DrawObj in)
+	{
+		try
+ 		{
+    		final Dialog dialog = new Dialog( this );
+    		dialog.setContentView( R.layout.properties_color_dialog );
+            dialog.setTitle( "Depictor Properties" );
+            dialog.setCancelable(true);
+            
+            
+            final ColorView frontLineColorView = (ColorView)( dialog.findViewById( R.id.frontLineColorView ) );
+            final ColorView backLineColorView = (ColorView)( dialog.findViewById( R.id.backLineColorView ) );
+            final ColorView labelColorView = (ColorView)( dialog.findViewById( R.id.labelColorView ) );
+            
+            final CheckBox frontLineCheckBox = (CheckBox)( dialog.findViewById( R.id.frontLineCheckBox ) );
+            final CheckBox backLineCheckBox = (CheckBox)( dialog.findViewById( R.id.backLineCheckBox ) );
+            final CheckBox labelCheckBox = (CheckBox)( dialog.findViewById( R.id.labelCheckBox ) );
+            
+            frontLineColorView.setDrawingColor( in.getFrontLineColor() );
+            backLineColorView.setDrawingColor( in.getBackLineColor() );
+            labelColorView.setDrawingColor( in.getTextColor() );
+            
+            frontLineCheckBox.setChecked( in.getFrontLineVisible() );
+            backLineCheckBox.setChecked( in.getBackLineVisible() );
+            labelCheckBox.setChecked( in.getTextVisible() );
+            
+            
+            final OnClickListener frontLineButtonListener = new OnClickListener() 
+            {
+               //@Override
+               public void onClick(View v) 
+               {
+            	   final IColorDef cdef = new IColorDef()
+            	   	 {
+            	   		 public int getColor()
+            	   		 {
+            	   			 return( in.getFrontLineColor() );
+            	   		 }
+            	   		 
+            	   		 public void applyColor( int cdef )
+            	   		 {
+            	   			in.setFrontLineColor( cdef );
+            	   			frontLineColorView.setDrawingColor( in.getFrontLineColor() );
+            	   			frontLineColorView.invalidate();
+            	   			FreeKit.getModelManager().globalRepaint();
+            	   		 }
+            	   	 };
+            	   	 
+              	 ColorDialog idialog = new ColorDialog();
+              	 idialog.showColorDialog( VectorVictorActivity.this , cdef );
+               } // end method onClick
+            }; // end frontLineButtonListener
+            
+            
+            
+            
+            final OnClickListener backLineButtonListener = new OnClickListener() 
+            {
+               //@Override
+               public void onClick(View v) 
+               {
+            	   final IColorDef cdef = new IColorDef()
+          	   	 {
+          	   		 public int getColor()
+          	   		 {
+          	   			 return( in.getBackLineColor() );
+          	   		 }
+          	   		 
+          	   		 public void applyColor( int cdef )
+          	   		 {
+          	   			 in.setBackLineColor( cdef );
+          	   		     backLineColorView.setDrawingColor( in.getBackLineColor() );
+          	   		     backLineColorView.invalidate();
+          	   		     FreeKit.getModelManager().globalRepaint();
+          	   		 }
+          	   	 };
+            	   
+                   ColorDialog idialog = new ColorDialog();
+                   idialog.showColorDialog( VectorVictorActivity.this , cdef );
+               } // end method onClick
+            }; // end backLineButtonListener
+            
+            
+            
+            
+            
+            final OnClickListener labelButtonListener = new OnClickListener() 
+            {
+               //@Override
+               public void onClick(View v) 
+               {
+            	   final IColorDef cdef = new IColorDef()
+          	   	 {
+          	   		 public int getColor()
+          	   		 {
+          	   			 return( in.getTextColor() );
+          	   		 }
+          	   		 
+          	   		 public void applyColor( int cdef )
+          	   		 {
+          	   			 try
+          	   			 {
+          	   				 in.setTextColor( cdef );
+          	   				 labelColorView.setDrawingColor( in.getTextColor() );
+          	   				 labelColorView.invalidate();
+          	   				 String Str = (in.getVectName()).exportString();
+          	   				 in.setDepicImage(
+          	   						 FreeKit.makeDepicMathImage(Str, in.getTextColor(), in.getTextPtSz(), in.getNamedVar()));
+          	   				 FreeKit.getModelManager().globalRepaint();
+          	   			 }
+          	   			 catch( Throwable ex )
+          	   			 {
+          	   				 Log.e("tag", "msg", ex);
+          	   			 }
+          	   		 }
+          	   	 };
+            	   
+                   ColorDialog idialog = new ColorDialog();
+                   idialog.showColorDialog( VectorVictorActivity.this , cdef );
+               } // end method onClick
+            }; // end labelButtonListener
+            
+            
+            
+            frontLineCheckBox.setOnCheckedChangeListener( new OnCheckedChangeListener()
+            {
+            	public void onCheckedChanged( CompoundButton button , boolean bool )
+            	{
+            		in.setFrontLineVisible( bool );
+            		FreeKit.getModelManager().globalRepaint();
+            	}
+            } );
+            
+            
+            
+            backLineCheckBox.setOnCheckedChangeListener( new OnCheckedChangeListener()
+            {
+            	public void onCheckedChanged( CompoundButton button , boolean bool )
+            	{
+            		in.setBackLineVisible( bool );
+            		FreeKit.getModelManager().globalRepaint();
+            	}
+            } );
+            
+            
+            
+            labelCheckBox.setOnCheckedChangeListener( new OnCheckedChangeListener()
+            {
+            	public void onCheckedChanged( CompoundButton button , boolean bool )
+            	{
+            		in.setTextVisible( bool );
+            		FreeKit.getModelManager().globalRepaint();
+            	}
+            } );
+            
+            
+            
+            Button frontLineEditButton = (Button) dialog.findViewById(
+          		  com.postgreen.vectorvictor.R.id.frontLineEditButton );
+            frontLineEditButton.setOnClickListener( frontLineButtonListener );
+            
+            
+            Button backLineEditButton = (Button) dialog.findViewById(
+            		  com.postgreen.vectorvictor.R.id.backLineEditButton );
+            backLineEditButton.setOnClickListener( backLineButtonListener );
+              
+              
+            Button labelEditButton = (Button) dialog.findViewById(
+            		  com.postgreen.vectorvictor.R.id.labelEditButton );
+            labelEditButton.setOnClickListener( labelButtonListener );
+            
+            
+            dialog.show();
+
+            
+    		
+ 		}
+ 		catch( Throwable ex )
+ 		{
+ 			Log.e("tag", "msg", ex);
+ 		}
+};
+
+
+
     
     
     

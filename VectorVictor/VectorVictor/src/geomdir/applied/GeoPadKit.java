@@ -158,8 +158,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View.MeasureSpec;
-import android.widget.ScrollView;
+
+import com.postgreen.vectorvictor.VectorVictorActivity;
 
 
 
@@ -641,16 +641,17 @@ Programmed By: Thorn Green.
 	return( false );
 	}
 
+	
 
 /**
 * Creates a dialog box that allows the user to set the color and properties of a depictor.
 */
 			public void			colorDialBox( DrawObj in )
-				{
-//				VerdantiumPropertiesEditor nxt = DialogBoxes.colorDial( this , in , getXKit() , false ); 
-//				ProgramDirector.showPropertyEditor( nxt , this , "Properties" );
-//				addWindowRecord( nxt , GeomConstants.DialogWindow );
-				};
+{
+	VectorVictorActivity.activity.colorDialBox( in );
+};
+
+
 
 /**
 * Sets the background color and image.

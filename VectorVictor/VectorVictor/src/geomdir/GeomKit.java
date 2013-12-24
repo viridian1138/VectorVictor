@@ -111,6 +111,7 @@
 
 package geomdir;
 
+
 import geomdir.config.Config;
 import geomdir.engine.EngineConstants;
 
@@ -129,6 +130,8 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Vector;
+
+import com.postgreen.vectorvictor.VectorVictorActivity;
 
 import meta.DataFormatException;
 import meta.FlexString;
@@ -1816,12 +1819,12 @@ public class GeomKit
 	/**
 	* Creates a dialog box that allows the user to set the color and properties of a depictor.
 	*/
-	public void colorDialBox(DrawObj in) throws IllegalInputException {
-//		String title = "Properties: " + "Name- " + in.getVectName().exportString() + ", Type- " + getAliasName(in);
-//		VerdantiumPropertiesEditor nxt = DialogBoxes.colorDial(this, in), true);
-//		ProgramDirector.showPropertyEditor(nxt, this, title);
-//		addWindowRecord(nxt, GeomConstants.DialogWindow);
-	};
+	
+	public void colorDialBox(DrawObj in) throws IllegalInputException 
+{
+		VectorVictorActivity.activity.colorDialBox( in );
+};
+
 	/**
 	* Creates a dialog that allows the user to edit a symbol.
 	*/

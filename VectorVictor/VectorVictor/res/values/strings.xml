@@ -20,6 +20,12 @@
     <string name="vector_victor">Vector Victor</string>
     <string name="back">Back</string>
     <string name="clear">Clear</string>
+    <string name="label_alpha">Alpha</string>
+    <string name="label_red">Red</string>
+    <string name="label_green">Green</string>
+    <string name="label_blue">Blue</string>
+    <string name="button_set_color">Set Color</string>
+    <string name="title_color_dialog">Choose Color</string>
     <string name="menuitem_show_keyboard">Show Keyboard</string>
     <string name="menuitem_hide_keyboard">Hide Keyboard</string>
     <string name="menuitem_create_vector">Create Vector</string>
