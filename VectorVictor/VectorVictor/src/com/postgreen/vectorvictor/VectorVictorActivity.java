@@ -123,10 +123,13 @@ import verdantium.kluges.TwoDScrollView;
 import verdantium.utils.ColorDialog;
 import verdantium.utils.ColorView;
 import verdantium.utils.IColorDef;
+import verdantium.utils.ILineWidthDef;
+import verdantium.utils.LineWidthDialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -1765,7 +1768,7 @@ public class VectorVictorActivity extends Activity {
                } // end method onClick
             }; // end backLineButtonListener
             
-            
+           
             
             
             
@@ -1804,6 +1807,104 @@ public class VectorVictorActivity extends Activity {
                    idialog.showColorDialog( VectorVictorActivity.this , cdef );
                } // end method onClick
             }; // end labelButtonListener
+            
+            
+            
+            
+            
+            
+            final OnClickListener frontLineWidthListener = new OnClickListener() 
+            {
+               //@Override
+               public void onClick(View v) 
+               {
+            	   final ILineWidthDef cdef = new ILineWidthDef()
+          	   	 {
+            		   public int getDrawingColor()
+            		   {
+            			   return( in.getFrontLineColor() );
+            		   }
+            			
+            			public float getLineWidth()
+            			{
+            				return( in.getFrontLineStroke().getStrokeWidth() );
+            			}
+            			
+            			public void setLineWidth( float wid )
+            			{
+            				Paint p = new Paint( in.getFrontLineStroke() );
+            				p.setStrokeWidth( wid );
+            				in.setFrontLineStroke( p );
+            				FreeKit.getModelManager().globalRepaint();
+            			}
+            			
+            			public float getMaxLineWidth()
+            			{
+            				return( 10.0f );
+            			}
+            			
+            			public float getMinLineWidth()
+            			{
+            				return( 0.0f );
+            			}
+          	   	 };
+            	   
+                   LineWidthDialog idialog = new LineWidthDialog( cdef );
+                   idialog.showLineWidthDialog( VectorVictorActivity.this );
+               } // end method onClick
+            }; // end frontLineWidthListener
+            
+            
+            
+            
+            
+            
+            
+            final OnClickListener backLineWidthListener = new OnClickListener() 
+            {
+            	//@Override
+                public void onClick(View v) 
+                {
+             	   final ILineWidthDef cdef = new ILineWidthDef()
+           	   	 {
+             		   public int getDrawingColor()
+             		   {
+             			   return( in.getBackLineColor() );
+             		   }
+             			
+             			public float getLineWidth()
+             			{
+             				return( in.getBackLineStroke().getStrokeWidth() );
+             			}
+             			
+             			public void setLineWidth( float wid )
+             			{
+             				Paint p = new Paint( in.getBackLineStroke() );
+             				p.setStrokeWidth( wid );
+             				in.setBackLineStroke( p );
+             				FreeKit.getModelManager().globalRepaint();
+             			}
+             			
+             			public float getMaxLineWidth()
+             			{
+             				return( 10.0f );
+             			}
+             			
+             			public float getMinLineWidth()
+             			{
+             				return( 0.0f );
+             			}
+           	   	 };
+             	   
+                    LineWidthDialog idialog = new LineWidthDialog( cdef );
+                    idialog.showLineWidthDialog( VectorVictorActivity.this );
+                } // end method onClick
+            }; // end backLineWidthListener
+            
+            
+            
+            
+            
             
             
             
@@ -1853,6 +1954,20 @@ public class VectorVictorActivity extends Activity {
             Button labelEditButton = (Button) dialog.findViewById(
             		  com.postgreen.vectorvictor.R.id.labelEditButton );
             labelEditButton.setOnClickListener( labelButtonListener );
+            
+            
+            
+            
+            Button frontLineWidthButton = (Button) dialog.findViewById(
+            		  com.postgreen.vectorvictor.R.id.frontLineWidthButton );
+              frontLineWidthButton.setOnClickListener( frontLineWidthListener );
+              
+              
+              Button backLineWidthButton = (Button) dialog.findViewById(
+              		  com.postgreen.vectorvictor.R.id.backLineWidthButton );
+              backLineWidthButton.setOnClickListener( backLineWidthListener );
+            
+            
             
             
             dialog.show();
