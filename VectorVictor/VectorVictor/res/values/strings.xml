@@ -28,6 +28,7 @@
     <string name="button_set_line_width">Set Line Width</string>
     <string name="title_color_dialog">Choose Color</string>
     <string name="title_line_width_dialog">Choose Line Width</string>
+    <string name="title_font_size_dialog">Choose Font Size</string>
     <string name="menuitem_show_keyboard">Show Keyboard</string>
     <string name="menuitem_hide_keyboard">Hide Keyboard</string>
     <string name="menuitem_create_vector">Create Vector</string>

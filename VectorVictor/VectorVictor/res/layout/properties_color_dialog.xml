@@ -21,30 +21,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <CheckBox
-        android:id="@+id/frontLineCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="39dp"
-        android:layout_y="204dp"
-        android:text="Visible" />
-
-    <CheckBox
-        android:id="@+id/backLineCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="204dp"
-        android:layout_y="204dp"
-        android:text="Visible" />
-
-    <CheckBox
-        android:id="@+id/labelCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="370dp"
-        android:layout_y="202dp"
-        android:text="Visible" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="131dp"
@@ -132,6 +108,38 @@
         android:layout_x="192dp"
         android:layout_y="156dp"
         android:text="Edit Width..." />
+
+    <CheckBox
+        android:id="@+id/frontLineCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_x="39dp"
+        android:layout_y="202dp"
+        android:text="Visible" />
+
+    <CheckBox
+        android:id="@+id/backLineCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_x="201dp"
+        android:layout_y="199dp"
+        android:text="Visible" />
+
+    <CheckBox
+        android:id="@+id/labelCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_x="367dp"
+        android:layout_y="200dp"
+        android:text="Visible" />
+
+    <CheckBox
+        android:id="@+id/controlsVisibleCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_x="-1dp"
+        android:layout_y="240dp"
+        android:text="Controls Visible" />
     
 </AbsoluteLayout>
 
