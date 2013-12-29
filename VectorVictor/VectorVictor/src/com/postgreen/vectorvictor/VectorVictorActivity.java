@@ -1061,6 +1061,16 @@ public class VectorVictorActivity extends Activity {
 		};
 		
 		
+		final OnClickListener scalCreateListener = new OnClickListener()
+		{
+			public void onClick(final View arg0) {
+				playClick();
+				final Button b = (Button) arg0;
+				pn.sendAddNamedDepictorOp( "'" + ( b.getText() ) + "'"  , "Scalar" );
+			}
+		};
+		
+		
 		
 		{
 			Button button = (Button)( dialog.findViewById( R.id.create1 ) );
@@ -1185,6 +1195,18 @@ public class VectorVictorActivity extends Activity {
 		{
 			Button button = (Button)( dialog.findViewById( R.id.create21 ) );
 			button.setOnClickListener( vectCreateListener );
+		}
+		
+		
+		{
+			Button button = (Button)( dialog.findViewById( R.id.create22 ) );
+			button.setOnClickListener( scalCreateListener );
+		}
+		
+		
+		{
+			Button button = (Button)( dialog.findViewById( R.id.create23 ) );
+			button.setOnClickListener( scalCreateListener );
 		}
 		
 		

@@ -119,141 +119,115 @@
 package com.postgreen.vectorvictor;
 
 
+import geomdir.DGPHashMap;
 import geomdir.DrawObj;
+import geomdir.FragNode;
+import geomdir.GeomConstants;
+import geomdir.IntObj;
 import geomdir.applied.GeoPadKit;
-import verdantium.utils.FontSizeDialog;
-import verdantium.utils.IFontSizeDef;
+import meta.FlexString;
+import verdantium.utils.IllegalInputException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 
 
-public class PropertiesTopDialog {
+public class PropertiesIODefDialog {
 	
 	
 	private DrawObj in;
 	
 	
-	public PropertiesTopDialog( DrawObj _in )
+	public PropertiesIODefDialog( DrawObj _in )
 	{
 		in = _in;
 	}
 	
 	
 	 
-    public void showPropertiesTopDialog(final Activity activity, final GeoPadKit FreeKit)
+    public void showPropertiesIODefDialog(final Activity activity, final GeoPadKit FreeKit)
 	{
 		try
  		{
     		final Dialog dialog = new Dialog( activity );
-    		dialog.setContentView( R.layout.properties_top_dialog );
+    		dialog.setContentView( R.layout.io_properties_dialog );
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
             
+            final RadioButton ioDefInputRadioButton = (RadioButton)( dialog.findViewById( R.id.ioDefInputRadioButton ) );
+            final RadioButton ioDefOutputNumericRadioButton = (RadioButton)( dialog.findViewById( R.id.ioDefOutputNumericRadioButton ) );
+            final RadioButton ioDefOutputScaleRadioButton = (RadioButton)( dialog.findViewById( R.id.ioDefOutputScaleRadioButton ) );
             
-            final OnClickListener colorPropertiesButtonListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {	 
-              	 PropertiesColorDialog idialog = new PropertiesColorDialog( in );
-              	 idialog.showPropertiesColorDialog(activity, FreeKit);
-               } // end method onClick
-            }; // end colorPropertiesButtonListener
+            final Button setIODefButton = (Button)( dialog.findViewById( R.id.setIODefButton ) );
+            
+            FlexString assocVar = in.getVectName();
+			DGPHashMap varList = FreeKit.getVarList();
+			final FragNode assocFrag = (FragNode) (varList.get(assocVar));
+			if (assocFrag == null) {
+				throw (
+					new IllegalInputException(
+						"Association to variable " + (assocVar.exportString()) + " cannot be resolved."));
+			}
+			int iodef = assocFrag.getIODef().value;
             
             
-            
-            
-            final OnClickListener fontSizePropertiesListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {
-            	   final IFontSizeDef cdef = new IFontSizeDef()
-          	   	 {
-            		   public int getFontSize()
-            		   {
-            			   return( in.getTextPtSz() );
-            		   }
-            			
-            			public void setFontSize( int sz )
-            			{
-            				try
-            				{
-            					in.setTextPtSz( sz );
-            					String Str = (in.getVectName()).exportString();
-         	   				 	in.setDepicImage(
-         	   						 FreeKit.makeDepicMathImage(Str, in.getTextColor(), in.getTextPtSz(), in.getNamedVar()));
-         	   				 	FreeKit.getModelManager().globalRepaint();
-            				}
-            				catch( Throwable ex )
-            				{
-            					Log.e("tag", "msg", ex);
-            				}
-            			}
-            			
-            			public int getMaxFontSize()
-            			{
-            				return( 60 );
-            			}
-            			
-            			public int getMinFontSize()
-            			{
-            				return( 2 );
-            			}
-          	   	 };
-            	   
-                   FontSizeDialog idialog = new FontSizeDialog( cdef );
-                   idialog.showFontSizeDialog( activity );
-               } // end method onClick
-            }; // end fontSizePropertiesButtonListener
+            ioDefInputRadioButton.setChecked( iodef == GeomConstants.IO_DEF_INPUT );
+            ioDefOutputNumericRadioButton.setChecked(  iodef == GeomConstants.IO_DEF_OUTPUT_P1 );
+            ioDefOutputScaleRadioButton.setChecked( 
+            		iodef == GeomConstants.IO_DEF_OUTPUT_P1 + GeomConstants.IO_DEF_SCALE_TOLERANCE );
             
             
             
             
+            final OnClickListener setIODefButtonListener = 
+          	      new OnClickListener() 
+          	      {
+          	         //@Override
+          	         public void onClick(View v) 
+          	         {
+          	        	 
+          	        	 try
+          	        	 {
+          	        		 
+          	        		if (!(in.getTemporary())) {
+          	        			IntObj into = assocFrag.getIODef();
+          	        			
+          	        		if (ioDefInputRadioButton.isChecked()) {
+          	  					into.value = GeomConstants.IO_DEF_INPUT;
+          	  				}
+
+          	  				if (ioDefOutputNumericRadioButton.isChecked()) {
+          	  					into.value = GeomConstants.IO_DEF_OUTPUT_P1;
+
+          	  				}
+
+          	  				if (ioDefOutputScaleRadioButton.isChecked()) {
+          	  					into.value = GeomConstants.IO_DEF_OUTPUT_P1 + GeomConstants.IO_DEF_SCALE_TOLERANCE;
+          	  				}
+
+          	  				FreeKit.engineResolveConstraints(); // !!!!!!!!!!!!!!!!!! optimize this !!!!!!!!!!!!!!!!
+          	  				FreeKit.globalRepaint();
+          	        		}
+          	        	 }
+          	        	 catch( Throwable ex )
+          	        	 {
+          	        		 Log.e("tag", "msg", ex);
+          	        	 }
+          	            
+          	            dialog.dismiss(); // hide the dialog
+          	         } // end method onClick
+          	      }; // end setColorButtonListener
             
-            final OnClickListener propertiesIODefButtonListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {	 
-            	   if (!(in.getTemporary())) {
-            		   PropertiesIODefDialog idialog = new PropertiesIODefDialog( in );
-            		   idialog.showPropertiesIODefDialog(activity, FreeKit);
-            	   }
-               } // end method onClick
-            }; // end colorPropertiesButtonListener
-           
+          	      
             
-            
-            
- 
-            
-            
-            
-            Button colorPropertiesButton = (Button) dialog.findViewById(
-          		  com.postgreen.vectorvictor.R.id.colorPropertiesButton );
-            colorPropertiesButton.setOnClickListener( colorPropertiesButtonListener );
-            
-            
-            Button fontSizePropertiesButton = (Button) dialog.findViewById(
-            		  com.postgreen.vectorvictor.R.id.fontSizePropertiesButton );
-            fontSizePropertiesButton.setOnClickListener( fontSizePropertiesListener );
-            
-            
-            Button ioDefPropertiesButton = (Button) dialog.findViewById(
-          		  com.postgreen.vectorvictor.R.id.ioDefPropertiesButton );
-            ioDefPropertiesButton.setOnClickListener( propertiesIODefButtonListener );
-              
-              
-            
-            
-            
+          	    setIODefButton.setOnClickListener( setIODefButtonListener );
+          	      
             
             dialog.show();
 

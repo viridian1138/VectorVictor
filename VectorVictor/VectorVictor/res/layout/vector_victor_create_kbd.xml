@@ -188,6 +188,22 @@
         android:layout_x="212dp"
         android:layout_y="125dp"
         android:text="&lt;T>&lt;BOX>&lt;BT>B&lt;/BT>&lt;/BOX>&lt;SUB>3&lt;/SUB>&lt;/T>" />
+
+    <verdantium.mathimage.MathImageButton
+        android:id="@+id/create22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="306dp"
+        android:layout_y="124dp"
+        android:text="&amp;theta;" />
+    
+    <verdantium.mathimage.MathImageButton
+        android:id="@+id/create23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="400dp"
+        android:layout_y="128dp"
+        android:text="&amp;phi;" />
     
 </AbsoluteLayout>
 

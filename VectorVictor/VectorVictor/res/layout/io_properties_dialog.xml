@@ -21,29 +21,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/colorPropertiesButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_x="10dp"
-        android:layout_y="11dp"
-        android:text="Color Properties..." />
-
-    <Button
-        android:id="@+id/fontSizePropertiesButton"
+    <RadioGroup
+        android:id="@+id/radioGroup1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="170dp"
-        android:layout_y="11dp"
-        android:text="Font Size Properties..." />
-
-    <Button
-        android:id="@+id/ioDefPropertiesButton"
+        android:layout_x="61dp"
+        android:layout_y="87dp" >
+        
+        
+    <RadioButton
+        android:id="@+id/ioDefInputRadioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="342dp"
-        android:layout_y="8dp"
-        android:text="I/O Def Properties..." />
+        android:text="Input" />
+
+    <RadioButton
+        android:id="@+id/ioDefOutputNumericRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Output Numeric Tolerance" />
+
+    <RadioButton
+        android:id="@+id/ioDefOutputScaleRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Output Scale Tolerance" />
+
+</RadioGroup>
+
+    <Button
+        android:id="@+id/setIODefButton"
+        android:layout_width="118dp"
+        android:layout_height="wrap_content"
+        android:layout_x="358dp"
+        android:layout_y="212dp"
+        android:text="Set I/O Def..." />
     
 </AbsoluteLayout>
 
