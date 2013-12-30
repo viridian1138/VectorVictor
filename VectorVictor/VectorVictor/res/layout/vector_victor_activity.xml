@@ -24,89 +24,111 @@
         android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-
     </TableRow>
-
+    
+    
     <TableRow
         android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <verdantium.kluges.TwoDScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+    <LinearLayout 
+        android:id="@+id/linearLayoutVert1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        
+        <LinearLayout 
+            android:id="@+id/linearLayoutHoriz1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" >
+            
+         <verdantium.kluges.TwoDScrollView
             android:id="@+id/scene_scroller1" android:drawingCacheQuality="low"
             android:scrollbars="horizontal"
 
-            android:layout_width="640dp" android:layout_height="325dp">
+            android:layout_width="640dp" android:layout_height="match_parent"  >
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/scene_container1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawingCacheQuality="low" >
 
             </RelativeLayout>
 
         </verdantium.kluges.TwoDScrollView>
-
+        
         <verdantium.kluges.TwoDScrollView
             android:id="@+id/scene_scroller2" android:drawingCacheQuality="low"
             android:scrollbars="horizontal"
 
-            android:layout_width="640dp" android:layout_height="325dp">
+            android:layout_width="640dp" android:layout_height="match_parent"  >
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/scene_container2"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawingCacheQuality="low" >
 
             </RelativeLayout>
 
         </verdantium.kluges.TwoDScrollView>
-
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
+            
+        </LinearLayout>
+        
+        
+        <LinearLayout 
+            android:id="@+id/linearLayoutHoriz2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" >
+        
+            
         <verdantium.kluges.TwoDScrollView
             android:id="@+id/scene_scroller3" android:drawingCacheQuality="low"
             android:scrollbars="horizontal"
 
-            android:layout_width="640dp" android:layout_height="325dp">
+            android:layout_width="640dp" android:layout_height="match_parent"  >
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/scene_container3"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawingCacheQuality="low" >
 
             </RelativeLayout>
 
         </verdantium.kluges.TwoDScrollView>
-
+        
         <verdantium.kluges.TwoDScrollView
             android:id="@+id/scene_scroller4" android:drawingCacheQuality="low"
             android:scrollbars="horizontal"
 
-            android:layout_width="640dp" android:layout_height="325dp">
+            android:layout_width="640dp" android:layout_height="match_parent"  >
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/scene_container4"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawingCacheQuality="low" >
 
             </RelativeLayout>
 
         </verdantium.kluges.TwoDScrollView>
-
+            
+        </LinearLayout>
+        
+        
+    </LinearLayout>    
+        
     </TableRow>
 
 </TableLayout>
