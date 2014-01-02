@@ -130,6 +130,8 @@ import java.io.ObjectOutput;
 import java.net.URL;
 import java.text.NumberFormat;
 
+import com.postgreen.vectorvictor.ScreenDensityRatio;
+
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.Meta;
@@ -1874,13 +1876,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		double lw = (getBasicFrontLineStrokeWidth()) / 2.0;
 
-		double d1 = Math.max(getDistanceFromLinearSeg(in, x1, y1, x2, y2), 1.0);
-		double maxd1 = Math.max(11.0 - lw, 2.0);
+		double d1 = Math.max(getDistanceFromLinearSeg(in, x1, y1, x2, y2), 1.0 );
+		double maxd1 = Math.max(11.0 * ScreenDensityRatio.getRatio() - lw, 2.0 * ScreenDensityRatio.getRatio() );
 		if (d1 > maxd1)
 			d1 = ClickRec.MinPriority + 1;
 
-		double d2 = Math.max(getDistanceFromLinearSeg(in, vectGetHex(Dcon).getLoc(), mXGetHex(Dcon).getLoc()), 1.0);
-		double maxd2 = Math.max(7.0 - lw, 2.0);
+		double d2 = Math.max(getDistanceFromLinearSeg(in, vectGetHex(Dcon).getLoc(), mXGetHex(Dcon).getLoc()), 1.0 );
+		double maxd2 = Math.max(7.0 * ScreenDensityRatio.getRatio() - lw, 2.0 * ScreenDensityRatio.getRatio() );
 		if (d2 > maxd2)
 			d2 = ClickRec.MinPriority + 1;
 

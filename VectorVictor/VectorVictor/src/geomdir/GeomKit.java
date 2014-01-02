@@ -131,6 +131,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.Vector;
 
+import com.postgreen.vectorvictor.ScreenDensityRatio;
 import com.postgreen.vectorvictor.VectorVictorActivity;
 
 import meta.DataFormatException;
@@ -1400,9 +1401,9 @@ public class GeomKit
 		double delx = Math.abs(p.x - x);
 		double dely = Math.abs(p.y - y);
 		double dist = delx + dely;
-		if ((delx <= 12) && (dely <= 12))
+		if ((delx <= 12 * ScreenDensityRatio.getRatio() ) && (dely <= 12 * ScreenDensityRatio.getRatio() ))
 			dist = ClickRec.MaxPriority;
-		if (dist > 24.0)
+		if (dist > 24.0 * ScreenDensityRatio.getRatio() )
 			dist = ClickRec.MinPriority + 1;
 		return (dist);
 	}

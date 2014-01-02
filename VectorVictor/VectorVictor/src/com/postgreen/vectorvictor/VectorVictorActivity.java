@@ -120,16 +120,10 @@ import geomdir.config.Config;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.kluges.TwoDScrollView;
-import verdantium.utils.ColorDialog;
-import verdantium.utils.ColorView;
-import verdantium.utils.IColorDef;
-import verdantium.utils.ILineWidthDef;
-import verdantium.utils.LineWidthDialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -139,12 +133,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
@@ -193,6 +183,8 @@ public class VectorVictorActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        System.setProperty( "dexmaker.dexcache" , this.getCacheDir().toString() );
 
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.vector_victor_activity);
@@ -249,7 +241,7 @@ public class VectorVictorActivity extends Activity {
 			};
 			
 			createScalar.setText( "Create Scalar" );
-			createScalar.setBackgroundColor( Color.rgb( 176 , 208 , 208 ) );
+			createScalar.setBackgroundColor( Color.rgb( 176 , 228 , 208 ) );
 			tr.addView( createScalar ); 
 			showKeyboard = new Button( this )
 			{

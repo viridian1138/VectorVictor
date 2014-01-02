@@ -117,6 +117,8 @@ package geomdir;
 import java.io.Externalizable;
 import java.net.URL;
 
+import com.postgreen.vectorvictor.ScreenDensityRatio;
+
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Meta;
@@ -1219,7 +1221,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	public double linearSegGravityField(PointF p1, PointF p2, PointF in, double LineWidth) {
 		double lw = LineWidth / 2.0;
 		double dist = Math.max(getDistanceFromLinearSeg(p1, p2, in) - lw, 1.0);
-		double maxdist = Math.max(28.0 - lw, 8.0);
+		double maxdist = Math.max( 28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
 			dist = ClickRec.MinPriority + 1;
 		return (dist);
@@ -1237,7 +1239,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double LineWidth) {
 		double lw = LineWidth / 2.0;
 		double dist = Math.max(getDistanceFromLinearSeg(in, p1x, p1y, p2x, p2y) - lw, 1.0);
-		double maxdist = Math.max(28.0 - lw, 8.0);
+		double maxdist = Math.max( 28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
 			dist = ClickRec.MinPriority + 1;
 		return (dist);
@@ -1249,7 +1251,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	public double linearRayGravityField(PointF p1, PointF p2, PointF in, double LineWidth) {
 		double lw = LineWidth / 2.0;
 		double dist = Math.max(getDistanceFromLinearRay(p1, p2, in) - lw, 1.0);
-		double maxdist = Math.max(28.0 - lw, 8.0);
+		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
 			dist = ClickRec.MinPriority + 1;
 		return (dist);
@@ -1261,7 +1263,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	public double linearGravityField(PointF p1, PointF p2, PointF in, double LineWidth) {
 		double lw = LineWidth / 2.0;
 		double dist = Math.max(getDistanceFromLine(p1, p2, in) - lw, 1.0);
-		double maxdist = Math.max(28.0 - lw, 8.0);
+		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
 			dist = ClickRec.MinPriority + 1;
 		return (dist);
@@ -1273,7 +1275,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	public double circGravityField(PointF cntr, PointF outr, PointF in, double LineWidth) {
 		double lw = LineWidth / 2.0;
 		double dist = Math.max(getDistanceFromCirc(cntr, outr, in) - lw, 1.0);
-		double maxdist = Math.max(28.0 - lw, 8.0);
+		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
 			dist = ClickRec.MinPriority + 1;
 		return (dist);

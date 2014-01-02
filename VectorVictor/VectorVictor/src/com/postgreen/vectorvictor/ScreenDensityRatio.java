@@ -1,7 +1,6 @@
 
 
 
-
 //$$strtCprt
 /**
 * Vector Victor -- Graphing Calculator Program For Android
@@ -107,85 +106,37 @@
 
 
 
+package com.postgreen.vectorvictor;
+
+import android.util.DisplayMetrics;
 
 
+public class ScreenDensityRatio {
+	
+	private static double ratio = -1.0;
+	
+	public static double getRatio()
+	{
+		if( ratio >= 0.0 )
+		{
+			return( ratio );
+		}
+		else
+		{
+			VectorVictorActivity act = VectorVictorActivity.activity;
+			if( act != null )
+			{
+				DisplayMetrics metrics = act.getResources().getDisplayMetrics();
+				ratio = metrics.xdpi / 160.0;
+				return( ratio );
+			}
+			else
+			{
+				return( 1.0 );
+			}
+		}
+	}
 
-package geomdir;
+	
+}
 
-import meta.Meta;
-
-/**
-*
-* --- SOURCE MODIFICATION LIST ---
-*
-* Please document all changes to this source file here.
-* Feel free to add rows if needed.
-*
-*
-*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
-*    | Date of Modification  |    Author of Modification                       |    Reason for Modification                                           |    Description of Modification (use multiple rows if needed)  ... 
-*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
-*    |                       |                                                 |                                                                      |
-*    | 9/24/2000             | Thorn Green (viridian_1138@yahoo.com)           | Needed to provide a standard way to document source file changes.    | Added a souce modification list to the documentation so that changes to the souce could be recorded. 
-*    | 10/22/2000            | Thorn Green (viridian_1138@yahoo.com)           | Methods did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
-*    | 10/29/2000            | Thorn Green (viridian_1138@yahoo.com)           | Classes did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
-*    | 08/07/2004            | Thorn Green (viridian_1138@yahoo.com)           | Establish baseline for all changes in the last year.                 | Establish baseline for all changes in the last year.
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*
-*
-*/
-
-/* This is strictly a record type.  Therefore object common law does not apply. */
-
-/**
-* This is a record class that stores the result of calling the
-* ClickedInRegion method on a object of type {@link DrawObj}.  The
-* ClickRec itself provides a set of information used by model-view
-* making a request on the depictor.  The depictor can place private information
-* about the location of the click in a ClickRec by creating an instance of a subclass 
-* of ClickRec that contains the additional private information.  There are two ways
-* a depictor may handle most "mouse drag" operations.  First, it can elect to delegate
-* the resolution of the drag operation (and its related constraints) to a DynRunner and
-* place that DynRunner in the ClickRec.  The second alternative is to use a subclassed
-* ClickRec with no DynRunner.  The model-view will call (assuming some other depictor isn't closer to the mose location)
-* the dragDisplayControl() method
-* on the depictor with the ClickRec returned.  The depictor then examines the private
-* information stored to determine what to do.
-* @author Thorn Green
-*/
-public class ClickRec extends Meta {
-	/**
-	* If delegating to a constraint handler, place the DynRunner instance here.
-	*/
-	public DynRunner Dyn = null;
-	/**
-	* Sets the distance to the control point.  Only used in certain depictor methods
-	* like the checkAssignFromControl() method of {@link DrawObj}.
-	*/
-	public double CurDist = 0;
-	/**
-	* Set the priority of the event (or the gravity field value)
-	* by changing the value in this field.
-	*/
-	public double ClickPriority = MaxPriority;
-	/**
-	* Sets this to true only if the depictor is a unit depictor
-	* adjusting the size of the unit length.
-	*/
-	public boolean CoordAdjust = false;
-	public void wake() {};
-
-	public static final double MaxPriority = 0;
-	public static final double MinPriority = 500;
-};
