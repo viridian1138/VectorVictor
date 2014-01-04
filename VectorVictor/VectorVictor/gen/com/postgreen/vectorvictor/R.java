@@ -106,7 +106,7 @@ public final class R {
         public static final int labelCheckBox=0x7f080021;
         public static final int labelColorView=0x7f080019;
         public static final int labelEditButton=0x7f08001c;
-        public static final int lineWidthView=0x7f08007a;
+        public static final int lineWidthView=0x7f08007d;
         public static final int linearLayoutHoriz1=0x7f08002f;
         public static final int linearLayoutHoriz2=0x7f080034;
         public static final int linearLayoutVert1=0x7f08002e;
@@ -134,6 +134,7 @@ public final class R {
         public static final int setFontSizeButton=0x7f08000f;
         public static final int setIODefButton=0x7f080015;
         public static final int setScalarValue=0x7f080027;
+        public static final int setVectorXYValue=0x7f080079;
         public static final int squareRoot=0x7f08006c;
         public static final int tableLayout=0x7f080006;
         public static final int tableRow1=0x7f08002c;
@@ -147,10 +148,12 @@ public final class R {
         public static final int traceOn=0x7f080050;
         public static final int translate=0x7f080064;
         public static final int valuePropertiesButton=0x7f080026;
+        public static final int vectorValueXEditText=0x7f08007a;
+        public static final int vectorValueYEditText=0x7f08007b;
         public static final int wedgeProduct=0x7f08006f;
-        public static final int widthDialogDoneButton=0x7f08007c;
-        public static final int widthDialogLinearLayout=0x7f080079;
-        public static final int widthSeekBar=0x7f08007b;
+        public static final int widthDialogDoneButton=0x7f08007f;
+        public static final int widthDialogLinearLayout=0x7f08007c;
+        public static final int widthSeekBar=0x7f08007e;
     }
     public static final class layout {
         public static final int bivector_value_dialog=0x7f030000;
@@ -166,7 +169,8 @@ public final class R {
         public static final int vector_victor_depictor_kbd=0x7f03000a;
         public static final int vector_victor_mode_kbd=0x7f03000b;
         public static final int vector_victor_vector_kbd=0x7f03000c;
-        public static final int width_dialog=0x7f03000d;
+        public static final int vector_xy_value_dialog=0x7f03000d;
+        public static final int width_dialog=0x7f03000e;
     }
     public static final class raw {
         public static final int click=0x7f040000;

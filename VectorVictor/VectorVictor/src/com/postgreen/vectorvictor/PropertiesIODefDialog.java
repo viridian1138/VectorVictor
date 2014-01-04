@@ -195,8 +195,8 @@ public class PropertiesIODefDialog {
           	        	 try
           	        	 {
           	        		 
-          	        		if (!(in.getTemporary())) {
-          	        			IntObj into = assocFrag.getIODef();
+          	        		
+          	        		IntObj into = assocFrag.getIODef();
           	        			
           	        		if (ioDefInputRadioButton.isChecked()) {
           	  					into.value = GeomConstants.IO_DEF_INPUT;
@@ -213,7 +213,6 @@ public class PropertiesIODefDialog {
 
           	  				FreeKit.engineResolveConstraints(); // !!!!!!!!!!!!!!!!!! optimize this !!!!!!!!!!!!!!!!
           	  				FreeKit.globalRepaint();
-          	        		}
           	        	 }
           	        	 catch( Throwable ex )
           	        	 {
