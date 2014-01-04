@@ -119,6 +119,7 @@
 package com.postgreen.vectorvictor;
 
 
+import geomdir.DepictorPort;
 import geomdir.DrawObj;
 import geomdir.DynRunner;
 import geomdir.Mvec;
@@ -156,6 +157,8 @@ public class PropertiesVectorXYValueDialog {
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
+            in.setValuePort( 1 );
+            final boolean mable = (in.portGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE;
             
             final EditText vectorValueXEditText = (EditText)( dialog.findViewById( R.id.vectorValueXEditText ) );
             
@@ -163,6 +166,10 @@ public class PropertiesVectorXYValueDialog {
             
             
             final Button setVectorXYValueButton = (Button)( dialog.findViewById( R.id.setVectorXYValue ) );
+            
+            
+            setVectorXYValueButton.setEnabled( mable );
+            setVectorXYValueButton.setClickable( mable );
             
             
 			in.setValuePort( 1 );

@@ -119,6 +119,7 @@
 package com.postgreen.vectorvictor;
 
 
+import geomdir.DepictorPort;
 import geomdir.DrawObj;
 import geomdir.DynRunner;
 import geomdir.Mvec;
@@ -156,11 +157,19 @@ public class PropertiesBivectorValueDialog {
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
+            in.setValuePort( 1 );
+            final boolean mable = (in.portGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE;
+            
             
             final EditText bivectorValueEditText = (EditText)( dialog.findViewById( R.id.bivectorValueEditText ) );
             
             
             final Button setBivectorValueButton = (Button)( dialog.findViewById( R.id.setBivectorValue ) );
+            
+            
+            
+            setBivectorValueButton.setEnabled( mable );
+            setBivectorValueButton.setClickable( mable );
             
             
 			in.setValuePort( 1 );

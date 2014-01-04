@@ -119,6 +119,7 @@
 package com.postgreen.vectorvictor;
 
 
+import geomdir.DepictorPort;
 import geomdir.DrawObj;
 import geomdir.DynRunner;
 import geomdir.Mvec;
@@ -156,11 +157,17 @@ public class PropertiesScalarValueDialog {
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
+            in.setValuePort( 1 );
+            final boolean mable = (in.portGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE;
             
             final EditText scalarValueEditText = (EditText)( dialog.findViewById( R.id.scalarValueEditText ) );
             
             
             final Button setScalarValueButton = (Button)( dialog.findViewById( R.id.setScalarValue ) );
+            
+            
+            setScalarValueButton.setEnabled( mable );
+            setScalarValueButton.setClickable( mable );
             
             
 			in.setValuePort( 1 );
