@@ -119,163 +119,103 @@
 package com.postgreen.vectorvictor;
 
 
+import geomdir.DGPHashMap;
 import geomdir.DrawObj;
-import geomdir.GeomConstants;
+import geomdir.DynRunner;
+import geomdir.FragNode;
+import geomdir.Mvec;
 import geomdir.applied.GeoPadKit;
-import verdantium.utils.FontSizeDialog;
-import verdantium.utils.IFontSizeDef;
+import meta.FlexString;
+import verdantium.utils.IllegalInputException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 
-public class PropertiesTopDialog {
+public class PropertiesScalarValueDialog {
 	
 	
 	private DrawObj in;
 	
 	
-	public PropertiesTopDialog( DrawObj _in )
+	public PropertiesScalarValueDialog( DrawObj _in )
 	{
 		in = _in;
 	}
 	
 	
 	 
-    public void showPropertiesTopDialog(final Activity activity, final GeoPadKit FreeKit)
+    public void showPropertiesScalarValueDialog(final Activity activity, final GeoPadKit FreeKit)
 	{
 		try
  		{
     		final Dialog dialog = new Dialog( activity );
-    		dialog.setContentView( R.layout.properties_top_dialog );
+    		dialog.setContentView( R.layout.scalar_value_dialog );
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
             
+            final EditText scalarValueEditText = (EditText)( dialog.findViewById( R.id.scalarValueEditText ) );
             
-            final OnClickListener colorPropertiesButtonListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {	 
-              	 PropertiesColorDialog idialog = new PropertiesColorDialog( in );
-              	 idialog.showPropertiesColorDialog(activity, FreeKit);
-               } // end method onClick
-            }; // end colorPropertiesButtonListener
+            
+            final Button setScalarValueButton = (Button)( dialog.findViewById( R.id.setScalarValue ) );
+            
+            
+			in.setValuePort( 1 );
+            scalarValueEditText.setText( "" + ( in.portGetVect().getBasis() ) );
             
             
             
             
-            final OnClickListener fontSizePropertiesListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {
-            	   final IFontSizeDef cdef = new IFontSizeDef()
-          	   	 {
-            		   public int getFontSize()
-            		   {
-            			   return( in.getTextPtSz() );
-            		   }
-            			
-            			public void setFontSize( int sz )
-            			{
-            				try
-            				{
-            					in.setTextPtSz( sz );
-            					String Str = (in.getVectName()).exportString();
-         	   				 	in.setDepicImage(
-         	   						 FreeKit.makeDepicMathImage(Str, in.getTextColor(), in.getTextPtSz(), in.getNamedVar()));
-         	   				 	FreeKit.getModelManager().globalRepaint();
-            				}
-            				catch( Throwable ex )
-            				{
-            					Log.e("tag", "msg", ex);
-            				}
-            			}
-            			
-            			public int getMaxFontSize()
-            			{
-            				return( 60 );
-            			}
-            			
-            			public int getMinFontSize()
-            			{
-            				return( 2 );
-            			}
-          	   	 };
-            	   
-                   FontSizeDialog idialog = new FontSizeDialog( cdef );
-                   idialog.showFontSizeDialog( activity );
-               } // end method onClick
-            }; // end fontSizePropertiesButtonListener
+            final OnClickListener setScalarValueButtonListener = 
+          	      new OnClickListener() 
+          	      {
+          	         //@Override
+          	         public void onClick(View v) 
+          	         {
+          	        	 
+          	        	 try
+          	        	 {
+          	        		 
+          	        		
+          	        	in.setValuePort( 1 );
+          	  			Mvec ivct = in.portGetVect();
+          	  			Mvec vct = new Mvec();
+          	  			ivct.mcpy( vct );
+          	  			
+          	  			double val = new Double( scalarValueEditText.getText().toString() );
+          	  			vct.setBasis( val );
+
+          	  			DynRunner dyn = FreeKit.createOneShotDyn();
+          	  			Object[] lhs = { in };
+          	  			Object[] rhs = { "~tmpk_ve" };
+          	  			dyn.changeExpression( lhs , rhs );
+          	  			dyn.makeConstant( "~tmpk_ve" , vct , in.portGetExtDomain() );
+          	  			boolean dragSolverError = FreeKit.executeOneShotDyn( dyn );
+          	  			if( dragSolverError )
+          	  				{ throw( new IllegalInputException( "Unable to solve." ) ); }
+          	  			
+          	  			FreeKit.globalRepaint();
+          	  			
+          	        	 }
+          	        	 catch( Throwable ex )
+          	        	 {
+          	        		 Log.e("tag", "msg", ex);
+          	        	 }
+          	            
+          	            dialog.dismiss(); // hide the dialog
+          	         } // end method onClick
+          	      }; // end setColorButtonListener
             
+          	      
             
-            
-            
-            
-            final OnClickListener propertiesIODefButtonListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {	 
-            	   if (!(in.getTemporary())) {
-            		   PropertiesIODefDialog idialog = new PropertiesIODefDialog( in );
-            		   idialog.showPropertiesIODefDialog(activity, FreeKit);
-            	   }
-               } // end method onClick
-            }; // end colorPropertiesButtonListener
-           
-            
-            
-            
-            
-            final OnClickListener propertiesValueButtonListener = new OnClickListener() 
-            {
-               //@Override
-               public void onClick(View v) 
-               {	 
-            	   if (!(in.getTemporary())) {
-            		   in.setValuePort( 1 );
-            		   final int dom = in.portGetExtDomain();
-            		   if( dom == GeomConstants.DOM_SCA )
-            		   {
-            			   PropertiesScalarValueDialog idialog = new PropertiesScalarValueDialog( in );
-            			   idialog.showPropertiesScalarValueDialog(activity, FreeKit);
-            		   }
-            	   }
-               } // end method onClick
-            }; // end colorPropertiesButtonListener
-            
- 
-            
-            
-            
-            Button colorPropertiesButton = (Button) dialog.findViewById(
-          		  com.postgreen.vectorvictor.R.id.colorPropertiesButton );
-            colorPropertiesButton.setOnClickListener( colorPropertiesButtonListener );
-            
-            
-            Button fontSizePropertiesButton = (Button) dialog.findViewById(
-            		  com.postgreen.vectorvictor.R.id.fontSizePropertiesButton );
-            fontSizePropertiesButton.setOnClickListener( fontSizePropertiesListener );
-            
-            
-            Button ioDefPropertiesButton = (Button) dialog.findViewById(
-          		  com.postgreen.vectorvictor.R.id.ioDefPropertiesButton );
-            ioDefPropertiesButton.setOnClickListener( propertiesIODefButtonListener );
-              
-              
-            Button valuePropertiesButton = (Button) dialog.findViewById(
-            		  com.postgreen.vectorvictor.R.id.valuePropertiesButton );
-            valuePropertiesButton.setOnClickListener( propertiesValueButtonListener );
-            
-            
-            
+          	    setScalarValueButton.setOnClickListener( setScalarValueButtonListener );
+          	      
             
             dialog.show();
 
