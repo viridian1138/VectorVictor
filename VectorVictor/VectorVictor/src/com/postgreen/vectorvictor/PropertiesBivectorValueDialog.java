@@ -134,42 +134,42 @@ import android.widget.EditText;
 
 
 
-public class PropertiesScalarValueDialog {
+public class PropertiesBivectorValueDialog {
 	
 	
 	private DrawObj in;
 	
 	
-	public PropertiesScalarValueDialog( DrawObj _in )
+	public PropertiesBivectorValueDialog( DrawObj _in )
 	{
 		in = _in;
 	}
 	
 	
 	 
-    public void showPropertiesScalarValueDialog(final Activity activity, final GeoPadKit FreeKit)
+    public void showPropertiesBivectorValueDialog(final Activity activity, final GeoPadKit FreeKit)
 	{
 		try
  		{
     		final Dialog dialog = new Dialog( activity );
-    		dialog.setContentView( R.layout.scalar_value_dialog );
+    		dialog.setContentView( R.layout.bivector_value_dialog );
             dialog.setTitle( "Depictor Properties" );
             dialog.setCancelable(true);
             
             
-            final EditText scalarValueEditText = (EditText)( dialog.findViewById( R.id.scalarValueEditText ) );
+            final EditText bivectorValueEditText = (EditText)( dialog.findViewById( R.id.bivectorValueEditText ) );
             
             
-            final Button setScalarValueButton = (Button)( dialog.findViewById( R.id.setScalarValue ) );
+            final Button setBivectorValueButton = (Button)( dialog.findViewById( R.id.setBivectorValue ) );
             
             
 			in.setValuePort( 1 );
-            scalarValueEditText.setText( "" + ( in.portGetVect().getBasis() ) );
+            bivectorValueEditText.setText( "" + ( in.portGetVect().getBasis12() ) );
             
             
             
             
-            final OnClickListener setScalarValueButtonListener = 
+            final OnClickListener setBivectorValueButtonListener = 
           	      new OnClickListener() 
           	      {
           	         //@Override
@@ -185,8 +185,8 @@ public class PropertiesScalarValueDialog {
           	  			Mvec vct = new Mvec();
           	  			ivct.mcpy( vct );
           	  			
-          	  			double val = new Double( scalarValueEditText.getText().toString() );
-          	  			vct.setBasis( val );
+          	  			double val = new Double( bivectorValueEditText.getText().toString() );
+          	  			vct.setBasis12( val );
 
           	  			DynRunner dyn = FreeKit.createOneShotDyn();
           	  			Object[] lhs = { in };
@@ -211,7 +211,7 @@ public class PropertiesScalarValueDialog {
             
           	      
             
-          	    setScalarValueButton.setOnClickListener( setScalarValueButtonListener );
+          	    setBivectorValueButton.setOnClickListener( setBivectorValueButtonListener );
           	      
             
             dialog.show();

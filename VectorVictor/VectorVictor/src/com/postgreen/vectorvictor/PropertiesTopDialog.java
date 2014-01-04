@@ -242,11 +242,19 @@ public class PropertiesTopDialog {
             	   if (!(in.getTemporary())) {
             		   in.setValuePort( 1 );
             		   final int dom = in.portGetExtDomain();
+            		   
             		   if( dom == GeomConstants.DOM_SCA )
             		   {
             			   PropertiesScalarValueDialog idialog = new PropertiesScalarValueDialog( in );
             			   idialog.showPropertiesScalarValueDialog(activity, FreeKit);
             		   }
+            		   
+            		   if( dom == GeomConstants.DOM_PSU )
+            		   {
+            			   PropertiesBivectorValueDialog idialog = new PropertiesBivectorValueDialog( in );
+            			   idialog.showPropertiesBivectorValueDialog(activity, FreeKit);
+            		   }
+            		   
             	   }
                } // end method onClick
             }; // end colorPropertiesButtonListener

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="30dp"
+        android:layout_y="27dp"
+        android:text="Bivector Value:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/setBivectorValue"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:layout_x="36dp"
+        android:layout_y="173dp"
+        android:text="Set Value" />
+
+    <EditText
+        android:id="@+id/bivectorValueEditText"
+        android:layout_width="414dp"
+        android:layout_height="wrap_content"
+        android:layout_x="33dp"
+        android:layout_y="91dp"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned" >
+
+        <requestFocus />
+    </EditText>
+
+</AbsoluteLayout>
