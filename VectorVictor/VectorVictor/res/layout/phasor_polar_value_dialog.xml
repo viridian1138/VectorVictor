@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PropertiesPhasorPolarValueDialog" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_x="22dp"
+        android:layout_y="16dp"
+        android:text="Phasor Magnitude:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/setPhasorPolarValue"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:layout_x="74dp"
+        android:layout_y="208dp"
+        android:text="Set Value" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="412dp"
+        android:layout_height="wrap_content"
+        android:layout_x="22dp"
+        android:layout_y="113dp"
+        android:text="Phasor Direction (Degrees):"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/phasorValueMagnitudeEditText"
+        android:layout_width="414dp"
+        android:layout_height="wrap_content"
+        android:layout_x="40dp"
+        android:layout_y="55dp"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/phasorValueDirectionEditText"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:layout_x="42dp"
+        android:layout_y="150dp"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned" />
+
+</AbsoluteLayout>
