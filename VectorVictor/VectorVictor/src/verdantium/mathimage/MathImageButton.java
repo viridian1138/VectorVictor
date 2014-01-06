@@ -108,6 +108,8 @@
 
 package verdantium.mathimage;
 
+import com.postgreen.vectorvictor.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -139,7 +141,7 @@ public class MathImageButton extends Button {
 		g.drawColor( Color.LTGRAY );
 		Paint p = new Paint();
 		p.setStyle( Style.FILL_AND_STROKE );
-		p.setTextSize( 15 );
+		p.setTextSize( getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_button_text_size ) );
 		p.setTypeface(Typeface.create(Typeface.SERIF,
 	            Typeface.ITALIC));
 		p.setAntiAlias( true );
@@ -167,7 +169,9 @@ public class MathImageButton extends Button {
 	@Override
 	public void onMeasure( int x , int y )
 	{
-		setMeasuredDimension(80,40);
+		setMeasuredDimension(
+				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_button_horiz_size ),
+				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_button_vert_size ) );
 	}
 	
 

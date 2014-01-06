@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mathimage_button_text_size">15sp</dimen>
+    <dimen name="mathimage_button_horiz_size">80sp</dimen>
+    <dimen name="mathimage_button_vert_size">40sp</dimen>
+</resources>
+
