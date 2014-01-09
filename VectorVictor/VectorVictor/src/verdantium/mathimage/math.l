@@ -163,7 +163,7 @@ import android.graphics.Paint;
 
 
 
-final static int sbox = 20;
+final static int sbox = 9109;
 private static int yylval;
 private static int GloUserMode;
 
