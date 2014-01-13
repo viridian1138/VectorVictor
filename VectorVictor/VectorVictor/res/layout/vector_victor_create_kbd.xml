@@ -204,6 +204,14 @@
         android:layout_x="400dp"
         android:layout_y="128dp"
         android:text="&amp;phi;" />
+
+    <Button
+        android:id="@+id/delSymButton"
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:layout_x="21dp"
+        android:layout_y="208dp"
+        android:text="Delete Symbol..." />
     
 </AbsoluteLayout>
 

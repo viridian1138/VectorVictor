@@ -109,6 +109,8 @@ package com.postgreen.vectorvictor;
 
 import geomdir.DrawObj;
 import geomdir.GeomConstants;
+import geomdir.GeomKitEtherEvent;
+import geomdir.Model;
 import geomdir.applied.EXsym;
 import geomdir.applied.FastSuiEtherEvent;
 import geomdir.applied.GeoPadAlgPanel;
@@ -117,6 +119,7 @@ import geomdir.applied.GeoPadModel;
 import geomdir.applied.GeoPadPanel;
 import geomdir.applied.SuiEtherEvent;
 import geomdir.config.Config;
+import meta.FlexString;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.kluges.TwoDScrollView;
@@ -334,6 +337,32 @@ public class VectorVictorActivity extends Activity {
 		
 		FreeKit.createUnitDepic();
 		
+		try
+		{
+			EtherEvent send = new GeomKitEtherEvent(this, GeomKitEtherEvent.setSymbol, null, FreeKit );
+			Object[] param = { new FlexString( "Alpha" ) , new FlexString( "&alpha;" ) };
+			send.setParameter(param);
+			ProgramDirector.fireEtherEvent(send, null);
+
+		}
+		catch( Throwable ex )
+		{
+			ex.printStackTrace( System.out );
+		}
+			
+		
+			try
+			{
+				EtherEvent send = new GeomKitEtherEvent(this, GeomKitEtherEvent.setSymbol, null, FreeKit );
+				Object[] param = { new FlexString( "Beta" ) , new FlexString( "&beta;" ) };
+				send.setParameter(param);
+				ProgramDirector.fireEtherEvent(send, null);
+
+			}
+			catch( Throwable ex )
+			{
+				ex.printStackTrace( System.out );
+			}
 		
 		
 		
@@ -1063,6 +1092,26 @@ public class VectorVictorActivity extends Activity {
 			}
 		};
 		
+		
+		final OnClickListener delSymListener = new OnClickListener()
+		{
+			public void onClick(final View arg0) {
+				playClick();
+				Model model = FreeKit.getModelManager();
+				SymbolDeleteDialog dialog = new SymbolDeleteDialog( model );
+				dialog.showSymbolDeleteDialog( VectorVictorActivity.this );
+			}
+		};
+		
+		
+		
+		
+		
+		
+		{
+			Button button = (Button)( dialog.findViewById( R.id.delSymButton ) );
+			button.setOnClickListener( delSymListener );
+		}
 		
 		
 		{
