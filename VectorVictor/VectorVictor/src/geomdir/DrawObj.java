@@ -898,9 +898,9 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		// TempArc.setAngleExtent(xw);
 		boolean contb = TempArc.contains(InPt.x , InPt.y);
 
-		double cdist = ClickRec.MinPriority + 1;
+		double cdist = ClickRec.MIN_PRIORITY + 1;
 		if (conta || contb)
-			cdist = ClickRec.MaxPriority + 1;
+			cdist = ClickRec.MAX_PRIORITY + 1;
 		return (Math.min(lnseg, cdist));
 	};
 
@@ -965,14 +965,14 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double ArcToolRad) {
 		double val = (Vect).getBasis();
 		double xw = val * ThePort.getRealBar().value;
-		double dist = ClickRec.MinPriority + 1;
+		double dist = ClickRec.MIN_PRIORITY + 1;
 		if (xw >= 0) {
 			TempRect.left = (float) xa;
 			TempRect.top = (float)( ya - xw );
 			TempRect.right = (float)( xa + ArcToolRad );
 			TempRect.bottom = (float)( ya );
 			if (TempRect.contains(InPt.x, InPt.y))
-				dist = ClickRec.MaxPriority + 1;
+				dist = ClickRec.MAX_PRIORITY + 1;
 		}
 		else {
 			TempRect.left = (float) xa;
@@ -980,7 +980,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 			TempRect.right = (float)( xa + ArcToolRad );
 			TempRect.bottom = (float)( ya - xw );
 			if (TempRect.contains(InPt.x , InPt.y))
-				dist = ClickRec.MaxPriority + 1;
+				dist = ClickRec.MAX_PRIORITY + 1;
 		}
 
 		return (dist);
@@ -1047,14 +1047,14 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double ArcToolRad) {
 		double val = (Vect).getBasis12();
 		double xw = val * ThePort.getImBar().value;
-		double dist = ClickRec.MinPriority + 1;
+		double dist = ClickRec.MIN_PRIORITY + 1;
 		if (xw >= 0) {
 			TempRect.left = (float) xa;
 			TempRect.top = (float)( ya - xw );
 			TempRect.right = (float)( xa + ArcToolRad );
 			TempRect.bottom = (float)( ya );
 			if (TempRect.contains(InPt.x, InPt.y))
-				dist = ClickRec.MaxPriority + 1;
+				dist = ClickRec.MAX_PRIORITY + 1;
 		}
 		else {
 			TempRect.left = (float) xa;
@@ -1062,7 +1062,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 			TempRect.right = (float)( xa + ArcToolRad );
 			TempRect.bottom = (float)( ya - xw );
 			if (TempRect.contains(InPt.x, InPt.y))
-				dist = ClickRec.MaxPriority + 1;
+				dist = ClickRec.MAX_PRIORITY + 1;
 		}
 
 		return (dist);
@@ -1223,7 +1223,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double dist = Math.max(getDistanceFromLinearSeg(p1, p2, in) - lw, 1.0);
 		double maxdist = Math.max( 28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 
@@ -1241,7 +1241,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double dist = Math.max(getDistanceFromLinearSeg(in, p1x, p1y, p2x, p2y) - lw, 1.0);
 		double maxdist = Math.max( 28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 
@@ -1253,7 +1253,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double dist = Math.max(getDistanceFromLinearRay(p1, p2, in) - lw, 1.0);
 		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 
@@ -1265,7 +1265,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double dist = Math.max(getDistanceFromLine(p1, p2, in) - lw, 1.0);
 		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 
@@ -1277,7 +1277,7 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 		double dist = Math.max(getDistanceFromCirc(cntr, outr, in) - lw, 1.0);
 		double maxdist = Math.max(28.0 * ScreenDensityRatio.getRatio() - lw, 8.0 * ScreenDensityRatio.getRatio() );
 		if (dist > maxdist)
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 

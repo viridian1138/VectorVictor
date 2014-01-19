@@ -342,7 +342,7 @@ public abstract class Ktool {
 
 		protected void handlePostDragComp(MotionEvent anEvent, ToolPort in, boolean SingleClick) {
 			if (DragRec != null) {
-				if (DragRec.CoordAdjust)
+				if (DragRec.coordAdjust)
 					in.endCoordAdjust();
 			}
 
@@ -359,8 +359,8 @@ public abstract class Ktool {
 
 			if ((in.getLastClick() == ToolPort.Match) && (in.getDragType() == ToolPort.DisplayControls)) {
 				if (DragRec != null) {
-					if (DragRec.Dyn != null) {
-						DragRec.Dyn.handlePostDrag();
+					if (DragRec.dyn != null) {
+						DragRec.dyn.handlePostDrag();
 					}
 				}
 			}
@@ -400,7 +400,7 @@ public abstract class Ktool {
 		protected boolean checkDisplayControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
 			boolean Done = false;
 			boolean dragSolverError = false;
-			double Priority = ClickRec.MinPriority + 1;
+			double Priority = ClickRec.MIN_PRIORITY + 1;
 
 			if (!(DisplayList.empty())) {
 				DisplayList.searchHead();
@@ -424,11 +424,11 @@ public abstract class Ktool {
 							AccessoryTransTool.this.getDrawingMode(in));
 
 					if (MRec != null) {
-						if (MRec.ClickPriority < Priority) {
+						if (MRec.clickPriority < Priority) {
 							DragRec = MRec;
 							DragDrw = MyDrw;
 							DragDGM = MyDGM;
-							Priority = MRec.ClickPriority;
+							Priority = MRec.clickPriority;
 						}
 					}
 
@@ -440,13 +440,13 @@ public abstract class Ktool {
 					Mvec  mv = new Mvec();
 					mv.setBasis1( InPt.x );
 					mv.setBasis2( InPt.y );
-					if (DragRec.Dyn != null)
-						dragSolverError = DragRec.Dyn.link(in, mv);
+					if (DragRec.dyn != null)
+						dragSolverError = DragRec.dyn.link(in, mv);
 					in.setDragType(ToolPort.DisplayControls);
 					in.setUpDrag(true);
 					in.setDragContext(DragDGM);
 					in.setLastClick(GeomConstants.Match);
-					if (DragRec.CoordAdjust)
+					if (DragRec.coordAdjust)
 						in.startCoordAdjust();
 				}
 
@@ -471,8 +471,8 @@ public abstract class Ktool {
 			Mvec  mv = new Mvec();
 			mv.setBasis1( InPt.x );
 			mv.setBasis2( InPt.y );
-			if (DragRec.Dyn != null)
-				dragSolverError = DragRec.Dyn.dragExecute(in, mv);
+			if (DragRec.dyn != null)
+				dragSolverError = DragRec.dyn.dragExecute(in, mv);
 			else
 				DragDrw.dragDisplayControl(
 					in,
@@ -658,7 +658,7 @@ public abstract class Ktool {
 		protected void checkEraseControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
 			FlexString CurString = new FlexString();
 			FlexString DelDepicString = new FlexString("\\");
-			double Priority = ClickRec.MinPriority + 1;
+			double Priority = ClickRec.MIN_PRIORITY + 1;
 			boolean Done = false;
 			DrawObj SelDrw = null;
 			ClickRec EraseRec = null;
@@ -681,10 +681,10 @@ public abstract class Ktool {
 							ErasureTool.this.getDrawingMode(in));
 
 					if (MRec != null) {
-						if (MRec.ClickPriority < Priority) {
+						if (MRec.clickPriority < Priority) {
 							EraseRec = MRec;
 							SelDrw = MyDrw;
-							Priority = MRec.ClickPriority;
+							Priority = MRec.clickPriority;
 						}
 					}
 
@@ -998,7 +998,7 @@ public abstract class Ktool {
 			StrtStr.copyString(SrcStr);
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = /* InPt.x * InPt.x + InPt.y * InPt.y */
+			CurDist.curDist = /* InPt.x * InPt.x + InPt.y * InPt.y */
 			1000000.0;
 
 			if (!(DisplayList.empty())) {
@@ -1370,7 +1370,7 @@ public abstract class Ktool {
 			SrcStr.clearString();
 			OutPt.x = InPt.x;
 			OutPt.y = InPt.y;
-			CurDist.CurDist = InPt.x * InPt.x + InPt.y * InPt.y;
+			CurDist.curDist = InPt.x * InPt.x + InPt.y * InPt.y;
 
 			Hexar MyHex = new Hexar();
 			in.hexglo(InPt.x, InPt.y, MyHex.getGlo(), false, MyHex);
@@ -1573,7 +1573,7 @@ public abstract class Ktool {
 		*/
 		protected void checkColorControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
 			boolean Done = false;
-			double Priority = ClickRec.MinPriority + 1;
+			double Priority = ClickRec.MIN_PRIORITY + 1;
 			in.setLastClick(GeomConstants.NoMatch);
 
 			if (!(DisplayList.empty())) {
@@ -1594,13 +1594,13 @@ public abstract class Ktool {
 							ColorTool.this.getDrawingMode(in));
 
 					if (MRec != null) {
-						if (MRec.ClickPriority < Priority) {
+						if (MRec.clickPriority < Priority) {
 							/* pushUndoObjChg( MyDrw );
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDrw = MyDrw;
 							in.setLastClick(GeomConstants.Match);
-							Priority = MRec.ClickPriority;
+							Priority = MRec.clickPriority;
 						}
 					}
 
@@ -1691,7 +1691,7 @@ public abstract class Ktool {
 		protected void checkFntControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
 			DGMNode DragDGM = null;
 			boolean Done = false;
-			double Priority = ClickRec.MinPriority + 1;
+			double Priority = ClickRec.MIN_PRIORITY + 1;
 			in.setLastClick(GeomConstants.NoMatch);
 
 			if (!(DisplayList.empty())) {
@@ -1707,13 +1707,13 @@ public abstract class Ktool {
 						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ColorMode);
 
 					if (MRec != null) {
-						if (MRec.ClickPriority < Priority) {
+						if (MRec.clickPriority < Priority) {
 							/* pushUndoObjChg( MyDrw );
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDGM = (DGMNode) DisplayList.getNode();
 							in.setLastClick(GeomConstants.Match);
-							Priority = MRec.ClickPriority;
+							Priority = MRec.clickPriority;
 						}
 					}
 
@@ -1792,7 +1792,7 @@ public abstract class Ktool {
 		protected void checkBakControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
 			DGMNode DragDGM = null;
 			boolean Done = false;
-			double Priority = ClickRec.MinPriority + 1;
+			double Priority = ClickRec.MIN_PRIORITY + 1;
 			in.setLastClick(GeomConstants.NoMatch);
 
 			if (!(DisplayList.empty())) {
@@ -1808,13 +1808,13 @@ public abstract class Ktool {
 						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ColorMode);
 
 					if (MRec != null) {
-						if (MRec.ClickPriority < Priority) {
+						if (MRec.clickPriority < Priority) {
 							/* pushUndoObjChg( MyDrw );
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDGM = (DGMNode) DisplayList.getNode();
 							in.setLastClick(GeomConstants.Match);
-							Priority = MRec.ClickPriority;
+							Priority = MRec.clickPriority;
 						}
 					}
 
@@ -2150,7 +2150,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -2163,9 +2163,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkAdditFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -2358,7 +2358,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -2371,9 +2371,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkAdditFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -2566,7 +2566,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -2579,9 +2579,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkAdditFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -2774,7 +2774,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -2787,9 +2787,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkAdditFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -2982,7 +2982,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -2995,9 +2995,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkAdditFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -3185,7 +3185,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -3198,9 +3198,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkMapFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);
@@ -3394,7 +3394,7 @@ public abstract class Ktool {
 			boolean Done = false;
 			OutPt.x = 0;
 			OutPt.y = 0;
-			CurDist.CurDist = 10000;
+			CurDist.curDist = 10000;
 			DrawObj Tmp = null;
 			DGMNode TmpDGM = null;
 
@@ -3407,9 +3407,9 @@ public abstract class Ktool {
 					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
-					double TmpDist = CurDist.CurDist;
+					double TmpDist = CurDist.curDist;
 					MyDrw.checkMapFromControl(in, MyDGM.getMyCoord(), in.getBoundMode(), CurDist, InPt, OutPt);
-					if (CurDist.CurDist < TmpDist) {
+					if (CurDist.curDist < TmpDist) {
 						Tmp = MyDrw;
 						TmpDGM = MyDGM;
 						in.setDraggingAssign(true);

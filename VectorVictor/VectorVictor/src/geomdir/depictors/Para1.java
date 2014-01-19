@@ -870,14 +870,14 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 
 		if ((((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragVectPos);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -887,9 +887,9 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragMDPos);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -899,9 +899,9 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, mXGetPoint(Dcon).x, mXGetPoint(Dcon).y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragMXPos);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -909,9 +909,9 @@ public class Para1 extends DrawObj implements Externalizable {
 
 		if (noSymBindings()) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragVecReal);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -931,7 +931,7 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
@@ -940,17 +940,17 @@ public class Para1 extends DrawObj implements Externalizable {
 			&& ((mXGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& (!bound)) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createTransDyn(ThePort, Dcon);
 				Dyn.makeConstant("~tmpk_pt", Temp1Glo, DepictorPort.DOM_VECT1 + DepictorPort.DOM_VECT2);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1002,13 +1002,13 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 
 		Priority = shapeGravityField(Dcon, InPt);
-		if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 			/* NewRec.setValue( ManualDragVectPos ); */
-			NewRec.ClickPriority = Priority;
+			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* mDGetVect().sub( Temp1Glo ,
 				NewRec.TransDelta ); */
@@ -1029,7 +1029,7 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 
 		if (TextVisible && getNamedVar()) {
@@ -1039,9 +1039,9 @@ public class Para1 extends DrawObj implements Externalizable {
 					InPt,
 					hDGetHex(Dcon).getLoc().x + TextOffsetX - XOffset,
 					hDGetHex(Dcon).getLoc().y + TextOffsetY - YOffset);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragVectPos);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( Temp1Glo ,
 				        NewRec.TransDelta ); */
@@ -1063,15 +1063,15 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (((mXGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& ((mDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createDeformDyn(ThePort, Dcon, bound);
 
@@ -1084,8 +1084,8 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createRotateDyn(ThePort, Dcon, bound);
 
@@ -1098,8 +1098,8 @@ public class Para1 extends DrawObj implements Externalizable {
 			Priority =
 				ThePort.defaultGravityField(InPt, paraPt4GetHex(Dcon).getLoc().x, paraPt4GetHex(Dcon).getLoc().y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createShearDyn(ThePort, Dcon, bound);
 
@@ -1107,7 +1107,7 @@ public class Para1 extends DrawObj implements Externalizable {
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1139,15 +1139,15 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (((mXGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& ((mDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createDeformDyn(ThePort, Dcon, bound);
 
@@ -1160,8 +1160,8 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createRotateDyn(ThePort, Dcon, bound);
 
@@ -1174,8 +1174,8 @@ public class Para1 extends DrawObj implements Externalizable {
 			Priority =
 				ThePort.defaultGravityField(InPt, paraPt4GetHex(Dcon).getLoc().x, paraPt4GetHex(Dcon).getLoc().y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				Dyn = createShearDyn(ThePort, Dcon, bound);
 
@@ -1188,11 +1188,11 @@ public class Para1 extends DrawObj implements Externalizable {
 			&& ((mXGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& (!bound)) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createTransDyn(ThePort, Dcon);
 				createTransDynConstant(ThePort, bound, InPt, hDGetHex(Dcon), Dyn);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1209,7 +1209,7 @@ public class Para1 extends DrawObj implements Externalizable {
 					hDGetHex(Dcon).getLoc().y + TextOffsetY+img.getHeight());
 			if (TempRect.contains(InPt.x, InPt.y) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragVectDis);
-				NewRec.ClickPriority = ClickRec.MinPriority;
+				NewRec.clickPriority = ClickRec.MIN_PRIORITY;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
 					    NewRec.TransDelta ); */
@@ -1218,7 +1218,7 @@ public class Para1 extends DrawObj implements Externalizable {
 
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1346,7 +1346,7 @@ public class Para1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
@@ -1354,8 +1354,8 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
-				NewRec.ClickPriority = Priority;
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 				Dyn = ThePort.createDynRunner(bound, HDHexGlo);
@@ -1388,7 +1388,7 @@ public class Para1 extends DrawObj implements Externalizable {
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1398,7 +1398,7 @@ public class Para1 extends DrawObj implements Externalizable {
 	ClickRec checkControls(DepictorPort ThePort, DefContext Dcon, boolean bound, PointF InPt, int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
@@ -1406,9 +1406,9 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createMoveDyn(ThePort, bound, HDHexGlo, "_md");
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1418,9 +1418,9 @@ public class Para1 extends DrawObj implements Externalizable {
 
 			Priority = ThePort.defaultGravityField(InPt, mXGetPoint(Dcon).x, mXGetPoint(Dcon).y);
 
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createMoveDyn(ThePort, bound, HDHexGlo, "_mx");
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1431,17 +1431,17 @@ public class Para1 extends DrawObj implements Externalizable {
 			&& ((mXGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& (!bound)) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createTransDyn(ThePort, Dcon);
 				createTransDynConstant(ThePort, bound, InPt, hDGetHex(Dcon), Dyn);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	};
 
@@ -1694,13 +1694,13 @@ public class Para1 extends DrawObj implements Externalizable {
 				double XDist = (hDGetPoint(Dcon)).x - InPt.x;
 				double YDist = (hDGetPoint(Dcon)).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { "_hd", this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 
@@ -1708,13 +1708,13 @@ public class Para1 extends DrawObj implements Externalizable {
 				double XDist = (mDGetPoint(Dcon)).x - InPt.x;
 				double YDist = (mDGetPoint(Dcon)).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { "_md", this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 
@@ -1722,13 +1722,13 @@ public class Para1 extends DrawObj implements Externalizable {
 				double XDist = (mXGetPoint(Dcon)).x - InPt.x;
 				double YDist = (mXGetPoint(Dcon)).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { "_mx", this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(mXGetPoint(Dcon).x, mXGetPoint(Dcon).y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 		}
@@ -1918,7 +1918,7 @@ public class Para1 extends DrawObj implements Externalizable {
 	* Gets the gravity field from "in" to the current shape using the coordinate context Dcon.
 	*/
 	public double shapeGravityField(DefContext Dcon, PointF in) {
-		double dist = ClickRec.MinPriority + 1;
+		double dist = ClickRec.MIN_PRIORITY + 1;
 		PolygonContent cnt = new PolygonContent();
 		cnt.add( hDGetPoint(Dcon));
 		cnt.add( mDGetPoint(Dcon));
@@ -1926,7 +1926,7 @@ public class Para1 extends DrawObj implements Externalizable {
 		cnt.add( paraPt3GetHex(Dcon).getLoc() );
 		
 		if (cnt.contains(in))
-			dist = ClickRec.MaxPriority + 1;
+			dist = ClickRec.MAX_PRIORITY + 1;
 		return (dist);
 	}
 

@@ -168,24 +168,26 @@ public class ClickRec extends Meta {
 	/**
 	* If delegating to a constraint handler, place the DynRunner instance here.
 	*/
-	public DynRunner Dyn = null;
+	public DynRunner dyn = null;
 	/**
 	* Sets the distance to the control point.  Only used in certain depictor methods
 	* like the checkAssignFromControl() method of {@link DrawObj}.
 	*/
-	public double CurDist = 0;
+	public double curDist = 0;
 	/**
 	* Set the priority of the event (or the gravity field value)
 	* by changing the value in this field.
 	*/
-	public double ClickPriority = MaxPriority;
+	public double clickPriority = MAX_PRIORITY;
 	/**
 	* Sets this to true only if the depictor is a unit depictor
 	* adjusting the size of the unit length.
 	*/
-	public boolean CoordAdjust = false;
+	public boolean coordAdjust = false;
+	
+	@Override
 	public void wake() {};
 
-	public static final double MaxPriority = 0;
-	public static final double MinPriority = 500;
+	public static final double MAX_PRIORITY = 0;
+	public static final double MIN_PRIORITY = 500;
 };

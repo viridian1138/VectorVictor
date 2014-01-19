@@ -1402,9 +1402,9 @@ public class GeomKit
 		double dely = Math.abs(p.y - y);
 		double dist = delx + dely;
 		if ((delx <= 12 * ScreenDensityRatio.getRatio() ) && (dely <= 12 * ScreenDensityRatio.getRatio() ))
-			dist = ClickRec.MaxPriority;
+			dist = ClickRec.MAX_PRIORITY;
 		if (dist > 24.0 * ScreenDensityRatio.getRatio() )
-			dist = ClickRec.MinPriority + 1;
+			dist = ClickRec.MIN_PRIORITY + 1;
 		return (dist);
 	}
 

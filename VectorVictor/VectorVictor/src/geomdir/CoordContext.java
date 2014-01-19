@@ -160,6 +160,7 @@ import meta.Meta;
 */
 public class CoordContext extends Meta {
 
+	@Override
 	public void wake() {};
 
 };

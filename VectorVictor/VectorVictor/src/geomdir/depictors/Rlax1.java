@@ -1100,14 +1100,14 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 
 		if ((((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, vectGetHex(Dcon).getLoc().x, vectGetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragVectDis);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1116,9 +1116,9 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (noSymBindings()) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				NewRec.setValue(ManualDragMDPos);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1138,26 +1138,26 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner();
 				Object[] LHS = { this };
 				Object[] RHS = { "'~glo' \\- 0.5 * ", "_d1", this };
 				Dyn.changeExpression(LHS, RHS);
 				Dyn.tie("_d1", "_&d1", this);
 				Dyn.tie("_d2", "_&d2", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1172,13 +1172,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 
 		Priority = shapeGravityField(Dcon, InPt);
-		if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 			/* NewRec.setValue( ManualDragVectPos ); */
-			NewRec.ClickPriority = Priority;
+			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
 			        NewRec.TransDelta ); */
@@ -1209,13 +1209,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "_d1", this };
 				Object[] RHS = { "UnitOf( ", "'~glo'", " \\- ", this, " ) ", " * magnitude( ", "_&d1", this, " ) " };
@@ -1225,7 +1225,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS2 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS2, RHS2);
 				Dyn.tie("", "_&", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1233,7 +1233,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner();
 				Object[] LHS = { "'~tmp_pt'" };
 				Object[] RHS = { "_&", this, " \\+ ", "_&d1", this };
@@ -1252,13 +1252,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS4 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS4, RHS4);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 	/**
@@ -1272,13 +1272,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner();
 				Object[] LHS = { "'~tmp_pt'" };
 				Object[] RHS = { "_&", this, " \\+ ", "_&d1", this };
@@ -1300,7 +1300,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] LHS5 = { "_d2", this };
 				Object[] RHS5 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS5, RHS5);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1308,7 +1308,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "'~tmp_ve'" };
 				Object[] RHS = { "UnitOf( ", "_&d1", this, " ) " };
@@ -1322,13 +1322,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS3 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS3, RHS3);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	}
 
@@ -1338,13 +1338,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 	ClickRec checkControls(DepictorPort ThePort, RlaxContext Dcon, boolean bound, PointF InPt, int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "'~tmp_ve'" };
 				Object[] RHS = { "UnitOf( ", "_&d1", this, " ) " };
@@ -1358,7 +1358,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS3 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS3, RHS3);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1366,7 +1366,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "'~tmp_ve'" };
 				Object[] RHS = { "UnitOf( ", "_&d2", this, " ) " };
@@ -1380,7 +1380,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS3 = { "magnitude( ", "_&d1", this, " ) * ", "UnitOf( ", "_d2", this, " ) " };
 				Dyn.changeExpression(LHS3, RHS3);
 
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1388,7 +1388,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, tLGetHex(Dcon).getLoc().x, tLGetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "_d1", this };
 				Object[] RHS = { "UnitOf( ", "'~glo'", " \\- ", this, " ) ", " * magnitude( ", "_&d1", this, " ) " };
@@ -1398,7 +1398,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS2 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS2, RHS2);
 				Dyn.tie("", "_&", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1407,7 +1407,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, mXGetHex(Dcon).getLoc().x, mXGetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "_d2", this };
 				Object[] RHS = { "UnitOf( ", "'~glo'", " \\- ", this, " ) ", " * magnitude( ", "_&d2", this, " ) " };
@@ -1417,7 +1417,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS2 = { "magnitude( ", "_&d1", this, " ) * ", "UnitOf( ", "_d2", this, " ) " };
 				Dyn.changeExpression(LHS2, RHS2);
 				Dyn.tie("", "_&", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1426,18 +1426,18 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createOffsetTransDyn(ThePort, bound, InPt, vectGetHex(Dcon), null, "_&");
 				Dyn.tie("_d1", "_&d1", this);
 				Dyn.tie("_d2", "_&d2", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	};
 
@@ -1452,13 +1452,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		int ToolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
-		double Priority = ClickRec.MinPriority + 1;
+		double Priority = ClickRec.MIN_PRIORITY + 1;
 		int LastClick = NoMatch;
 		DynRunner Dyn = null;
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, tLGetHex(Dcon).getLoc().x, tLGetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "_d1", this };
 				Object[] RHS = { "'~glo' \\- ", this };
@@ -1468,7 +1468,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS2 = { "magnitude( ", "_&d2", this, " ) * ", "UnitOf( ", "_d1", this, " ) " };
 				Dyn.changeExpression(LHS2, RHS2);
 				Dyn.tie("", "_&", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1477,7 +1477,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (true) {
 			Priority = ThePort.defaultGravityField(InPt, mXGetHex(Dcon).getLoc().x, mXGetHex(Dcon).getLoc().y);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = ThePort.createDynRunner(bound, VectGlo);
 				Object[] LHS = { "_d2", this };
 				Object[] RHS = { "'~glo' \\- ", this };
@@ -1487,7 +1487,7 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				Object[] RHS2 = { "magnitude( ", "_&d1", this, " ) * ", "UnitOf( ", "_d2", this, " ) " };
 				Dyn.changeExpression(LHS2, RHS2);
 				Dyn.tie("", "_&", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
@@ -1496,18 +1496,18 @@ public class Rlax1 extends DrawObj implements Externalizable {
 
 		if (((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			Priority = shapeGravityField(Dcon, InPt);
-			if ((Priority <= ClickRec.MinPriority) && (LastClick == NoMatch)) {
+			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == NoMatch)) {
 				Dyn = createOffsetTransDyn(ThePort, bound, InPt, vectGetHex(Dcon), null, "_&");
 				Dyn.tie("_d1", "_&d1", this);
 				Dyn.tie("_d2", "_&d2", this);
-				NewRec.ClickPriority = Priority;
+				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = Match;
 			}
 
 		}
 
-		NewRec.Dyn = Dyn;
+		NewRec.dyn = Dyn;
 		return ret;
 	};
 
@@ -1669,13 +1669,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				double XDist = (vectGetHex(Dcon).getLoc()).x - InPt.x;
 				double YDist = (vectGetHex(Dcon).getLoc()).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(vectGetHex(Dcon).getLoc().x, vectGetHex(Dcon).getLoc().y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 
@@ -1683,13 +1683,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				double XDist = (tLGetHex(Dcon).getLoc()).x - InPt.x;
 				double YDist = (tLGetHex(Dcon).getLoc()).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { this, " \\+ ", "_d1", this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(tLGetHex(Dcon).getLoc().x, tLGetHex(Dcon).getLoc().y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 
@@ -1697,13 +1697,13 @@ public class Rlax1 extends DrawObj implements Externalizable {
 				double XDist = (mXGetHex(Dcon).getLoc()).x - InPt.x;
 				double YDist = (mXGetHex(Dcon).getLoc()).y - InPt.y;
 				double Dist = XDist * XDist + YDist * YDist;
-				if (Dist < CurDist.CurDist) {
+				if (Dist < CurDist.curDist) {
 					NewString.clearString();
 					NewString.setInsertPoint(0);
 					Object[] Form = { this, " \\+ ", "_d2", this };
 					ThePort.insertFormattedString(Form, NewString);
 					(OutPt).set(mXGetHex(Dcon).getLoc().x, mXGetHex(Dcon).getLoc().y);
-					CurDist.CurDist = Dist;
+					CurDist.curDist = Dist;
 				}
 			}
 
@@ -1879,12 +1879,12 @@ public class Rlax1 extends DrawObj implements Externalizable {
 		double d1 = Math.max(getDistanceFromLinearSeg(in, x1, y1, x2, y2), 1.0 );
 		double maxd1 = Math.max(11.0 * ScreenDensityRatio.getRatio() - lw, 2.0 * ScreenDensityRatio.getRatio() );
 		if (d1 > maxd1)
-			d1 = ClickRec.MinPriority + 1;
+			d1 = ClickRec.MIN_PRIORITY + 1;
 
 		double d2 = Math.max(getDistanceFromLinearSeg(in, vectGetHex(Dcon).getLoc(), mXGetHex(Dcon).getLoc()), 1.0 );
 		double maxd2 = Math.max(7.0 * ScreenDensityRatio.getRatio() - lw, 2.0 * ScreenDensityRatio.getRatio() );
 		if (d2 > maxd2)
-			d2 = ClickRec.MinPriority + 1;
+			d2 = ClickRec.MIN_PRIORITY + 1;
 
 		double dist = Math.min(d1, d2);
 		return (dist);

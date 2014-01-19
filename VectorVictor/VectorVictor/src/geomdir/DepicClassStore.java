@@ -120,9 +120,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
 
-import meta.FlexString;
 import meta.WrapRuntimeException;
-import verdantium.utils.VTextProperties;
 
 
 /**
@@ -171,27 +169,27 @@ public class DepicClassStore extends Object {
 	/**
 	* HashMap that maps depictor classes to {@link DepicNode} objects.
 	*/
-	protected final HashMap classMap = new HashMap();
+	protected final HashMap<Class<? extends DrawObj>,DepicNode> classMap = new HashMap<Class<? extends DrawObj>,DepicNode>();
 
 	/**
 	* HashMap that maps human readable names to {@link DepicNode} objects.
 	*/
-	protected final HashMap nameMap = new HashMap();
+	protected final HashMap<String,DepicNode> nameMap = new HashMap<String,DepicNode>();
 
 	/**
 	* Static HashMap that maps depictor classes to {@link DepicNode} objects, for discovery.
 	*/
-	protected final static HashMap staticClassMap = new HashMap();
+	protected final static HashMap<Class<? extends DrawObj>,DepicNode> staticClassMap = new HashMap<Class<? extends DrawObj>,DepicNode>();
 
 	/**
 	* Static HashMap that maps human readable names to {@link DepicNode} objects, for discovery.
 	*/
-	protected final static HashMap staticNameMap = new HashMap();
+	protected final static HashMap<String,DepicNode> staticNameMap = new HashMap<String,DepicNode>();
 
 	/**
 	* Vector that maps depictor index numbers to {@link DepicNode} objects.
 	*/
-	protected final Vector numberMap = new Vector();
+	protected final Vector<DepicNode> numberMap = new Vector<DepicNode>();
 
 	/**
 	* Adds an element to the index structure.
@@ -258,7 +256,7 @@ public class DepicClassStore extends Object {
 		boolean selfNaming = false;
 		DepicNode myD = new DepicNode();
 
-		DepicNode xD = (DepicNode) (staticNameMap.get(aliasName));
+		DepicNode xD = staticNameMap.get(aliasName);
 		if (xD != null) {
 			myD.DepicDrawObj = xD.DepicDrawObj;
 		}
@@ -318,7 +316,7 @@ public class DepicClassStore extends Object {
 	* slot <code>slot</code>.
 	*/
 	public DepicNode getDepictorNode(int slot) {
-		DepicNode myC = (DepicNode) (numberMap.elementAt(slot));
+		DepicNode myC = numberMap.elementAt(slot);
 		return (myC);
 	}
 
@@ -335,9 +333,9 @@ public class DepicClassStore extends Object {
 	* was found.
 	*/
 	public String getAliasName(Class<? extends DrawObj> inClass) {
-		DepicNode myC = (DepicNode) (classMap.get(inClass));
+		DepicNode myC = classMap.get(inClass);
 		if (myC == null)
-			myC = (DepicNode) (staticClassMap.get(inClass));
+			myC = staticClassMap.get(inClass);
 		String myStr = null;
 
 		if (myC != null) {
@@ -354,9 +352,9 @@ public class DepicClassStore extends Object {
 	* was found.
 	*/
 	public Class<? extends DrawObj> getDepictorClass(String alName) {
-		DepicNode myC = (DepicNode) (nameMap.get(alName));
+		DepicNode myC = nameMap.get(alName);
 		if (myC == null)
-			myC = (DepicNode) (staticNameMap.get(alName));
+			myC = staticNameMap.get(alName);
 		Class<? extends DrawObj> myCl = null;
 
 		if (myC != null) {
