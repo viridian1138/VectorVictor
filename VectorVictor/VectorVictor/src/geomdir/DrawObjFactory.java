@@ -832,7 +832,7 @@ public class DrawObjFactory extends Object {
 		else {
 			switch (DepicClassCreatorType) {
 				case ClassAltMode :
-					ClassSelfNaming = (Manager.getDepictorNode(AltMode)).SelfNaming;
+					ClassSelfNaming = (Manager.getDepictorNode(AltMode)).selfNaming;
 					MyClass = Manager.getDepictorClass(AltMode);
 					break;
 

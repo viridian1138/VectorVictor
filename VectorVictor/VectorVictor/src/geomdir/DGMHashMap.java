@@ -166,7 +166,7 @@ import meta.VersionBuffer;
 * structural assertion of the system that each fragment ID is unique.
 * @author Thorn Green
 */
-public class DGMHashMap extends HashMap implements Externalizable {
+public class DGMHashMap extends HashMap<FlexString,DGMNode> implements Externalizable {
 
 	/**
 	* Constructs the hash map with a default size.
@@ -179,7 +179,7 @@ public class DGMHashMap extends HashMap implements Externalizable {
 	* Gets the {@link DGMNode} with tag <code>in</code>.
 	*/
 	public DGMNode getDGM(FlexString in) {
-		return ((DGMNode) (get(in)));
+		return (get(in));
 	};
 
 	/**
@@ -202,7 +202,7 @@ public class DGMHashMap extends HashMap implements Externalizable {
 	* Writes the object to persistent storage.
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
-		Vector v = new Vector();
+		Vector<DGMNode> v = new Vector<DGMNode>();
 		Iterator it = values().iterator();
 
 		v.setSize(v.size() + 1);

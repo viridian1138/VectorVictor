@@ -195,12 +195,12 @@ public class DepicClassStore extends Object {
 	* Adds an element to the index structure.
 	*/
 	protected void addElement(DepicNode in, int slot) {
-		classMap.put(in.DepicDrawObj, in);
-		if (staticClassMap.get(in.DepicDrawObj) == null)
-			staticClassMap.put(in.DepicDrawObj, in);
-		nameMap.put(in.AliasName, in);
-		if (staticNameMap.get(in.AliasName) == null)
-			staticNameMap.put(in.AliasName, in);
+		classMap.put(in.depicDrawObj, in);
+		if (staticClassMap.get(in.depicDrawObj) == null)
+			staticClassMap.put(in.depicDrawObj, in);
+		nameMap.put(in.aliasName, in);
+		if (staticNameMap.get(in.aliasName) == null)
+			staticNameMap.put(in.aliasName, in);
 		numberMap.setElementAt(in, slot);
 	}
 
@@ -258,11 +258,11 @@ public class DepicClassStore extends Object {
 
 		DepicNode xD = staticNameMap.get(aliasName);
 		if (xD != null) {
-			myD.DepicDrawObj = xD.DepicDrawObj;
+			myD.depicDrawObj = xD.depicDrawObj;
 		}
 		else {
 			try {
-				myD.DepicDrawObj = drObj;
+				myD.depicDrawObj = drObj;
 			}
 			catch (Exception ex) {
 				throw (new WrapRuntimeException("Resource Grab Failed", ex));
@@ -276,7 +276,7 @@ public class DepicClassStore extends Object {
 		
 		myD.DepicImageUp = port.getBaseImage( "images/" , imgUp.exportString() , GetDepics.class ); */
 
-		Class programClass = myD.DepicDrawObj;
+		Class programClass = myD.depicDrawObj;
 		Class[] paramTypes = {};
 		Object[] params = {};
 
@@ -305,8 +305,8 @@ public class DepicClassStore extends Object {
 			throw (new WrapRuntimeException("Resource Grab Failed", e));
 		}
 
-		myD.SelfNaming = selfNaming;
-		myD.AliasName = aliasName;
+		myD.selfNaming = selfNaming;
+		myD.aliasName = aliasName;
 
 		addElement(myD, slot + offset);
 	}
@@ -339,8 +339,8 @@ public class DepicClassStore extends Object {
 		String myStr = null;
 
 		if (myC != null) {
-			myStr = myC.AliasName;
-			selfNaming = myC.SelfNaming;
+			myStr = myC.aliasName;
+			selfNaming = myC.selfNaming;
 		}
 
 		return (myStr);
@@ -358,8 +358,8 @@ public class DepicClassStore extends Object {
 		Class<? extends DrawObj> myCl = null;
 
 		if (myC != null) {
-			myCl = myC.DepicDrawObj;
-			selfNaming = myC.SelfNaming;
+			myCl = myC.depicDrawObj;
+			selfNaming = myC.selfNaming;
 		}
 
 		return (myCl);

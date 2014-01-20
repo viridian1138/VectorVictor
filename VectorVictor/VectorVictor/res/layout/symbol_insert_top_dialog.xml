@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SymbolInsertTopDialog" >
+
+    <Button
+        android:id="@+id/lowercaseGreekButton"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:layout_x="24dp"
+        android:layout_y="27dp"
+        android:text="Lowercase Greek..." />
+
+    <Button
+        android:id="@+id/definedSymbolsButton"
+        android:layout_width="189dp"
+        android:layout_height="wrap_content"
+        android:layout_x="31dp"
+        android:layout_y="99dp"
+        android:text="Defined Symbols..." />
+
+    <Button
+        android:id="@+id/uppercaseGreekButton"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        android:layout_x="256dp"
+        android:layout_y="28dp"
+        android:text="Uppercase Greek..." />
+
+    <Button
+        android:id="@+id/specialSymbolsButton"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:layout_x="255dp"
+        android:layout_y="98dp"
+        android:text="Special Symbols..." />
+
+</AbsoluteLayout>
+

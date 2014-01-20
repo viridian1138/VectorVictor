@@ -155,7 +155,7 @@ import meta.VersionBuffer;
 * Defines an ordered list of symbols.
 * @author Thorn Green
 */
-public class SymMap extends TreeMap implements Externalizable {
+public class SymMap extends TreeMap<FlexString,SymListNode> implements Externalizable {
 
 	/**
 	* Constructs the tree map.
@@ -168,16 +168,16 @@ public class SymMap extends TreeMap implements Externalizable {
 	* Gets the {@link SymListNode} with tag <code>in</code>.
 	*/
 	public SymListNode getSym(FlexString in) {
-		return ((SymListNode) (get(in)));
+		return (get(in));
 	};
 
 	/**
 	* Puts the object in <code>Tag</code> into the hash.
 	*/
-	public void putSym(FlexString Tag) {
-		SymListNode MyNode = new SymListNode();
-		Tag.copyAllInfo(MyNode.getTag());
-		put(MyNode.getTag(), MyNode);
+	public void putSym(FlexString tag) {
+		SymListNode myNode = new SymListNode();
+		tag.copyAllInfo(myNode.getTag());
+		put(myNode.getTag(), myNode);
 	}
 
 	/**

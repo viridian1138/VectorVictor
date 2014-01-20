@@ -1709,12 +1709,6 @@ public class GeomKit
 		return (getModelManager().getVarList());
 	}
 	/**
-	* Gets the Mvec list map.
-	*/
-	public HashMap getMvecListMap() {
-		return (getModelManager().getMvecListMap());
-	}
-	/**
 	* Gets whether the view is displaying the assignment arrow.
 	*/
 	public boolean getDraggingAssign() {

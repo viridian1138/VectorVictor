@@ -172,39 +172,39 @@ public class DGMNode extends Meta implements Externalizable {
 	* Gets the depictor.
 	*/
 	public final DrawObj getMyDraw() {
-		return (MyDraw);
+		return (myDraw);
 	};
 	/**
 	* Sets the depictor.
 	*/
 	public final void setMyDraw(DrawObj in) {
-		MyDraw = in;
+		myDraw = in;
 	};
 	/**
 	* Gets the coordinate context.
 	*/
 	public final CoordContext getMyCoord() {
-		return (MyCoord);
+		return (myCoord);
 	};
 	/**
 	* Sets the coordinate context.
 	*/
 	public final void setMyCoord(CoordContext in) {
-		MyCoord = in;
+		myCoord = in;
 	};
 	/**
 	* Gets the temporary coordinate context.  This is sometimes used
 	* for unit transformations.
 	*/
 	public final CoordContext getTmpCoord() {
-		return (TmpCoord);
+		return (tmpCoord);
 	};
 	/**
 	* Sets the temporary coordinate context.  This is sometimes used
 	* for unit transformations.
 	*/
 	public final void setTmpCoord(CoordContext in) {
-		TmpCoord = in;
+		tmpCoord = in;
 	};
 
 	/**
@@ -214,8 +214,8 @@ public class DGMNode extends Meta implements Externalizable {
 	public void writeExternal(ObjectOutput out) throws IOException {
 		VersionBuffer myv = new VersionBuffer(VersionBuffer.WRITE);
 
-		if (MyDraw != null)
-			myv.setProperty("MyDraw", MyDraw);
+		if (myDraw != null)
+			myv.setProperty("myDraw", myDraw);
 
 		out.writeObject(myv);
 	}
@@ -228,19 +228,20 @@ public class DGMNode extends Meta implements Externalizable {
 			VersionBuffer myv = (VersionBuffer) (in.readObject());
 			VersionBuffer.chkNul(myv);
 
-			MyDraw = (DrawObj) (myv.getProperty("MyDraw"));
+			myDraw = (DrawObj) (myv.getProperty("myDraw"));
 
-			if (MyDraw != null)
-				MyCoord = MyDraw.makeCoordContext();
+			if (myDraw != null)
+				myCoord = myDraw.makeCoordContext();
 		}
 		catch (ClassCastException e) {
 			throw (new DataFormatException(e));
 		}
 	}
 
-	private DrawObj MyDraw = null;
-	private transient CoordContext MyCoord = null;
-	private transient CoordContext TmpCoord = null;
+	private DrawObj myDraw = null;
+	private transient CoordContext myCoord = null;
+	private transient CoordContext tmpCoord = null;
 
+	@Override
 	public void wake() {};
 }

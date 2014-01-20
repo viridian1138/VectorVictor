@@ -159,19 +159,15 @@ import meta.Meta;
 * @author Thorn Green
 */
 public class DepicNode extends Meta {
-	/**
-	* Displays the image for the depictor.
-	*/
-	// public Image DepicImageUp;
 
 	/**
 	* The class for a kind of depictor.
 	*/
-	public Class<? extends DrawObj> DepicDrawObj;
+	public Class<? extends DrawObj> depicDrawObj;
 	/**
 	* The human-readable name for a kind of depictor.
 	*/
-	public String AliasName;
+	public String aliasName;
 	/**
 	* Indicates whether the depictor should always have its own
 	* "private" variable name.  For instance a depiction of a text
@@ -180,8 +176,9 @@ public class DepicNode extends Meta {
 	* have a proper user name.  For depictors that do not represent variables
 	* in Geometric Algebra, set this to true.
 	*/
-	public boolean SelfNaming;
+	public boolean selfNaming;
 
+	@Override
 	public void wake() {};
 
 };

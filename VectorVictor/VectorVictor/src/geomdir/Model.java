@@ -661,9 +661,9 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			FragNode tempaz = (FragNode) (ita.next());
 			tempaz.loadProperties(SymTarget, MyProp, key + ".Fragments");
 			DGMHashMap FragMap = tempaz.getFragMap();
-			Iterator it = FragMap.values().iterator();
+			Iterator<DGMNode> it = FragMap.values().iterator();
 			while (it.hasNext()) {
-				DrawObj MyDrw = ((DGMNode) it.next()).getMyDraw();
+				DrawObj MyDrw = it.next().getMyDraw();
 				MyDrw.loadProperties(SymTarget, MyProp);
 				String Str = (MyDrw.getVectName()).exportString();
 				try {
@@ -693,9 +693,9 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			FragNode tempaz = (FragNode) (ita.next());
 			tempaz.saveProperties(SymTarget, MyProp, key + ".Fragments");
 			DGMHashMap FragMap = tempaz.getFragMap();
-			Iterator it = FragMap.values().iterator();
+			Iterator<DGMNode> it = FragMap.values().iterator();
 			while (it.hasNext()) {
-				DrawObj MyDrw = ((DGMNode) (it.next())).getMyDraw();
+				DrawObj MyDrw = it.next().getMyDraw();
 				MyDrw.saveProperties(SymTarget, MyProp);
 				saveDepictorProperties(MyProp, MyDrw, MyIntObj);
 			}
@@ -982,11 +982,11 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		int TmpDomain = 0;
 
 		DGMHashMap temp = MyFrg.getFragMap();
-		Iterator it = temp.values().iterator();
+		Iterator<DGMNode> it = temp.values().iterator();
 
 		while (it.hasNext()) {
 			cnt++;
-			DGMNode MyNode = (DGMNode) (it.next());
+			DGMNode MyNode = it.next();
 			TmpDomain = TmpDomain | (MyNode.getMyDraw().vectGetEntDomain());
 		}
 
@@ -1439,11 +1439,11 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		IntObj IODef) {
 		int cnt = 0;
 		DGMHashMap temp = MyFrag.getFragMap();
-		Iterator it = temp.values().iterator();
+		Iterator<DGMNode> it = temp.values().iterator();
 
 		while (it.hasNext()) {
 			cnt++;
-			DrawObj MyObj = ((DGMNode) (it.next())).getMyDraw();
+			DrawObj MyObj = it.next().getMyDraw();
 			MyObj.setValuePort(1);
 			MyObj.portInitPtrs(VarName, Mable, Vect, Domain, IODef);
 		}
@@ -1464,10 +1464,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	protected void checkTemporaryDeletion(FragNode MyFrg) {
 		int TmpDomain = 0;
 		DGMHashMap temp = MyFrg.getFragMap();
-		Iterator it = temp.values().iterator();
+		Iterator<DGMNode> it = temp.values().iterator();
 
 		while (it.hasNext()) {
-			DGMNode MyDGM = (DGMNode) it.next();
+			DGMNode MyDGM = it.next();
 			DrawObj MyDrawObj = MyDGM.getMyDraw();
 
 			if ((MyDrawObj.noSymBindings()) && (MyDrawObj.getTemporary()) && (!LockTemporaryDeletion)) {
@@ -1586,7 +1586,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public Class<? extends DrawObj> getDepictorClass(int AltMode) {
 		DepicNode node = getDepictorNode(AltMode);
-		return (node.DepicDrawObj);
+		return (node.depicDrawObj);
 	}
 
 	/**
@@ -2346,9 +2346,9 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			FragNode MyFrag = (FragNode) (ita.next());
 			DGMHashMap MyList = MyFrag.getFragMap();
 
-			Iterator it = MyList.values().iterator();
+			Iterator<DGMNode> it = MyList.values().iterator();
 			while (it.hasNext()) {
-				DGMNode MyDGM = (DGMNode) (it.next());
+				DGMNode MyDGM = it.next();
 				DrawObj MyDraw = MyDGM.getMyDraw();
 
 				String Str = (MyDraw.getVectName()).exportString();
@@ -2470,12 +2470,6 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public final DGPHashMap getVarList() {
 		return (VarList);
-	}
-	/**
-	* Gets the list of variables and depictors.
-	*/
-	public final HashMap getMvecListMap() {
-		return (mvecListMap);
 	}
 	/**
 	* Gets the list of depictors used for undo.  Reserved for future expansion.
@@ -2649,7 +2643,6 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	private DGPHashMap VarList = new DGPHashMap();
 	private transient DGPHashMap UndoVarList = new DGPHashMap();
 	private SymMap GloSymMap = new SymMap();
-	private HashMap mvecListMap = new HashMap();
 	protected transient PropertyChangeSupport PropL = null;
 	private transient HighLevelList DepicListListeners = new HighLevelList();
 //	private transient HighLevelList WindowRecords = new HighLevelList();

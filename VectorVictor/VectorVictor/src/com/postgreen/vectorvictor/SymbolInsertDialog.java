@@ -5,8 +5,6 @@
 
 
 
-
-
 //$$strtCprt
 /**
 * Vector Victor -- Graphing Calculator Program For Android
@@ -118,76 +116,167 @@
 
 
 
-
-
 package com.postgreen.vectorvictor;
 
+
 import geomdir.Model;
-
-import java.util.Iterator;
-
 import meta.FlexString;
-import verdantium.mathimage.MathImagePopup;
-import verdantium.mathimage.SymListNode;
-import verdantium.mathimage.SymMap;
+import android.app.Activity;
+import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.SpinnerAdapter;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Spinner;
 
-public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
-		SpinnerAdapter , ISymbolVal {
+
+
+public class SymbolInsertDialog {
 	
-	SymMap map;
-	int sz;
-	FlexString[] keys;
-	SymListNode[] vals;
-
-	public DefinedSymbolSpinnerAdapter( Model in ) {
-		map = in.getGloSymMap();
-		sz = map.keySet().size();
-		keys = new FlexString[ sz ];
-		vals = new SymListNode[ sz ];
-		int count = 0;
-		Iterator<FlexString> it = (Iterator<FlexString>)( map.keySet().iterator() );
-		while( it.hasNext() )
-		{
-			FlexString str = it.next();
-			keys[ count ] = str;
-			vals[ count ] = map.getSym( str );
-			count++;
-		}
-	}
-
-	public int getCount() {
-		return( sz );
-	}
-
-	public Object getItem(int position) {
-		return( keys[ position ] );
-	}
 	
-	public FlexString getKey( int posn )
+	private Model in;
+	private ISymbolInsertListener listener;
+	private SymbolInsertType stype;
+	
+	
+	public SymbolInsertDialog( Model _in , ISymbolInsertListener _listener , SymbolInsertType _stype )
 	{
-		return( keys[ posn ] );
+		in = _in;
+		listener = _listener;
+		stype = _stype;
 	}
 	
-	public String getValue( int position )
+	
+	 
+    public void showSymbolInsertDialog(final Activity activity)
 	{
-		SymListNode node = vals[ position ];
-		return( node.getSymbol().exportString() );
-	}
+		try
+ 		{
+    		final Dialog dialog = new Dialog( activity );
+    		dialog.setContentView( R.layout.symbol_insert_dialog );
+            dialog.setTitle( "Insert Symbol" );
+            dialog.setCancelable(true);
+            
+            
+            
+            final Spinner insertSymbolSpinner = (Spinner)( dialog.findViewById( R.id.insertSymbolSpinner ) );
+            
+            
+            final Button insertSymbolButton = (Button)( dialog.findViewById( R.id.insertSymbolButton ) );
+            
+            
+            
+            
+            final ISymbolVal ival = createSymbolVal();
+            
+            
+            
+           insertSymbolSpinner.setAdapter( ival );
+            
+            
+            
+            
+            final OnClickListener insertSymbolButtonListener = 
+          	      new OnClickListener() 
+          	      {
+          	         //@Override
+          	         public void onClick(View v) 
+          	         {
+          	        	 
+          	        	 try
+          	        	 {
+          	        		 
+          	        		int posn = insertSymbolSpinner.getSelectedItemPosition();
+          	        		
+          	        		if( posn >= 0 )
+          	        		{
+          	        			String val = ival.getValue( posn );
+          	        			listener.handleSymbolInsert( val );
+          	        		}
+          	        		 
+          	  			
+          	        	 }
+          	        	 catch( Throwable ex )
+          	        	 {
+          	        		 Log.e("tag", "msg", ex);
+          	        	 }
+          	            
+          	            dialog.dismiss(); // hide the dialog
+          	         } // end method onClick
+          	      }; // end setInsertSymbolButtonListener
+            
+          	      
+            
+          	    insertSymbolButton.setOnClickListener( insertSymbolButtonListener );
+          	      
+            
+            dialog.show();
 
-	public long getItemId(int position) {
-		return( position );
-	}
+            
+    		
+ 		}
+ 		catch( Throwable ex )
+ 		{
+ 			Log.e("tag", "msg", ex);
+ 		}
+};
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-		SymListNode node = vals[ position ];
-		MathImagePopup popup = new MathImagePopup( parent.getContext() );
-		popup.setText( node.getSymbol().exportString() );
-		return( popup );
-	}
 
+
+
+private ISymbolVal createSymbolVal( )
+{
+	if( stype == SymbolInsertType.DEFINED_SYMBOLS )
+	{
+		return( new DefinedSymbolSpinnerAdapter( in ) );
+	}
+	
+	
+	if( stype == SymbolInsertType.SPECIAL_SYMBOLS )
+	{
+		final String[] specialChoiceArr = { "emptyset" , "cup" ,  "cap" , "subset" , "subseteq" ,
+				"in" ,  "nsubset" ,  "supset" ,  "supseteq" ,  "notin" ,
+				"infty" ,  "sum" ,  "prod" ,  "int" ,  "otimes" ,  "oplus" ,
+				"times" , "wedge" , "cdot" , "ldots" , "cdots" , "div" ,
+				"circ" , "lt" , "gt" , "leq" , "geq" , "equiv" , "sim" ,
+				"approx" , "cong" , "neq" , "perp" , "nabla" ,
+				"qed" , "sqrt" , "vrul" , "bar" , "tilde" , "hat" ,
+				"pm" , "sbox" , "hdiv" , "prime" };
+		return( new PredefSymbolSpinnerAdapter( specialChoiceArr ) );
+	}
+	
+	
+	if( stype == SymbolInsertType.UPPERCASE_GREEK )
+	{
+		final String[] specialChoiceArr = { "Alpha" , "Beta" , "Gamma" , "Delta" ,
+			"Epsilon" , "Zeta" , "Eta" , "Theta" ,
+			"Iota" , "Kappa" , "Lambda" , "Mu" ,
+			"Nu" , "Xi" , "Omicron" , "Pi" ,
+			"Rho" , "Sigma" , "Tau" , "Upsilon" ,
+			"Phi" , "Chi" , "Psi" , "Omega" };
+		return( new PredefSymbolSpinnerAdapter( specialChoiceArr ) );
+	}
+	
+	
+	if( stype == SymbolInsertType.LOWERCASE_GREEK )
+	{
+		final String[] specialChoiceArr = { "alpha" , "beta" , "gamma" , "delta" ,
+			"epsilon" , "zeta" , "eta" , "theta" ,
+			"iota" , "kappa" , "lambda" , "mu" ,
+			"nu" , "xi" , "omicron" , "pi" ,
+			"rho" , "sigma" , "tau" , "upsilon" ,
+			"phi" , "chi" , "psi" , "omega" };
+		return( new PredefSymbolSpinnerAdapter( specialChoiceArr ) );
+	}
+	
+	
+	return( null );
+	
 }
+
+
+
+	      
+}
+
 

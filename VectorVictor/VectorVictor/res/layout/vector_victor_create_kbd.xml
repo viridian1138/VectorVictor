@@ -214,4 +214,12 @@
         android:layout_y="208dp"
         android:text="Delete Symbol..." />
 
+    <Button
+        android:id="@+id/createSymButton"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_x="231dp"
+        android:layout_y="206dp"
+        android:text="Create Symbol..." />
+
 </AbsoluteLayout>

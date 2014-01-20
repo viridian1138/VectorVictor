@@ -493,13 +493,7 @@ public interface ToolPort extends DepictorPort, BackgroundListener {
 	public void handleThrow(Throwable in);
 	
 	/**
-	 *  Gets the Mvec list map for the kit.
-	 * @return The Mvec List map.
-	 */
-	public HashMap getMvecListMap();
-	
-	/**
-	 * Sends a request to the engine asking for optimizzation.
+	 * Sends a request to the engine asking for optimization.
 	 */
 	public void optimizeRep();
 	

@@ -166,52 +166,52 @@ import meta.VersionBuffer;
 */
 public class FragNode extends Meta implements Externalizable {
 
-	private IntObj SelfAlloc = new IntObj();
-	private IntObj RealSelfAlloc = new IntObj();
-	private IntObj Movable = new IntObj();
-	private FlexString VectName = new FlexString();
-	private Mvec Vect = new Mvec();
-	private IntObj Domain = new IntObj();
-	private IntObj IODef = new IntObj();
-	private DGMHashMap FragMap = new DGMHashMap();
+	private IntObj selfAlloc = new IntObj();
+	private IntObj realSelfAlloc = new IntObj();
+	private IntObj movable = new IntObj();
+	private FlexString vectName = new FlexString();
+	private Mvec vect = new Mvec();
+	private IntObj domain = new IntObj();
+	private IntObj iODef = new IntObj();
+	private DGMHashMap fragMap = new DGMHashMap();
 
 	/**
 	* Gets the reference to the information set to the depictor about
 	* whether the variable is being allocated by an entity outside the depictor.
 	*/
 	public final IntObj getSelfAlloc() {
-		return (SelfAlloc);
+		return (selfAlloc);
 	}
 	/**
 	* Gets the reference holding whether the variable is really being allocated
 	* by an entity outside the FragNode.
 	*/
 	public final IntObj getRealSelfAlloc() {
-		return (RealSelfAlloc);
+		return (realSelfAlloc);
 	}
 	/**
 	* Gets whether the variable is movable.
 	*/
 	public final IntObj getMovable() {
-		return (Movable);
+		return (movable);
 	}
 	/**
 	* Gets the name of the variable.
 	*/
 	public final FlexString getVectName() {
-		return (VectName);
+		return (vectName);
 	}
 	/**
 	* Gets the multivector associated with the variable.
 	*/
 	public final Mvec getVect() {
-		return (Vect);
+		return (vect);
 	}
 	/**
 	* Gets the reference to the domain of the variable.
 	*/
 	public final IntObj getDomain() {
-		return (Domain);
+		return (domain);
 	}
 	/**
 	* Gets the reference to the I/O status of the variable.  This
@@ -219,14 +219,14 @@ public class FragNode extends Meta implements Externalizable {
 	* variable.
 	*/
 	public final IntObj getIODef() {
-		return (IODef);
+		return (iODef);
 	}
 	/**
 	* Gets the {@link DGMNode} list for the set of depictors associated
 	* with the variable.
 	*/
 	public final DGMHashMap getFragMap() {
-		return (FragMap);
+		return (fragMap);
 	}
 
 	/**
@@ -239,39 +239,39 @@ public class FragNode extends Meta implements Externalizable {
 	* lets the depictor think that it has allocated the variable.
 	*/
 	public final void setSelfAlloc(IntObj in) {
-		SelfAlloc = in;
+		selfAlloc = in;
 	}
 	/**
 	* Sets the reference holding whether the variable is really being allocated
 	* by an entity outside the FragNode.
 	*/
 	public final void setRealSelfAlloc(IntObj in) {
-		RealSelfAlloc = in;
+		realSelfAlloc = in;
 	}
 	/**
 	* Sets whether the variable is movable.
 	*/
 	public final void setMovable(IntObj in) {
-		Movable = in;
+		movable = in;
 	}
 	/**
 	* Sets the name of the variable.
 	*/
 	public final void setVectName(FlexString in) {
-		VectName = in;
+		vectName = in;
 	}
 	/**
 	* Sets the reference to the multivector holding the value
 	* of the variable.
 	*/
 	public final void setVect(Mvec in) {
-		Vect = in;
+		vect = in;
 	}
 	/**
 	* Sets the reference to the domain of the variable.
 	*/
 	public final void setDomain(IntObj in) {
-		Domain = in;
+		domain = in;
 	}
 	/**
 	* Sets the reference to the I/O status of the variable.  This
@@ -279,7 +279,7 @@ public class FragNode extends Meta implements Externalizable {
 	* variable.
 	*/
 	public final void setIODef(IntObj in) {
-		IODef = in;
+		iODef = in;
 	}
 
 	/**
@@ -290,22 +290,22 @@ public class FragNode extends Meta implements Externalizable {
 			VersionBuffer myv = (VersionBuffer) (in.readObject());
 			VersionBuffer.chkNul(myv);
 
-			SelfAlloc = (IntObj) (myv.getProperty("SelfAlloc"));
-			VersionBuffer.chkNul(SelfAlloc);
-			RealSelfAlloc = (IntObj) (myv.getProperty("RealSelfAlloc"));
-			VersionBuffer.chkNul(RealSelfAlloc);
-			Movable = (IntObj) (myv.getProperty("Movable"));
-			VersionBuffer.chkNul(Movable);
-			VectName = (FlexString) (myv.getProperty("VectName"));
-			VersionBuffer.chkNul(VectName);
-			Vect = (Mvec) (myv.getProperty("Vect"));
-			VersionBuffer.chkNul(Vect);
-			Domain = (IntObj) (myv.getProperty("Domain"));
-			VersionBuffer.chkNul(Domain);
-			IODef = (IntObj) (myv.getProperty("IODef"));
-			VersionBuffer.chkNul(IODef);
-			FragMap = (DGMHashMap) (myv.getProperty("FragMap"));
-			VersionBuffer.chkNul(FragMap);
+			selfAlloc = (IntObj) (myv.getProperty("selfAlloc"));
+			VersionBuffer.chkNul(selfAlloc);
+			realSelfAlloc = (IntObj) (myv.getProperty("realSelfAlloc"));
+			VersionBuffer.chkNul(realSelfAlloc);
+			movable = (IntObj) (myv.getProperty("movable"));
+			VersionBuffer.chkNul(movable);
+			vectName = (FlexString) (myv.getProperty("vectName"));
+			VersionBuffer.chkNul(vectName);
+			vect = (Mvec) (myv.getProperty("vect"));
+			VersionBuffer.chkNul(vect);
+			domain = (IntObj) (myv.getProperty("domain"));
+			VersionBuffer.chkNul(domain);
+			iODef = (IntObj) (myv.getProperty("iODef"));
+			VersionBuffer.chkNul(iODef);
+			fragMap = (DGMHashMap) (myv.getProperty("fragMap"));
+			VersionBuffer.chkNul(fragMap);
 		}
 		catch (ClassCastException e) {
 			throw (new DataFormatException(e));
@@ -319,14 +319,14 @@ public class FragNode extends Meta implements Externalizable {
 	public void writeExternal(ObjectOutput out) throws IOException {
 		VersionBuffer myv = new VersionBuffer(VersionBuffer.WRITE);
 
-		myv.setProperty("SelfAlloc", SelfAlloc);
-		myv.setProperty("RealSelfAlloc", RealSelfAlloc);
-		myv.setProperty("Movable", Movable);
-		myv.setProperty("VectName", VectName);
-		myv.setProperty("Vect", Vect);
-		myv.setProperty("Domain", Domain);
-		myv.setProperty("IODef", IODef);
-		myv.setProperty("FragMap", FragMap);
+		myv.setProperty("selfAlloc", selfAlloc);
+		myv.setProperty("realSelfAlloc", realSelfAlloc);
+		myv.setProperty("movable", movable);
+		myv.setProperty("vectName", vectName);
+		myv.setProperty("vect", vect);
+		myv.setProperty("domain", domain);
+		myv.setProperty("iODef", iODef);
+		myv.setProperty("fragMap", fragMap);
 
 		out.writeObject(myv);
 	}
@@ -335,9 +335,9 @@ public class FragNode extends Meta implements Externalizable {
 	* Loads persistent properties.
 	*/
 /*	public void loadProperties(DepictorPort ThePort, VTextProperties MyProp, String InKey) throws DataFormatException {
-		String key = InKey + "." + VectName.exportString();
+		String key = InKey + "." + vectName.exportString();
 
-		ThePort.loadMvecProperties(MyProp, key + ".Vect", Vect);
+		ThePort.loadMvecProperties(MyProp, key + ".Vect", vect);
 
 	} */
 
@@ -345,15 +345,16 @@ public class FragNode extends Meta implements Externalizable {
 	* Saves persietent properties.
 	*/
 /*	public void saveProperties(DepictorPort ThePort, VTextProperties MyProp, String InKey) {
-		String key = InKey + "." + VectName.exportString();
+		String key = InKey + "." + vectName.exportString();
 
-		ThePort.saveMvecProperties(MyProp, key + ".Vect", Vect);
+		ThePort.saveMvecProperties(MyProp, key + ".Vect", vect);
 
-		if ((Movable.value & DepictorPort.MABLE_ASGN_MASK) > 0) {
-			ThePort.registerPersistentConstraint(MyProp, VectName);
+		if ((movable.value & DepictorPort.MABLE_ASGN_MASK) > 0) {
+			ThePort.registerPersistentConstraint(MyProp, vectName);
 		}
 
 	} */
 
+	@Override
 	public void wake() {};
 }

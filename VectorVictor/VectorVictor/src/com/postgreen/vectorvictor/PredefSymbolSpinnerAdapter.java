@@ -122,40 +122,25 @@
 
 package com.postgreen.vectorvictor;
 
-import geomdir.Model;
-
-import java.util.Iterator;
-
-import meta.FlexString;
 import verdantium.mathimage.MathImagePopup;
-import verdantium.mathimage.SymListNode;
-import verdantium.mathimage.SymMap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 
-public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
+public class PredefSymbolSpinnerAdapter extends BaseAdapter implements
 		SpinnerAdapter , ISymbolVal {
 	
-	SymMap map;
 	int sz;
-	FlexString[] keys;
-	SymListNode[] vals;
+	String[] vals;
 
-	public DefinedSymbolSpinnerAdapter( Model in ) {
-		map = in.getGloSymMap();
-		sz = map.keySet().size();
-		keys = new FlexString[ sz ];
-		vals = new SymListNode[ sz ];
+	public PredefSymbolSpinnerAdapter( String[] ivals ) {
+		sz = ivals.length;
+		vals = new String[ sz ];
 		int count = 0;
-		Iterator<FlexString> it = (Iterator<FlexString>)( map.keySet().iterator() );
-		while( it.hasNext() )
+		for( count = 0 ; count < sz ; count++ )
 		{
-			FlexString str = it.next();
-			keys[ count ] = str;
-			vals[ count ] = map.getSym( str );
-			count++;
+			vals[ count ] = "&" + ( ivals[ count ] ) + ";";
 		}
 	}
 
@@ -164,18 +149,12 @@ public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
 	}
 
 	public Object getItem(int position) {
-		return( keys[ position ] );
-	}
-	
-	public FlexString getKey( int posn )
-	{
-		return( keys[ posn ] );
+		return( vals[ position ] );
 	}
 	
 	public String getValue( int position )
 	{
-		SymListNode node = vals[ position ];
-		return( node.getSymbol().exportString() );
+		return( vals[ position ] );
 	}
 
 	public long getItemId(int position) {
@@ -183,9 +162,8 @@ public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		SymListNode node = vals[ position ];
 		MathImagePopup popup = new MathImagePopup( parent.getContext() );
-		popup.setText( node.getSymbol().exportString() );
+		popup.setText( vals[ position ] );
 		return( popup );
 	}
 

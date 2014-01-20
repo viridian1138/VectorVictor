@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SymbolDeleteDialog" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="13dp"
+        android:layout_y="3dp"
+        android:text="Name Of Symbol :"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/createSymbolName"
+        android:layout_width="951dp"
+        android:layout_height="wrap_content"
+        android:layout_x="24dp"
+        android:layout_y="26dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="12dp"
+        android:layout_y="74dp"
+        android:text="Symbol :"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/createSymbolEditField"
+        android:layout_width="944dp"
+        android:layout_height="213dp"
+        android:layout_x="29dp"
+        android:layout_y="98dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/createInsertSymbolButton"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_x="231dp"
+        android:layout_y="406dp"
+        android:text="Insert..." />
+
+    <Spinner
+        android:id="@+id/createScriptSpinner"
+        android:layout_width="164dp"
+        android:layout_height="62dp"
+        android:layout_x="22dp"
+        android:layout_y="406dp" />
+
+    <CheckBox
+        android:id="@+id/createSymbolBoldBox"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_x="24dp"
+        android:layout_y="324dp"
+        android:text="Bold" />
+
+    <CheckBox
+        android:id="@+id/createSymbolUprightBox"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_x="156dp"
+        android:layout_y="324dp"
+        android:text="Upright" />
+
+    <Button
+        android:id="@+id/createSymbolButton"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:layout_x="544dp"
+        android:layout_y="404dp"
+        android:text="Create..." />
+
+    <Button
+        android:id="@+id/createSymbolKeyboardButton"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_x="393dp"
+        android:layout_y="405dp"
+        android:text="Keyboard..." />
+
+</AbsoluteLayout>

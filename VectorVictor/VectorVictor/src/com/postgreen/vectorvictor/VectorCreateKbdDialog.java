@@ -207,6 +207,26 @@ protected void addCreateKeyboardListeners( Dialog dialog )
 	};
 	
 	
+	final OnClickListener createSymListener = new OnClickListener()
+	{
+		public void onClick(final View arg0) {
+			
+			ISymbolInsertListener tmp = new ISymbolInsertListener()
+			{
+				public void handleSymbolInsert( String ins )
+				{
+					Log.d("tagA", ins);
+				}
+			};
+			
+			activity.playClick();
+			Model model = FreeKit.getModelManager();
+			SymbolInsertTopDialog dialog = new SymbolInsertTopDialog( model , tmp );
+			dialog.showSymbolInsertTopDialog( activity );
+		}
+	};
+	
+	
 	
 	
 	
@@ -214,6 +234,12 @@ protected void addCreateKeyboardListeners( Dialog dialog )
 	{
 		Button button = (Button)( dialog.findViewById( R.id.delSymButton ) );
 		button.setOnClickListener( delSymListener );
+	}
+	
+	
+	{
+		Button button = (Button)( dialog.findViewById( R.id.createSymButton ) );
+		button.setOnClickListener( createSymListener );
 	}
 	
 	

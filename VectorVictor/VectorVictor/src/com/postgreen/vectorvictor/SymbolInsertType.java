@@ -7,6 +7,7 @@
 
 
 
+
 //$$strtCprt
 /**
 * Vector Victor -- Graphing Calculator Program For Android
@@ -120,74 +121,11 @@
 
 
 
+
 package com.postgreen.vectorvictor;
 
-import geomdir.Model;
 
-import java.util.Iterator;
-
-import meta.FlexString;
-import verdantium.mathimage.MathImagePopup;
-import verdantium.mathimage.SymListNode;
-import verdantium.mathimage.SymMap;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.SpinnerAdapter;
-
-public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
-		SpinnerAdapter , ISymbolVal {
-	
-	SymMap map;
-	int sz;
-	FlexString[] keys;
-	SymListNode[] vals;
-
-	public DefinedSymbolSpinnerAdapter( Model in ) {
-		map = in.getGloSymMap();
-		sz = map.keySet().size();
-		keys = new FlexString[ sz ];
-		vals = new SymListNode[ sz ];
-		int count = 0;
-		Iterator<FlexString> it = (Iterator<FlexString>)( map.keySet().iterator() );
-		while( it.hasNext() )
-		{
-			FlexString str = it.next();
-			keys[ count ] = str;
-			vals[ count ] = map.getSym( str );
-			count++;
-		}
-	}
-
-	public int getCount() {
-		return( sz );
-	}
-
-	public Object getItem(int position) {
-		return( keys[ position ] );
-	}
-	
-	public FlexString getKey( int posn )
-	{
-		return( keys[ posn ] );
-	}
-	
-	public String getValue( int position )
-	{
-		SymListNode node = vals[ position ];
-		return( node.getSymbol().exportString() );
-	}
-
-	public long getItemId(int position) {
-		return( position );
-	}
-
-	public View getView(int position, View convertView, ViewGroup parent) {
-		SymListNode node = vals[ position ];
-		MathImagePopup popup = new MathImagePopup( parent.getContext() );
-		popup.setText( node.getSymbol().exportString() );
-		return( popup );
-	}
-
+public enum SymbolInsertType {
+	UPPERCASE_GREEK, LOWERCASE_GREEK, DEFINED_SYMBOLS, SPECIAL_SYMBOLS
 }
 

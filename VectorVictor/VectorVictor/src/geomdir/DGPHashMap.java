@@ -167,7 +167,7 @@ import meta.VersionBuffer;
 * The FragNodes are stored using the variable name associated with each FragNode as the key.
 * @author Thorn Green
 */
-public class DGPHashMap extends HashMap implements Externalizable {
+public class DGPHashMap extends HashMap<FlexString,FragNode> implements Externalizable {
 
 	/**
 	* Allocates the hash map.
@@ -180,7 +180,7 @@ public class DGPHashMap extends HashMap implements Externalizable {
 	* Gets the {@link FragNode} with tag <code>in</code>.
 	*/
 	public FragNode getFrag(FlexString in) {
-		return ((FragNode) (get(in)));
+		return (get(in));
 	};
 
 	/**
@@ -195,19 +195,19 @@ public class DGPHashMap extends HashMap implements Externalizable {
 	* should be considered to be in a somewhat inconsistent state until at least one
 	* depictor is stored in its {@link DGMHashMap}.
 	*/
-	public boolean insertNode(FlexString Tag) {
-		FragNode MyNode = getFrag(Tag);
-		boolean found = (MyNode != null);
+	public boolean insertNode(FlexString tag) {
+		FragNode myNode = getFrag(tag);
+		boolean found = (myNode != null);
 
 		if (!found) {
-			MyNode = new FragNode();
-			FlexString MyStr = Tag;
+			myNode = new FragNode();
+			FlexString myStr = tag;
 
-			MyNode.getMovable().value = DepictorPort.MABLE_BY_ANY;
-			MyNode.getSelfAlloc().value = DepictorPort.SELF_ALLOC_DROPABLE + DepictorPort.SELF_ALLOC_ENGINE_IGNORE;
-			MyNode.getRealSelfAlloc().value = DepictorPort.SELF_ALLOC_DROPABLE + DepictorPort.SELF_ALLOC_ENGINE_IGNORE;
-			MyStr.copyString(MyNode.getVectName());
-			putFrag(MyNode);
+			myNode.getMovable().value = DepictorPort.MABLE_BY_ANY;
+			myNode.getSelfAlloc().value = DepictorPort.SELF_ALLOC_DROPABLE + DepictorPort.SELF_ALLOC_ENGINE_IGNORE;
+			myNode.getRealSelfAlloc().value = DepictorPort.SELF_ALLOC_DROPABLE + DepictorPort.SELF_ALLOC_ENGINE_IGNORE;
+			myStr.copyString(myNode.getVectName());
+			putFrag(myNode);
 		}
 
 		return (found);
