@@ -237,9 +237,9 @@ public abstract class SolverLinkage extends Object implements Externalizable {
 	* Directs the executor <code>exec</code> to optimize all expressions in <code>map</code>.
 	*/
 	protected final void optimizeAllRep(Executor exec, ExprHashMap map) {
-		Iterator it = map.values().iterator();
+		Iterator<ExpNode> it = map.values().iterator();
 		while (it.hasNext()) {
-			ExpNode exp = (ExpNode) (it.next());
+			ExpNode exp = it.next();
 			exec.attachEvalObj(exp);
 		}
 	}
@@ -248,9 +248,9 @@ public abstract class SolverLinkage extends Object implements Externalizable {
 	* Directs the executor <code>exec</code> to optimize all expressions in <code>map</code>.
 	*/
 	protected final void optimizeAllRep(Executor exec, ASGHashMap map) {
-		Iterator it = map.values().iterator();
+		Iterator<ASGNode> it = map.values().iterator();
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			ExpNode exp = asg.getExpNode();
 			if (exp != null)
 				exec.attachEvalObj(exp);

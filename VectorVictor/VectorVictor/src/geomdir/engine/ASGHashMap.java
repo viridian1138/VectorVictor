@@ -162,12 +162,12 @@ import meta.VersionBuffer;
 * A hash map for {@link ASGNode} objects.
 * @author Thorn Green
 */
-public class ASGHashMap extends HashMap implements Externalizable {
+public class ASGHashMap extends HashMap<FlexString,ASGNode> implements Externalizable {
 	/**
 	* Gets the {@link ASGNode} with tag <code>in</code>.
 	*/
 	public ASGNode getASG(FlexString in) {
-		return ((ASGNode) (get(in)));
+		return (get(in));
 	};
 
 	/**
@@ -178,17 +178,17 @@ public class ASGHashMap extends HashMap implements Externalizable {
 	}
 
 	/**
-	* Inserts a new node with tag <code>Tag</code>.
+	* Inserts a new node with tag <code>tag</code>.
 	*/
-	public void insertNode(FlexString Tag) {
-		ASGNode MyNode = getASG(Tag);
+	public void insertNode(FlexString tag) {
+		ASGNode myNode = getASG(tag);
 
-		if (MyNode == null) {
-			MyNode = new ASGNode();
-			FlexString MyStr = Tag;
+		if (myNode == null) {
+			myNode = new ASGNode();
+			FlexString myStr = tag;
 
-			MyStr.copyString(MyNode.getStr());
-			putASG(MyNode);
+			myStr.copyString(myNode.getStr());
+			putASG(myNode);
 		}
 	}
 
@@ -196,11 +196,11 @@ public class ASGHashMap extends HashMap implements Externalizable {
 	* Writes the object to persistent storage.
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
-		Vector v = new Vector();
-		Iterator it = values().iterator();
+		Vector<ASGNode> v = new Vector<ASGNode>();
+		Iterator<ASGNode> it = values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			v.setSize(v.size() + 1);
 			v.setElementAt(asg, v.size() - 1);
 		}

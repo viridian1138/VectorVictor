@@ -496,9 +496,9 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 				GloMinVec = TmpVec;
 			}
 
-			Iterator it = ConstVarList.values().iterator();
+			Iterator<ASGNode> it = ConstVarList.values().iterator();
 			while (it.hasNext()) {
-				ASGNode cnl = (ASGNode) (it.next());
+				ASGNode cnl = it.next();
 				ASGNode alpha = AlphaVarList.getASG(cnl.getStr());
 				if (alpha != null) {
 					cnl.getMvec().mcpy(alpha.getMvec());
@@ -536,10 +536,10 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 
 		MyEngine.registerDynRunner(null);
 
-		Iterator it = AlphaVarList.values().iterator();
+		Iterator<ASGNode> it = AlphaVarList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			ASGNode cousin = asg.getDynCousin();
 
 			if (cousin != null) {
@@ -734,27 +734,29 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 	* Writes the constraint system associated with the DynRunner.
 	*/
 	public void writeConstraintSystem() {
-		Iterator it = ExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyNode = (ExpNode) (it.next());
-			MyEngine.writeStdConstraint(MyNode);
+		
+		{
+			Iterator<ExpNode> it = ExpList.values().iterator();
+			while (it.hasNext()) {
+				ExpNode MyNode = it.next();
+				MyEngine.writeStdConstraint(MyNode);
+			}
 		}
 
-		Iterator itl = LHSimplicitExpList.values().iterator();
-		Iterator itr = RHSimplicitExpList.values().iterator();
+		Iterator<ExpNode> itl = LHSimplicitExpList.values().iterator();
+		Iterator<ExpNode> itr = RHSimplicitExpList.values().iterator();
 
 		while (itl.hasNext()) {
-			ExpNode LHS = (ExpNode) (itl.next());
-			ExpNode RHS = (ExpNode) (itr.next());
-			MyEngine.writeImplicitConstraint(LHS, RHS);
+			ExpNode lhs = itl.next();
+			ExpNode rhs = itr.next();
+			MyEngine.writeImplicitConstraint(lhs, rhs);
 		}
 
 		if (GeomEngine.CurSyntax != EngineConstants.SYNTAX_AMPL_LIKE) {
-			it = AlphaVarList.values().iterator();
+			Iterator<ASGNode> it = AlphaVarList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode MyNode = (ASGNode) (it.next());
+				ASGNode MyNode = it.next();
 				IntObj SelfAlloc = (IntObj) (MyNode.getRefCon());
 				if ((SelfAlloc.value & DepictorPort.SELF_ALLOC_ENGINE_IGNORE) != 0)
 					MyEngine.printDomain(MyNode.getStr(), MyNode.getDomain());
@@ -767,10 +769,10 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 	* Writes the I/O definitions associated with the DynRunner.
 	*/
 	public void writeSystemIODefs() {
-		Iterator it = AlphaVarList.values().iterator();
+		Iterator<ASGNode> it = AlphaVarList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode MyNode = (ASGNode) (it.next());
+			ASGNode MyNode = it.next();
 			IntObj SelfAlloc = (IntObj) (MyNode.getRefCon());
 			if ((SelfAlloc.value & DepictorPort.SELF_ALLOC_ENGINE_IGNORE) != 0)
 				MyEngine.printIODef(MyNode);
@@ -782,10 +784,10 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 	* Writes the norm. minimizers associated with the DynRunner.
 	*/
 	public void writeSystemMinimizers() {
-		Iterator it = AlphaVarList.values().iterator();
+		Iterator<ASGNode> it = AlphaVarList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode MyNode = (ASGNode) (it.next());
+			ASGNode MyNode = it.next();
 			IntObj SelfAlloc = (IntObj) (MyNode.getRefCon());
 			if ((SelfAlloc.value & DepictorPort.SELF_ALLOC_ENGINE_IGNORE) != 0)
 				MyEngine.writeNextMinimizer(MyNode.getStr(), MyNode.getIODef(), MyNode.getMvec());

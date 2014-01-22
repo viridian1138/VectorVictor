@@ -163,12 +163,12 @@ import meta.VersionBuffer;
 * A hash map for {@link ExpNode} objects.
 * @author Thorn Green
 */
-public class ExprHashMap extends HashMap implements Externalizable {
+public class ExprHashMap extends HashMap<FlexString,ExpNode> implements Externalizable {
 	/**
 	* Gets the {@link ExpNode} with tag <code>in</code>.
 	*/
 	public ExpNode getExp(FlexString in) {
-		return ((ExpNode) (get(in)));
+		return (get(in));
 	};
 
 	/**
@@ -179,17 +179,17 @@ public class ExprHashMap extends HashMap implements Externalizable {
 	}
 
 	/**
-	* Inserts a new node with tag <code>Tag</code>.
+	* Inserts a new node with tag <code>tag</code>.
 	*/
-	public void insertNode(FlexString Tag) {
-		ExpNode MyNode = getExp(Tag);
+	public void insertNode(FlexString tag) {
+		ExpNode myNode = getExp(tag);
 
-		if (MyNode == null) {
-			MyNode = new ExpNode();
-			FlexString MyStr = Tag;
+		if (myNode == null) {
+			myNode = new ExpNode();
+			FlexString myStr = tag;
 
-			MyStr.copyString(MyNode.getVarName());
-			putExp(MyNode);
+			myStr.copyString(myNode.getVarName());
+			putExp(myNode);
 		}
 	}
 
@@ -197,11 +197,11 @@ public class ExprHashMap extends HashMap implements Externalizable {
 	* Writes the object to persistent storage.
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
-		Vector v = new Vector();
-		Iterator it = values().iterator();
+		Vector<ExpNode> v = new Vector<ExpNode>();
+		Iterator<ExpNode> it = values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode exp = (ExpNode) (it.next());
+			ExpNode exp = it.next();
 			v.setSize(v.size() + 1);
 			v.setElementAt(exp, v.size() - 1);
 		}
