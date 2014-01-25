@@ -221,6 +221,21 @@ protected void addCreateKeyboardListeners( Dialog dialog )
 	
 	
 	
+	final OnClickListener createVarListener = new OnClickListener()
+	{
+		public void onClick(final View arg0) {
+			activity.playClick();
+			Model model = FreeKit.getModelManager();
+			VarCreateDialog dialog = new VarCreateDialog( model , FreeKit );
+			dialog.showVarDialog( activity );
+		}
+	};
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -233,6 +248,12 @@ protected void addCreateKeyboardListeners( Dialog dialog )
 	{
 		Button button = (Button)( dialog.findViewById( R.id.createSymButton ) );
 		button.setOnClickListener( createSymListener );
+	}
+	
+	
+	{
+		Button button = (Button)( dialog.findViewById( R.id.createVarButton ) );
+		button.setOnClickListener( createVarListener );
 	}
 	
 	
