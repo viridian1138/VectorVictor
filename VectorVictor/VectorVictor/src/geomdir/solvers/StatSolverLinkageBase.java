@@ -116,7 +116,7 @@ import geomdir.engine.ExprHashMap;
 
 import java.util.Iterator;
 
-import meta.HighLevelList;
+import meta.*;
 
 
 
@@ -197,10 +197,11 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 		dynLHSimplicitExpList.eraseAllInfo();
 		dynRHSimplicitExpList.eraseAllInfo();
 
-		Iterator it = alphaVarMap.values().iterator();
+		{
+		Iterator<ASGNode> it = alphaVarMap.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			asg.getMvec().mcpy(asg.getMinimizationMvec());
 			totAlphaVarList.insertRight(asg);
 
@@ -215,7 +216,7 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 			it = dynAlphaVarMap.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode asg = (ASGNode) (it.next());
+				ASGNode asg = it.next();
 				asg.getMvec().mcpy(asg.getMinimizationMvec());
 				totDynAlphaVarList.insertRight(asg);
 
@@ -226,14 +227,16 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 				}
 			}
 		}
+		}
 
+		Iterator<FlexString> it;
 		if (lHSimplicitExpMap != null) {
 			it = lHSimplicitExpMap.keySet().iterator();
 
 			while (it.hasNext()) {
-				Object key = it.next();
-				ExpNode left = (ExpNode) (lHSimplicitExpMap.get(key));
-				ExpNode right = (ExpNode) (rHSimplicitExpMap.get(key));
+				FlexString key = it.next();
+				ExpNode left = lHSimplicitExpMap.get(key);
+				ExpNode right = rHSimplicitExpMap.get(key);
 				lHSimplicitExpList.insertRight(left);
 				rHSimplicitExpList.insertRight(right);
 				numEqn++;
@@ -244,9 +247,9 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 			it = dynLHSimplicitExpMap.keySet().iterator();
 
 			while (it.hasNext()) {
-				Object key = it.next();
-				ExpNode left = (ExpNode) (dynLHSimplicitExpMap.get(key));
-				ExpNode right = (ExpNode) (dynRHSimplicitExpMap.get(key));
+				FlexString key = it.next();
+				ExpNode left = dynLHSimplicitExpMap.get(key);
+				ExpNode right = dynRHSimplicitExpMap.get(key);
 				dynLHSimplicitExpList.insertRight(left);
 				dynRHSimplicitExpList.insertRight(right);
 				numEqn++;
@@ -308,9 +311,9 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 	protected final int getMstackSpaceRequired(final ExprHashMap in) {
 		int mSpace = 0;
 		if (in != null) {
-			Iterator it = in.values().iterator();
+			Iterator<ExpNode> it = in.values().iterator();
 			while (it.hasNext()) {
-				ExpNode exp = (ExpNode) (it.next());
+				ExpNode exp = it.next();
 				mSpace = Math.max(exp.getMstackSpaceRequired(), mSpace);
 			}
 		}

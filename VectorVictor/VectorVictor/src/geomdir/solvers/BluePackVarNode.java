@@ -213,34 +213,37 @@ public class BluePackVarNode extends Object {
 	}
 
 	public void unifyTo(BluePackVarNode out, boolean negate) {
-		Iterator it = refSet.iterator();
+		{
+		Iterator<ObjObj> it = refSet.iterator();
 		while (it.hasNext()) {
-			ObjObj ob = (ObjObj) (it.next());
+			ObjObj ob = it.next();
 			ob.value = out;
 			out.addRef(ob);
 		}
+		}
 
+		Iterator<ASGNode> it;
 		if (negate) {
 			it = asgCpySet.iterator();
 			while (it.hasNext()) {
-				out.addASGMnsRaw((ASGNode) (it.next()));
+				out.addASGMnsRaw(it.next());
 			}
 
 			it = asgMnsSet.iterator();
 			while (it.hasNext()) {
-				out.addASGCpyRaw((ASGNode) (it.next()));
+				out.addASGCpyRaw(it.next());
 			}
 
 		}
 		else {
 			it = asgCpySet.iterator();
 			while (it.hasNext()) {
-				out.addASGCpyRaw((ASGNode) (it.next()));
+				out.addASGCpyRaw(it.next());
 			}
 
 			it = asgMnsSet.iterator();
 			while (it.hasNext()) {
-				out.addASGMnsRaw((ASGNode) (it.next()));
+				out.addASGMnsRaw(it.next());
 			}
 
 		}
@@ -253,15 +256,15 @@ public class BluePackVarNode extends Object {
 
 	}
 
-	public Iterator getASGCpyIterator() {
+	public Iterator<ASGNode> getASGCpyIterator() {
 		return (asgCpySet.iterator());
 	}
 
-	public Iterator getASGMnsIterator() {
+	public Iterator<ASGNode> getASGMnsIterator() {
 		return (asgMnsSet.iterator());
 	}
 
-	public Iterator getRefIterator() {
+	public Iterator<ObjObj> getRefIterator() {
 		return (refSet.iterator());
 	}
 
@@ -292,44 +295,44 @@ public class BluePackVarNode extends Object {
 
 	public void crossBuildAsgn(HighLevelList outputList) {
 		if (predMns) {
-			Iterator it = asgMnsSet.iterator();
+			Iterator<ASGNode> it = asgMnsSet.iterator();
 			ASGNode inputNode = null;
 
 			if (it.hasNext()) {
-				inputNode = (ASGNode) (it.next());
+				inputNode = it.next();
 				addNodeToList(predExp, inputNode, outputList);
 			}
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				addNodeToList(inputNode, nd, false, outputList);
 			}
 
 			it = asgCpySet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				addNodeToList(inputNode, nd, true, outputList);
 			}
 		}
 		else {
-			Iterator it = asgCpySet.iterator();
+			Iterator<ASGNode> it = asgCpySet.iterator();
 			ASGNode inputNode = null;
 
 			if (it.hasNext()) {
-				inputNode = (ASGNode) (it.next());
+				inputNode = it.next();
 				addNodeToList(predExp, inputNode, outputList);
 			}
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				addNodeToList(inputNode, nd, false, outputList);
 			}
 
 			it = asgMnsSet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				addNodeToList(inputNode, nd, true, outputList);
 			}
 		}
@@ -345,13 +348,13 @@ public class BluePackVarNode extends Object {
 	* inputMvec in a way that emulates Herculaneum.
 	*/
 	public void oneShotEval() {
-		Iterator it = asgCpySet.iterator();
+		Iterator<ASGNode> it = asgCpySet.iterator();
 		Mvec inputMvec = null;
 		boolean negateInput = false;
 		boolean foundInput = false;
 
 		if (it.hasNext()) {
-			ASGNode inputNode = (ASGNode) (it.next());
+			ASGNode inputNode = it.next();
 			inputMvec = inputNode.getMvec();
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
@@ -369,7 +372,7 @@ public class BluePackVarNode extends Object {
 		}
 
 		while (it.hasNext()) {
-			ASGNode inputNode = (ASGNode) (it.next());
+			ASGNode inputNode = it.next();
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
 					inputNode = inputNode.getDynCousin();
@@ -390,7 +393,7 @@ public class BluePackVarNode extends Object {
 		it = asgMnsSet.iterator();
 
 		while (it.hasNext()) {
-			ASGNode inputNode = (ASGNode) (it.next());
+			ASGNode inputNode = it.next();
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
 					inputNode = inputNode.getDynCousin();
@@ -412,7 +415,7 @@ public class BluePackVarNode extends Object {
 			it = asgCpySet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec) {
 					inputMvec.mcpy(outputMvec);
@@ -423,7 +426,7 @@ public class BluePackVarNode extends Object {
 			it = asgMnsSet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec)
 					inputMvec.mcpy(outputMvec);
@@ -433,7 +436,7 @@ public class BluePackVarNode extends Object {
 			it = asgCpySet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec)
 					inputMvec.mcpy(outputMvec);
@@ -442,7 +445,7 @@ public class BluePackVarNode extends Object {
 			it = asgMnsSet.iterator();
 
 			while (it.hasNext()) {
-				ASGNode nd = (ASGNode) (it.next());
+				ASGNode nd = it.next();
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec) {
 					inputMvec.mcpy(outputMvec);
@@ -477,8 +480,8 @@ public class BluePackVarNode extends Object {
 	protected int predExpCount = 0;
 	protected ExpNode predExp = null;
 	protected boolean predMns = false;
-	protected HashSet refSet = new HashSet();
-	protected HashSet asgCpySet = new HashSet();
-	protected HashSet asgMnsSet = new HashSet();
+	protected HashSet<ObjObj> refSet = new HashSet<ObjObj>();
+	protected HashSet<ASGNode> asgCpySet = new HashSet<ASGNode>();
+	protected HashSet<ASGNode> asgMnsSet = new HashSet<ASGNode>();
 	protected ObjObj firstRef = new ObjObj();
 }

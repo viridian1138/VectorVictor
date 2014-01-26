@@ -1439,11 +1439,11 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 				}
 			}
 
-		Iterator it = in.iterator();
+		Iterator<DGMNode> it = in.iterator();
 
 		while( it.hasNext() )
 			{
-			DGMNode MyNode = (DGMNode)( it.next() );
+			DGMNode MyNode = it.next();
 			deleteClipElement( MyNode.getMyDraw() );
 			}
 
@@ -3039,12 +3039,12 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			int InDomain = ( in.vectGetEntDomain() )
 				| ( ( in.vectGetExtDomain() ).value );
 			int SampDomain = 0;
-			Iterator it = fragMap.values().iterator();
+			Iterator<DGMNode> it = fragMap.values().iterator();
 			boolean Done = false;
 
 			while( !Done )
 				{
-				DGMNode MyDGM = (DGMNode)( it.next() );
+				DGMNode MyDGM = it.next();
 				DrawObj node = MyDGM.getMyDraw();
 
 				if( node != in )
@@ -3262,11 +3262,11 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		{
 		boolean ExtOK = true;
 
-		Iterator it = in.iterator();
+		Iterator<DGMNode> it = in.iterator();
 
 		while( it.hasNext() )
 			{
-			DGMNode MyNode = (DGMNode)( it.next() );
+			DGMNode MyNode = it.next();
 			DrawObj MyObj = MyNode.getMyDraw();
 
 			FragNode MyFrag = getVarList().getFrag( MyObj.getVectName() );
@@ -3292,11 +3292,11 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		ClipSet TmpClip = new ClipSet();
 		Staque MyQ = new Staque();
 		
-		Iterator it = Clipboard.iterator();
+		Iterator<DGMNode> it = Clipboard.iterator();
 
 		while( it.hasNext() )
 			{
-			DGMNode Tmp = (DGMNode)( it.next() );
+			DGMNode Tmp = it.next();
 			/* TmpClip.insertNode( Tmp ); */
 			MyQ.enq( Tmp );
 			}
@@ -3330,10 +3330,10 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		int FndCnt = 0;
 		DGMNode RetObj = null;
 
-		Iterator it = ExprClipboard.iterator();
+		Iterator<DGMNode> it = ExprClipboard.iterator();
 		while( it.hasNext() )
 			{
-			DGMNode MyNode = (DGMNode)( it.next() );
+			DGMNode MyNode = it.next();
 			DrawObj MyDraw = MyNode.getMyDraw();
 			if( checkDepictorTypeMatch( MyDraw ) )
 				{
@@ -3358,12 +3358,12 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		InStr.setInsertPoint( 0 );
 		int FndCnt = 0;
 
-		Iterator it = ExprClipboard.iterator();
+		Iterator<DGMNode> it = ExprClipboard.iterator();
 		
 		while( it.hasNext() )
 			{
 			System.out.println( "Entered Inner Loop." );
-			DGMNode MyNode = (DGMNode)( it.next() );
+			DGMNode MyNode = it.next();
 			DrawObj MyDraw = MyNode.getMyDraw();
 			if( checkDepictorTypeMatch( MyDraw ) )
 				{
@@ -3386,11 +3386,11 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		System.out.println( "Paste Into Model" );
 		
 
-		Iterator it = ExprClipboard.iterator();
+		Iterator<DGMNode> it = ExprClipboard.iterator();
 
 		while( it.hasNext() )
 			{
-			DGMNode MyNode = (DGMNode)( it.next() );
+			DGMNode MyNode = it.next();
 			DrawObj MyObj = MyNode.getMyDraw();
 			
 			FragNode MyFrag = getVarList().getFrag( MyObj.getVectName() );

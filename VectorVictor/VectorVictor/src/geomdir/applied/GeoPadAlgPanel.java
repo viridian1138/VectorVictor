@@ -315,7 +315,7 @@ public class GeoPadAlgPanel extends View implements PropertyChangeListener , Eth
 	public void localClearModel( )
 		{
 		CurIndex = 1;
-		AlgLines = new Vector();
+		algLines = new Vector<AlgNode>();
 		
 		TmpVisRect = null;
 		requestLayout(); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -363,7 +363,7 @@ public class GeoPadAlgPanel extends View implements PropertyChangeListener , Eth
 		FontMetrics fm = p.getFontMetrics();
 		int StIndex = updateCacheStartIndex( MyRect.top ) - 1;
 		int EndIndex = updateCacheEndIndex( MyRect.bottom ) - 1;
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 		int count;
 
 		if( StIndex < 0 ) StIndex = 0; /* Kluge */
@@ -407,7 +407,7 @@ public class GeoPadAlgPanel extends View implements PropertyChangeListener , Eth
 			if( index < sz )
 				{
 				double xp = fm.descent + p.measureText( Prompt );
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( index ) );
+				AlgNode MyNode = algLines.elementAt( index );
 				MathImage MyIm = MyNode.getMathImage();
 				p.setColor( GreenIndex );
 				p.setTextSize( LineFont.getTextSize() );
@@ -561,8 +561,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 
 	if( ( LineNum >= 0 ) && ( LineNum < CurIndex ) )
 		{
-		Object myo = AlgLines.elementAt( LineNum );
-		AlgNode MyNode = (AlgNode)( myo );
+		AlgNode MyNode = algLines.elementAt( LineNum );
 		dpc = MyNode.getAlgDepics();
 		/* FlexString MyStr = img.getStr(); */
 		}
@@ -578,7 +577,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		{
 		CurIndex++;
 
-		AlgNode MyNode = (AlgNode)( AlgLines.elementAt( CurIndex - 1 ) );
+		AlgNode MyNode = algLines.elementAt( CurIndex - 1 );
 		MathImage img = MyNode.getMathImage();
 		DrawObj dpc = MyNode.getAlgDepics();
 		double lnh = MyNode.getLineHeightFactor();
@@ -610,13 +609,13 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		if( InObj != null )
 			MyC = InObj.getTextColor();
 
-		if( ( CurIndex + 1 ) > AlgLines.size() ) 
+		if( ( CurIndex + 1 ) > algLines.size() ) 
 			{
-			AlgLines.setSize( CurIndex + 1 );
-			AlgLines.setElementAt( new AlgNode( ) , CurIndex );
+			algLines.setSize( CurIndex + 1 );
+			algLines.setElementAt( new AlgNode( ) , CurIndex );
 			}
 
-		AlgNode MyNode = (AlgNode)( AlgLines.elementAt( CurIndex ) );
+		AlgNode MyNode = algLines.elementAt( CurIndex );
 		Paint p = new Paint( LineFont );
 		p.setAntiAlias( getAntialiasValue().isAntiAlias() );
 		MathImage img = new MathImage( InLine , 
@@ -636,7 +635,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 			} ); }
 			}
 
-		AlgLines.setElementAt( MyNode , CurIndex );
+		algLines.setElementAt( MyNode , CurIndex );
 		updateLineHeight( CurIndex );
 		
 		TmpVisRect = null;
@@ -733,10 +732,10 @@ public DrawObj getAlgPanelDepic( int LineNum )
 	public boolean chkValidLine( int idex )
 		{
 		boolean ret = false;
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 		if( idex < sz )
 			{
-			AlgNode MyNode = (AlgNode)( AlgLines.elementAt( idex ) );
+			AlgNode MyNode = algLines.elementAt( idex );
 			ret = MyNode != null;
 			}
 
@@ -749,11 +748,11 @@ public DrawObj getAlgPanelDepic( int LineNum )
 */
 	protected void chgLineHeight( int idex , double LineHeightFactor , boolean locked )
 		{
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 
 		if( idex < sz )
 			{
-			AlgNode MyNode = (AlgNode)( AlgLines.elementAt( idex ) );
+			AlgNode MyNode = algLines.elementAt( idex );
 			MyNode.setLineHeightFactor( LineHeightFactor , locked );
 			updateLineHeight( idex );
 			
@@ -790,19 +789,19 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		{
 		int count;
 		double start = 0;
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 
 		if( sz > 0 )
 			{
 			if( idex > 1 )
 				{
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( idex - 1 ) );
+				AlgNode MyNode = algLines.elementAt( idex - 1 );
 				start = MyNode.getLineEnd();
 				}
 
 			for( count = idex ; count < sz ; ++count )
 				{
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( count ) );
+				AlgNode MyNode = algLines.elementAt( count );
 				MyNode.setLineStart( start );
 				start = MyNode.getLineEnd();
 				}
@@ -816,10 +815,10 @@ public DrawObj getAlgPanelDepic( int LineNum )
 	protected double getAlgLineHeight( int idex )
 		{
 		double ret = DefaultLineHeight;
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 		if( idex < sz )
 			{
-			AlgNode MyNode = (AlgNode)( AlgLines.elementAt( idex ) );
+			AlgNode MyNode = algLines.elementAt( idex );
 			if( MyNode != null ) ret = MyNode.getLineHeight();
 			}
 
@@ -832,7 +831,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 */
 	protected double getAlgLineStart( int idex )
 		{
-		int sz = AlgLines.size();
+		int sz = algLines.size();
 		int chkidex = idex;
 		double ret = 0;
 
@@ -840,7 +839,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 			{
 			if( sz > 0 )
 				{
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( sz - 1 ) );
+				AlgNode MyNode = algLines.elementAt( sz - 1 );
 				if( MyNode != null ) ret = MyNode.getLineEnd();
 				ret = ret + DefaultLineHeight * ( idex - sz );
 				}
@@ -851,7 +850,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 			}
 			else
 			{
-			AlgNode MyNode = (AlgNode)( AlgLines.elementAt( idex ) );
+			AlgNode MyNode = algLines.elementAt( idex );
 			if( MyNode != null ) ret = MyNode.getLineStart();
 			}
 
@@ -960,14 +959,14 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		{
 		try
 			{
-			int size = AlgLines.size();
+			int size = algLines.size();
 			int count;
 
 			for( count = 0 ; count < size ; ++count )
 				{
 				Paint p = new Paint( LineFont );
 				p.setAntiAlias( getAntialiasValue().isAntiAlias() );
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( count ) );
+				AlgNode MyNode = algLines.elementAt( count );
 				if( MyNode != null )
 					{
 					MathImage MyImage = MyNode.getMathImage();
@@ -991,7 +990,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		double pageMark = 0.0;
 		int pageNum = 1;
 
-		int size = AlgLines.size();
+		int size = algLines.size();
 		int count;
 
 		for( count = 0 ; count < size ; ++count )
@@ -1067,7 +1066,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 			if( true )
 				{
 				int xp = fm.getMaxDescent() + fm.stringWidth( Prompt );
-				AlgNode MyNode = (AlgNode)( AlgLines.elementAt( index ) );
+				AlgNode MyNode = algLines.elementAt( index );
 				MathImage MyIm = MyNode.getMathImage();
 				g.setColor( GreenIndex );
 				g.setFont( LineFont );
@@ -1091,7 +1090,7 @@ public DrawObj getAlgPanelDepic( int LineNum )
 		double pageMark = 0.0;
 		int pageNum = 1;
 
-		int size = AlgLines.size();
+		int size = algLines.size();
 		int count;
 
 		for( count = 1 ; count < size ; ++count )
@@ -1268,8 +1267,8 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 			VersionBuffer.chkNul( myv );
 
 			CurIndex = myv.getInt( "CurIndex" );
-			AlgLines = (Vector)( myv.getProperty( "AlgLines" ) );
-			VersionBuffer.chkNul( AlgLines );
+			algLines = (Vector<AlgNode>)( myv.getProperty( "algLines" ) );
+			VersionBuffer.chkNul( algLines );
 			Integer tmpcol = (Integer)( myv.getProperty( "BkgndColor" ) );
 			VersionBuffer.chkNul( tmpcol );
 			setBackground( tmpcol );
@@ -1290,7 +1289,7 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 		/* VersionBuffer myv = new VersionBuffer( VersionBuffer.write );
 
 		myv.setInt( "CurIndex" ,  CurIndex );
-		myv.setProperty( "AlgLines" , AlgLines );
+		myv.setProperty( "algLines" , algLines );
 		myv.setProperty( "BkgndColor" , getBackground() );
 
 		out.writeObject( myv ); */
@@ -1501,7 +1500,7 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 	transient private Paint AntialiasValue = new Paint();
 
 	transient private int CurIndex = 1;
-	transient private Vector AlgLines = new Vector();
+	transient private Vector<AlgNode> algLines = new Vector<AlgNode>();
 	transient private int CacheStartIndex = 1;
 	transient private int CacheEndIndex = 1;
 	transient protected PropertyChangeSupport PropL = null;

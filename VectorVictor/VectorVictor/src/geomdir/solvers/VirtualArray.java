@@ -343,10 +343,10 @@ public class VirtualArray extends Object implements Externalizable {
 	*/
 	public VirtualArray(final ASGHashMap ASGList, final ASGHashMap DynASGList) {
 		int sz = 0;
-		Iterator it = ASGList.values().iterator();
+		Iterator<ASGNode> it = ASGList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			sz = countASG(asg, sz, false);
 		}
 
@@ -354,7 +354,7 @@ public class VirtualArray extends Object implements Externalizable {
 			it = DynASGList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode asg = (ASGNode) (it.next());
+				ASGNode asg = it.next();
 				sz = countASG(asg, sz, true);
 			}
 		}
@@ -365,7 +365,7 @@ public class VirtualArray extends Object implements Externalizable {
 		it = ASGList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode asg = (ASGNode) (it.next());
+			ASGNode asg = it.next();
 			idx = addSlots(asg, idx, false);
 		}
 
@@ -373,7 +373,7 @@ public class VirtualArray extends Object implements Externalizable {
 			it = DynASGList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode asg = (ASGNode) (it.next());
+				ASGNode asg = it.next();
 				idx = addSlots(asg, idx, true);
 			}
 		}

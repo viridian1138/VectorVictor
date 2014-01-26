@@ -217,11 +217,11 @@ public class DGPHashMap extends HashMap<FlexString,FragNode> implements External
 	* Writes the object to persistent storage.
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
-		Vector v = new Vector();
-		Iterator it = values().iterator();
+		Vector<FragNode> v = new Vector<FragNode>();
+		Iterator<FragNode> it = values().iterator();
 
 		while (it.hasNext()) {
-			FragNode DGP = (FragNode) (it.next());
+			FragNode DGP = it.next();
 			v.setSize(v.size() + 1);
 			v.setElementAt(DGP, v.size() - 1);
 		}

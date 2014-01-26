@@ -322,11 +322,11 @@ public class StatSolverExec extends Executor {
 		final double[] minimizationValues) {
 		int idx = 0;
 
-		Iterator it = ASGList.values().iterator();
+		Iterator<ASGNode> it = ASGList.values().iterator();
 		ASGNode asg;
 
 		while (it.hasNext()) {
-			asg = (ASGNode) (it.next());
+			asg = it.next();
 			idx =
 				addInitSlots(
 					asg,

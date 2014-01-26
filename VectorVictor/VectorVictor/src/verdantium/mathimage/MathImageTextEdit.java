@@ -1,16 +1,6 @@
-package verdantium.mathimage;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.Externalizable;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.TreeMap;
 
-import meta.DataFormatException;
-import meta.FlexString;
-import meta.VersionBuffer;
+
 
 
 //$$strtCprt
@@ -117,103 +107,36 @@ import meta.VersionBuffer;
 //$$endCprt
 
 
-/**
-*
-* --- SOURCE MODIFICATION LIST ---
-*
-* Please document all changes to this source file here.
-* Feel free to add rows if needed.
-*
-*
-*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
-*    | Date of Modification  |    Author of Modification                       |    Reason for Modification                                           |    Description of Modification (use multiple rows if needed)  ... 
-*    |-----------------------|-------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------...
-*    |                       |                                                 |                                                                      |
-*    | 9/24/2000             | Thorn Green (viridian_1138@yahoo.com)           | Needed to provide a standard way to document source file changes.    | Added a souce modification list to the documentation so that changes to the souce could be recorded. 
-*    | 10/22/2000            | Thorn Green (viridian_1138@yahoo.com)           | Methods did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
-*    | 10/29/2000            | Thorn Green (viridian_1138@yahoo.com)           | Classes did not have names that followed standard Java conventions.  | Performed a global modification to bring the names within spec.
-*    | 12/13/2001            | Thorn Green (viridian_1138@yahoo.com)           | Needed interface changes, and data improvements.                     | Changed interface, and removed OrderedList classes.
-*    | 05/10/2002            | Thorn Green (viridian_1138@yahoo.com)           | Redundant information in persistent storage.                         | Made numerous persistence and packaging changes.
-*    | 08/07/2004            | Thorn Green (viridian_1138@yahoo.com)           | Establish baseline for all changes in the last year.                 | Establish baseline for all changes in the last year.
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*    |                       |                                                 |                                                                      |
-*
-*
-*/
 
-/**
-* Defines an ordered list of symbols.
-* @author Thorn Green
-*/
-public class SymMap extends TreeMap<FlexString,SymListNode> implements Externalizable {
 
-	/**
-	* Constructs the tree map.
-	*/
-	public SymMap() {
-		super();
+package verdantium.mathimage;
+
+import com.postgreen.vectorvictor.R;
+
+import android.content.Context;
+import android.util.AttributeSet;
+
+public class MathImageTextEdit extends MathImagePopup /* DBN */ {
+
+	public MathImageTextEdit(Context context) {
+		super(context);
 	}
 
-	/**
-	* Gets the {@link SymListNode} with tag <code>in</code>.
-	*/
-	public SymListNode getSym(FlexString in) {
-		return (get(in));
-	};
-
-	/**
-	* Puts the object in <code>Tag</code> into the hash.
-	*/
-	public void putSym(FlexString tag) {
-		SymListNode myNode = new SymListNode();
-		tag.copyAllInfo(myNode.getTag());
-		put(myNode.getTag(), myNode);
+	public MathImageTextEdit(Context context, AttributeSet attrs) {
+		super(context, attrs);
 	}
 
-	/**
-	* Writes the object to persistent storage.
-	*/
-	public void writeExternal(ObjectOutput out) throws IOException {
-		/* Vector v = new Vector<SymListNode>();
-		Iterator<SymListNode> it = values().iterator();
-
-		while (it.hasNext()) {
-			SymListNode sym = it.next();
-			v.setSize(v.size() + 1);
-			v.setElementAt(sym, v.size() - 1);
-		}
-
-		VersionBuffer.tlWriteObject(out, v.toArray()); */
+	public MathImageTextEdit(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
 	}
-
-	/**
-	* Reads the object from persistent storage.
-	*/
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		/* try {
-			Object[] v = (Object[]) (VersionBuffer.tlReadObject(in));
-			VersionBuffer.chkNul(v);
-			int sz = v.length;
-			int count;
-			for (count = 0; count < sz; ++count) {
-				SymListNode sym = (SymListNode) (v[count]);
-				VersionBuffer.chkNul(sym);
-				put(sym.getTag(), sym);
-			}
-		}
-		catch (ClassCastException e) {
-			throw (new DataFormatException(e));
-		} */
+	
+	@Override
+	public void onMeasure( int x , int y )
+	{
+		setMeasuredDimension(
+				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_textedit_horiz_size ),
+				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_textedit_vert_size ) );
 	}
+	
 
 }

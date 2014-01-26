@@ -169,7 +169,7 @@ import meta.VersionBuffer;
 public abstract class SolverLinkage extends Object implements Externalizable {
 	/**
 	* Links the constraint set.  This is where a symbolic solver would do most
-	* of its work.  Takes in a list of global variables <code>AlphaVarList</code>,
+	* of its work.  Takes in a list of global variables <code>alphaVarList</code>,
 	* a list of DynRunner variables <code>DynAlphaVarList</code>, a list of
 	* global implicit expressions in <code>LHSimplicitExpList</code> and 
 	* <code>RHSimplicitExpList</code>, and a list of DynRunner implicit

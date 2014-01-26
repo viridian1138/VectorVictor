@@ -22,10 +22,12 @@ public final class R {
     public static final class dimen {
         public static final int mathimage_button_horiz_size=0x7f060002;
         public static final int mathimage_button_text_size=0x7f060000;
-        public static final int mathimage_button_vert_size=0x7f060004;
+        public static final int mathimage_button_vert_size=0x7f060005;
         public static final int mathimage_popup_horiz_size=0x7f060003;
         public static final int mathimage_popup_text_size=0x7f060001;
-        public static final int mathimage_popup_vert_size=0x7f060005;
+        public static final int mathimage_popup_vert_size=0x7f060006;
+        public static final int mathimage_textedit_horiz_size=0x7f060004;
+        public static final int mathimage_textedit_vert_size=0x7f060007;
     }
     public static final class drawable {
         public static final int icon=0x7f020000;

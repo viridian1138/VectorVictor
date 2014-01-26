@@ -142,6 +142,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import verdantium.mathimage.*;
 
 
 public class VarCreateDialog {
@@ -173,7 +174,7 @@ public class VarCreateDialog {
 	
 	private Spinner createScriptSpinner;
 	
-	private TextView createVarEditField;
+	private MathImageTextEdit createVarEditField;
 	
 	
 	
@@ -197,7 +198,7 @@ public class VarCreateDialog {
             
            
            
-           createVarEditField = (TextView)( dialog.findViewById( R.id.createVarEditField ) );
+           createVarEditField = (MathImageTextEdit)( dialog.findViewById( R.id.createVarEditField ) );
 
            
            final Button createInsertSymbolButton = (Button)( dialog.findViewById( R.id.createInsertSymbolButton ) );

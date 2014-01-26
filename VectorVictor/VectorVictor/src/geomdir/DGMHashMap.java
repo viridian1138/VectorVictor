@@ -203,13 +203,13 @@ public class DGMHashMap extends HashMap<FlexString,DGMNode> implements Externali
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
 		Vector<DGMNode> v = new Vector<DGMNode>();
-		Iterator it = values().iterator();
+		Iterator<DGMNode> it = values().iterator();
 
 		v.setSize(v.size() + 1);
 		v.setElementAt(firstNode, 0);
 
 		while (it.hasNext()) {
-			DGMNode dgm = (DGMNode) (it.next());
+			DGMNode dgm = it.next();
 			v.setSize(v.size() + 1);
 			v.setElementAt(dgm, v.size() - 1);
 		}

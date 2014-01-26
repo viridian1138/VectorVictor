@@ -200,16 +200,18 @@ public class BlueTohVarNode extends Object {
 	}
 
 	public void unifyTo(BlueTohVarNode out) {
-		Iterator it = refSet.iterator();
+		{
+		Iterator<ObjObj> it = refSet.iterator();
 		while (it.hasNext()) {
-			ObjObj ob = (ObjObj) (it.next());
+			ObjObj ob = it.next();
 			ob.value = out;
 			out.addRef(ob);
 		}
+		}
 
-		it = asgSet.iterator();
+		Iterator<ASGNode> it = asgSet.iterator();
 		while (it.hasNext()) {
-			out.addASGRaw((ASGNode) (it.next()));
+			out.addASGRaw( it.next() );
 		}
 
 		out.setPredExpCount(predExpCount + out.getPredExpCount());
@@ -217,11 +219,11 @@ public class BlueTohVarNode extends Object {
 			out.setPredExp(predExp);
 	}
 
-	public Iterator getASGIterator() {
+	public Iterator<ASGNode> getASGIterator() {
 		return (asgSet.iterator());
 	}
 
-	public Iterator getRefIterator() {
+	public Iterator<ObjObj> getRefIterator() {
 		return (refSet.iterator());
 	}
 
@@ -243,16 +245,16 @@ public class BlueTohVarNode extends Object {
 	}
 
 	public void crossBuildAsgn(HighLevelList outputList) {
-		Iterator it = asgSet.iterator();
+		Iterator<ASGNode> it = asgSet.iterator();
 		ASGNode inputNode = null;
 
 		if (it.hasNext()) {
-			inputNode = (ASGNode) (it.next());
+			inputNode = it.next();
 			addNodeToList(predExp, inputNode, outputList);
 		}
 
 		while (it.hasNext()) {
-			ASGNode nd = (ASGNode) (it.next());
+			ASGNode nd = it.next();
 			addNodeToList(inputNode, nd, outputList);
 		}
 
@@ -267,12 +269,12 @@ public class BlueTohVarNode extends Object {
 	* inputMvec in a way that emulates Herculaneum.
 	*/
 	public void oneShotEval() {
-		Iterator it = asgSet.iterator();
+		Iterator<ASGNode> it = asgSet.iterator();
 		Mvec inputMvec = null;
 		boolean foundInput = false;
 
 		if (it.hasNext()) {
-			ASGNode inputNode = (ASGNode) (it.next());
+			ASGNode inputNode = it.next();
 			inputMvec = inputNode.getMvec();
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
@@ -286,7 +288,7 @@ public class BlueTohVarNode extends Object {
 		}
 
 		while (it.hasNext()) {
-			ASGNode inputNode = (ASGNode) (it.next());
+			ASGNode inputNode = it.next();
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
 					inputNode = inputNode.getDynCousin();
@@ -305,7 +307,7 @@ public class BlueTohVarNode extends Object {
 		it = asgSet.iterator();
 
 		while (it.hasNext()) {
-			ASGNode nd = (ASGNode) (it.next());
+			ASGNode nd = it.next();
 			Mvec outputMvec = nd.getMvec();
 			if (outputMvec != inputMvec)
 				inputMvec.mcpy(outputMvec);
@@ -331,7 +333,7 @@ public class BlueTohVarNode extends Object {
 
 	protected int predExpCount = 0;
 	protected ExpNode predExp = null;
-	protected HashSet refSet = new HashSet();
-	protected HashSet asgSet = new HashSet();
+	protected HashSet<ObjObj> refSet = new HashSet<ObjObj>();
+	protected HashSet<ASGNode> asgSet = new HashSet<ASGNode>();
 	protected ObjObj firstRef = new ObjObj();
 }

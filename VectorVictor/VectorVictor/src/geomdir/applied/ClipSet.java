@@ -111,8 +111,14 @@
 
 package geomdir.applied;
 
-import java.util.*;
-import geomdir.*;
+import geomdir.DGMNode;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
+
+import meta.FlexString;
 
 
 
@@ -159,20 +165,18 @@ import geomdir.*;
 *
 * @author Thorn Green
 */
-public class ClipSet extends Object implements Set
+public class ClipSet extends Object implements Set<DGMNode>
 	{
 /**
 * The map containing the set relations.
 */
-	private TreeMap map = new TreeMap();
+	private TreeMap<FlexString,DGMNode> map = new TreeMap<FlexString,DGMNode>();
 
 /**
 * Adds an element to the set.
 */
-	public boolean add(Object o) 
+	public boolean add(DGMNode tg) 
 		{
-		DGMNode tg = (DGMNode) o;
-
 		if( contains( tg ) )
 			return( false );
 
@@ -183,13 +187,13 @@ public class ClipSet extends Object implements Set
 /**
 * Adds a collection of elements to the set.
 */
-	public boolean addAll(Collection c)
+	public boolean addAll(Collection<? extends DGMNode> c)
 		{
 		boolean ret = false;
-		Iterator it = c.iterator();
+		Iterator<? extends DGMNode> it = c.iterator();
 		while( it.hasNext() )
 			{
-			DGMNode nd = (DGMNode)( it.next() );
+			DGMNode nd = it.next();
 			boolean rt = add( nd );
 			ret = ret || rt;
 			}
@@ -214,10 +218,10 @@ public class ClipSet extends Object implements Set
 /**
 * Returns true iff. the set contains all objects in the collection.
 */
-	public boolean containsAll(Collection c)
+	public boolean containsAll(Collection<?> c)
 		{
 		boolean cont = true;
-		Iterator it = c.iterator();
+		Iterator<?> it = c.iterator();
 		while( cont && it.hasNext() )
 			{
 			DGMNode nd = (DGMNode)( it.next() );
@@ -233,7 +237,7 @@ public class ClipSet extends Object implements Set
 		{
 		if( o instanceof Set )
 			{
-			Set st = (Set) o;
+			Set<?> st = (Set<?>) o;
 			return( ( size() == st.size() ) && containsAll( st ) );
 			}
 
@@ -246,10 +250,10 @@ public class ClipSet extends Object implements Set
 	public int hashCode() 
                 {
 		int val = 0;
-		Iterator it = map.keySet().iterator();
+		Iterator<FlexString> it = map.keySet().iterator();
 		while( it.hasNext() )
 			{
-			DGMNode nd = (DGMNode)( it.next() );
+			FlexString nd = it.next();
 			val += nd.hashCode();
 			}
 		return( val );
@@ -264,7 +268,7 @@ public class ClipSet extends Object implements Set
 /**
 * Returns an iterator for the set.
 */
-	public Iterator iterator()
+	public Iterator<DGMNode> iterator()
 		{ return( map.values().iterator() ); }
 
 /**
@@ -282,10 +286,10 @@ public class ClipSet extends Object implements Set
 /**
 * Removes a collection of objects from the set.
 */
-	public boolean removeAll(Collection c)
+	public boolean removeAll(Collection<?> c)
 		{
 		boolean ret = true; 
-		Iterator it = c.iterator();
+		Iterator<?> it = c.iterator();
 		while( it.hasNext() )
 			{
 			DGMNode nd = (DGMNode)( it.next() );
@@ -299,7 +303,7 @@ public class ClipSet extends Object implements Set
 /**
 * Not supported.
 */
-	public boolean retainAll(Collection c)
+	public boolean retainAll(Collection<?> c)
 		{ throw( new UnsupportedOperationException() ); }
 
 /**
@@ -317,8 +321,9 @@ public class ClipSet extends Object implements Set
 /**
 * Returns an array containing the set of objects matching the array type.
 */
-	public Object[] toArray( Object[] a )
-		{ return( map.values().toArray( a ) ); } 
+	public <T> T[] toArray(T[] arg0) 
+		{ return( map.values().toArray( arg0 ) ); }
+
 
 	}
 

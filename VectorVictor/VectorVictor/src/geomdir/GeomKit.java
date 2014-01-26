@@ -282,7 +282,7 @@ public class GeomKit
 
 	final static long BlinkInt = 250;
 
-	transient protected Vector geoTools = null;
+	transient protected Vector<Ktool> geoTools = null;
 
 	/**
 	*<B>Fun:</B> Initializes the state of the canvas.
@@ -492,12 +492,12 @@ public class GeomKit
 
 			int max = in.geoTools.size();
 			int count;
-			geoTools = new Vector();
+			geoTools = new Vector<Ktool>();
 			geoTools.setSize(max);
 			for (count = 0; count < max; ++count) {
 				if (in.geoTools.elementAt(count) != null)
 					try {
-						Ktool tool = (Ktool) (in.geoTools.elementAt(count));
+						Ktool tool = in.geoTools.elementAt(count);
 						if (tool.requiresReplication()) {
 							Ktool ntool = (Ktool) (tool.getClass().newInstance());
 							geoTools.setElementAt(ntool, count);
@@ -4073,18 +4073,18 @@ public class GeomKit
 	/**
 	* Gets the tool set for the view.
 	*/
-	public Vector getGeoTools() {
+	public Vector<Ktool> getGeoTools() {
 		return (geoTools);
 	}
 
 	protected final Ktool getGeoTool(int mode) {
-		return ((Ktool) (geoTools.elementAt(mode)));
+		return (geoTools.elementAt(mode));
 	}
 
 	/**
 	* Sets the tool set for the view.
 	*/
-	public void setGeoTools(Vector in) {
+	public void setGeoTools(Vector<Ktool> in) {
 		geoTools = in;
 		// setCursor(new Cursor((getGeoTool(PrevToolMode)).getCursorType()));
 		invalidate(); // postInvalidate();

@@ -326,7 +326,7 @@ public class GeoPadGeomPanel extends GeoPadKit implements EtherEventHandler
 		CurClickLine = 1;
 		DragLine = 1;
 		CurIndex = 1;
-		GeomNodes = new Vector();
+		geomNodes = new Vector<GeomNode>();
 
 		XOrigin.value = 0;
 		YOrigin.value = 0;
@@ -366,7 +366,7 @@ public class GeoPadGeomPanel extends GeoPadKit implements EtherEventHandler
 		FontMetrics fm = p.getFontMetrics();
 		int StIndex = updateCacheStartIndex( VRect.top ) - 1;
 		int EndIndex = updateCacheEndIndex( VRect.bottom ) - 1;
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 		int count;
 
 		if( StIndex < 0 ) StIndex = 0;  /* Kluge */
@@ -426,8 +426,8 @@ public class GeoPadGeomPanel extends GeoPadKit implements EtherEventHandler
 
 		g.save();
 		// g.clipRect( VRect.left, VRect.top, VRect.right, VRect.bottom, Region.Op.REPLACE );
-		( (Ktool)( geoTools.elementAt( getPrevToolMode() ) ) ).postDrawDepic( g , this );
-		( (Ktool)( geoTools.elementAt( getPrevToolMode() ) ) ).postDrawTools( g , p, this );
+		geoTools.elementAt( getPrevToolMode() ).postDrawDepic( g , this );
+		geoTools.elementAt( getPrevToolMode() ).postDrawTools( g , p, this );
 		g.restore();
 		
 		}
@@ -586,8 +586,8 @@ Performs a global to local coordinate conversion on the input Hexar.
 */
 	public void paintDepic( Canvas g , Paint p , int index , int xp , int yp )
 		{
-		int ThisMode = ( (Ktool)( geoTools.elementAt( getPrevToolMode() ) ) ).getDrawingMode( this );
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( index ) );
+		int ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
+		GeomNode MyNode = geomNodes.elementAt( index );
 		
 
 		setLineCoordSettings( index );
@@ -629,7 +629,7 @@ Redraws the depictional representation for a
 
 	{
 	boolean Done = false;
-	int ThisMode = ( (Ktool)( geoTools.elementAt( getPrevToolMode() ) ) ).getDrawingMode( this );
+	int ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
 	DrawObj LastClick = null;
 	DGMNode LastDGM = null;
 
@@ -673,13 +673,13 @@ Redraws the depictional representation for a
 */
 	public DGMNode localPullFromDrawingList( DrawObj MyObj )
 		{
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 		int count;
 		DGMNode MyNode = null;
 
 		for( count = 0 ; count < sz ; ++count )
 			{
-			GeomNode MyNode2 = (GeomNode)( GeomNodes.elementAt( count ) );
+			GeomNode MyNode2 = geomNodes.elementAt( count );
 
 			if( MyNode2 != null )
 				{
@@ -730,14 +730,14 @@ Redraws the depictional representation for a
 */
 	public void setCurrentPromptLine( DrawObj in , boolean SingleDepicOnly , double LineHeightFactor )
 		{
-		if( ( CurIndex + 1 ) > GeomNodes.size() )
+		if( ( CurIndex + 1 ) > geomNodes.size() )
 			{
-			GeomNodes.setSize( CurIndex + 1 );
-			GeomNodes.setElementAt( new GeomNode( ) , CurIndex );
+			geomNodes.setSize( CurIndex + 1 );
+			geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 			}
 
 
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+		GeomNode MyNode = geomNodes.elementAt( CurIndex );
 		MyNode.setOnlySingleDepic( SingleDepicOnly );
 		if( LineHeightFactor > 0.0 ) 
 			{
@@ -792,14 +792,14 @@ Redraws the depictional representation for a
 */
 	public void setCurrentPromptLine( Set in , boolean SingleDepicOnly , double LineHeightFactor )
 		{
-		if( ( CurIndex + 1 ) > GeomNodes.size() )
+		if( ( CurIndex + 1 ) > geomNodes.size() )
 			{
-			GeomNodes.setSize( CurIndex + 1 );
-			GeomNodes.setElementAt( new GeomNode( ) , CurIndex );
+			geomNodes.setSize( CurIndex + 1 );
+			geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 			}
 
 		HighLevelList MyH = new HighLevelList();
-		GeomNode MyNode2 = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+		GeomNode MyNode2 = geomNodes.elementAt( CurIndex );
 		MyNode2.setOnlySingleDepic( SingleDepicOnly );
 		if( LineHeightFactor > 0.0 ) 
 			{
@@ -895,12 +895,12 @@ Redraws the depictional representation for a
 	public boolean depictorOnPrompt( DrawObj in )
 		{
 		int count;
-		int len = GeomNodes.size();
+		int len = geomNodes.size();
 		boolean Found = false;
  
 		for( count = 1 ; count < len ; ++count )
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( count ) );
+			GeomNode MyNode = geomNodes.elementAt( count );
 			if( MyNode != null ) 
 				{
 				HighLevelList MyList = MyNode.getAlgLines();
@@ -916,10 +916,10 @@ Redraws the depictional representation for a
 */
 	public void clearBkgndDepics( )
 		{
-		if( GeomNodes.size() > 0 )
+		if( geomNodes.size() > 0 )
 			{
 			deConstrainAlgElements();
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+			GeomNode MyNode = geomNodes.elementAt( CurIndex );
 			MyNode.getAlgElements().erasePtrVal( );
 			}
 		}
@@ -1004,12 +1004,12 @@ Redraws the depictional representation for a
 		{
 		if( Add )
 			{
-			int sz = GeomNodes.size();
+			int sz = geomNodes.size();
 			int count;
 
 			for( count = 0 ; count < sz ; ++count )
 				{
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( count ) );
+				GeomNode MyNode = geomNodes.elementAt( count );
 				
 				if( MyNode != null )
 					{
@@ -1042,7 +1042,7 @@ Redraws the depictional representation for a
 		{
 		incrementCurrentLine( );
 
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex - 1 ) );
+		GeomNode MyNode = geomNodes.elementAt( CurIndex - 1 );
 		boolean scd = MyNode.getOnlySingleDepic();
 		double lnh = MyNode.getLineHeightFactor();
 		DrawObj myo = null;
@@ -1114,14 +1114,14 @@ Redraws the depictional representation for a
 	{
 /*	String del = ( new Double( delta_t ) ).toString();
 
-	try{ if( ( CurIndex + 1 ) > GeomNodes.size() )
+	try{ if( ( CurIndex + 1 ) > geomNodes.size() )
 		{
-		GeomNodes.setSize( CurIndex + 1 );
-		GeomNodes.setElementAt( new GeomNode( ) , CurIndex );
+		geomNodes.setSize( CurIndex + 1 );
+		geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 		updateLineHeight( CurIndex );
 		}
 
-	GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+	GeomNode MyNode = geomNodes.elementAt( CurIndex );
 	HighLevelList MyH = MyNode.getAlgLines();
 	HighLevelList MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
@@ -1183,14 +1183,14 @@ Redraws the depictional representation for a
 	public void localCreateRay( ) throws IllegalInputException
 	
 	{
-	try{ if( ( CurIndex + 1 ) > GeomNodes.size() )
+	try{ if( ( CurIndex + 1 ) > geomNodes.size() )
 		{
-		GeomNodes.setSize( CurIndex + 1 );
-		GeomNodes.setElementAt( new GeomNode( ) , CurIndex );
+		geomNodes.setSize( CurIndex + 1 );
+		geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 		updateLineHeight( CurIndex );
 		}
 
-	GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+	GeomNode MyNode = geomNodes.elementAt( CurIndex );
 	HighLevelList MyH = MyNode.getAlgLines();
 	HighLevelList MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
@@ -1232,14 +1232,14 @@ Redraws the depictional representation for a
 	public void localCreateLine( ) throws IllegalInputException
 	
 	{
-	if( ( CurIndex + 1 ) > GeomNodes.size() )
+	if( ( CurIndex + 1 ) > geomNodes.size() )
 		{
-		GeomNodes.setSize( CurIndex + 1 );
-		GeomNodes.setElementAt( new GeomNode( ) , CurIndex );
+		geomNodes.setSize( CurIndex + 1 );
+		geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 		updateLineHeight( CurIndex );
 		}
 
-	GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+	GeomNode MyNode = geomNodes.elementAt( CurIndex );
 	HighLevelList MyH = MyNode.getAlgLines();
 	HighLevelList MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
@@ -1278,13 +1278,13 @@ Redraws the depictional representation for a
 		{
 		int count;
 
-		if( GeomNodes.size() > 0 )
+		if( geomNodes.size() > 0 )
 			{
 			for( count = 1 ; count <= CurIndex ; ++count )
 				{
 				DrawObj MyDrw = null;	
 
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( count ) );
+				GeomNode MyNode = geomNodes.elementAt( count );
 
 				if( MyNode != null )
 					{
@@ -1313,13 +1313,13 @@ Redraws the depictional representation for a
 	public void centerCurrentLine( )
 		{
 
-		if( GeomNodes.size() > 0 )
+		if( geomNodes.size() > 0 )
 			{
 			int ind = CurIndex;
 				{
 				DrawObj MyDrw = null;	
 
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( ind ) );
+				GeomNode MyNode = geomNodes.elementAt( ind );
 
 				if( MyNode != null )
 					{
@@ -1420,7 +1420,7 @@ Redraws the depictional representation for a
 		{
 		if( InLine <= CurIndex )
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( InLine ) );
+			GeomNode MyNode = geomNodes.elementAt( InLine );
 			PointF MyPt = (PointF)( MyNode.getAlgLineCoord( ) );
 			orig_xval = (int) MyPt.x;
 			orig_yval = (int) MyPt.y;
@@ -1432,7 +1432,7 @@ Redraws the depictional representation for a
 */
 	protected final void setLineCoord( int InLine , DrawObj in )
 		{
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( InLine ) );
+		GeomNode MyNode = geomNodes.elementAt( InLine );
 		PointF MyPt = new PointF();
 
 		if( in == null )
@@ -1496,9 +1496,9 @@ Redraws the depictional representation for a
 		{
 		HighLevelList TryList = null;
 
-		if( CurClickLine < GeomNodes.size() ) 
+		if( CurClickLine < geomNodes.size() ) 
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurClickLine ) );
+			GeomNode MyNode = geomNodes.elementAt( CurClickLine );
 			if( MyNode != null ) TryList = MyNode.getAlgLines();
 			}
 
@@ -1551,7 +1551,7 @@ Redraws the depictional representation for a
 */
 	protected void constrainAlgElements( DrawObj PermObj )
 		{
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+		GeomNode MyNode = geomNodes.elementAt( CurIndex );
 		
 		if( MyNode != null )
 			{
@@ -1660,7 +1660,7 @@ Redraws the depictional representation for a
 */
 	protected void deConstrainAlgElements( )
 		{
-		GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( CurIndex ) );
+		GeomNode MyNode = geomNodes.elementAt( CurIndex );
 		
 		if( MyNode != null )
 			{
@@ -1744,10 +1744,10 @@ Redraws the depictional representation for a
 	public boolean chkValidLine( int idex )
 		{
 		boolean ret = false;
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 		if( idex < sz )
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( idex ) );
+			GeomNode MyNode = geomNodes.elementAt( idex );
 			ret = MyNode != null;
 			}
 
@@ -1760,11 +1760,11 @@ Redraws the depictional representation for a
 */
 	protected void chgLineHeight( int idex , double LineHeightFactor , boolean locked )
 		{
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 
 		if( idex < sz )
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( idex ) );
+			GeomNode MyNode = geomNodes.elementAt( idex );
 			MyNode.setLineHeightFactor( LineHeightFactor , locked );
 			updateLineHeight( idex );
 			synchronizeRendering();
@@ -1797,19 +1797,19 @@ Redraws the depictional representation for a
 		{
 		int count;
 		double start = 0;
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 
 		if( sz > 0 )
 			{
 			if( idex > 1 )
 				{
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( idex - 1 ) );
+				GeomNode MyNode = geomNodes.elementAt( idex - 1 );
 				start = MyNode.getLineEnd();
 				}
 
 			for( count = idex ; count < sz ; ++count )
 				{
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( count ) );
+				GeomNode MyNode = geomNodes.elementAt( count );
 				MyNode.setLineStart( start );
 				start = MyNode.getLineEnd();
 				}
@@ -1823,10 +1823,10 @@ Redraws the depictional representation for a
 	protected double getGeomLineHeight( int idex )
 		{
 		double ret = DefaultLineHeight;
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 		if( idex < sz )
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( idex ) );
+			GeomNode MyNode = geomNodes.elementAt( idex );
 			if( MyNode != null ) ret = MyNode.getLineHeight();
 			}
 
@@ -1839,7 +1839,7 @@ Redraws the depictional representation for a
 */
 	protected double getGeomLineStart( int idex )
 		{
-		int sz = GeomNodes.size();
+		int sz = geomNodes.size();
 		int chkidex = idex;
 		double ret = 0;
 
@@ -1847,7 +1847,7 @@ Redraws the depictional representation for a
 			{
 			if( sz > 0 )
 				{
-				GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( sz - 1 ) );
+				GeomNode MyNode = geomNodes.elementAt( sz - 1 );
 				if( MyNode != null ) ret = MyNode.getLineEnd();
 				ret = ret + DefaultLineHeight * ( idex - sz );
 				}
@@ -1858,7 +1858,7 @@ Redraws the depictional representation for a
 			}
 			else
 			{
-			GeomNode MyNode = (GeomNode)( GeomNodes.elementAt( idex ) );
+			GeomNode MyNode = geomNodes.elementAt( idex );
 			if( MyNode != null ) ret = MyNode.getLineStart();
 			}
 
@@ -1960,7 +1960,7 @@ Redraws the depictional representation for a
 		double pageMark = 0.0;
 		int pageNum = 1;
 
-		int size = GeomNodes.size();
+		int size = geomNodes.size();
 		int count;
 
 		for( count = 0 ; count < size ; ++count )
@@ -2060,7 +2060,7 @@ Redraws the depictional representation for a
 		double pageMark = 0.0;
 		int pageNum = 1;
 
-		int size = GeomNodes.size();
+		int size = geomNodes.size();
 		int count;
 
 		for( count = 1 ; count < size ; ++count )
@@ -2225,8 +2225,8 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 			VersionBuffer.chkNul( myv );
 
 			CurIndex = myv.getInt( "CurIndex" );
-			GeomNodes = (Vector)( myv.getProperty( "GeomNodes" ) );
-			VersionBuffer.chkNul( GeomNodes );
+			geomNodes = (Vector<GeomNode>)( myv.getProperty( "geomNodes" ) );
+			VersionBuffer.chkNul( geomNodes );
 			updateLineHeight( 1 );
 
 			myv.flush(); */
@@ -2244,7 +2244,7 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 		/* VersionBuffer myv = new VersionBuffer( VersionBuffer.write );
 
 		myv.setInt( "CurIndex" , CurIndex );
-		myv.setProperty( "GeomNodes" , GeomNodes );
+		myv.setProperty( "geomNodes" , geomNodes );
 
 		super.writeExternal( out );
 		out.writeObject( myv ); */
@@ -2360,7 +2360,7 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
 	private transient int CurClickLine = 1;
 	private transient int DragLine = 1;
 	private int CurIndex = 1;
-	private Vector GeomNodes = new Vector();
+	private Vector<GeomNode> geomNodes = new Vector<GeomNode>();
 	private int CacheStartIndex = 1;
 	private int CacheEndIndex = 1;
 	}

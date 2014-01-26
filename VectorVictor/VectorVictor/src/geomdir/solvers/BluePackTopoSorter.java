@@ -251,7 +251,7 @@ public class BluePackTopoSorter {
 	/**
 	* A hash map containing the set of all nodes to be sorted.
 	*/
-	protected final HashMap varHash = new HashMap();
+	protected final HashMap<ExpNode,BluePackTopoEntryNode> varHash = new HashMap<ExpNode,BluePackTopoEntryNode>();
 
 	/**
 	* A queue containing the set of nodes that are next on the to-be-sorted list.
@@ -281,12 +281,12 @@ public class BluePackTopoSorter {
 	/**
 	* Hash map containing all BluePack join nodes.
 	*/
-	protected HashMap bluePackJoinMap = new HashMap();
+	protected HashMap<ASGNode,ObjObj> bluePackJoinMap = new HashMap<ASGNode,ObjObj>();
 
 	/**
 	* Hash set containing all BluePack join nodes.
 	*/
-	protected HashSet bluePackVarSet = new HashSet();
+	protected HashSet<BluePackVarNode> bluePackVarSet = new HashSet<BluePackVarNode>();
 
 	/**
 	* Gets the output list.
@@ -325,8 +325,8 @@ public class BluePackTopoSorter {
 		ASGNode var1 = BluePackSolverLinkage.getDisambigASG(ivar1);
 		ASGNode var2 = BluePackSolverLinkage.getDisambigASG(ivar2);
 
-		ObjObj ref1 = (ObjObj) (bluePackJoinMap.get(var1));
-		ObjObj ref2 = (ObjObj) (bluePackJoinMap.get(var2));
+		ObjObj ref1 = bluePackJoinMap.get(var1);
+		ObjObj ref2 = bluePackJoinMap.get(var2);
 		if (ref1 != null) {
 			if (ref2 != null)
 				handleVarJoin(ref1, ref2, negate ^ isRefNegated(ref1, var1) ^ isRefNegated(ref2, var2));
@@ -360,9 +360,9 @@ public class BluePackTopoSorter {
 			BluePackVarNode blNode1 = (BluePackVarNode) (ref1.value);
 			BluePackVarNode blNode2 = (BluePackVarNode) (ref2.value);
 			blNode1.unifyTo(blNode2, negate);
-			Iterator it = blNode1.getRefIterator();
+			Iterator<ObjObj> it = blNode1.getRefIterator();
 			while (it.hasNext()) {
-				ObjObj ref = (ObjObj) (it.next());
+				ObjObj ref = it.next();
 				ref.value = blNode2;
 			}
 			bluePackVarSet.remove(blNode1);
@@ -380,10 +380,11 @@ public class BluePackTopoSorter {
 		inputCount = 0;
 		int mSpace = 0;
 
-		Iterator it = globalAsgList.values().iterator();
+		{
+		Iterator<ASGNode> it = globalAsgList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode myASG = (ASGNode) (it.next());
+			ASGNode myASG = it.next();
 			myASG.setAuxMark(0);
 			if (myASG.getDynCousin() != null)
 				myASG.getDynCousin().setAuxMark(BluePackSolverLinkage.UniqueCousinMark);
@@ -393,7 +394,7 @@ public class BluePackTopoSorter {
 			it = localAsgList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode myASG = (ASGNode) (it.next());
+				ASGNode myASG = it.next();
 				if (myASG.getDynCousin() == null)
 					myASG.setAuxMark(0);
 			}
@@ -402,7 +403,7 @@ public class BluePackTopoSorter {
 		it = globalAsgList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode myASG = (ASGNode) (it.next());
+			ASGNode myASG = it.next();
 			myASG.setAuxMark(0);
 			boolean trav = handleASGTraverseOneSide(myASG);
 			if (trav) {
@@ -417,7 +418,7 @@ public class BluePackTopoSorter {
 			it = localAsgList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode myASG = (ASGNode) (it.next());
+				ASGNode myASG = it.next();
 				boolean trav = handleASGTraverseOneSide(myASG);
 				if (trav) {
 					myASG.setAuxMark(myASG.getAuxMark() | BluePackSolverLinkage.ConstraintTraverseMark);
@@ -431,7 +432,7 @@ public class BluePackTopoSorter {
 		it = globalAsgList.values().iterator();
 
 		while (it.hasNext()) {
-			ASGNode myASG = (ASGNode) (it.next());
+			ASGNode myASG = it.next();
 			ExpNode myExp = null;
 			if ((myASG.getAuxMark() & BluePackSolverLinkage.ConstraintTraverseMark) == 0) {
 				myExp = getPredExpOneSideStrict(myASG);
@@ -444,7 +445,7 @@ public class BluePackTopoSorter {
 			it = localAsgList.values().iterator();
 
 			while (it.hasNext()) {
-				ASGNode myASG = (ASGNode) (it.next());
+				ASGNode myASG = it.next();
 				ExpNode myExp = null;
 				if ((myASG.getAuxMark() & BluePackSolverLinkage.ConstraintTraverseMark) == 0) {
 					myExp = getPredExpOneSideStrict(myASG);
@@ -454,11 +455,12 @@ public class BluePackTopoSorter {
 					mSpace = Math.max(buildTopStructure(myASG, myExp), mSpace);
 			}
 		}
+		}
 
-		it = bluePackVarSet.iterator();
+		Iterator<BluePackVarNode> it = bluePackVarSet.iterator();
 
 		while (it.hasNext()) {
-			BluePackVarNode myVar = (BluePackVarNode) (it.next());
+			BluePackVarNode myVar = it.next();
 			ExpNode myExp = getPredExp(myVar);
 			if (myExp != null)
 				mSpace = Math.max(buildTopStructure(myVar, myExp), mSpace);
@@ -467,9 +469,9 @@ public class BluePackTopoSorter {
 			}
 		}
 
-		Iterator en = varHash.values().iterator();
+		Iterator<BluePackTopoEntryNode> en = varHash.values().iterator();
 		while (en.hasNext()) {
-			BluePackTopoEntryNode node = (BluePackTopoEntryNode) (en.next());
+			BluePackTopoEntryNode node = en.next();
 			if (node.getPredCount() == 0)
 				next_nodes.enq(node);
 		}
@@ -492,7 +494,7 @@ public class BluePackTopoSorter {
 			inputCount++;
 		}
 
-		BluePackTopoEntryNode succTopo = (BluePackTopoEntryNode) (varHash.get(exp));
+		BluePackTopoEntryNode succTopo = varHash.get(exp);
 
 		HighLevelList CodeList = exp.getCodeList();
 		boolean Done1 = false;
@@ -526,7 +528,7 @@ public class BluePackTopoSorter {
 							inputCount++;
 						}
 
-						BluePackTopoEntryNode predTopo = (BluePackTopoEntryNode) (varHash.get(predExp));
+						BluePackTopoEntryNode predTopo = varHash.get(predExp);
 						buildPredLink(predTopo, succTopo);
 					}
 				}
@@ -559,7 +561,7 @@ public class BluePackTopoSorter {
 
 	protected final BluePackVarNode findBluePackVarNode(ASGNode iasg) {
 		ASGNode asg = BluePackSolverLinkage.getDisambigASG(iasg);
-		ObjObj obj = (ObjObj) (bluePackJoinMap.get(asg));
+		ObjObj obj = bluePackJoinMap.get(asg);
 		BluePackVarNode var = null;
 		if (obj != null)
 			var = (BluePackVarNode) (obj.value);

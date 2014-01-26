@@ -30,7 +30,7 @@
         android:text="Var Name :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
+    <verdantium.mathimage.MathImageTextEdit
         android:id="@+id/createVarEditField"
         android:layout_width="944dp"
         android:layout_height="213dp"

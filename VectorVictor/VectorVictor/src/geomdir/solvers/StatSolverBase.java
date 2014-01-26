@@ -1552,7 +1552,7 @@ public abstract class StatSolverBase extends Object {
 	}
 
 	/* !!!!!!!!!!!!!!!!!!!!!!!11 Refactor if going beyond objective !!!!!!!!!!!!!!!!!!!!!!!!1 */
-	Object createNegMinimizationDistanceKey(final SegNode in) {
+	Comparable createNegMinimizationDistanceKey(final SegNode in) {
 		int count;
 		double curObjVal = 0.0;
 
@@ -2278,14 +2278,14 @@ public abstract class StatSolverBase extends Object {
 	public void handleAggressiveSearchGrab(final Staque stk) {
 		pout.println("Grabbing from aggressive search stack!!!!!!!!!!!!!!!!!!!!");
 		aggressiveSearch[minimizerMode - FINDING_SOLUTION] = false;
-		TreeMap tm = new TreeMap();
+		TreeMap<Comparable,HighLevelList> tm = new TreeMap<Comparable,HighLevelList>();
 
 		SegNode agStkNode = popFromAgStore();
 		while (agStkNode != null) {
 			SegNode seg = agStkNode;
 			if (testMinimizers(seg)) {
-				Object key = createNegMinimizationDistanceKey(seg);
-				HighLevelList hl = (HighLevelList) (tm.get(key));
+				Comparable key = createNegMinimizationDistanceKey(seg);
+				HighLevelList hl = tm.get(key);
 				if (hl == null) {
 					hl = new HighLevelList();
 					tm.put(key, hl);
@@ -2302,9 +2302,9 @@ public abstract class StatSolverBase extends Object {
 		}
 
 		boolean Done = false;
-		Iterator it = tm.values().iterator();
+		Iterator<HighLevelList> it = tm.values().iterator();
 		while (it.hasNext()) {
-			HighLevelList lst = (HighLevelList) (it.next());
+			HighLevelList lst = it.next();
 			if (!(lst.empty())) {
 				lst.searchHead();
 				Done = false;

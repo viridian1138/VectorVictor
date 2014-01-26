@@ -34,7 +34,7 @@
         android:text="Symbol :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
+    <verdantium.mathimage.MathImageTextEdit
         android:id="@+id/createSymbolEditField"
         android:layout_width="944dp"
         android:layout_height="213dp"

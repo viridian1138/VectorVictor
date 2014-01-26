@@ -172,11 +172,11 @@ public class Linker extends Callback /* DBN */ {
 	<B>In:</B> Expression list, variable list, topological variable list, 
 		application data structure creation request procedure, application data
 		structure deletion request procedure.<BR>
-	<B>Out:</B> AlphaVarList, linkage modified.  CreateVisit, DeleteVisit called on
+	<B>Out:</B> alphaVarList, linkage modified.  CreateVisit, DeleteVisit called on
 		external data structures.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaVarList and linkage are variable lists.
-		ExpList, AlphaVarList, linkage point to the heads of their respective lists.<BR>
-	<B>Post:</B> linkage will get the new topological list.  AlphaVarList will get the new
+	<B>Pre:</B> expList is an expression list.  alphaVarList and linkage are variable lists.
+		expList, alphaVarList, linkage point to the heads of their respective lists.<BR>
+	<B>Post:</B> linkage will get the new topological list.  alphaVarList will get the new
 		variable list.  CreateVisit and DeleteVisit will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
@@ -216,11 +216,11 @@ public class Linker extends Callback /* DBN */ {
 	<B>In:</B> Expression list, variable list, topological variable list, 
 		application data structure creation request procedure, application data
 		structure deletion request procedure.<BR>
-	<B>Out:</B> AlphaVarList, linkage modified.  CreateVisit, DeleteVisit called on
+	<B>Out:</B> alphaVarList, linkage modified.  CreateVisit, DeleteVisit called on
 		external data structures.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaVarList and linkage are variable lists.
-		ExpList, AlphaVarList, linkage point to the heads of their respective lists.<BR>
-	<B>Post:</B> linkage will get the new topological list.  AlphaVarList will get the new
+	<B>Pre:</B> expList is an expression list.  alphaVarList and linkage are variable lists.
+		expList, alphaVarList, linkage point to the heads of their respective lists.<BR>
+	<B>Post:</B> linkage will get the new topological list.  alphaVarList will get the new
 		variable list.  CreateVisit and DeleteVisit will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
@@ -266,19 +266,19 @@ public class Linker extends Callback /* DBN */ {
 	Sets the mark field of each variable in a list to zero.  Sets other
 		fields to initial values to prepare for linking.
 	<P>
-	<B>In:</B> List AlphaVarList.<BR>
-	<B>Out:</B> AlphaVarList modified.<BR>
-	<B>Pre:</B> AlphaVarList is a variable list.  AlphaVarList points to the head of the list.<BR>
-	<B>Post:</B> All nodes in AlphaVarList will have a mark field of 0, a movable field of MableByAny,
+	<B>In:</B> List alphaVarList.<BR>
+	<B>Out:</B> alphaVarList modified.<BR>
+	<B>Pre:</B> alphaVarList is a variable list.  alphaVarList points to the head of the list.<BR>
+	<B>Post:</B> All nodes in alphaVarList will have a mark field of 0, a movable field of MableByAny,
 		and a ExpNode field of NULL.<BR>
 	@author Thorn Green.
 	*/
 	private final void clearMarks(ASGHashMap AlphaVarList) {
 		ASGNode MyASG;
 
-		Iterator it = AlphaVarList.values().iterator();
+		Iterator<ASGNode> it = AlphaVarList.values().iterator();
 		while (it.hasNext()) {
-			MyASG = (ASGNode) (it.next());
+			MyASG = it.next();
 			MyASG.setMark(0);
 			MyASG.setMable(EngineConstants.MABLE_UNDEFINED);
 			MyASG.setExpNode(null);
@@ -301,35 +301,35 @@ public class Linker extends Callback /* DBN */ {
 	@author Thorn Green.
 	*/
 	private final void delAllUnmarkedAndFinalMarkASG(ASGHashMap MyList, Object DeleteObj, Method DeleteVisit) {
-		ASGNode MyASG;
-		HashSet tmp = new HashSet();
-		Iterator it = MyList.values().iterator();
+		ASGNode myASG;
+		HashSet<ASGNode> tmp = new HashSet<ASGNode>();
+		Iterator<ASGNode> it = MyList.values().iterator();
 
 		while (it.hasNext()) {
-			MyASG = (ASGNode) (it.next());
-			if (MyASG.getMark() == 0) {
-				tmp.add(MyASG);
+			myASG = it.next();
+			if (myASG.getMark() == 0) {
+				tmp.add(myASG);
 				it.remove();
 			}
 			else {
-				int mable = MyASG.getMable();
+				int mable = myASG.getMable();
 				if ((mable & EngineConstants.MABLE_IMPLICIT_USE_MASK) == 0)
-					gloLinkage.setASGMable(MyASG, false);
+					gloLinkage.setASGMable(myASG, false);
 			}
 		}
 
 		it = tmp.iterator();
 
 		while (it.hasNext()) {
-			MyASG = (ASGNode) (it.next());
-			Object[] CallLst = { MyASG.getDrawObj(), MyASG.getStr()};
+			myASG = it.next();
+			Object[] CallLst = { myASG.getDrawObj(), myASG.getStr()};
 			try {
 				DeleteVisit.invoke(DeleteObj, CallLst);
 			}
 			catch (Exception e) {
 				throw (new WrapRuntimeException("Visit Failed", e));
 			}
-			MyASG.eraseNode();
+			myASG.eraseNode();
 		}
 
 	};
@@ -340,7 +340,7 @@ public class Linker extends Callback /* DBN */ {
 	<P>
 	<B>In:</B> List of all variables, list of topological variables.<BR>
 	<B>Out:</B> linkage modified.<BR>
-	<B>Pre:</B> AlphaVarList must be a variable list.  AlphaVarList must point to the head
+	<B>Pre:</B> alphaVarList must be a variable list.  alphaVarList must point to the head
 		of the list.<BR>
 	<B>Post:</B> The dependencies will be sorted into topological order, and the results put into
 		the linkage.<BR>
@@ -372,7 +372,7 @@ public class Linker extends Callback /* DBN */ {
 	<P>
 	<B>In:</B> List of all variables, list of topological variables.<BR>
 	<B>Out:</B> linkage modified.<BR>
-	<B>Pre:</B> AlphaVarList must be a variable list.  AlphaVarList must point to the head
+	<B>Pre:</B> alphaVarList must be a variable list.  alphaVarList must point to the head
 		of the list.<BR>
 	<B>Post:</B> The dependencies will be sorted into topological order, and the results put into
 		the linkage.<BR>
@@ -403,19 +403,19 @@ public class Linker extends Callback /* DBN */ {
 	<P>
 	<B>In:</B> Expression list, variable list, application data structure creation routine.<BR>
 	<B>Out:</B> Variable list modified.  Data structure creation routine called.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaList is a variable list.  ExpList
+	<B>Pre:</B> expList is an expression list.  AlphaList is a variable list.  expList
 		points to the head of the expression list.<BR>
-	<B>Post:</B> The dependent varaibles in ExpList will be added to AlphaList.  CreateVisit
+	<B>Post:</B> The dependent varaibles in expList will be added to AlphaList.  CreateVisit
 		will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
 	private final void evalMDef(ExprHashMap ExpList, ASGHashMap AlphaList, Object CreateObj, Method CreateVisit) {
 		FlexString InStr = new FlexString();
 
-		Iterator it = ExpList.values().iterator();
+		Iterator<ExpNode> it = ExpList.values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode MyExp = (ExpNode) (it.next());
+			ExpNode MyExp = it.next();
 			GloExpNode = MyExp;
 			(MyExp.getVarName()).copyString(InStr);
 			markInsert(InStr, AlphaList, false, true, CreateObj, CreateVisit);
@@ -428,9 +428,9 @@ public class Linker extends Callback /* DBN */ {
 	<P>
 	<B>In:</B> Expression list, variable list, application data structure creation routine.<BR>
 	<B>Out:</B> Variable list modified.  Data structure creation routine called.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaList is a variable list.  ExpList
+	<B>Pre:</B> expList is an expression list.  AlphaList is a variable list.  expList
 		points to the head of the expression list.<BR>
-	<B>Post:</B> The independent varaibles in ExpList will be added to AlphaList.  CreateVisit
+	<B>Post:</B> The independent varaibles in expList will be added to AlphaList.  CreateVisit
 		will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
@@ -443,10 +443,10 @@ public class Linker extends Callback /* DBN */ {
 		FlexString InStr = new FlexString();
 		CodeGen MyCodeGen = new CodeGen();
 
-		Iterator it = ExpList.values().iterator();
+		Iterator<ExpNode> it = ExpList.values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode MyExp = (ExpNode) (it.next());
+			ExpNode MyExp = it.next();
 			HighLevelList CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
@@ -476,9 +476,9 @@ public class Linker extends Callback /* DBN */ {
 	<P>
 	<B>In:</B> Expression list, variable list, application data structure creation routine.<BR>
 	<B>Out:</B> Variable list modified.  Data structure creation routine called.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaList is a variable list.  ExpList
+	<B>Pre:</B> expList is an expression list.  AlphaList is a variable list.  expList
 		points to the head of the expression list.<BR>
-	<B>Post:</B> The independent varaibles in ExpList will be added to AlphaList.  CreateVisit
+	<B>Post:</B> The independent varaibles in expList will be added to AlphaList.  CreateVisit
 		will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
@@ -494,10 +494,10 @@ public class Linker extends Callback /* DBN */ {
 		FlexString InStr = new FlexString();
 		CodeGen MyCodeGen = new CodeGen();
 
-		Iterator it = ExpList.values().iterator();
+		Iterator<ExpNode> it = ExpList.values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode MyExp = (ExpNode) (it.next());
+			ExpNode MyExp = it.next();
 
 			HighLevelList CodeList = MyExp.getCodeList();
 			boolean Done1 = false;

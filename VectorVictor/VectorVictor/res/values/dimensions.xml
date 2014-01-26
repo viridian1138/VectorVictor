@@ -4,7 +4,9 @@
     <dimen name="mathimage_popup_text_size">17sp</dimen>
     <dimen name="mathimage_button_horiz_size">80sp</dimen>
     <dimen name="mathimage_popup_horiz_size">160sp</dimen>
+    <dimen name="mathimage_textedit_horiz_size">944sp</dimen>
     <dimen name="mathimage_button_vert_size">40sp</dimen>
     <dimen name="mathimage_popup_vert_size">80sp</dimen>
+    <dimen name="mathimage_textedit_vert_size">213sp</dimen>
 </resources>
 

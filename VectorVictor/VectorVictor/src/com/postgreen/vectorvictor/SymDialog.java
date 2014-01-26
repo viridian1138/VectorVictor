@@ -144,6 +144,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import verdantium.mathimage.*;
 
 
 public class SymDialog {
@@ -178,7 +179,7 @@ public class SymDialog {
 	
 	private Spinner createScriptSpinner;
 	
-	private TextView createSymbolEditField;
+	private MathImageTextEdit createSymbolEditField;
 	
 	
 	
@@ -205,7 +206,7 @@ public class SymDialog {
            final EditText createSymbolName = (EditText)( dialog.findViewById( R.id.createSymbolName ) );
             
            
-           createSymbolEditField = (TextView)( dialog.findViewById( R.id.createSymbolEditField ) );
+           createSymbolEditField = (MathImageTextEdit)( dialog.findViewById( R.id.createSymbolEditField ) );
 
            
            final Button createInsertSymbolButton = (Button)( dialog.findViewById( R.id.createInsertSymbolButton ) );

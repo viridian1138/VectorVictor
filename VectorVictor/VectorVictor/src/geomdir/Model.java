@@ -829,7 +829,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Configures all depictors as a block.
 	*/
 	public void readExternalSubUpdate(GeomKit pan) throws MathImageParseException {
-		Iterator it = VarList.values().iterator();
+		Iterator<FragNode> it = VarList.values().iterator();
 
 //		MyTarget.showLoadFrame();
 //		MyTarget.setSubjectLab("Configuring Depictors...");
@@ -837,7 +837,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 //		MyTarget.setLoadFract(5, 10);
 
 		while (it.hasNext()) {
-			FragNode MyFrag = (FragNode) (it.next());
+			FragNode MyFrag = it.next();
 			readExternalSubFragUpdate(pan, MyFrag);
 		}
 
@@ -848,10 +848,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Configures all depictors in a FragNode, including creating the depictor labels.
 	*/
 	public void readExternalSubFragUpdate(GeomKit pan, FragNode in) throws MathImageParseException {
-		Iterator it = in.getFragMap().values().iterator();
+		Iterator<DGMNode> it = in.getFragMap().values().iterator();
 
 		while (it.hasNext()) {
-			DGMNode MyDGM = (DGMNode) (it.next());
+			DGMNode MyDGM = it.next();
 			DrawObj MyObj = MyDGM.getMyDraw();
 			MyObj.setDepicImage(
 				makeDepicMathImage(
@@ -915,10 +915,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		IntObj MyIntObj = new IntObj();
 		MyIntObj.value = 0;
 
-		Iterator it = Map.values().iterator();
+		Iterator<SymListNode> it = Map.values().iterator();
 
 		while (it.hasNext()) {
-			SymListNode MyNode = (SymListNode) (it.next());
+			SymListNode MyNode = it.next();
 
 			String key2 = key + ".SymList" + ".Symbol_" + (new Integer(MyIntObj.value)).toString();
 
@@ -937,10 +937,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public HighLevelList formUserExpList() {
 		HighLevelList TmpList = new HighLevelList();
-		Iterator it = getVarList().values().iterator();
+		Iterator<FragNode> it = getVarList().values().iterator();
 
 		while (it.hasNext()) {
-			FragNode MyNode = (FragNode) (it.next());
+			FragNode MyNode = it.next();
 			if ((MyNode.getMovable().value & EngineConstants.MABLE_ASGN_MASK) > 0) {
 				FlexString VarStr = MyNode.getVectName();
 				FlexString ExpStr = new FlexString();
@@ -1609,10 +1609,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	public HighLevelList formUserVarList() {
 		HighLevelList TmpList = new HighLevelList();
 
-		Iterator it = VarList.values().iterator();
+		Iterator<FragNode> it = VarList.values().iterator();
 
 		while (it.hasNext()) {
-			FragNode MyNode = (FragNode) (it.next());
+			FragNode MyNode = it.next();
 			FlexString VarStr = MyNode.getVectName();
 			char FstChar = VarStr.getChar(0);
 
@@ -1966,7 +1966,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 //		macroMap = new MacroTreeMap(tmmgr);
 		PropL = new PropertyChangeSupport(this);
 		VTextProperties MyProp = loadConfigFile(Configs);
-		geoTools = new Vector();
+		geoTools = new Vector<Ktool>();
 		getTools( config );
 		getPlugs( config );
 		getSolvers( config );
@@ -2251,11 +2251,11 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		} */
 
 		if (in instanceof KtoolEtherEvent) {
-			Vector tools = getGeoTools();
+			Vector<Ktool> tools = getGeoTools();
 			int len = tools.size();
 			int count;
 			for (count = 0; count < len; count++) {
-				Object tool = tools.elementAt(count);
+				Ktool tool = tools.elementAt(count);
 				if (tool instanceof EtherEventHandler) {
 					Object ob = ((EtherEventHandler) (tool)).processObjEtherEvent(in, refcon);
 					if (ob != null) {
@@ -2311,7 +2311,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		int tmp1 = geoTools.size();
 		int count;
 		for (count = 0; count < tmp1; ++count) {
-			Ktool tool = (Ktool) (geoTools.elementAt(count));
+			Ktool tool = geoTools.elementAt(count);
 			if (tool != null)
 				tool.clear();
 		}
@@ -2427,7 +2427,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	/**
 	* Gets the tool set.
 	*/
-	public Vector getGeoTools() {
+	public Vector<Ktool> getGeoTools() {
 		return (geoTools);
 	}
 	/**
@@ -2634,7 +2634,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	private Paint AntialiasValue = new Paint();
 	private boolean UseRigorousClipping = false;
 	private boolean LockTemporaryDeletion = false;
-	protected transient Vector geoTools = null;
+	protected transient Vector<Ktool> geoTools = null;
 	protected transient CoordContext DragRec1 = null;
 	protected transient CoordContext DragRec2 = null;
 	private transient ToolPort SymTarget = null;

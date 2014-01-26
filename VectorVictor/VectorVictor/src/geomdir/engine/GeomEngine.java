@@ -288,7 +288,7 @@ public class GeomEngine implements Externalizable {
 		}
 		else {
 			temp = true;
-			ErrCode = EngineConstants.VARIABLE_NOT_VALID;
+			errCode = EngineConstants.VARIABLE_NOT_VALID;
 		}
 
 		if (temp) {
@@ -336,7 +336,7 @@ public class GeomEngine implements Externalizable {
 		}
 		else {
 			temp = true;
-			ErrCode = EngineConstants.VARIABLE_NOT_VALID;
+			errCode = EngineConstants.VARIABLE_NOT_VALID;
 		}
 
 		if (temp) {
@@ -382,14 +382,14 @@ public class GeomEngine implements Externalizable {
 	<P>
 	<B>In:</B> Variable InStr to collect the information about.<BR>
 	<B>Out:</B> OutStr and OutMode modified.  Boolean value returned.<BR>
-	<B>Pre:</B> Instr valid.  ExpList contains an ordered list of expression nodes.<BR>
+	<B>Pre:</B> Instr valid.  expList contains an ordered list of expression nodes.<BR>
 	<B>Post:</B> If InStr is the name of an expression, the expression and its mode will be
 		returned and a 1 will be returned by the function.  Otherwise, a 0 will be returned
 		by the function.  Note: all variables are currently stored as supervisor mode.<BR>
 	@author Thorn Green
 	*/
 	public final boolean getExprn(FlexString InStr, FlexString OutStr, IntObj OutMode) {
-		ExpNode MyExp = ExpList.getExp(InStr);
+		ExpNode MyExp = expList.getExp(InStr);
 		boolean Found = (MyExp != null);
 
 		if (Found) {
@@ -404,7 +404,7 @@ public class GeomEngine implements Externalizable {
 	* Gets the error code number for the last error.
 	*/
 	public final int getErrCode() {
-		return (ErrCode);
+		return (errCode);
 	};
 
 	/**
@@ -437,8 +437,8 @@ public class GeomEngine implements Externalizable {
 		boolean Err = false;
 		boolean Err2 = false;
 
-		if (!(ExpList.isEmpty())) {
-			MyExp = ExpList.getExp(VarName);
+		if (!(expList.isEmpty())) {
+			MyExp = expList.getExp(VarName);
 			boolean Found = (MyExp != null);
 			if (Found) {
 				CacheFound = true;
@@ -450,7 +450,7 @@ public class GeomEngine implements Externalizable {
 				MyExp = new ExpNode();
 				Err = dataCopy(MyExp, VarName, ExpressionString, MyMode);
 				if (!Err) {
-					ExpList.putExp(MyExp);
+					expList.putExp(MyExp);
 				}
 				/* else delete MyExp; */
 			}
@@ -459,17 +459,17 @@ public class GeomEngine implements Externalizable {
 			MyExp = new ExpNode();
 			Err = dataCopy(MyExp, VarName, ExpressionString, MyMode);
 			if (!Err)
-				ExpList.putExp(MyExp);
+				expList.putExp(MyExp);
 			/* else delete MyExp; */
 		}
 
 		if (LinkOn)
 			Err2 =
 				MyLink.doLink(
-					ExpList,
+					expList,
 					LHSimplicitExpList,
 					RHSimplicitExpList,
-					AlphaVarList,
+					alphaVarList,
 					linkage,
 					CreateObj,
 					CreateVisit,
@@ -481,7 +481,7 @@ public class GeomEngine implements Externalizable {
 				vChangeExpression(VarName, CacheExp, CreateObj, CreateVisit, DeleteObj, DeleteVisit, CacheMode);
 			else
 				vDeleteExpression(VarName, DeleteObj, DeleteVisit);
-			ErrCode = EngineConstants.CIRCULAR_REFERENCE;
+			errCode = EngineConstants.CIRCULAR_REFERENCE;
 		}
 
 		Err = Err || Err2;
@@ -503,20 +503,20 @@ public class GeomEngine implements Externalizable {
 	protected final boolean vDeleteExpression(FlexString VarName, Object DeleteObj, Method DeleteVisit) {
 		Linker MyLink = new Linker();
 
-		ErrCode = EngineConstants.EXPRESSION_NOT_FOUND;
-		ExpNode MyExp = ExpList.getExp(VarName);
+		errCode = EngineConstants.EXPRESSION_NOT_FOUND;
+		ExpNode MyExp = expList.getExp(VarName);
 		boolean Found = (MyExp != null);
 		if (Found) {
 			MyExp.eraseNode();
-			ExpList.remove(VarName);
+			expList.remove(VarName);
 		}
 
 		if (LinkOn)
 			MyLink.doLink(
-				ExpList,
+				expList,
 				LHSimplicitExpList,
 				RHSimplicitExpList,
-				AlphaVarList,
+				alphaVarList,
 				linkage,
 				null,
 				null,
@@ -621,10 +621,10 @@ public class GeomEngine implements Externalizable {
 			if (LinkOn && !Err)
 				Err =
 					MyLink.doLink(
-						ExpList,
+						expList,
 						LHSimplicitExpList,
 						RHSimplicitExpList,
-						AlphaVarList,
+						alphaVarList,
 						linkage,
 						CreateObj,
 						CreateVisit,
@@ -679,7 +679,7 @@ public class GeomEngine implements Externalizable {
 			InKey.insertString(FKey);
 			FKey.insertChar('>');
 
-			Iterator it = LHSimplicitExpList.values().iterator();
+			Iterator<?> it = LHSimplicitExpList.values().iterator();
 			while (it.hasNext()) {
 				MyExp = (ExpNode) (it.next());
 				if (MyExp.getVarName().baseCmp(FKey, 0)) {
@@ -699,10 +699,10 @@ public class GeomEngine implements Externalizable {
 
 			if (LinkOn)
 				MyLink.doLink(
-					ExpList,
+					expList,
 					LHSimplicitExpList,
 					RHSimplicitExpList,
-					AlphaVarList,
+					alphaVarList,
 					linkage,
 					null,
 					null,
@@ -792,7 +792,7 @@ public class GeomEngine implements Externalizable {
 		UndoRedoExprMode = MyMode;
 		VarName.copyString(UndoVarName);
 		Exprn.copyString(UndoRedoExprn);
-		ExpNode MyNode = ExpList.getExp(VarName);
+		ExpNode MyNode = expList.getExp(VarName);
 		boolean Found = (MyNode != null);
 		if (Found) {
 			UndoMode = UndoChange;
@@ -818,7 +818,7 @@ public class GeomEngine implements Externalizable {
 		UndoRedoMode = UndoDelete;
 		/* UndoRedoExprMode blank */
 		VarName.copyString(UndoVarName);
-		ExpNode MyNode = ExpList.getExp(VarName);
+		ExpNode MyNode = expList.getExp(VarName);
 		boolean Found = (MyNode != null);
 		if (Found) {
 			UndoMode = UndoChange;
@@ -843,7 +843,7 @@ public class GeomEngine implements Externalizable {
 		boolean tp = MyCodeGen.verifyVariable(VarName, MyMode);
 		boolean temp = !tp;
 		if (temp) {
-			ErrCode = EngineConstants.VARIABLE_NOT_VALID;
+			errCode = EngineConstants.VARIABLE_NOT_VALID;
 		}
 
 		return temp;
@@ -889,7 +889,7 @@ public class GeomEngine implements Externalizable {
 			MyExp.setEval(null);
 		}
 		else
-			ErrCode = (MyExp.getCodeGen()).getErrCode();
+			errCode = (MyExp.getCodeGen()).getErrCode();
 		return (Err);
 	};
 
@@ -931,10 +931,10 @@ public class GeomEngine implements Externalizable {
 			Linker MyLink = new Linker();
 			Err =
 				MyLink.doLink(
-					ExpList,
+					expList,
 					LHSimplicitExpList,
 					RHSimplicitExpList,
-					AlphaVarList,
+					alphaVarList,
 					linkage,
 					CreateObj,
 					CreateVisit,
@@ -952,11 +952,11 @@ public class GeomEngine implements Externalizable {
 	<B>In:</B> Expression list, variable list, topological variable list, 
 		application data structure creation request procedure, application data
 		structure deletion request procedure.<BR>
-	<B>Out:</B> AlphaVarList, TopoVarList modified.  CreateVisit, DeleteVisit called on
+	<B>Out:</B> alphaVarList, TopoVarList modified.  CreateVisit, DeleteVisit called on
 		external data structures.<BR>
-	<B>Pre:</B> ExpList is an expression list.  AlphaVarList and TopoVarList are variable lists.
-		ExpList, AlphaVarList, TopoVarList point to the heads of their respective lists.<BR>
-	<B>Post:</B> TopoVarList will get the new topological list.  AlphaVarList will get the new
+	<B>Pre:</B> expList is an expression list.  alphaVarList and TopoVarList are variable lists.
+		expList, alphaVarList, TopoVarList point to the heads of their respective lists.<BR>
+	<B>Post:</B> TopoVarList will get the new topological list.  alphaVarList will get the new
 		variable list.  CreateVisit and DeleteVisit will be called as appropriate.<BR>
 	@author Thorn Green.
 	*/
@@ -973,7 +973,7 @@ public class GeomEngine implements Externalizable {
 		Linker myLink = new Linker();
 		boolean err =
 			myLink.doLightLink(
-				AlphaVarList,
+				alphaVarList,
 				LocalVarList,
 				LocalExpList,
 				LHSimplicitExpList,
@@ -998,7 +998,7 @@ public class GeomEngine implements Externalizable {
 		Linker myLink = new Linker();
 		boolean err =
 			myLink.postLink(
-				AlphaVarList,
+				alphaVarList,
 				LocalVarList,
 				LHSimplicitExpList,
 				RHSimplicitExpList,
@@ -1017,13 +1017,13 @@ public class GeomEngine implements Externalizable {
 			VersionBuffer myv = (VersionBuffer) (in.readObject());
 			VersionBuffer.chkNul(myv);
 
-			ASGHashMap tmp = (ASGHashMap) (myv.getProperty("AlphaVarList"));
+			ASGHashMap tmp = (ASGHashMap) (myv.getProperty("alphaVarList"));
 			VersionBuffer.chkNul(tmp);
-			AlphaVarList.putAll(tmp);
+			alphaVarList.putAll(tmp);
 
-			ExprHashMap tmp2 = (ExprHashMap) (myv.getProperty("ExpList"));
+			ExprHashMap tmp2 = (ExprHashMap) (myv.getProperty("expList"));
 			VersionBuffer.chkNul(tmp2);
-			ExpList.putAll(tmp2);
+			expList.putAll(tmp2);
 
 			linkage = (SolverLinkage) (myv.getProperty("linkage"));
 			VersionBuffer.chkNul(linkage);
@@ -1042,10 +1042,10 @@ public class GeomEngine implements Externalizable {
 	public void writeExternal(ObjectOutput out) throws IOException {
 		VersionBuffer myv = new VersionBuffer(VersionBuffer.WRITE);
 
-		myv.setProperty("AlphaVarList", AlphaVarList);
+		myv.setProperty("alphaVarList", alphaVarList);
 		myv.setProperty("linkage", linkage);
 		myv.setProperty("dynLinkage", dynLinkage);
-		myv.setProperty("ExpList", ExpList);
+		myv.setProperty("expList", expList);
 
 		out.writeObject(myv);
 	}
@@ -1056,7 +1056,7 @@ public class GeomEngine implements Externalizable {
 	public void getDependentVariables(FlexString InStr, HighLevelList in) {
 		FlexString VarName = new FlexString();
 		extractVariable(InStr, 0, InStr.strlen(), VarName);
-		ExpNode MyNode = ExpList.getExp(VarName);
+		ExpNode MyNode = expList.getExp(VarName);
 		boolean Found = (MyNode != null);
 
 		if (Found) {
@@ -1086,7 +1086,7 @@ public class GeomEngine implements Externalizable {
 	public void getUsageVariables(FlexString InStr, HighLevelList in) {
 		FlexString VarName = new FlexString();
 		extractVariable(InStr, 0, InStr.strlen(), VarName);
-		Iterator it = ExpList.values().iterator();
+		Iterator<?> it = expList.values().iterator();
 		while (it.hasNext()) {
 			ExpNode MyNode = (ExpNode) (it.next());
 			HighLevelList CList = MyNode.getCodeList();
@@ -1355,7 +1355,7 @@ public class GeomEngine implements Externalizable {
 	public void writeConstraintSystem() {
 		System.out.println("### Input/Output Definitions: ###");
 
-		Iterator it = AlphaVarList.values().iterator();
+		Iterator<?> it = alphaVarList.values().iterator();
 
 		while (it.hasNext()) {
 			ASGNode MyNode = (ASGNode) (it.next());
@@ -1370,7 +1370,7 @@ public class GeomEngine implements Externalizable {
 			System.out.println("### Objective Function: ###");
 			System.out.println("minimize");
 
-			it = AlphaVarList.values().iterator();
+			it = alphaVarList.values().iterator();
 
 			while (it.hasNext()) {
 				ASGNode MyNode = (ASGNode) (it.next());
@@ -1386,15 +1386,15 @@ public class GeomEngine implements Externalizable {
 		System.out.println("");
 		System.out.println("### Constraints: ###");
 
-		it = ExpList.values().iterator();
+		it = expList.values().iterator();
 
 		while (it.hasNext()) {
 			ExpNode MyNode = (ExpNode) (it.next());
 			writeStdConstraint(MyNode);
 		}
 
-		Iterator itl = LHSimplicitExpList.values().iterator();
-		Iterator itr = RHSimplicitExpList.values().iterator();
+		Iterator<?> itl = LHSimplicitExpList.values().iterator();
+		Iterator<?> itr = RHSimplicitExpList.values().iterator();
 
 		while (itl.hasNext()) {
 			ExpNode LHS = (ExpNode) (itl.next());
@@ -1402,7 +1402,7 @@ public class GeomEngine implements Externalizable {
 			writeImplicitConstraint(LHS, RHS);
 		}
 
-		it = AlphaVarList.values().iterator();
+		it = alphaVarList.values().iterator();
 
 		if (CurSyntax != EngineConstants.SYNTAX_AMPL_LIKE) {
 			while (it.hasNext()) {
@@ -1456,7 +1456,7 @@ public class GeomEngine implements Externalizable {
 	/**
 	* Installs a solver.
 	*/
-	public void installSolver(String HumanName, Class clss) {
+	public void installSolver(String HumanName, Class<? extends SolverLinkage> clss) {
 		int sz = solverHnameVect.size();
 		if (sz < 0)
 			sz = 0;
@@ -1504,7 +1504,7 @@ public class GeomEngine implements Externalizable {
 		String[] solvers = new String[sz];
 
 		for (count = 0; count < sz; count++) {
-			solvers[count] = (String) (solverHnameVect.elementAt(count));
+			solvers[count] = solverHnameVect.elementAt(count);
 		}
 
 		return (solvers);
@@ -1516,12 +1516,12 @@ public class GeomEngine implements Externalizable {
 	* revisions are concerned.
 	*/
 	public boolean setConstraintSolver(String stype) {
-		Class clss = (Class) (solverMap.get(stype));
+		Class<? extends SolverLinkage> clss = solverMap.get(stype);
 
 		try {
 			if (clss != null) {
-				linkage = (SolverLinkage) (clss.newInstance());
-				dynLinkage = (SolverLinkage) (clss.newInstance());
+				linkage = clss.newInstance();
+				dynLinkage = clss.newInstance();
 			}
 		}
 		catch (Exception ex) {
@@ -1532,10 +1532,10 @@ public class GeomEngine implements Externalizable {
 
 		boolean link =
 			MyLink.doLink(
-				ExpList,
+				expList,
 				LHSimplicitExpList,
 				RHSimplicitExpList,
-				AlphaVarList,
+				alphaVarList,
 				linkage,
 				null,
 				null,
@@ -1552,8 +1552,8 @@ public class GeomEngine implements Externalizable {
 		if (!LinkOn)
 			throw (new RuntimeException("Please turn link on first."));
 
-		linkage.optimizeRep(ExpList);
-		// dynLinkage.optimizeRep( ExpList );
+		linkage.optimizeRep(expList);
+		// dynLinkage.optimizeRep( expList );
 	}
 
 	/**
@@ -1570,7 +1570,7 @@ public class GeomEngine implements Externalizable {
 		Object DeleteObj,
 		String DeleteVst,
 		int MyMode) {
-		FlexString Vname = SymUtils.adaptiveRelate(VarName, ExpressionString, MyMode, AlphaVarList, ExpList);
+		FlexString Vname = SymUtils.adaptiveRelate(VarName, ExpressionString, MyMode, alphaVarList, expList);
 
 		if (Vname == null)
 			return (true);
@@ -1587,12 +1587,13 @@ public class GeomEngine implements Externalizable {
 	protected transient SolverLinkage dynLinkage = new BluePackSolverLinkage();
 	protected transient DynRunnerImpl RegDynRunner = null;
 	protected transient boolean LinkOn = true;
-	protected final ASGHashMap AlphaVarList = new ASGHashMap();
-	protected final ExprHashMap ExpList = new ExprHashMap();
+	protected final ASGHashMap alphaVarList = new ASGHashMap();
+	protected final ExprHashMap expList = new ExprHashMap();
 	protected final ExprHashMap LHSimplicitExpList = new ExprHashMap();
 	protected final ExprHashMap RHSimplicitExpList = new ExprHashMap();
-	protected final Vector solverHnameVect = new Vector();
-	protected final HashMap solverMap = new HashMap();
-	protected transient int ErrCode;
+	protected final Vector<String> solverHnameVect = new Vector<String>();
+	protected final HashMap<String,Class<? extends SolverLinkage>> solverMap 
+		= new HashMap<String,Class<? extends SolverLinkage>>();
+	protected transient int errCode;
 
 };
