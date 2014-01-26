@@ -1082,8 +1082,8 @@ class GenerateEvalObj {
 		int count = 0;
 		int val = lexm.getPlugMatch();
 		int PlugID = val / GeomEngine.PlugOffsetBase;
-		Vector Plugs = GeomEngine.getPlugins();
-		DepicPlugin MyPlug = (DepicPlugin) (Plugs.elementAt(PlugID));
+		Vector<DepicPlugin> Plugs = GeomEngine.getPlugins();
+		DepicPlugin MyPlug = Plugs.elementAt(PlugID);
 		String methodName = MyPlug.getStaticMethodName(val);
 		int numArgs = MyPlug.getNumStaticArgs(val);
 		int offset = MyPlug.getMstackOffset(val);

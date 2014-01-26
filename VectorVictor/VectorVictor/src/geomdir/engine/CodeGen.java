@@ -193,14 +193,14 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> If an error happened, the output list will be empty.<BR>
 	@author Thorn Green.
 	*/
-	public final boolean generateCode(FlexString Instr, HighLevelList CodeList, int MyMode) {
+	public final boolean generateCode(FlexString instr, HighLevelList codeList, int myMode) {
 		boolean err;
-		HighLevelBinTree MyTree = new HighLevelBinTree();
-		GEparser myo = MyGEparser;
+		HighLevelBinTree myTree = new HighLevelBinTree();
+		GEparser myo = myGEparser;
 
-		err = myo.parseAll(Instr, MyTree, MyMode);
+		err = myo.parseAll(instr, myTree, myMode);
 		if (!err)
-			genFromTree(MyTree, CodeList);
+			genFromTree(myTree, codeList);
 		return (err);
 	};
 
@@ -214,17 +214,17 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> The output list will be generated.<BR>
 	@author Thorn Green.
 	*/
-	public final void genFromTree(HighLevelBinTree MyTree, HighLevelList InList) {
+	public final void genFromTree(HighLevelBinTree myTree, HighLevelList inList) {
 		mStackSpaceRequired = 0;
 		mStackSpaceCurrent = 0;
-		HighLevelList myl = MyList;
-		InList.eraseAllInfo();
-		InList.copyDataPlusPtrInfo(myl);
-		MyTree.inOrder(MyTree, this, Callback.CALLBACK_1);
-		MyTree.eraseAllInfo();
+		HighLevelList myl = myList;
+		inList.eraseAllInfo();
+		inList.copyDataPlusPtrInfo(myl);
+		myTree.inOrder(myTree, this, Callback.CALLBACK_1);
+		myTree.eraseAllInfo();
 		if (!myl.empty())
 			myl.right();
-		myl.copyDataPlusPtrInfo(InList);
+		myl.copyDataPlusPtrInfo(inList);
 		if (mStackSpaceCurrent != 1)
 			throw (new RuntimeException("Assertion Violated: Stack does not match. " + mStackSpaceCurrent));
 	};
@@ -239,7 +239,7 @@ public class CodeGen extends Callback /* DBN */ {
 	@author Thorn Green.
 	*/
 	public final void clear() {
-		GEparser myo = MyGEparser;
+		GEparser myo = myGEparser;
 		myo.clear();
 	};
 
@@ -253,9 +253,9 @@ public class CodeGen extends Callback /* DBN */ {
 		will be returned.<BR>
 	@author Thorn Green
 	*/
-	public final boolean verifyVariable(FlexString VarStr, int MyMode) {
-		GEparser myo = MyGEparser;
-		return (myo.verifyVariable(VarStr, MyMode));
+	public final boolean verifyVariable(FlexString varStr, int myMode) {
+		GEparser myo = myGEparser;
+		return (myo.verifyVariable(varStr, myMode));
 	};
 
 	/**
@@ -269,7 +269,7 @@ public class CodeGen extends Callback /* DBN */ {
 	@author Thorn Green
 	*/
 	public final void extractVariable(FlexString instr, int strt, int endloc, FlexString outstr) {
-		GEparser myo = MyGEparser;
+		GEparser myo = myGEparser;
 		myo.extractVariable(instr, strt, endloc, outstr);
 	};
 
@@ -277,38 +277,38 @@ public class CodeGen extends Callback /* DBN */ {
 	* Returns the code number associated with the last error found.
 	*/
 	public final int getErrCode() {
-		GEparser myo = MyGEparser;
+		GEparser myo = myGEparser;
 		return (myo.getErrCode());
 	};
 
 	/**
 	This is an auxiliary routine used by CodeGen::GenerateCode.  It adds a node to
-		the list MyList.  Do not call this routine except from inside CodeGen.
+		the list myList.  Do not call this routine except from inside CodeGen.
 	<P>
 	<B>In:</B> Meta pointer for next instruction.<BR>
-	<B>Out:</B> To global MyList.<BR>
+	<B>Out:</B> To global myList.<BR>
 	<B>Pre:</B> None.<BR>
-	<B>Post:</B> Pointer in added to MyList.<BR>
+	<B>Post:</B> Pointer in added to myList.<BR>
 	@author Thorn Green.
 	*/
 	public void callback1(Meta in) {
-		HighLevelList myl = MyList;
+		HighLevelList myl = myList;
 		myl.insertRight(in);
 		myl.setCopyMode(Meta.COPY_DO_NOTHING);
 		myl.setEraseMode(Meta.WAKE);
 
-		Lexeme MyLex = (Lexeme) in;
-		int match = MyLex.getMyMatch();
+		Lexeme myLex = (Lexeme) in;
+		int match = myLex.getMyMatch();
 		int mStackDelta = 0;
 
 		if (match != GEval.PlugOp)
 			mStackDelta = GEval.getMstackOffset(match, myl);
 		else {
-			int val = MyLex.getPlugMatch();
-			int PlugID = val / GeomEngine.PlugOffsetBase;
-			Vector Plugs = GeomEngine.getPlugins();
-			DepicPlugin MyPlug = (DepicPlugin) (Plugs.elementAt(PlugID));
-			mStackDelta = MyPlug.getMstackOffset(val);
+			int val = myLex.getPlugMatch();
+			int plugID = val / GeomEngine.PlugOffsetBase;
+			Vector<DepicPlugin> plugs = GeomEngine.getPlugins();
+			DepicPlugin myPlug = plugs.elementAt(plugID);
+			mStackDelta = myPlug.getMstackOffset(val);
 		}
 
 		mStackSpaceCurrent += mStackDelta;
@@ -336,10 +336,10 @@ public class CodeGen extends Callback /* DBN */ {
 	/**
 	* The GEparser used to generate a parse tree.
 	*/
-	private static final GEparser MyGEparser = new GEparser();
+	private static final GEparser myGEparser = new GEparser();
 
 	/**
 	* The generated code list.
 	*/
-	private final HighLevelList MyList = new HighLevelList();
+	private final HighLevelList myList = new HighLevelList();
 };

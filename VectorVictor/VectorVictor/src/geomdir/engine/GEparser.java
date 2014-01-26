@@ -1535,13 +1535,13 @@ protected HighLevelBinTree plugOp( Lexeme FunLex , HighLevelBinTree TempTree )
 	{
 	int count = 0;	
 	HighLevelBinTree ret = null;
-	java.util.Vector Plugs = GeomEngine.getPlugins();
+	java.util.Vector<DepicPlugin> Plugs = GeomEngine.getPlugins();
 	int len = Plugs.size();
 	FlexString MyStr = (FlexString)( FunLex.getMetaPtr() );
 
 	while( ( count < len ) && ( ret == null ) )
 		{
-		DepicPlugin MyPlug = (DepicPlugin)( Plugs.elementAt( count ) );
+		DepicPlugin MyPlug = Plugs.elementAt( count );
 		ret = MyPlug.parseOps( MyStr , FunLex , TempTree );
 		count++;
 		}

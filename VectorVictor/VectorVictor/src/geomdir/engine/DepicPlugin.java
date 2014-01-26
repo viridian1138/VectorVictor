@@ -161,7 +161,7 @@ public abstract class DepicPlugin {
 	/**
 	* Installs a plugin.
 	*/
-	protected static void installPlug(Class in) {
+	protected static void installPlug(Class<? extends DepicPlugin> in) {
 		GeomEngine.installPlugin(in);
 	}
 

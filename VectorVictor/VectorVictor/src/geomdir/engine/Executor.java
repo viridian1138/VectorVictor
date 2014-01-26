@@ -240,8 +240,8 @@ public class Executor extends Object {
 						{
 							int val = MyLex.getPlugMatch();
 							int PlugID = val / GeomEngine.PlugOffsetBase;
-							Vector Plugs = GeomEngine.getPlugins();
-							DepicPlugin MyPlug = (DepicPlugin) (Plugs.elementAt(PlugID));
+							Vector<DepicPlugin> Plugs = GeomEngine.getPlugins();
+							DepicPlugin MyPlug = Plugs.elementAt(PlugID);
 							MyPlug.evalOp(val, mStack, oStack);
 						}
 						break;

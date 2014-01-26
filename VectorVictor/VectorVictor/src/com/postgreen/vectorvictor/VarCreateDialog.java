@@ -134,12 +134,14 @@ import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 
 public class VarCreateDialog {
@@ -342,6 +344,38 @@ public class VarCreateDialog {
               	    createVarButton.setOnClickListener( createVarButtonListener );
               	    
           	      
+              	    
+              	  createScriptSpinner.setOnItemSelectedListener(
+                  		new OnItemSelectedListener()
+                  		{
+
+      						public void onItemSelected(AdapterView<?> arg0,
+      								View arg1, int arg2, long arg3) {
+      							try
+      							{
+      								rebuildEquation();
+      							}
+      							catch( Throwable ex )
+      							{
+      								Log.e("tag", "msg", ex);
+      							}
+      							
+      						}
+
+      						public void onNothingSelected(AdapterView<?> arg0) {
+      							try
+      							{
+      								rebuildEquation();
+      							}
+      							catch( Throwable ex )
+      							{
+      								Log.e("tag", "msg", ex);
+      							}
+
+      						}
+                  			
+                  		} );  	    
+              	    
             
             dialog.show();
 

@@ -134,9 +134,13 @@ import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -329,6 +333,82 @@ public class SymDialog {
                 
               	    createSymbolButton.setOnClickListener( createSymbolButtonListener );
               	    
+              	    
+              	    
+            createScriptSpinner.setOnItemSelectedListener(
+            		new OnItemSelectedListener()
+            		{
+
+						public void onItemSelected(AdapterView<?> arg0,
+								View arg1, int arg2, long arg3) {
+							try
+							{
+								rebuildEquation();
+							}
+							catch( Throwable ex )
+							{
+								Log.e("tag", "msg", ex);
+							}
+							
+						}
+
+						public void onNothingSelected(AdapterView<?> arg0) {
+							try
+							{
+								rebuildEquation();
+							}
+							catch( Throwable ex )
+							{
+								Log.e("tag", "msg", ex);
+							}
+
+						}
+            			
+            		} );
+            
+            
+            
+            
+            createSymbolBoldBox.setOnCheckedChangeListener(
+            		new OnCheckedChangeListener()
+            		{
+
+						public void onCheckedChanged(CompoundButton arg0,
+								boolean arg1) {
+							try
+							{
+								rebuildEquation();
+							}
+							catch( Throwable ex )
+							{
+								Log.e("tag", "msg", ex);
+							}
+							
+						}
+            			
+            		} );
+            
+            
+            
+            createSymbolUprightBox.setOnCheckedChangeListener(
+            		new OnCheckedChangeListener()
+            		{
+
+						public void onCheckedChanged(CompoundButton arg0,
+								boolean arg1) {
+							try
+							{
+								rebuildEquation();
+							}
+							catch( Throwable ex )
+							{
+								Log.e("tag", "msg", ex);
+							}
+							
+						}
+            			
+            		} );
+            
           	      
             
             dialog.show();
@@ -473,8 +553,8 @@ public FlexString buildEqnString(int CurMode) {
 	if ( ( CurMode != ScriptMode ) && ( CurMode != NonCursorMode ) )
 		SumLen = true;
 
-	boolean BoldOn = createSymbolBoldBox.isSelected();
-	boolean UprightOn = createSymbolUprightBox.isSelected();
+	boolean BoldOn = createSymbolBoldBox.isChecked();
+	boolean UprightOn = createSymbolUprightBox.isChecked();
 	EmptyFlag = false;
 
 	TotStr = new FlexString();

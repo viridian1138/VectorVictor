@@ -1433,20 +1433,20 @@ public class GeomEngine implements Externalizable {
 	/**
 	* Installs a plugin.
 	*/
-	public static void installPlugin(Class plug) {
-		int sz = Plugins.size();
+	public static void installPlugin(Class<? extends DepicPlugin> plug) {
+		int sz = plugins.size();
 		if (sz < 0)
 			sz = 0;
 		int off = PlugOffsetBase * (sz);
-		Object myo = null;
+		DepicPlugin myo = null;
 		try {
 			myo = plug.newInstance();
-			((DepicPlugin) myo).setPlugInstalled(off);
+			myo.setPlugInstalled(off);
 
-			if ((sz + 1) > Plugins.size())
-				Plugins.setSize(sz + 1);
+			if ((sz + 1) > plugins.size())
+				plugins.setSize(sz + 1);
 
-			Plugins.setElementAt(myo, sz);
+			plugins.setElementAt(myo, sz);
 		}
 		catch (Exception e) {
 			throw (new WrapRuntimeException("Plug Install Failed", e));
@@ -1471,8 +1471,8 @@ public class GeomEngine implements Externalizable {
 	/**
 	* Gets the set of plugins.
 	*/
-	public static final Vector getPlugins() {
-		return (Plugins);
+	public static final Vector<DepicPlugin> getPlugins() {
+		return (plugins);
 	}
 
 	/**
@@ -1580,7 +1580,7 @@ public class GeomEngine implements Externalizable {
 		return (err);
 	}
 
-	protected static Vector Plugins = new Vector();
+	protected static Vector<DepicPlugin> plugins = new Vector<DepicPlugin>();
 	public static final int PlugOffsetBase = 10000;
 
 	protected transient SolverLinkage linkage = new BluePackSolverLinkage();
