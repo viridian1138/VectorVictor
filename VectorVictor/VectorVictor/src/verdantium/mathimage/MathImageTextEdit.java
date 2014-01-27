@@ -111,12 +111,22 @@
 
 package verdantium.mathimage;
 
-import com.postgreen.vectorvictor.R;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
+
+import com.postgreen.vectorvictor.R;
 
 public class MathImageTextEdit extends MathImagePopup /* DBN */ {
+	
+	boolean stateCleared = false;
+	
+	final Timer timer = new Timer();
+	
 
 	public MathImageTextEdit(Context context) {
 		super(context);
@@ -138,5 +148,67 @@ public class MathImageTextEdit extends MathImagePopup /* DBN */ {
 				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_textedit_vert_size ) );
 	}
 	
+	
+	@Override
+	protected void onDraw(Canvas g)  {
+		super.onDraw( g );
+		
+		try
+		{
+			
+			if( !stateCleared )
+			{
+				final TimerTask task = new TimerTask()
+				{
+					@Override
+					public void run()
+					{
+						handleTimerEvent();
+					}
+				};
+				timer.schedule( task , 500 );
+				stateCleared = true;
+			}
+		}
+		catch( Throwable ex )
+		{
+			Log.e("tag", "msg", ex);
+		}
+		
+	}
+	
+	
+	protected void handleTimerEvent()
+	{
+		this.post( new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					setDrawCursor( !( getDrawCursor() ) );
+					stateCleared = false;
+					invalidate();
+				}
+				catch( Throwable ex )
+				{
+					Log.e("tag", "msg", ex);
+				} 
+			}
+		} );
+	}
+	
+	
+	protected void setDrawCursor( boolean in )
+	{
+		img.setDrawCursor( in );
+	}
+	
+	protected boolean getDrawCursor( )
+	{
+		return( img.getDrawCursor() );
+	}
+	
 
 }
+
