@@ -118,6 +118,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import com.postgreen.vectorvictor.R;
 
@@ -176,6 +177,15 @@ public class MathImageTextEdit extends MathImagePopup /* DBN */ {
 		}
 		
 	}
+	
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent e)
+ 	{
+		Log.e("tag", "GotKeyEvent!!!!!!!!!!!!");
+		return( true );
+ 	}
 	
 	
 	protected void handleTimerEvent()

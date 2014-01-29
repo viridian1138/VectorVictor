@@ -130,10 +130,13 @@ import meta.HighLevelList;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.mathimage.MathImageParseException;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -409,6 +412,31 @@ public class SymDialog {
 						}
             			
             		} );
+            
+            
+            
+            final OnClickListener createSymbolKeyboardButtonListener = 
+          	      new OnClickListener() 
+          	      {
+          	         //@Override
+          	         public void onClick(View v) 
+          	         {
+          	        	 
+          	        	 try
+          	        	 {
+          	        		showKeyboard( activity );
+          	        	 }
+          	        	 catch( Throwable ex )
+          	        	 {
+          	        		 Log.e("tag", "msg", ex);
+          	        	 }
+          	            
+          	         } // end method onClick
+          	      }; // end createInsertSymbolButtonListener
+            
+          	      
+            
+             createSymbolKeyboardButton.setOnClickListener( createSymbolKeyboardButtonListener );
             
           	      
             
@@ -692,6 +720,18 @@ void condenseText(HighLevelList in, FlexString MyStr) {
 		}
 	}
 
+}
+
+
+
+
+protected void showKeyboard( Activity act )
+{
+	
+	InputMethodManager mgr = (InputMethodManager)( act.getSystemService( Context.INPUT_METHOD_SERVICE ) );
+	mgr.toggleSoftInput( 0 , 0 );
+	mgr.showSoftInput( /* FreeKit */ createSymbolEditField , InputMethodManager.SHOW_FORCED );
+	/* FreeKit */ createSymbolEditField.requestFocus();
 }
 
 
