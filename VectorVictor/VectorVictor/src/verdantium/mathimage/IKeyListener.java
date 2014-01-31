@@ -3,6 +3,9 @@
 
 
 
+
+
+
 //$$strtCprt
 /**
 * Vector Victor -- Graphing Calculator Program For Android
@@ -109,137 +112,20 @@
 
 
 
+
+
+
+
+
+
+
 package verdantium.mathimage;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 
-import com.postgreen.vectorvictor.R;
-
-public class MathImageTextEdit extends MathImagePopup /* DBN */ {
+public interface IKeyListener {
 	
-	boolean stateCleared = false;
-	
-	final Timer timer = new Timer();
-	
-	protected IKeyListener mathKeyListener = null;
-	
-
-	public MathImageTextEdit(Context context) {
-		super(context);
-	}
-
-	public MathImageTextEdit(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public MathImageTextEdit(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-	
-	@Override
-	public void onMeasure( int x , int y )
-	{
-		setMeasuredDimension(
-				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_textedit_horiz_size ),
-				getContext().getResources().getDimensionPixelSize( R.dimen.mathimage_textedit_vert_size ) );
-	}
-	
-	
-	@Override
-	protected void onDraw(Canvas g)  {
-		super.onDraw( g );
-		
-		try
-		{
-			
-			if( !stateCleared )
-			{
-				final TimerTask task = new TimerTask()
-				{
-					@Override
-					public void run()
-					{
-						handleTimerEvent();
-					}
-				};
-				timer.schedule( task , 500 );
-				stateCleared = true;
-			}
-		}
-		catch( Throwable ex )
-		{
-			Log.e("tag", "msg", ex);
-		}
-		
-	}
-	
-	
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent e)
- 	{
-		if( mathKeyListener != null )
-		{
-			return( mathKeyListener.onKeyDown(keyCode, e) );
-		}
-		return( false );
- 	}
-	
-	
-	protected void handleTimerEvent()
-	{
-		this.post( new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					setDrawCursor( !( getDrawCursor() ) );
-					stateCleared = false;
-					invalidate();
-				}
-				catch( Throwable ex )
-				{
-					Log.e("tag", "msg", ex);
-				} 
-			}
-		} );
-	}
-	
-	
-	protected void setDrawCursor( boolean in )
-	{
-		img.setDrawCursor( in );
-	}
-	
-	protected boolean getDrawCursor( )
-	{
-		return( img.getDrawCursor() );
-	}
-
-	/**
-	 * @return the mathKeyListener
-	 */
-	public IKeyListener getMathKeyListener() {
-		return mathKeyListener;
-	}
-
-	/**
-	 * @param mathKeyListener the mathKeyListener to set
-	 */
-	public void setMathKeyListener(IKeyListener mathKeyListener) {
-		this.mathKeyListener = mathKeyListener;
-	}
-
-
-	
+	public boolean onKeyDown(int keyCode, KeyEvent e);
 
 }
 

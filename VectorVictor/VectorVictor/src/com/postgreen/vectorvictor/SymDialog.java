@@ -134,6 +134,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -438,6 +439,43 @@ public class SymDialog {
             
              createSymbolKeyboardButton.setOnClickListener( createSymbolKeyboardButtonListener );
             
+             
+             
+             createSymbolEditField.setMathKeyListener( new IKeyListener()
+             {
+            	 public boolean onKeyDown(int keyCodeNonUnicode, KeyEvent e)
+            	 {
+            		 try
+            		 {
+            			 int key = (int)( e.getUnicodeChar() );
+            			 if ((key > 64) && (key < 91)) {
+            					char MyChar = (char) key;
+            					String MyStr = (new Character(MyChar)).toString();
+            					performInsert(MyStr);
+            					return( true );
+            				}
+
+            				if ((key > 96) && (key < 123)) {
+            					char MyChar = (char) key;
+            					String MyStr = (new Character(MyChar)).toString();
+            					performInsert(MyStr);
+            					return( true );
+            				}
+
+            				if ((key > 47) && (key < 58)) {
+            					char MyChar = (char) key;
+            					String MyStr = (new Character(MyChar)).toString();
+            					performInsert(MyStr);
+            					return( true );
+            				}
+            		 }
+            		 catch( Throwable ex )
+            		 {
+            			 Log.e("tag", "msg", ex);
+            		 }
+            		 return( false );
+            	 }
+             });
           	      
             
             dialog.show();
