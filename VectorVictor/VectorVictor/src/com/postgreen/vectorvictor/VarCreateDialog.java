@@ -435,6 +435,21 @@ public class VarCreateDialog {
             					performInsert(MyStr);
             					return( true );
             				}
+            				
+            				if( keyCodeNonUnicode == 67 )
+            				{
+            					performDelete();
+            					return( true );
+            				}
+            				
+            				switch( key )
+            				{
+            				case 39 :
+            					performInsert("&prime;");
+            					return( true );
+            					
+            				}
+            				
             		 }
             		 catch( Throwable ex )
             		 {
@@ -500,6 +515,56 @@ void performInsert(String InStr) throws MathImageParseException {
 	rebuildEquation();
 }
 
+
+
+/**
+* Deletes one set of symbols from the editing panel.
+*/
+void performDelete() {
+	HighLevelList MyList = null;
+	
+	final int CurInsertMode = createScriptSpinner.getSelectedItemPosition();
+
+	// if ((CurInsertMode == OverscriptMode) && (OverscriptingMode == HatMode)) { !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//	OverscriptingMode = StdMode;
+	//	OverscriptList.eraseAllInfo();
+	// }
+
+	switch (CurInsertMode) {
+		case ScriptMode :
+			MyList = ScriptList;
+			break;
+		case SubscriptMode :
+			MyList = SubscriptList;
+			break;
+		case SuperscriptMode :
+			MyList = SuperscriptList;
+			break;
+		case OverscriptMode :
+			MyList = OverscriptList;
+			break;
+		case UnderscriptMode :
+			MyList = UnderscriptList;
+			break;
+
+	}
+
+	if (!(MyList.empty())) {
+		MyList.searchHead();
+		MyList.left();
+		MyList.eraseNodeInfo();
+	}
+
+//	if (ScriptList.empty()) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		OverscriptingMode = StdMode;
+
+	try {
+		rebuildEquation();
+	}
+	catch (Exception ex) {
+		Log.e("tag", "msg", ex);
+	}
+}
 
 
 /**
