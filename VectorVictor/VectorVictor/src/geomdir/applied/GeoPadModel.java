@@ -144,10 +144,12 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Iterator;
 
+import meta.*;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Staque;
+import meta.StdLowLevelList;
 import meta.WrapRuntimeException;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
@@ -1362,8 +1364,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		{
 		ClipSet Clipboard = new ClipSet();
 		ClipSet ExpClipboard = new ClipSet();
-		HighLevelList LHS = new HighLevelList();
-		HighLevelList RHS = new HighLevelList();
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> LHS = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> RHS = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 		buildClipboard( Clipboard , ExpClipboard , LHS , RHS );
 		boolean Ok = getClipIsExtractable( ExpClipboard );	
 
@@ -1425,7 +1427,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Deletes a set of selected elements.
 */
-	protected void deleteClipElements( ClipSet in , HighLevelList LHS , HighLevelList RHS )
+	protected void deleteClipElements( ClipSet in , HighLevelList<StdLowLevelList<FlexString>,FlexString> LHS , HighLevelList<StdLowLevelList<FlexString>,FlexString> RHS )
 		{
 		if( !( LHS.empty() ) )
 			{
@@ -1434,7 +1436,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 			while( !Done )
 				{
-				FlexString MyStr = (FlexString)( LHS.getNode() );
+				FlexString MyStr = LHS.getNode();
 				deleteExpression( MyStr , EngineConstants.SUPERVISOR_MODE );
 				}
 			}
@@ -1494,7 +1496,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Builds a "complete" clipboard from a set of depictors and all depictors related by a constraint.
 */
-	protected void buildClipboard( ClipSet Clipboard , ClipSet ExpClipboard , HighLevelList LHS , HighLevelList RHS )
+	protected void buildClipboard( ClipSet Clipboard , ClipSet ExpClipboard , HighLevelList<StdLowLevelList<FlexString>,FlexString> LHS , HighLevelList<StdLowLevelList<FlexString>,FlexString> RHS )
 		throws IllegalInputException
 		{
 		boolean Err = isDList( ( (Ktool.SelectionTool)( FreeDepicPanel.getGeoTools().elementAt( 2 ) ) ).getDropList() )
@@ -3062,7 +3064,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Checks whether a node needs to be stacked based on a dependency.
 */
-	protected void checkClipDependency( DGMNode ChkObj , ClipSet TmpClip , Staque MyQ )
+	protected void checkClipDependency( DGMNode ChkObj , ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ )
 		{
 		if( !( TmpClip.contains( ChkObj ) ) )
 			{
@@ -3083,7 +3085,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Checks whether a depictor in the clipbaord has any dependencies due to its delegates.
 */
-	protected void checkDelegateDependencies( HighLevelList in , ClipSet TmpClip , Staque MyQ )
+	protected void checkDelegateDependencies( HighLevelList<StdLowLevelList<DrawObj>,DrawObj> in , 
+				ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ )
 		{
 		if( !( in.empty() ) )
 			{
@@ -3092,7 +3095,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 			while( !Done )
 				{
-				DrawObj MyObj = (DrawObj)( in.getNode() );
+				DrawObj MyObj = in.getNode();
 				checkClipDependency( clipGetDGM( MyObj ) , TmpClip , MyQ );				
 
 				in.right();
@@ -3106,7 +3109,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 * Checks whether a variable name is a port variable that may indicate a dependency
 * to a depictor on the clipboard.
 */
-	protected void checkClipAsgnNode( FlexString VarName , ClipSet TmpClip , Staque MyQ )
+	protected void checkClipAsgnNode( FlexString VarName , ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ )
 		{
 		char st = VarName.getChar( 0 );
 
@@ -3137,7 +3140,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 * Checks the assignment list to determine what dependencies exist between depictors that
 * are and/or are not on the clipboard.
 */
-	protected void checkClipAsgnList( HighLevelList in , ClipSet TmpClip , Staque MyQ )
+	protected void checkClipAsgnList( HighLevelList<StdLowLevelList<FlexString>,FlexString> in , 
+			ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ )
 		{
 		if( !( in.empty() ) )
 			{
@@ -3146,7 +3150,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 			while( !Done )
 				{
-				FlexString mys = (FlexString)( in.getNode() );
+				FlexString mys = in.getNode();
 				checkClipAsgnNode( mys , TmpClip , MyQ );
 
 				in.right();
@@ -3160,13 +3164,14 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 * Checks all ports associated with the depictor for dependencies that should be
 * added to the clipboard.
 */
-	protected void checkClipAssignments( DrawObj MyObj , ClipSet TmpClip , Staque MyQ , HighLevelList LHS , HighLevelList RHS )
+	protected void checkClipAssignments( DrawObj MyObj , ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ , 
+			HighLevelList<StdLowLevelList<FlexString>,FlexString> LHS , HighLevelList<StdLowLevelList<FlexString>,FlexString> RHS )
 		{
 		int count;
 		FlexString VarName = new FlexString();
 		FlexString Vari = new FlexString();
 		FlexString Exprn = new FlexString();
-		HighLevelList DepList = new HighLevelList();
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> DepList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 		String[] Ports = MyObj.getPortNames();
 		IntObj MyMode = new IntObj();
 
@@ -3220,11 +3225,11 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 * Checks all ports associated with the depictor for dependencies that should be
 * added to the clipboard.
 */
-	protected void checkClipUsages( DrawObj MyObj , ClipSet TmpClip , Staque MyQ )
+	protected void checkClipUsages( DrawObj MyObj , ClipSet TmpClip , Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ )
 		{
 		int count;
 		FlexString VarName = new FlexString();
-		HighLevelList DepList = new HighLevelList();
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> DepList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 		String[] Ports = MyObj.getPortNames();
 
 		for( count = 0 ; count < Ports.length ; ++count )
@@ -3287,10 +3292,10 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 * Includes in the clipboard objects contained in an assignment constraint.
 */
 	protected void expandClipboard( ClipSet Clipboard , ClipSet ExpClipboard , 
-		HighLevelList LHS , HighLevelList RHS )
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> LHS , HighLevelList<StdLowLevelList<FlexString>,FlexString> RHS )
 		{
 		ClipSet TmpClip = new ClipSet();
-		Staque MyQ = new Staque();
+		Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ = new Staque<StdLowLevelList<DGMNode>,DGMNode>();
 		
 		Iterator<DGMNode> it = Clipboard.iterator();
 
@@ -3702,7 +3707,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 	private static final EXparser MyParser = new EXparser();
 
-	protected HighLevelList CurPromptList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<Meta<?>>,Meta<?>> CurPromptList = new HighLevelList<StdLowLevelList<Meta<?>>,Meta<?>>();
 	protected DrawObj KeyCacheDepic = null;
 	protected FlexString KeyCachePrompt = null;
 	protected int KeyLastFill = 0;
@@ -3720,8 +3725,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 	protected ClipSet Clipboard = new ClipSet();
 	protected ClipSet ExprClipboard = new ClipSet();
-	protected HighLevelList ClipLHS = new HighLevelList();
-	protected HighLevelList ClipRHS = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<FlexString>,FlexString> ClipLHS = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	protected HighLevelList<StdLowLevelList<FlexString>,FlexString> ClipRHS = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 
 	private boolean UsingScalarWedge = true;
 

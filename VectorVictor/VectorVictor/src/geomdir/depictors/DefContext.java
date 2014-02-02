@@ -167,7 +167,7 @@ import android.graphics.RectF;
 * "get-set" methods on private members.  They likely don't need full documentation
 * at this time.
 */
-public class DefContext extends CoordContext {
+public class DefContext<T extends DefContext> extends CoordContext<T> {
 	public final void datCpy(DefContext out) {
 		out.setX(x);
 		out.setY(y);
@@ -192,30 +192,30 @@ public class DefContext extends CoordContext {
 		hx7.copyAllInfo(out.getHex7());
 		hx8.copyAllInfo(out.getHex8());
 	};
-	public Meta copyNode() {
+	public T copyNode() {
 		DefContext temp = new DefContext();
 		datCpy(temp);
-		return (temp);
+		return ((T)temp);
 	};
-	public Meta copySub() {
+	public T copySub() {
 		DefContext temp = new DefContext();
 		datCpy(temp);
-		return (temp);
+		return ((T)temp);
 	};
-	public Meta copyAll() {
+	public T copyAll() {
 		DefContext temp = new DefContext();
 		datCpy(temp);
-		return (temp);
+		return ((T)temp);
 	};
-	public void copyNodeInfo(Meta in) {
+	public void copyNodeInfo(T in) {
 		DefContext temp = (DefContext) in;
 		datCpy(temp);
 	};
-	public void copySubInfo(Meta in) {
+	public void copySubInfo(T in) {
 		DefContext temp = (DefContext) in;
 		datCpy(temp);
 	};
-	public void copyAllInfo(Meta in) {
+	public void copyAllInfo(T in) {
 		DefContext temp = (DefContext) in;
 		datCpy(temp);
 	};

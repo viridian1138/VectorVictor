@@ -205,30 +205,30 @@ public class Vect2 extends DrawObj implements Externalizable {
 		/* out.HdPoint = HdPoint;
 		out.TlPoint = TlPoint; */
 	};
-	public Meta copyNode() {
+	public Vect2 copyNode() {
 		Vect2 temp = new Vect2();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copySub() {
+	public Vect2 copySub() {
 		Vect2 temp = new Vect2();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copyAll() {
+	public Vect2 copyAll() {
 		Vect2 temp = new Vect2();
 		datCpy(temp);
 		return (temp);
 	};
-	public void copyNodeInfo(Meta in) {
+	public void copyNodeInfo(Vect2 in) {
 		Vect2 temp = (Vect2) in;
 		datCpy(temp);
 	};
-	public void copySubInfo(Meta in) {
+	public void copySubInfo(Vect2 in) {
 		Vect2 temp = (Vect2) in;
 		datCpy(temp);
 	};
-	public void copyAllInfo(Meta in) {
+	public void copyAllInfo(Vect2 in) {
 		Vect2 temp = (Vect2) in;
 		datCpy(temp);
 	};
@@ -246,14 +246,14 @@ public class Vect2 extends DrawObj implements Externalizable {
 		/* delete MyAppNode->getVectName(); */
 		/* ( VarList.getNode() ).eraseNode(); */
 	}
-	public Meta copyUser1() {
+	public Vect2 copyUser1() {
 		Vect2 temp = new Vect2();
 		super.copyUser1Info(temp);
 		(getVect()).copyAllInfo(temp.getVect());
 		HDHexGlo.copyAllInfo(temp.HDHexGlo);
 		return (temp);
 	};
-	public void copyUser1Info(Meta out) {
+	public void copyUser1Info(Vect2 out) {
 		Vect2 temp = (Vect2) out;
 		super.copyUser1Info(temp);
 		(getVect()).copyAllInfo(temp.getVect());

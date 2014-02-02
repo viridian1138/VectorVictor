@@ -125,10 +125,10 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import meta.*;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
@@ -1631,14 +1631,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void setLastClickDepic(DrawObj MyObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localSetLastClickDepic(MyObj);
 
 				tmp.right();
@@ -1653,14 +1653,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public DGMNode pullFromDrawingList(DrawObj MyObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 			    MyNode.value.localPullFromDrawingList(MyObj);
 
 				tmp.right();
@@ -1676,14 +1676,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void bringToFront(DrawObj MyObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localBringToFront(MyObj);
 
 				tmp.right();
@@ -1698,14 +1698,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void sendToBack(DrawObj MyObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localSendToBack(MyObj);
 
 				tmp.right();
@@ -1720,14 +1720,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void displayAppend(DrawObj MyObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localDisplayAppend(MyObj);
 
 				tmp.right();
@@ -1742,14 +1742,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void globalRepaint() {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.invalidate(); // postInvalidate();
 
 				tmp.right();
@@ -1766,14 +1766,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void globalDelegationEvent(boolean Add, DrawObj FromObj, DrawObj ToObj) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localDelegationEvent(Add, FromObj, ToObj);
 
 				tmp.right();
@@ -1811,7 +1811,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		ObjObj<DepicListListener> MyObj = new ObjObj<DepicListListener>();
 		MyObj.value = in;
 
-		DepicListListeners.insertRight(MyObj);
+		depicListListeners.insertRight(MyObj);
 		handleCoordRenderUpdate(72.0);
 	}
 
@@ -1842,15 +1842,15 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Removes a DepicListListener from the model.
 	*/
 	public void removeDepicListListener(DepicListListener in) {
-		HighLevelList temp = DepicListListeners;
-		HighLevelList next = new HighLevelList();
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> temp = depicListListeners;
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> next = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
 
 		if (!(temp.empty())) {
 			temp.searchHead();
 			boolean Done = false;
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyObjObj = (ObjObj<DepicListListener>) temp.getNode();
+				ObjObj<DepicListListener> MyObjObj = temp.getNode();
 				temp.copyDataPlusPtrInfo(next);
 				next.right();
 
@@ -1917,18 +1917,18 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Handles a mouse event and updates all affected views.
 	*/
 	protected final void globalImage(MotionEvent MyEvent) {
-		HighLevelList tmp = new HighLevelList();
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
 		DragTarget.clickAndDrag(MyEvent, DragRec1);
 
 		boolean Done = false;
 		if (GloDraw) {
-			Model.this.DepicListListeners.copyDataPlusPtrInfo(tmp);
+			Model.this.depicListListeners.copyDataPlusPtrInfo(tmp);
 
 			if (!(tmp.empty())) {
 				tmp.searchHead();
 
 				while (!Done) {
-					ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+					ObjObj<DepicListListener> MyNode = tmp.getNode();
 					MyNode.value.updateYourself1();
 
 					tmp.right();
@@ -2289,9 +2289,9 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public void clearModel(Object s1) {
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		HighLevelList tmp2 = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp2 = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
@@ -2300,7 +2300,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 				tmp.copyDataPlusPtrInfo(tmp2);
 				tmp2.right();
 
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				MyNode.value.localClearModel();
 
 				tmp2.copyDataPlusPtrInfo(tmp);
@@ -2377,14 +2377,14 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		double dpiMultiplier = dpi / 72.0;
 		double lowScaleTolerance = 1.0E+12;
 		boolean Done = false;
-		HighLevelList tmp = new HighLevelList();
-		DepicListListeners.copyDataPlusPtrInfo(tmp);
+		HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> tmp = new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
+		depicListListeners.copyDataPlusPtrInfo(tmp);
 
 		if (!(tmp.empty())) {
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				ObjObj<DepicListListener> MyNode = tmp.getNode();
 				double rad = MyNode.value.getCoordRad();
 
 				if (rad > 0.0) {
@@ -2644,7 +2644,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	private transient DGPHashMap UndoVarList = new DGPHashMap();
 	private SymMap GloSymMap = new SymMap();
 	protected transient PropertyChangeSupport PropL = null;
-	private transient HighLevelList DepicListListeners = new HighLevelList();
+	private transient HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> depicListListeners = 
+			new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
 //	private transient HighLevelList WindowRecords = new HighLevelList();
 	private int UnqID = 1;
 }

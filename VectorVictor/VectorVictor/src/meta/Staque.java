@@ -154,80 +154,80 @@ package meta;
  * Alt-nodes are supported.
  * @author Thorn Green
  */
-public class Staque extends Meta {
+public class Staque<U extends LowLevelList, T extends Meta> extends Meta<Staque<U,T>> {
     /**
      * @see meta.Meta
      */
-    public Meta copyNode() {
-        Staque temp = new Staque();
+    public Staque<U,T> copyNode() {
+        Staque<U,T> temp = new Staque<U,T>();
         qHighLevelList.copyNodeInfo(temp.dvGetQHighLevelList());
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
-        Staque temp = new Staque();
+    public Staque<U,T> copySub() {
+        Staque<U,T> temp = new Staque<U,T>();
         qHighLevelList.copySubInfo(temp.dvGetQHighLevelList());
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
-        Staque temp = new Staque();
+    public Staque<U,T> copyAll() {
+        Staque<U,T> temp = new Staque<U,T>();
         qHighLevelList.copyAllInfo(temp.dvGetQHighLevelList());
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyData() {
-        Staque temp = new Staque();
+    public Staque<U,T> copyData() {
+        Staque<U,T> temp = new Staque<U,T>();
         qHighLevelList.copyDataInfo(temp.dvGetQHighLevelList());
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyDataPlusPtr() {
-        Staque temp = new Staque();
+    public Staque<U,T> copyDataPlusPtr() {
+        Staque<U,T> temp = new Staque<U,T>();
         qHighLevelList.copyDataPlusPtrInfo(temp.dvGetQHighLevelList());
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public void copyNodeInfo(Meta in) {
-        Staque temp = (Staque) in;
+    public void copyNodeInfo(Staque<U,T> in) {
+        Staque<U,T> temp = in;
         qHighLevelList.copyNodeInfo(temp.dvGetQHighLevelList());
     };
     /**
      * @see meta.Meta
      */
-    public void copySubInfo(Meta in) {
-        Staque temp = (Staque) in;
+    public void copySubInfo(Staque<U,T> in) {
+        Staque<U,T> temp = in;
         qHighLevelList.copySubInfo(temp.dvGetQHighLevelList());
     };
     /**
      * @see meta.Meta
      */
-    public void copyAllInfo(Meta in) {
-        Staque temp = (Staque) in;
+    public void copyAllInfo(Staque<U,T> in) {
+        Staque<U,T> temp = in;
         qHighLevelList.copyAllInfo(temp.dvGetQHighLevelList());
     };
     /**
      * @see meta.Meta
      */
-    public void copyDataInfo(Meta in) {
-        Staque temp = (Staque) in;
+    public void copyDataInfo(Staque<U,T> in) {
+        Staque<U,T> temp = in;
         qHighLevelList.copyDataInfo(temp.dvGetQHighLevelList());
     };
     /**
      * @see meta.Meta
      */
-    public void copyDataPlusPtrInfo(Meta in) {
-        Staque temp = (Staque) in;
+    public void copyDataPlusPtrInfo(Staque<U,T> in) {
+        Staque<U,T> temp = in;
         qHighLevelList.copyDataPlusPtrInfo(temp.dvGetQHighLevelList());
     };
     /**
@@ -284,29 +284,29 @@ public class Staque extends Meta {
     /**
      * Adds an element as if the DS is a queue.
      */
-    public final void enq(Meta in) {
-        HighLevelList ql = qHighLevelList;
+    public final void enq(T in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.insertLeft(in);
     };
     /**
      * Pushes an element as if the DS is a stack.
      */
-    public final void push(Meta in) {
-        HighLevelList ql = qHighLevelList;
+    public final void push(T in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.insertLeft(in);
     };
     /**
      * Adds an element as if the DS is a queue.
      */
-    public final void importEnq(LowLevelList in) {
-        HighLevelList ql = qHighLevelList;
+    public final void importEnq(U in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.importInsertLeft(in);
     };
     /**
      * Pushes an element as if the DS is a stack.
      */
-    public final void importPush(LowLevelList in) {
-        HighLevelList ql = qHighLevelList;
+    public final void importPush(U in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.importInsertLeft(in);
     };
     
@@ -322,9 +322,9 @@ public class Staque extends Meta {
      *
      * @author Thorn Green
      */
-    public final Meta pop() {
-        HighLevelList ql = qHighLevelList;
-        Meta temp = ql.getNode();
+    public final T pop() {
+        HighLevelList<U,T> ql = qHighLevelList;
+        T temp = ql.getNode();
         
         ql.eraseNodeInfo();
         return (temp);
@@ -341,10 +341,10 @@ public class Staque extends Meta {
      * @return The deq-ed node.
      * @author Thorn Green
      */
-    public final Meta deq() {
-        Meta temp;
+    public final T deq() {
+        T temp;
         
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         temp = ql.getNode();
         ql.eraseNodeInfo();
@@ -355,7 +355,7 @@ public class Staque extends Meta {
      * Returns true if the DS is empty.
      */
     public final boolean empty() {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         return (ql.empty());
     };
     
@@ -370,10 +370,10 @@ public class Staque extends Meta {
      * @return The front node.
      * @author Thorn Green
      */
-    public final Meta getFrontNode() {
-        Meta temp;
+    public final T getFrontNode() {
+        T temp;
         
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         temp = ql.getNode();
         ql.right();
@@ -391,8 +391,8 @@ public class Staque extends Meta {
      * @return The rear node.
      * @author Thorn Green
      */
-    public final Meta getRearNode() {
-        HighLevelList ql = qHighLevelList;
+    public final T getRearNode() {
+        HighLevelList<U,T> ql = qHighLevelList;
         return (ql.getNode());
     };
     
@@ -410,7 +410,7 @@ public class Staque extends Meta {
     public final int getFrontCopyMode() {
         int temp;
         
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         temp = ql.getCopyMode();
         ql.right();
@@ -429,7 +429,7 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final int getRearCopyMode() {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         return (ql.getCopyMode());
     };
     
@@ -447,7 +447,7 @@ public class Staque extends Meta {
     public final int getFrontEraseMode() {
         int temp;
         
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         temp = ql.getEraseMode();
         ql.right();
@@ -466,7 +466,7 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final int getRearEraseMode() {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         return (ql.getEraseMode());
     };
     
@@ -480,8 +480,8 @@ public class Staque extends Meta {
      * <P>
      * @author Thorn Green
      */
-    public final void setFrontNode(Meta in) {
-        HighLevelList ql = qHighLevelList;
+    public final void setFrontNode(T in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         ql.setNode(in);
         ql.right();
@@ -497,8 +497,8 @@ public class Staque extends Meta {
      * <P>
      * @author Thorn Green
      */
-    public final void setRearNode(Meta in) {
-        HighLevelList ql = qHighLevelList;
+    public final void setRearNode(T in) {
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.setNode(in);
     };
     
@@ -513,7 +513,7 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final void setFrontCopyMode(int in) {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         ql.setCopyMode(in);
         ql.right();
@@ -530,7 +530,7 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final void setRearCopyMode(int in) {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.setCopyMode(in);
     };
     
@@ -545,7 +545,7 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final void setFrontEraseMode(int in) {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.left();
         ql.setEraseMode(in);
         ql.right();
@@ -562,19 +562,19 @@ public class Staque extends Meta {
      * @author Thorn Green
      */
     public final void setRearEraseMode(int in) {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.setEraseMode(in);
     };
     
-    private final HighLevelList dvGetQHighLevelList() {
+    private final HighLevelList<U,T> dvGetQHighLevelList() {
         return (qHighLevelList);
     }
     public final void iStaque() {
-        HighLevelList ql = qHighLevelList;
+        HighLevelList<U,T> ql = qHighLevelList;
         ql.iHighLevelList();
     };
     public Staque() {
         this.iStaque();
     };
-    private final HighLevelList qHighLevelList = new HighLevelList();
+    private final HighLevelList<U,T> qHighLevelList = new HighLevelList<U,T>();
 };

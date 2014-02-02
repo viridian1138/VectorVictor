@@ -123,7 +123,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import meta.Staque;
 import meta.WrapRuntimeException;
 
@@ -170,13 +170,13 @@ import meta.WrapRuntimeException;
 */
 public abstract class StatSolverBase extends Object {
 
-	class ContextNode extends Meta {
+	class ContextNode extends Meta<ContextNode> {
 		public void wake() {}
 
 		private boolean useGuess;
 		private double[] initialIntervalStart = null;
 		private double[] InitialIntervalEnd = null;
-		private Staque subdivStk = null;
+		private Staque<StdLowLevelList<SegNode>,SegNode> subdivStk = null;
 		private SegNode lastOuterSegNode = null;
 		private SegNode lastInnerSegNode = null;
 
@@ -253,20 +253,20 @@ public abstract class StatSolverBase extends Object {
 		/**
 		 * @return
 		 */
-		public Staque getSubdivStk() {
+		public Staque<StdLowLevelList<SegNode>,SegNode> getSubdivStk() {
 			return subdivStk;
 		}
 
 		/**
 		 * @param staque
 		 */
-		public void setSubdivStk(final Staque staque) {
+		public void setSubdivStk(final Staque<StdLowLevelList<SegNode>,SegNode> staque) {
 			subdivStk = staque;
 		}
 
 	}
 
-	class PtNode extends Meta {
+	class PtNode extends Meta<PtNode> {
 
 		public void wake() {}
 
@@ -305,7 +305,7 @@ public abstract class StatSolverBase extends Object {
 		private double[] minval = null;
 	}
 
-	public class SegNode extends Meta {
+	public class SegNode extends Meta<SegNode> {
 		public SegNode(final int numEqn, final int numEntVars) {
 			int max = numEqn * VAR_MULT + (MINIMIZING_OUTPUT_P2 - FINDING_SOLUTION);
 			total = new double[max];
@@ -360,7 +360,7 @@ public abstract class StatSolverBase extends Object {
 			intervalEnd = in;
 			intervalDirty = true;
 		}
-		public HighLevelList getPtList() {
+		public HighLevelList<StdLowLevelList<PtNode>,PtNode> getPtList() {
 			return (ptList);
 		}
 		public PtNode getMaxPoint(final int idex) {
@@ -431,7 +431,7 @@ public abstract class StatSolverBase extends Object {
 		private int numElements = 0;
 		private double[] intervalStart = null;
 		private double[] intervalEnd = null;
-		private final HighLevelList ptList = new HighLevelList();
+		private final HighLevelList<StdLowLevelList<PtNode>,PtNode> ptList = new HighLevelList<StdLowLevelList<PtNode>,PtNode>();
 
 		private SegNode prevBottomUpNode = null;
 		private int prevBottomUpIndex = 0;
@@ -501,7 +501,7 @@ public abstract class StatSolverBase extends Object {
 	private double[] secondHiDev = null;
 	private double[] secondLoDev = null;
 
-	private Staque aggressiveRejectStack = null;
+	private Staque<StdLowLevelList<SegNode>,SegNode> aggressiveRejectStack = null;
 	private boolean[] aggressiveSearch = null;
 	private boolean failedMethodology = false;
 
@@ -552,7 +552,7 @@ public abstract class StatSolverBase extends Object {
 					agStoreOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(agStoreFile)));
 				}
 
-				SegNode sg = (SegNode) (aggressiveRejectStack.deq());
+				SegNode sg = aggressiveRejectStack.deq();
 
 				double[] strt = sg.getIntervalStart();
 				double[] end = sg.getIntervalEnd();
@@ -573,7 +573,7 @@ public abstract class StatSolverBase extends Object {
 	private SegNode popFromAgStore() {
 		SegNode ret = null;
 		if (!(aggressiveRejectStack.empty())) {
-			ret = (SegNode) (aggressiveRejectStack.pop());
+			ret = aggressiveRejectStack.pop();
 		}
 		else {
 			try {
@@ -784,7 +784,7 @@ public abstract class StatSolverBase extends Object {
 		failedMethodologyCount = 0;
 		aggressiveStoreCount = 0;
 
-		aggressiveRejectStack = new Staque();
+		aggressiveRejectStack = new Staque<StdLowLevelList<SegNode>,SegNode>();
 		aggressiveSearch = new boolean[MINIMIZING_OUTPUT_P2 - FINDING_SOLUTION + 1];
 
 		initXAxisArrays(
@@ -881,10 +881,10 @@ public abstract class StatSolverBase extends Object {
 
 	PtNode getDataPointFromBottomUpNode(final SegNode in) {
 		PtNode MyNode = null;
-		HighLevelList PtList = in.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> PtList = in.getPtList();
 
 		if (!(PtList.getHead())) {
-			MyNode = (PtNode) (PtList.getNode());
+			MyNode = PtList.getNode();
 			PtList.right();
 		}
 		else {
@@ -1001,7 +1001,7 @@ public abstract class StatSolverBase extends Object {
 
 	public double getMinDeltaValue(final SegNode in, final int idex) {
 		double val = 0.0;
-		HighLevelList MyList = in.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> MyList = in.getPtList();
 		firstCount = 0;
 		secondCount = 0;
 		int count;
@@ -1023,7 +1023,7 @@ public abstract class StatSolverBase extends Object {
 			boolean Done = false;
 
 			while (!Done) {
-				PtNode MyNode = (PtNode) (MyList.getNode());
+				PtNode MyNode = MyList.getNode();
 				double[] X = MyNode.getX();
 
 				if (X[idex] < SplitPoint) {
@@ -1084,7 +1084,7 @@ public abstract class StatSolverBase extends Object {
 
 	public double getDeltaValue(final SegNode in, final int idex) {
 		double val = 0.0;
-		HighLevelList MyList = in.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> MyList = in.getPtList();
 		firstCount = 0;
 		secondCount = 0;
 		int count;
@@ -1110,7 +1110,7 @@ public abstract class StatSolverBase extends Object {
 			boolean Done = false;
 
 			while (!Done) {
-				MyNode = (PtNode) (MyList.getNode());
+				MyNode = MyList.getNode();
 				X = MyNode.getX();
 
 				if (X[idex] < SplitPoint) {
@@ -1230,7 +1230,7 @@ public abstract class StatSolverBase extends Object {
 		return (idex);
 	}
 
-	void subdivide(final SegNode in, final Staque stk) {
+	void subdivide(final SegNode in, final Staque<StdLowLevelList<SegNode>,SegNode> stk) {
 		int SplitPoint = getSplitPoint(in);
 		PtNode ClosePoint = in.getClosePoint();
 		PtNode FarPoint = in.getFarPoint();
@@ -1264,13 +1264,13 @@ public abstract class StatSolverBase extends Object {
 		Node2.setIntervalEnd(end);
 
 		boolean Done = false;
-		HighLevelList PtList = in.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> PtList = in.getPtList();
 
 		if (!(PtList.empty())) {
 			PtList.searchHead();
 
 			while (!Done) {
-				PtNode MyNode = (PtNode) (PtList.getNode());
+				PtNode MyNode = PtList.getNode();
 				double X = (MyNode.getX())[SplitPoint];
 				if (X <= split) {
 					handleDataPointInsertion(Node1, MyNode);
@@ -1333,7 +1333,7 @@ public abstract class StatSolverBase extends Object {
 		in.setClosePoint(null);
 		in.setFarPoint(null);
 
-		HighLevelList PtList = in.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> PtList = in.getPtList();
 
 		// pout.println( in.getNumElements() );
 
@@ -1346,7 +1346,7 @@ public abstract class StatSolverBase extends Object {
 			double minval = 0.0;
 
 			while (!Done) {
-				PtNode MyNode = (PtNode) (PtList.getNode());
+				PtNode MyNode = PtList.getNode();
 
 				double val = calcPtNodeNorm(MyNode, emax);
 
@@ -1388,7 +1388,7 @@ public abstract class StatSolverBase extends Object {
 
 		double maxval = 0.0;
 		double minval = 0.0;
-		HighLevelList PtList1 = in1.getPtList();
+		HighLevelList<StdLowLevelList<PtNode>,PtNode> PtList1 = in1.getPtList();
 
 		int emax = getCurPtNodeNormIndex();
 
@@ -1397,7 +1397,7 @@ public abstract class StatSolverBase extends Object {
 			boolean Done = false;
 
 			while (!Done) {
-				PtNode MyNode = (PtNode) (PtList1.getNode());
+				PtNode MyNode = PtList1.getNode();
 
 				double val = calcPtNodeNorm(MyNode, emax);
 
@@ -1552,7 +1552,7 @@ public abstract class StatSolverBase extends Object {
 	}
 
 	/* !!!!!!!!!!!!!!!!!!!!!!!11 Refactor if going beyond objective !!!!!!!!!!!!!!!!!!!!!!!!1 */
-	Comparable createNegMinimizationDistanceKey(final SegNode in) {
+	Comparable<?> createNegMinimizationDistanceKey(final SegNode in) {
 		int count;
 		double curObjVal = 0.0;
 
@@ -1577,7 +1577,7 @@ public abstract class StatSolverBase extends Object {
 		return (ret);
 	}
 
-	boolean testDataSet(final SegNode in, final Staque stk) {
+	boolean testDataSet(final SegNode in, final Staque<StdLowLevelList<SegNode>,SegNode> stk) {
 		boolean ret = false;
 		boolean initial = initialTest;
 		initialTest = false;
@@ -1600,13 +1600,13 @@ public abstract class StatSolverBase extends Object {
 		else {
 			if (aggressiveSearch[minimizerMode - FINDING_SOLUTION] /*false!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 				) {
-				SegNode popNd = (SegNode) (stk.pop());
+				SegNode popNd = stk.pop();
 				// pout.println( "Agg Stk Push" );
 				pushToAgStore(popNd);
 				initialTest = true;
 			}
 			else {
-				SegNode rej = (SegNode) (stk.pop());
+				SegNode rej = stk.pop();
 				// pout.println( "Agg Stk Pop" );
 				// handleTempReject(rej); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				initialTest = true;
@@ -1624,7 +1624,7 @@ public abstract class StatSolverBase extends Object {
 	final static int SubdivideCode = 3;
 	final static int DoneCode = 4;
 
-	boolean testDataSetComp(final SegNode in, final Staque stk) {
+	boolean testDataSetComp(final SegNode in, final Staque<StdLowLevelList<SegNode>,SegNode> stk) {
 		int count;
 		int tmp = RejectCode;
 
@@ -1655,7 +1655,7 @@ public abstract class StatSolverBase extends Object {
 				break;
 
 			case RejectCode :
-				SegNode rej = (SegNode) (stk.pop());
+				SegNode rej = stk.pop();
 				// handleTempReject(rej); !!!!!!!!!!!!!!!!!!!!!!!!!!!
 				initialTest = true;
 				rejectCount++;
@@ -1715,7 +1715,7 @@ public abstract class StatSolverBase extends Object {
 			double HighDeviation = -1e8;
 			double SampMean = 0.0;
 
-			HighLevelList PtList = in.getPtList();
+			HighLevelList<StdLowLevelList<PtNode>,PtNode> PtList = in.getPtList();
 
 			if (!(PtList.empty())) {
 				boolean Done = false;
@@ -1723,7 +1723,7 @@ public abstract class StatSolverBase extends Object {
 
 				while (!Done) {
 					double val = 0.0;
-					PtNode MyNode = (PtNode) (PtList.getNode());
+					PtNode MyNode = PtList.getNode();
 
 					int count;
 					for (count = 0; count < numEntVars; ++count) {
@@ -1769,7 +1769,7 @@ public abstract class StatSolverBase extends Object {
 		return (ret);
 	}
 
-	int testOuterRegionConstr(final SegNode in, final Staque stk, final int idex) {
+	int testOuterRegionConstr(final SegNode in, final Staque<StdLowLevelList<SegNode>,SegNode> stk, final int idex) {
 		double yb = sampMean[idex];
 		int ret = AddDataPointCode;
 
@@ -1824,7 +1824,7 @@ public abstract class StatSolverBase extends Object {
 		return (ret);
 	}
 
-	int testInnerRegionConstr(final SegNode in, final Staque stk, final int idex) {
+	int testInnerRegionConstr(final SegNode in, final Staque<StdLowLevelList<SegNode>,SegNode> stk, final int idex) {
 		int ret = AddDataPointCode;
 		double yb = sampMean[idex];
 
@@ -2120,11 +2120,11 @@ public abstract class StatSolverBase extends Object {
 				SegNode sg = sarr[count];
 				if (sg != null) {
 					foundOne = true;
-					HighLevelList lst = sg.getPtList();
+					HighLevelList<StdLowLevelList<PtNode>,PtNode> lst = sg.getPtList();
 					lst.searchHead();
 					boolean done = false;
 					while (!done) {
-						PtNode nd = (PtNode) (lst.getNode());
+						PtNode nd = lst.getNode();
 						handleDataPointInsertion(msg, nd);
 						lst.right();
 						done = lst.getHead();
@@ -2217,7 +2217,7 @@ public abstract class StatSolverBase extends Object {
 		/* bestSeg = TestNode; return( true ); */
 	}
 
-	void guessBottomUp(final Staque stk) {
+	void guessBottomUp(final Staque<StdLowLevelList<SegNode>,SegNode> stk) {
 		if (lastOuterSegNode == null) {
 			//pout.println("Used Switch");
 			lastOuterSegNode = lastInnerSegNode;
@@ -2275,19 +2275,19 @@ public abstract class StatSolverBase extends Object {
 		}
 	}
 
-	public void handleAggressiveSearchGrab(final Staque stk) {
+	public void handleAggressiveSearchGrab(final Staque<StdLowLevelList<SegNode>,SegNode> stk) {
 		pout.println("Grabbing from aggressive search stack!!!!!!!!!!!!!!!!!!!!");
 		aggressiveSearch[minimizerMode - FINDING_SOLUTION] = false;
-		TreeMap<Comparable,HighLevelList> tm = new TreeMap<Comparable,HighLevelList>();
+		TreeMap<Comparable<?>,HighLevelList<StdLowLevelList<SegNode>,SegNode>> tm = new TreeMap<Comparable<?>,HighLevelList<StdLowLevelList<SegNode>,SegNode>>();
 
 		SegNode agStkNode = popFromAgStore();
 		while (agStkNode != null) {
 			SegNode seg = agStkNode;
 			if (testMinimizers(seg)) {
-				Comparable key = createNegMinimizationDistanceKey(seg);
-				HighLevelList hl = tm.get(key);
+				Comparable<?> key = createNegMinimizationDistanceKey(seg);
+				HighLevelList<StdLowLevelList<SegNode>,SegNode> hl = tm.get(key);
 				if (hl == null) {
-					hl = new HighLevelList();
+					hl = new HighLevelList<StdLowLevelList<SegNode>,SegNode>();
 					tm.put(key, hl);
 				}
 				hl.insertRight(seg);
@@ -2302,14 +2302,14 @@ public abstract class StatSolverBase extends Object {
 		}
 
 		boolean Done = false;
-		Iterator<HighLevelList> it = tm.values().iterator();
+		Iterator<HighLevelList<StdLowLevelList<SegNode>,SegNode>> it = tm.values().iterator();
 		while (it.hasNext()) {
-			HighLevelList lst = it.next();
+			HighLevelList<StdLowLevelList<SegNode>,SegNode> lst = it.next();
 			if (!(lst.empty())) {
 				lst.searchHead();
 				Done = false;
 				while (!Done) {
-					SegNode seg = (SegNode) (lst.getNode());
+					SegNode seg = lst.getNode();
 					stk.push(seg);
 					lst.right();
 					Done = lst.getHead();
@@ -2323,8 +2323,9 @@ public abstract class StatSolverBase extends Object {
 		pout.println("Grabbed from aggressive search stack!!!!!!!!!!!!!!!!!!!!");
 	}
 
-	public Staque handleFailedMethodology(final Staque subdivStk, final Staque contextStk, final int numXvals) {
-		SegNode segn = (SegNode) (subdivStk.pop());
+	public Staque<StdLowLevelList<SegNode>,SegNode> handleFailedMethodology(final Staque<StdLowLevelList<SegNode>,SegNode> subdivStk, 
+			final Staque<StdLowLevelList<ContextNode>,ContextNode> contextStk, final int numXvals) {
+		SegNode segn = subdivStk.pop();
 		updateSubdivisionData(segn);
 		PtNode ptnd = segn.getClosePoint();
 
@@ -2341,7 +2342,7 @@ public abstract class StatSolverBase extends Object {
 		initialIntervalStart = segn.getIntervalStart();
 		initialIntervalEnd = segn.getIntervalEnd();
 
-		Staque newSubdiv = new Staque();
+		Staque<StdLowLevelList<SegNode>,SegNode> newSubdiv = new Staque<StdLowLevelList<SegNode>,SegNode>();
 		double[] newGuessIntervalStart = new double[numXvals];
 		double[] newGuessIntervalEnd = new double[numXvals];
 		double[] strt = ptnd.getX();
@@ -2363,7 +2364,7 @@ public abstract class StatSolverBase extends Object {
 		return (newSubdiv);
 	}
 
-	public Staque handleContextStackPop(final ContextNode context) {
+	public Staque<StdLowLevelList<SegNode>,SegNode> handleContextStackPop(final ContextNode context) {
 		useGuess = context.isUseGuess();
 		initialIntervalStart = context.getInitialIntervalStart();
 		initialIntervalEnd = context.getInitialIntervalEnd();
@@ -2374,8 +2375,8 @@ public abstract class StatSolverBase extends Object {
 	}
 
 	public boolean findRoot(final VirtualArray varr) {
-		Staque contextStk = new Staque();
-		Staque subdivStk = new Staque();
+		Staque<StdLowLevelList<ContextNode>,ContextNode> contextStk = new Staque<StdLowLevelList<ContextNode>,ContextNode>();
+		Staque<StdLowLevelList<SegNode>,SegNode> subdivStk = new Staque<StdLowLevelList<SegNode>,SegNode>();
 		boolean Done = false;
 		boolean Found = false;
 		boolean FoundNow = false;
@@ -2404,7 +2405,7 @@ public abstract class StatSolverBase extends Object {
 			}
 
 			while (!Done) {
-				SegNode TestNode = (SegNode) (subdivStk.getRearNode());
+				SegNode TestNode = subdivStk.getRearNode();
 				if( deb != null )
 				    deb.handleSeg( TestNode );
 				FoundNow = testDataSet(TestNode, subdivStk);
@@ -2432,7 +2433,7 @@ public abstract class StatSolverBase extends Object {
 				}
 
 				while ((subdivStk.empty()) && (!LastFound) && (!failedMethodology) && !(contextStk.empty())) {
-					ContextNode context = (ContextNode) (contextStk.pop());
+					ContextNode context = contextStk.pop();
 					subdivStk = handleContextStackPop(context);
 				}
 

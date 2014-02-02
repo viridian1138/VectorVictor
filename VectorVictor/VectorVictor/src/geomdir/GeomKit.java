@@ -127,7 +127,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -138,6 +137,7 @@ import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Meta;
+import meta.StdLowLevelList;
 import meta.WrapRuntimeException;
 import verdantium.EtherEvent;
 import verdantium.EtherEventPropertySource;
@@ -1649,7 +1649,7 @@ public class GeomKit
 	/**
 	* Gets the display list of the view.
 	*/
-	public HighLevelList getDispList() {
+	public HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getDispList() {
 		return (DispList1);
 	}
 	/**
@@ -1948,7 +1948,7 @@ public class GeomKit
 	/**
 	* Appends a depictor to the view.
 	*/
-	protected void localDisplayAppend(HighLevelList DisplayList, DGMNode MyNode) {
+	protected void localDisplayAppend(HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, DGMNode MyNode) {
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			DisplayList.left();
@@ -2215,17 +2215,17 @@ public class GeomKit
 	/**
 	* Pulls a depictor from the drawing list of the view.
 	*/
-	protected DGMNode pullFromDrawingList(HighLevelList temp, DrawObj MyObj) {
+	protected DGMNode pullFromDrawingList(HighLevelList<StdLowLevelList<DGMNode>,DGMNode> temp, DrawObj MyObj) {
 		DGMNode MyDrawObj = null;
 		DGMNode RetNode = null;
-		HighLevelList next = new HighLevelList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> next = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 
 		if (!(temp.empty())) {
 			temp.searchHead();
 			boolean Done = false;
 
 			while (!Done) {
-				MyDrawObj = (DGMNode) temp.getNode();
+				MyDrawObj = temp.getNode();
 				temp.copyDataPlusPtrInfo(next);
 				next.right();
 
@@ -2394,14 +2394,14 @@ public class GeomKit
 	*	grpahics context.<BR>
 	*@author Thorn Green
 	*/
-	protected void updateCurrentDisplay(GeomKit thePort, Canvas g, Paint p, HighLevelList DisplayList) {
+	protected void updateCurrentDisplay(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
 		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+				DGMNode MyDGM = DisplayList.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				MyDrw.drawYourself(thePort, MyDGM.getMyCoord(), BoundMode, g, p, ThisMode);
 				DisplayList.right();
@@ -2438,14 +2438,14 @@ public class GeomKit
 	*<B>Post:</B> The depictors in DisplayList will be updated.<BR>
 	*@author Thorn Green
 	*/
-	protected void updateDisplayDepictors(GeomKit thePort, HighLevelList DisplayList) {
+	protected void updateDisplayDepictors(GeomKit thePort, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
 		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+				DGMNode MyDGM = DisplayList.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				MyDrw.updateYourself(this, MyDGM.getMyCoord(), BoundMode, ThisMode);
 				DisplayList.right();
@@ -2463,14 +2463,14 @@ public class GeomKit
 	*<B>Post:</B> The depictors in DisplayList will be drawn into the context.<BR>
 	*@author Thorn Green
 	*/
-	protected void updateDisplayControls(GeomKit thePort, Canvas g, Paint p, HighLevelList DisplayList) {
+	protected void updateDisplayControls(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
 		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+				DGMNode MyDGM = DisplayList.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				MyDrw.drawYourTools(this, MyDGM.getMyCoord(), BoundMode, g, p, ThisMode);
 
@@ -2490,7 +2490,7 @@ public class GeomKit
 	*<B>Post:</B> The depictor LastClickDraw will be drawn into the context.<BR>
 	*@author Thorn Green
 	*/
-	protected void updateSingleControl(GeomKit thePort, Canvas g, Paint p, HighLevelList DisplayList) {
+	protected void updateSingleControl(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		DrawObj MyDrw = LocalLastClickDraw;
@@ -3122,7 +3122,7 @@ public class GeomKit
 	/**
 	* Saves the contents of the display list of the view.
 	*/
-	protected void saveDisplayProperties(GeomKit thePort, HighLevelList DisplayList, VTextProperties MyProp) {
+	protected void saveDisplayProperties(GeomKit thePort, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, VTextProperties MyProp) {
 		boolean Done = false;
 		String key = getModelManager().globalPersistencePrefix();
 		IntObj MyIntObj = new IntObj();
@@ -3131,7 +3131,7 @@ public class GeomKit
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DrawObj MyDrw = ((DGMNode) (DisplayList.getNode())).getMyDraw();
+				DrawObj MyDrw = DisplayList.getNode().getMyDraw();
 				FlexString FrgID = new FlexString();
 				MyDrw.getFragID().copyAllInfo(FrgID);
 
@@ -3669,12 +3669,12 @@ public class GeomKit
 	public void handleCoordAdjust(DrawObj InDrw, boolean ChgDelta, boolean activeAdjust) {
 		if (activeAdjust) {
 			boolean Done = false;
-			HighLevelList DisplayList = getDispList();
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList = getDispList();
 
 			if (!(DisplayList.empty())) {
 				DisplayList.searchHead();
 				while (!Done) {
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 					if (MyDrw != InDrw)
 						MyDrw.handleCoordAdjust(this, MyDGM.getMyCoord(), MyDGM.getTmpCoord(), BoundMode, ChgDelta);
@@ -3694,12 +3694,12 @@ public class GeomKit
 	*/
 	public void endCoordAdjust() {
 		boolean Done = false;
-		HighLevelList DisplayList = getDispList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList = getDispList();
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+				DGMNode MyDGM = DisplayList.getNode();
 				MyDGM.setTmpCoord(null);
 
 				DisplayList.right();
@@ -3714,13 +3714,13 @@ public class GeomKit
 	*/
 	public void startCoordAdjust() {
 		boolean Done = false;
-		HighLevelList DisplayList = getDispList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList = getDispList();
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
-				MyDGM.setTmpCoord((CoordContext) (MyDGM.getMyCoord().copyAll()));
+				DGMNode MyDGM = DisplayList.getNode();
+				MyDGM.setTmpCoord( (CoordContext)( MyDGM.getMyCoord().copyAll() ) );
 
 				DisplayList.right();
 				Done = DisplayList.getHead();
@@ -5441,8 +5441,8 @@ public class GeomKit
 	protected boolean ShowDisplayControls = false;
 	protected int ToolType = 0;
 
-	protected HighLevelList DispList1 = new HighLevelList();
-	protected HighLevelList DispList2 = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DispList1 = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
+	protected HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DispList2 = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 	/* protected transient FlexString xs = new FlexString();
 	protected transient FlexString ys = new FlexString(); */
 	protected transient MathImage Ixs = null;

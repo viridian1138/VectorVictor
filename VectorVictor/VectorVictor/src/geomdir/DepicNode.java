@@ -158,7 +158,7 @@ import meta.Meta;
 * a palette.
 * @author Thorn Green
 */
-public class DepicNode extends Meta {
+public class DepicNode extends Meta<DepicNode> {
 
 	/**
 	* The class for a kind of depictor.

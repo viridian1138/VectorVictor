@@ -165,7 +165,7 @@ import java.io.ObjectOutput;
  * supported by HighLevelList.<P>
  * @author Thorn Green
  */
-public class HighLevelList extends Meta implements Externalizable {
+public class HighLevelList<U extends LowLevelList, T extends Meta> extends Meta<HighLevelList<U,T>> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -175,11 +175,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyNode() {
-        HighLevelList temp = new HighLevelList();
+    public HighLevelList<U,T> copyNode() {
+    	HighLevelList<U,T> temp = new HighLevelList<U,T>();
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copyNode()));
+            temp.dvSetMyList((U)(myList.copyNode()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -189,11 +189,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
-        HighLevelList temp = new HighLevelList();
+    public HighLevelList<U,T> copySub() {
+    	HighLevelList<U,T> temp = new HighLevelList<U,T>();
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copySub()));
+            temp.dvSetMyList((U)(myList.copySub()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -203,11 +203,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
-        HighLevelList temp = new HighLevelList();
+    public HighLevelList<U,T> copyAll() {
+    	HighLevelList<U,T> temp = new HighLevelList<U,T>();
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copyAll()));
+            temp.dvSetMyList((U)(myList.copyAll()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -217,16 +217,16 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyData() {
-        HighLevelList temp = new HighLevelList();
+    public HighLevelList<U,T> copyData() {
+    	HighLevelList<U,T> temp = new HighLevelList<U,T>();
         
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyDataPlusPtr() {
-        HighLevelList temp = new HighLevelList();
+    public HighLevelList<U,T> copyDataPlusPtr() {
+    	HighLevelList<U,T> temp = new HighLevelList<U,T>();
         temp.dvSetMyList(myList);
         
         return (temp);
@@ -234,11 +234,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyNodeInfo(Meta in) {
-        HighLevelList temp = (HighLevelList) in;
+    public void copyNodeInfo(HighLevelList<U,T> in) {
+    	HighLevelList<U,T> temp = in;
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copyNode()));
+            temp.dvSetMyList((U)(myList.copyNode()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -246,11 +246,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copySubInfo(Meta in) {
-        HighLevelList temp = (HighLevelList) in;
+    public void copySubInfo(HighLevelList<U,T> in) {
+    	HighLevelList<U,T> temp = in;
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copySub()));
+            temp.dvSetMyList((U)(myList.copySub()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -258,11 +258,11 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyAllInfo(Meta in) {
-        HighLevelList temp = (HighLevelList) in;
+    public void copyAllInfo(HighLevelList<U,T> in) {
+    	HighLevelList<U,T> temp = in;
         
         if (this.myList != null) {
-            temp.dvSetMyList((LowLevelList) (myList.copyAll()));
+            temp.dvSetMyList((U)(myList.copyAll()));
         } else {
             temp.dvSetMyList(null);
         }
@@ -270,12 +270,12 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyDataInfo(Meta in) {};
+    public void copyDataInfo(HighLevelList<U,T> in) {};
     /**
      * @see meta.Meta
      */
-    public void copyDataPlusPtrInfo(Meta in) {
-        HighLevelList temp = (HighLevelList) in;
+    public void copyDataPlusPtrInfo(HighLevelList<U,T> in) {
+    	HighLevelList<U,T> temp = in;
         temp.dvSetMyList(myList);
     };
     public void eraseNode() {
@@ -310,11 +310,11 @@ public class HighLevelList extends Meta implements Externalizable {
      * @see meta.Meta
      */
     public void eraseNodeInfo() {
-        LowLevelList temp;
+        U temp;
         
         if (this.myList != null) {
             if (myList.right() != myList)
-                temp = myList.right();
+                temp = (U)( myList.right() );
             else
                 temp = null;
             myList.eraseNode();
@@ -325,11 +325,11 @@ public class HighLevelList extends Meta implements Externalizable {
      * @see meta.Meta
      */
     public void eraseSubInfo() {
-        LowLevelList temp;
+        U temp;
         
         if (this.myList != null) {
             if (!myList.getHead())
-                temp = myList.left();
+                temp = (U)( myList.left() );
             else
                 temp = null;
             myList.eraseSub();
@@ -369,19 +369,19 @@ public class HighLevelList extends Meta implements Externalizable {
      * Moves the current node one node to the right.
      */
     public final void right() {
-        myList = myList.right();
+        myList = (U)( myList.right() );
     };
     /**
      * Moves the current node one node to the left.
      */
     public final void left() {
-        myList = myList.left();
+        myList = (U)( myList.left() );
     };
     /**
      * Moves the current node to the head of the list.
      */
     public final void searchHead() {
-        myList = myList.searchHead();
+        myList = (U)( myList.searchHead() );
     };
     /**
      * Returns true iff. the current node is the head of the list.
@@ -399,13 +399,13 @@ public class HighLevelList extends Meta implements Externalizable {
     /**
      * Returns the data stored in the current node of the list.
      */
-    public final Meta getNode() {
-        return (myList.getNode());
+    public final T getNode() {
+        return ((T)(myList.getNode()));
     };
     /**
      * Stores <code>in</code> in the current node of the list.
      */
-    public final void setNode(final Meta in) {
+    public final void setNode(final T in) {
         myList.setNode(in);
     };
     /**
@@ -454,12 +454,12 @@ public class HighLevelList extends Meta implements Externalizable {
      * Inserts the data <code>in</code> to the left of the node
      * on which this method is called.
      */
-    public final void insertLeft(final Meta in) {
+    public final void insertLeft(final T in) {
         if (this.myList != null) {
             myList.insertLeft(in);
-            myList = myList.left();
+            myList = (U)( myList.left() );
         } else {
-            myList = new StdLowLevelList();
+            myList = (U)( new StdLowLevelList<T>() );
             myList.setNode(in);
         }
     };
@@ -467,12 +467,12 @@ public class HighLevelList extends Meta implements Externalizable {
      * Inserts the data <code>in</code> to the right of the node
      * on which this method is called.
      */
-    public final void insertRight(final Meta in) {
+    public final void insertRight(final T in) {
         if (this.myList != null) {
             myList.insertRight(in);
-            myList = myList.right();
+            myList = (U)( myList.right() );
         } else {
-            myList = new StdLowLevelList();
+            myList = (U)( new StdLowLevelList<T>() );
             myList.setNode(in);
         }
     };
@@ -480,10 +480,10 @@ public class HighLevelList extends Meta implements Externalizable {
      * Inserts the data <code>in</code> to the left of the node
      * on which this method is called.
      */
-    public final void importInsertLeft(final LowLevelList in) {
+    public final void importInsertLeft(final U in) {
         if (this.myList != null) {
             myList.importInsertLeft(in);
-            myList = myList.left();
+            myList = (U)( myList.left() );
         } else {
             myList = in;
         }
@@ -492,10 +492,10 @@ public class HighLevelList extends Meta implements Externalizable {
      * Inserts the data <code>in</code> to the right of the node
      * on which this method is called.
      */
-    public final void importInsertRight(final LowLevelList in) {
+    public final void importInsertRight(final U in) {
         if (this.myList != null) {
             myList.importInsertRight(in);
-            myList = myList.right();
+            myList = (U)( myList.right() );
         } else {
             myList = in;
         }
@@ -512,20 +512,20 @@ public class HighLevelList extends Meta implements Externalizable {
      * Returns the LowLevelList used by this HighLevelList.  This method should not be used
      * unless one absolutely needs this capability.  Exercise with caution.
      */
-    public final LowLevelList exportNode() {
+    public final U exportNode() {
         return (myList);
     };
     /**
      * Disconnects the current node from the rest of the list, and returns it
      * in its own HighLevelList instance.
      */
-    HighLevelList disconnect() {
-        HighLevelList temp = new HighLevelList();
-        LowLevelList lTemp;
+    HighLevelList<U,T> disconnect() {
+        HighLevelList<U,T> temp = new HighLevelList<U,T>();
+        U lTemp;
         
         temp.dvSetMyList(this.myList);
         if (this.myList.right() != this.myList) {
-            lTemp = this.myList.right();
+            lTemp = (U)( this.myList.right() );
             myList.disconnect();
             myList = lTemp;
         } else
@@ -534,7 +534,7 @@ public class HighLevelList extends Meta implements Externalizable {
         return (temp);
     };
     
-    private final void dvSetMyList(LowLevelList in) {
+    private final void dvSetMyList(U in) {
         myList = in;
     }
     
@@ -544,12 +544,12 @@ public class HighLevelList extends Meta implements Externalizable {
      * @serialData TBD.
      */
     public void writeExternal(ObjectOutput out) throws IOException {
-        LowLevelList tmp = myList;
+        U tmp = myList;
         int cnt = 0;
         boolean found = false;
         
         if (tmp == null) {} else {
-            tmp = tmp.searchHead();
+            tmp = (U)( tmp.searchHead() );
             boolean done = false;
             
             while (!done) {
@@ -560,7 +560,7 @@ public class HighLevelList extends Meta implements Externalizable {
                     cnt++;
                 
                 out.writeObject(tmp);
-                tmp = tmp.right();
+                tmp = (U)( tmp.right() );
                 done = tmp.getHead();
             }
         }
@@ -577,15 +577,15 @@ public class HighLevelList extends Meta implements Externalizable {
             myList = null;
             Object myo = in.readObject();
             
-            while (myo instanceof LowLevelList) {
-                LowLevelList myl = (LowLevelList) myo;
+            while (myo instanceof LowLevelList<?,?>) {
+                U myl = (U) myo;
                 VersionBuffer.chkNul(myl);
                 
                 if (myList == null) {
                     myList = myl;
                 } else {
                     myList.importInsertRight(myl);
-                    myList = myList.right();
+                    myList = (U)( myList.right() );
                 }
                 
                 myo = in.readObject();
@@ -594,15 +594,15 @@ public class HighLevelList extends Meta implements Externalizable {
             int cnt = in.readInt();
             
             if (myList != null)
-                myList = myList.searchHead();
+                myList = (U)( myList.searchHead() );
             
             int count;
             for (count = 0; count < cnt; ++count)
-                myList = myList.right();
+                myList = (U)( myList.right() );
         } catch (ClassCastException e) {
             throw (new DataFormatException(e));
         }
     }
     
-    private LowLevelList myList;
+    private U myList;
 };

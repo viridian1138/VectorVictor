@@ -122,6 +122,7 @@ import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Meta;
+import meta.StdLowLevelList;
 import meta.VersionBuffer;
 
 
@@ -207,21 +208,21 @@ public class ExpNode extends Meta<ExpNode> implements Externalizable {
 	};
 	public void eraseNode() {
 		CodeGen myc = MyCodeGen;
-		HighLevelList myl = CodeList;
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = CodeList;
 		myc.clear();
 		myl.eraseAllInfo();
 		eval = null;
 	};
 	public void eraseSub() {
 		CodeGen myc = MyCodeGen;
-		HighLevelList myl = CodeList;
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = CodeList;
 		myc.clear();
 		myl.eraseAllInfo();
 		eval = null;
 	};
 	public void eraseAll() {
 		CodeGen myc = MyCodeGen;
-		HighLevelList myl = CodeList;
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = CodeList;
 		myc.clear();
 		myl.eraseAllInfo();
 		eval = null;
@@ -242,7 +243,7 @@ public class ExpNode extends Meta<ExpNode> implements Externalizable {
 			VersionBuffer.chkNul(VarName);
 			Exprn = (FlexString) (myv.getProperty("Exprn"));
 			VersionBuffer.chkNul(Exprn);
-			CodeList = (HighLevelList) (myv.getProperty("CodeList"));
+			CodeList = (HighLevelList<StdLowLevelList<Lexeme>,Lexeme>) (myv.getProperty("CodeList"));
 			VersionBuffer.chkNul(CodeList);
 
 			eval = (EvalObj) (myv.getProperty("Eval"));
@@ -278,7 +279,7 @@ public class ExpNode extends Meta<ExpNode> implements Externalizable {
 	private final void dvCopyExprn(FlexString in) {
 		in.copyAllInfo(Exprn);
 	}
-	private final void dvCopyCodeList(HighLevelList in) {
+	private final void dvCopyCodeList(HighLevelList<StdLowLevelList<Lexeme>,Lexeme> in) {
 		in.copyDataPlusPtrInfo(CodeList);
 	}
 	private final void dvSetExprMode(int in) {
@@ -299,7 +300,7 @@ public class ExpNode extends Meta<ExpNode> implements Externalizable {
 	/**
 	* Gets the executable code list for the node.
 	*/
-	public final HighLevelList getCodeList() {
+	public final HighLevelList<StdLowLevelList<Lexeme>,Lexeme> getCodeList() {
 		return (CodeList);
 	};
 	/**
@@ -363,7 +364,7 @@ public class ExpNode extends Meta<ExpNode> implements Externalizable {
 	private int ExprMode = 0;
 	private FlexString VarName = new FlexString();
 	private FlexString Exprn = new FlexString();
-	private HighLevelList CodeList = new HighLevelList();
+	private HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = new HighLevelList<StdLowLevelList<Lexeme>,Lexeme>();
 	private int mStackSpaceRequired = 0;
 	private transient CodeGen MyCodeGen = new CodeGen();
 	private EvalObj eval = null;

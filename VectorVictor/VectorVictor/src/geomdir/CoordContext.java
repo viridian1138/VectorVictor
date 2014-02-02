@@ -158,7 +158,7 @@ import meta.Meta;
 * subclass of this class.  The exact information stored is private to the depictor.
 * @author Thorn Green
 */
-public class CoordContext extends Meta {
+public class CoordContext<T extends CoordContext> extends Meta<T> {
 
 	@Override
 	public void wake() {};

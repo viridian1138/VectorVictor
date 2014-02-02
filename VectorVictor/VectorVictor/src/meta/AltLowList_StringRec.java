@@ -151,14 +151,14 @@ package meta;
  * unless you are making direct modifications to {@link FlexString}.
  * @author Thorn Green
  */
-public class AltLowList_StringRec extends AltLowLevelList<StringRec> {
+public class AltLowList_StringRec extends AltLowLevelList<AltLowList_StringRec, StringRec> {
 	
 	/**
      * Copies the node according to the current CopyInfoMode.
      * @return The copy.
      */
-    public AltLowLevelList<StringRec> copyNode() {
-        AltLowLevelList<StringRec> temp = new AltLowList_StringRec();
+    public AltLowList_StringRec copyNode() {
+    	AltLowList_StringRec temp = new AltLowList_StringRec();
         this.copyDat(temp);
         temp.setHead(true);
         return (temp);

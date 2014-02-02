@@ -122,6 +122,7 @@ import com.postgreen.vectorvictor.ScreenDensityRatio;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Meta;
+import meta.StdLowLevelList;
 import verdantium.EtherEvent;
 import verdantium.EtherEventHandler;
 import verdantium.mathimage.MathImage;
@@ -190,7 +191,7 @@ import android.graphics.RectF;
 * a strict superset of the depictor model in Peter Yu's implementation.
 * @author Thorn Green
 */
-public abstract class DrawObj extends Meta implements EtherEventHandler, Externalizable {
+public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements EtherEventHandler, Externalizable {
 
 	/**
 	* Copies the members of the depictor.
@@ -1644,13 +1645,13 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	/**
 	* Gets the set of depictors that this depictor delegates to.
 	*/
-	public HighLevelList getDelegators() {
+	public HighLevelList<StdLowLevelList<DrawObj>,DrawObj> getDelegators() {
 		return (Delegators);
 	}
 	/**
 	* Gets the set of depictors that this depictor delegates from.
 	*/
-	public HighLevelList getDelegated() {
+	public HighLevelList<StdLowLevelList<DrawObj>,DrawObj> getDelegated() {
 		return (Delegated);
 	}
 	/**
@@ -1813,8 +1814,8 @@ public abstract class DrawObj extends Meta implements EtherEventHandler, Externa
 	protected boolean ControlsVisible = true;
 	protected boolean DynamicJustify = true;
 
-	private HighLevelList Delegated = new HighLevelList();
-	private HighLevelList Delegators = new HighLevelList();
+	private HighLevelList<StdLowLevelList<DrawObj>,DrawObj> Delegated = new HighLevelList<StdLowLevelList<DrawObj>,DrawObj>();
+	private HighLevelList<StdLowLevelList<DrawObj>,DrawObj> Delegators = new HighLevelList<StdLowLevelList<DrawObj>,DrawObj>();
 	private boolean NamedVar = true;
 	private boolean TemporaryVar = true;
 	private FlexString FragID = new FlexString();

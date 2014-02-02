@@ -164,12 +164,10 @@ import java.io.PrintStream;
 class Reader extends Object {
     public final char getPhysicalChar(int index) {
         char temp = 0;
-        Meta myMeta;
         StringRec myStringRec;
         
         moveToPos(index);
-        myMeta = myList.getNode();
-        myStringRec = (StringRec) myMeta;
+        myStringRec = myList.getNode();
         temp = myStringRec.getPhysicalChar(index - base);
         return (temp);
     };
@@ -196,14 +194,14 @@ class Reader extends Object {
     public final void setMax(int in) {
         max = in;
     }
-    public final HighLevelList getMyList() {
+    public final HighLevelList<AltLowList_StringRec,StringRec> getMyList() {
         return (myList);
     }
     
     private int max;
     private int maxbase;
     private int base;
-    final HighLevelList myList = new HighLevelList();
+    final HighLevelList<AltLowList_StringRec,StringRec> myList = new HighLevelList<AltLowList_StringRec,StringRec>();
 };
 
 /**
@@ -233,7 +231,7 @@ class Reader extends Object {
  *
  * @author Thorn Green
  */
-public class FlexString extends Meta implements Comparable, Externalizable {
+public class FlexString extends Meta<FlexString> implements Comparable<FlexString>, Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -243,7 +241,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyNode() {
+    public FlexString copyNode() {
         FlexString temp = new FlexString();
         copyString(temp);
         return (temp);
@@ -251,7 +249,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
+    public FlexString copySub() {
         FlexString temp = new FlexString();
         copyString(temp);
         return (temp);
@@ -259,7 +257,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
+    public FlexString copyAll() {
         FlexString temp = new FlexString();
         copyString(temp);
         return (temp);
@@ -267,22 +265,22 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyNodeInfo(Meta in) {
-        FlexString temp = (FlexString) in;
+    public void copyNodeInfo(FlexString in) {
+        FlexString temp = in;
         copyString(temp);
     };
     /**
      * @see meta.Meta
      */
-    public void copySubInfo(Meta in) {
-        FlexString temp = (FlexString) in;
+    public void copySubInfo(FlexString in) {
+        FlexString temp = in;
         copyString(temp);
     };
     /**
      * @see meta.Meta
      */
-    public void copyAllInfo(Meta in) {
-        FlexString temp = (FlexString) in;
+    public void copyAllInfo(FlexString in) {
+        FlexString temp = in;
         copyString(temp);
     };
     /**
@@ -347,11 +345,11 @@ public class FlexString extends Meta implements Comparable, Externalizable {
                  */
         dest.dvGetMyList().eraseAllInfo();
         
-        LowLevelList inCopy = myList.exportNode();
-        LowLevelList stCopy = inCopy.searchHead();
-        LowLevelList goCopy = stCopy;
-        LowLevelList outCopy = null;
-        LowLevelList temp = null;
+        AltLowList_StringRec inCopy = myList.exportNode();
+        AltLowList_StringRec stCopy = inCopy.searchHead();
+        AltLowList_StringRec goCopy = stCopy;
+        AltLowList_StringRec outCopy = null;
+        AltLowList_StringRec temp = null;
         
         int tmp_base = 0;
         int tmp_maxbase = StringRec.BASE_CHARS;
@@ -370,7 +368,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
         }
         
         goCopy = goCopy.right();
-        HighLevelList dlist = dest.dvGetMyList();
+        HighLevelList<AltLowList_StringRec,StringRec> dlist = dest.dvGetMyList();
         while (goCopy != inCopy) {
             goCopy = goCopy.right();
             dlist.right();
@@ -386,18 +384,18 @@ public class FlexString extends Meta implements Comparable, Externalizable {
      * Replicates a StringRec for the purposes of supporting the copyString() method.
      * Copies nodes differently depending on where the InsertPoint is.
      */
-    protected final LowLevelList replicateStringRecNode(LowLevelList in, int tmp_base, int tmp_maxbase) {
+    protected final AltLowList_StringRec replicateStringRecNode(AltLowList_StringRec in, int tmp_base, int tmp_maxbase) {
         int rstPoint = insertPoint + gapLength();
         
         if ((insertPoint >= tmp_maxbase) || (rstPoint <= tmp_base)) {
-            return ((LowLevelList) (in.copyNode()));
+            return (in.copyNode());
         } else {
             AltLowList_StringRec st = new AltLowList_StringRec();
             st.setCopyInfoMode(Meta.COPY_ALL_INFO);
             st.setEraseMode(Meta.WAKE);
             
-            StringRec sti = (StringRec) (in.getNode());
-            StringRec sto = (StringRec) (st.getNode());
+            StringRec sti = in.getNode();
+            StringRec sto = st.getNode();
             
             if ((insertPoint > tmp_base) && (insertPoint <= tmp_maxbase)) {
                 sti.copyRegion(0, insertPoint - tmp_base, sto);
@@ -466,17 +464,15 @@ public class FlexString extends Meta implements Comparable, Externalizable {
      */
     public final String exportString() {
         boolean done = false;
-        Meta myMeta;
         int rstPoint = insertPoint + gapLength();
-        StringRec myStringRec = (StringRec) myList.getNode();
+        StringRec myStringRec = myList.getNode();
         String out = "";
         
         if (max > 0) {
             moveToPos(0);
             while (!done) {
-                myMeta = myList.getNode();
                 done = !((base + StringRec.BASE_CHARS) < insertPoint);
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();
                 if ((base + StringRec.BASE_CHARS) <= insertPoint) {
                     out = out + new String(myStringRec.exportArray(), 1, StringRec.BASE_CHARS);
                 } else {
@@ -489,8 +485,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
             
             if (insertPoint < max) {
                 moveToPos(rstPoint);
-                myMeta = myList.getNode();
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();
                 out =
                         out
                         + new String(
@@ -501,8 +496,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
                 
                 while (!done) {
                     moveForward();
-                    myMeta = myList.getNode();
-                    myStringRec = (StringRec) myMeta;
+                    myStringRec = myList.getNode();
                     out = out + new String(myStringRec.exportArray(), 1, StringRec.BASE_CHARS);
                     
                     done = !((base + StringRec.BASE_CHARS) < maxbase);
@@ -843,8 +837,8 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     /**
      * Compares this object to the object ob.  Returns same values as stcmp().
      */
-    public final int compareTo(Object ob) {
-        return (stcmp((FlexString) ob));
+    public final int compareTo(FlexString ob) {
+        return (stcmp(ob));
     }
     
     /**
@@ -1008,7 +1002,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     };
     
     public FlexString() {
-        LowLevelList temp = new AltLowList_StringRec();
+    	AltLowList_StringRec temp = new AltLowList_StringRec();
         myList.importInsertRight(temp);
         temp.setCopyInfoMode(Meta.COPY_ALL_INFO);
         temp.setEraseMode(Meta.WAKE);
@@ -1018,7 +1012,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
         insertPoint = 0;
     };
     public FlexString(String in) {
-        LowLevelList temp = new AltLowList_StringRec();
+    	AltLowList_StringRec temp = new AltLowList_StringRec();
         myList.importInsertRight(temp);
         temp.setCopyInfoMode(Meta.COPY_ALL_INFO);
         temp.setEraseMode(Meta.WAKE);
@@ -1253,7 +1247,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
                 moveToPos(insertPoint - 1);
             else
                 moveToPos(insertPoint);
-            LowLevelList Temp = new AltLowList_StringRec();
+            AltLowList_StringRec Temp = new AltLowList_StringRec();
             myList.importInsertRight(Temp);
             Temp.setCopyInfoMode(Meta.COPY_ALL_INFO);
             Temp.setEraseMode(Meta.WAKE);
@@ -1331,16 +1325,14 @@ public class FlexString extends Meta implements Comparable, Externalizable {
      */
     public final void drawString( Canvas cn, Paint p, float x, float y) {
         boolean done = false;
-        Meta myMeta;
         int rstPoint = insertPoint + gapLength();
-        StringRec myStringRec = (StringRec) myList.getNode();
+        StringRec myStringRec = myList.getNode();
         
         if (max > 0) {
             moveToPos(0);
             while (!done) {
-                myMeta = myList.getNode();
                 done = !((base + StringRec.BASE_CHARS) < insertPoint);
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();;
                 
                 if ((base + StringRec.BASE_CHARS) <= insertPoint) {
                     cn.drawText(myStringRec.exportArray(), 1, StringRec.BASE_CHARS, x, y, p);
@@ -1356,8 +1348,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
             
             if (insertPoint < max) {
                 moveToPos(rstPoint);
-                myMeta = myList.getNode();
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();
                 cn.drawText(
                         myStringRec.exportArray(),
                         rstPoint - base + 1,
@@ -1374,8 +1365,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
                 
                 while (!done) {
                     moveForward();
-                    myMeta = myList.getNode();
-                    myStringRec = (StringRec) myMeta;
+                    myStringRec = myList.getNode();
                     cn.drawText(myStringRec.exportArray(), 1, StringRec.BASE_CHARS, x, y, p);
                     x = x + p.measureText(myStringRec.exportArray(), 1, StringRec.BASE_CHARS);
                     
@@ -1397,17 +1387,15 @@ public class FlexString extends Meta implements Comparable, Externalizable {
      */
     public final float measureText(Paint p) {
         boolean done = false;
-        Meta myMeta;
         int rstPoint = insertPoint + gapLength();
-        StringRec myStringRec = (StringRec) myList.getNode();
+        StringRec myStringRec = myList.getNode();
         float x = 0;
         
         if (max > 0) {
             moveToPos(0);
             while (!done) {
-                myMeta = myList.getNode();
                 done = !((base + StringRec.BASE_CHARS) < insertPoint);
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();
                 if ((base + StringRec.BASE_CHARS) <= insertPoint) {
                     x = x + p.measureText(myStringRec.exportArray(), 1, StringRec.BASE_CHARS);
                 } else {
@@ -1420,8 +1408,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
             
             if (insertPoint < max) {
                 moveToPos(rstPoint);
-                myMeta = myList.getNode();
-                myStringRec = (StringRec) myMeta;
+                myStringRec = myList.getNode();
                 x =
                         x
                         + p.measureText(
@@ -1432,8 +1419,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
                 
                 while (!done) {
                     moveForward();
-                    myMeta = myList.getNode();
-                    myStringRec = (StringRec) myMeta;
+                    myStringRec = myList.getNode();
                     x = x + p.measureText(myStringRec.exportArray(), 1, StringRec.BASE_CHARS);
                     
                     done = !((base + StringRec.BASE_CHARS) < maxbase);
@@ -1536,23 +1522,20 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     };
     private final char getPhysicalChar(int index) {
         char temp = 0;
-        Meta myMeta;
         StringRec myStringRec;
         
         moveToPos(index);
-        myMeta = myList.getNode();
-        myStringRec = (StringRec) myMeta;
+        myStringRec = myList.getNode();
         temp = myStringRec.getPhysicalChar(index - base);
         return (temp);
     };
     private final void setPhysicalChar(int index, char inChar) {
-        Meta myMeta;
         StringRec myStringRec;
         
         moveToPos(index);
         
         if (index >= (base + StringRec.BASE_CHARS)) {
-            LowLevelList myNode = new AltLowList_StringRec();
+        	AltLowList_StringRec myNode = new AltLowList_StringRec();
             myList.importInsertRight(myNode);
             myNode.setCopyInfoMode(Meta.COPY_ALL_INFO);
             myNode.setEraseMode(Meta.WAKE);
@@ -1560,8 +1543,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
             maxbase = maxbase + StringRec.BASE_CHARS;
         }
         
-        myMeta = myList.getNode();
-        myStringRec = (StringRec) myMeta;
+        myStringRec = myList.getNode();
         myStringRec.setPhysicalChar(index - base, inChar);
     };
     private final void moveForward() {
@@ -1599,7 +1581,7 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     private final void dvSetInsertPoint(int in) {
         insertPoint = in;
     }
-    private final HighLevelList dvGetMyList() {
+    private final HighLevelList<AltLowList_StringRec,StringRec> dvGetMyList() {
         return (myList);
     }
     
@@ -1607,5 +1589,5 @@ public class FlexString extends Meta implements Comparable, Externalizable {
     private int maxbase;
     private int base;
     private int insertPoint;
-    private final HighLevelList myList = new HighLevelList();
+    private final HighLevelList<AltLowList_StringRec,StringRec> myList = new HighLevelList<AltLowList_StringRec,StringRec>();
 };

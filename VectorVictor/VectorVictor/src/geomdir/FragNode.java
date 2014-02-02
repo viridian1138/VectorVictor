@@ -164,7 +164,7 @@ import meta.VersionBuffer;
 * variable name, including the set of sepictors associated with the variable.
 * @author Thorn Green
 */
-public class FragNode extends Meta implements Externalizable {
+public class FragNode extends Meta<FragNode> implements Externalizable {
 
 	private IntObj selfAlloc = new IntObj();
 	private IntObj realSelfAlloc = new IntObj();

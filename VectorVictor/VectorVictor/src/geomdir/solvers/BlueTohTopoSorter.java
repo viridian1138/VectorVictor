@@ -121,6 +121,7 @@ import java.util.Iterator;
 import meta.HighLevelList;
 import meta.Meta;
 import meta.Staque;
+import meta.StdLowLevelList;
 
 
 
@@ -168,7 +169,7 @@ import meta.Staque;
 /**
 * A node representing an entry in the topological sort table.
 */
-class BlueTohTopoEntryNode extends Meta {
+class BlueTohTopoEntryNode extends Meta<BlueTohTopoEntryNode> {
 	/**
 	* Gets the number of direct predecessors of the node.
 	*/
@@ -179,7 +180,7 @@ class BlueTohTopoEntryNode extends Meta {
 	/**
 	* Gets the list of direct successors of the node.
 	*/
-	public final HighLevelList getSuccList() {
+	public final HighLevelList<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode> getSuccList() {
 		return (succList);
 	}
 
@@ -241,7 +242,7 @@ class BlueTohTopoEntryNode extends Meta {
 	/**
 	* The list of direct successors of the node.
 	*/
-	protected final HighLevelList succList = new HighLevelList();
+	protected final HighLevelList<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode> succList = new HighLevelList<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode>();
 }
 
 /**
@@ -261,7 +262,7 @@ public class BlueTohTopoSorter {
 	/**
 	* A queue containing the set of nodes that are next on the to-be-sorted list.
 	*/
-	protected final Staque next_nodes = new Staque();
+	protected final Staque<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode> next_nodes = new Staque<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode>();
 
 	/**
 	* The number of input nodes to be sorted.
@@ -281,7 +282,7 @@ public class BlueTohTopoSorter {
 	/**
 	* The list of sorted output nodes resulting from a topological sort.
 	*/
-	protected final HighLevelList outputList = new HighLevelList();
+	protected final HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* Hash map containing all BlueToh join nodes.
@@ -296,7 +297,7 @@ public class BlueTohTopoSorter {
 	/**
 	* Gets the output list.
 	*/
-	public HighLevelList getOutputList() {
+	public HighLevelList<StdLowLevelList<ASGNode>,ASGNode> getOutputList() {
 		return (outputList);
 	}
 
@@ -495,16 +496,15 @@ public class BlueTohTopoSorter {
 
 		BlueTohTopoEntryNode succTopo = varHash.get(exp);
 
-		HighLevelList CodeList = exp.getCodeList();
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = exp.getCodeList();
 		boolean Done1 = false;
 		if (!(CodeList.empty())) {
 			CodeList.searchHead();
 
 			while (!Done1) {
-				Meta MyMeta2 = CodeList.getNode();
-				Lexeme MyLex = (Lexeme) MyMeta2;
+				Lexeme MyLex = CodeList.getNode();
 				if (MyLex.getMyMatch() == GEval.variable) {
-					Meta link = MyLex.getMetaPtr();
+					Meta<?> link = MyLex.getMetaPtr();
 					Object predASG = link;
 					ExpNode predExp = null;
 					BlueTohVarNode BlueToh = findBlueTohVarNode((ASGNode) predASG);
@@ -597,8 +597,8 @@ public class BlueTohTopoSorter {
 	* Performs one iteration of the topological sort process, moving one node into the sorted output list.
 	*/
 	protected final void topoSortIteration() {
-		BlueTohTopoEntryNode myNode = (BlueTohTopoEntryNode) (next_nodes.deq());
-		HighLevelList travList = myNode.getSuccList();
+		BlueTohTopoEntryNode myNode = next_nodes.deq();
+		HighLevelList<StdLowLevelList<BlueTohTopoEntryNode>,BlueTohTopoEntryNode> travList = myNode.getSuccList();
 		Object entryObj = myNode.getEntryObj();
 
 		if (entryObj instanceof ASGNode) {
@@ -626,7 +626,7 @@ public class BlueTohTopoSorter {
 			boolean Done = false;
 
 			while (!Done) {
-				BlueTohTopoEntryNode travNode = (BlueTohTopoEntryNode) (travList.getNode());
+				BlueTohTopoEntryNode travNode = travList.getNode();
 				travNode.setPredCount(travNode.getPredCount() - 1);
 
 				if (travNode.getPredCount() == 0) {

@@ -156,7 +156,7 @@ import java.io.Externalizable;
  * wishes to create a list of lists (perhaps for a simple sparse matrix).
  * @author Thorn Green
  */
-public abstract class AltLowLevelList<T extends Meta> extends LowLevelList<AltLowLevelList<T>,T> implements Externalizable {
+public abstract class AltLowLevelList<U extends AltLowLevelList, T extends Meta> extends LowLevelList<U,T> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -260,7 +260,7 @@ public abstract class AltLowLevelList<T extends Meta> extends LowLevelList<AltLo
     /**
      * Copies to the parameter <code>input</code> using the current CopyInfoMode.
      */
-    protected void copyDat(AltLowLevelList<T> input) {
+    protected void copyDat(U input) {
         if (copyInfoMode != Meta.COPY_DATA_INFO)
             myRec.exeCopyInfo(copyInfoMode, input.dvGetMyRec());
         

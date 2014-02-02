@@ -151,7 +151,7 @@ package meta;
  * unless you are making direct modifications to {@link FlexString}.
  * @author Thorn Green
  */
-class StringRec extends Meta {
+class StringRec extends Meta<StringRec> {
     /**
      * The number of characters in the array.
      */
@@ -159,7 +159,7 @@ class StringRec extends Meta {
     /**
      * @see meta.Meta
      */
-    public Meta copyNode() {
+    public StringRec copyNode() {
         StringRec temp = new StringRec();
         copyString(temp);
         return (temp);
@@ -167,7 +167,7 @@ class StringRec extends Meta {
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
+    public StringRec copySub() {
         StringRec temp = new StringRec();
         copyString(temp);
         return (temp);
@@ -175,7 +175,7 @@ class StringRec extends Meta {
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
+    public StringRec copyAll() {
         StringRec temp = new StringRec();
         copyString(temp);
         return (temp);
@@ -183,22 +183,22 @@ class StringRec extends Meta {
     /**
      * @see meta.Meta
      */
-    public void copyNodeInfo(Meta in) {
-        StringRec temp = (StringRec) in;
+    public void copyNodeInfo(StringRec in) {
+        StringRec temp = in;
         copyString(temp);
     };
     /**
      * @see meta.Meta
      */
-    public void copySubInfo(Meta in) {
-        StringRec temp = (StringRec) in;
+    public void copySubInfo(StringRec in) {
+        StringRec temp = in;
         copyString(temp);
     };
     /**
      * @see meta.Meta
      */
-    public void copyAllInfo(Meta in) {
-        StringRec temp = (StringRec) in;
+    public void copyAllInfo(StringRec in) {
+        StringRec temp = in;
         copyString(temp);
     };
     /**

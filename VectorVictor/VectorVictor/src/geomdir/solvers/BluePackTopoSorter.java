@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import meta.Staque;
 
 //$$strtCprt
@@ -163,18 +163,18 @@ import meta.Staque;
 /**
 * A node representing an entry in the topological sort table.
 */
-class BluePackTopoEntryNode extends Meta {
+class BluePackTopoEntryNode extends Meta<BluePackTopoEntryNode> {
 	/**
 	* Gets the number of direct predecessors of the node.
 	*/
-	public final int getPredCount() {
+	public final int getPredCount() { 
 		return (predCount);
 	}
 
 	/**
 	* Gets the list of direct successors of the node.
 	*/
-	public final HighLevelList getSuccList() {
+	public final HighLevelList<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode> getSuccList() {
 		return (succList);
 	}
 
@@ -236,7 +236,7 @@ class BluePackTopoEntryNode extends Meta {
 	/**
 	* The list of direct successors of the node.
 	*/
-	protected final HighLevelList succList = new HighLevelList();
+	protected final HighLevelList<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode> succList = new HighLevelList<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode>();
 }
 
 /**
@@ -256,7 +256,7 @@ public class BluePackTopoSorter {
 	/**
 	* A queue containing the set of nodes that are next on the to-be-sorted list.
 	*/
-	protected final Staque next_nodes = new Staque();
+	protected final Staque<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode> next_nodes = new Staque<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode>();
 
 	/**
 	* The number of input nodes to be sorted.
@@ -276,7 +276,7 @@ public class BluePackTopoSorter {
 	/**
 	* The list of sorted output nodes resulting from a topological sort.
 	*/
-	protected final HighLevelList outputList = new HighLevelList();
+	protected final HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* Hash map containing all BluePack join nodes.
@@ -291,7 +291,7 @@ public class BluePackTopoSorter {
 	/**
 	* Gets the output list.
 	*/
-	public HighLevelList getOutputList() {
+	public HighLevelList<StdLowLevelList<ASGNode>,ASGNode> getOutputList() {
 		return (outputList);
 	}
 
@@ -496,16 +496,15 @@ public class BluePackTopoSorter {
 
 		BluePackTopoEntryNode succTopo = varHash.get(exp);
 
-		HighLevelList CodeList = exp.getCodeList();
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = exp.getCodeList();
 		boolean Done1 = false;
 		if (!(CodeList.empty())) {
 			CodeList.searchHead();
 
 			while (!Done1) {
-				Meta MyMeta2 = CodeList.getNode();
-				Lexeme MyLex = (Lexeme) MyMeta2;
+				Lexeme MyLex = CodeList.getNode();
 				if (MyLex.getMyMatch() == GEval.variable) {
-					Meta link = MyLex.getMetaPtr();
+					Meta<?> link = MyLex.getMetaPtr();
 					Object predASG = link;
 					ExpNode predExp = null;
 					BluePackVarNode BluePack = findBluePackVarNode((ASGNode) predASG);
@@ -598,8 +597,8 @@ public class BluePackTopoSorter {
 	* Performs one iteration of the topological sort process, moving one node into the sorted output list.
 	*/
 	protected final void topoSortIteration() {
-		BluePackTopoEntryNode myNode = (BluePackTopoEntryNode) (next_nodes.deq());
-		HighLevelList travList = myNode.getSuccList();
+		BluePackTopoEntryNode myNode = next_nodes.deq();
+		HighLevelList<StdLowLevelList<BluePackTopoEntryNode>,BluePackTopoEntryNode> travList = myNode.getSuccList();
 		Object entryObj = myNode.getEntryObj();
 
 		if (entryObj instanceof ASGNode) {
@@ -627,7 +626,7 @@ public class BluePackTopoSorter {
 			boolean Done = false;
 
 			while (!Done) {
-				BluePackTopoEntryNode travNode = (BluePackTopoEntryNode) (travList.getNode());
+				BluePackTopoEntryNode travNode = travList.getNode();
 				travNode.setPredCount(travNode.getPredCount() - 1);
 
 				if (travNode.getPredCount() == 0) {

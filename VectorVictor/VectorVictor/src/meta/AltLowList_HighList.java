@@ -156,22 +156,22 @@ import java.io.Externalizable;
  * wishes to create a list of lists (perhaps for a simple sparse matrix).
  * @author Thorn Green
  */
-public class AltLowList_HighList extends AltLowLevelList<HighLevelList> {
+public class AltLowList_HighList<U extends LowLevelList, T extends Meta> extends AltLowLevelList<AltLowList_HighList<U,T>,HighLevelList<U,T>> {
 	
 	/**
      * Copies the node according to the current CopyInfoMode.
      * @return The copy.
      */
-    public AltLowLevelList<HighLevelList> copyNode() {
-        AltLowLevelList<HighLevelList> temp = new AltLowList_HighList();
+    public AltLowList_HighList<U,T> copyNode() {
+    	AltLowList_HighList<U,T> temp = new AltLowList_HighList<U,T>();
         this.copyDat(temp);
         temp.setHead(true);
         return (temp);
     };
     
-    public HighLevelList construct()
+    public HighLevelList<U,T> construct()
     {
-    	return( new HighLevelList() );
+    	return( new HighLevelList<U,T>() );
     }
     
 };

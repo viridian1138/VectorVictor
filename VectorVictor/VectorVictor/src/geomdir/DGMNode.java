@@ -167,7 +167,7 @@ import meta.VersionBuffer;
 * because the coordinate information is often needed to perform screen operations.
 * @author Thorn Green
 */
-public class DGMNode extends Meta implements Externalizable {
+public class DGMNode extends Meta<DGMNode> implements Externalizable {
 	/**
 	* Gets the depictor.
 	*/
