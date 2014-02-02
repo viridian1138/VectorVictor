@@ -1638,8 +1638,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localSetLastClickDepic(MyObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localSetLastClickDepic(MyObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1660,8 +1660,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localPullFromDrawingList(MyObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+			    MyNode.value.localPullFromDrawingList(MyObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1683,8 +1683,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localBringToFront(MyObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localBringToFront(MyObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1705,8 +1705,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localSendToBack(MyObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localSendToBack(MyObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1727,8 +1727,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localDisplayAppend(MyObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localDisplayAppend(MyObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1749,8 +1749,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).invalidate(); // postInvalidate();
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.invalidate(); // postInvalidate();
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1773,8 +1773,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localDelegationEvent(Add, FromObj, ToObj);
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localDelegationEvent(Add, FromObj, ToObj);
 
 				tmp.right();
 				Done = tmp.getHead();
@@ -1808,7 +1808,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Adds a DepicListListener to the model.
 	*/
 	public void addDepicListListener(DepicListListener in) {
-		ObjObj MyObj = new ObjObj();
+		ObjObj<DepicListListener> MyObj = new ObjObj<DepicListListener>();
 		MyObj.value = in;
 
 		DepicListListeners.insertRight(MyObj);
@@ -1850,7 +1850,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			boolean Done = false;
 
 			while (!Done) {
-				ObjObj MyObjObj = (ObjObj) temp.getNode();
+				ObjObj<DepicListListener> MyObjObj = (ObjObj<DepicListListener>) temp.getNode();
 				temp.copyDataPlusPtrInfo(next);
 				next.right();
 
@@ -1928,8 +1928,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 				tmp.searchHead();
 
 				while (!Done) {
-					ObjObj MyNode = (ObjObj) tmp.getNode();
-					((DepicListListener) MyNode.value).updateYourself1();
+					ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+					MyNode.value.updateYourself1();
 
 					tmp.right();
 					Done = tmp.getHead();
@@ -2300,8 +2300,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 				tmp.copyDataPlusPtrInfo(tmp2);
 				tmp2.right();
 
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				((DepicListListener) MyNode.value).localClearModel();
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				MyNode.value.localClearModel();
 
 				tmp2.copyDataPlusPtrInfo(tmp);
 				Done = tmp.getHead();
@@ -2384,8 +2384,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 			tmp.searchHead();
 
 			while (!Done) {
-				ObjObj MyNode = (ObjObj) tmp.getNode();
-				double rad = ((DepicListListener) MyNode.value).getCoordRad();
+				ObjObj<DepicListListener> MyNode = (ObjObj<DepicListListener>) tmp.getNode();
+				double rad = MyNode.value.getCoordRad();
 
 				if (rad > 0.0) {
 					double scv = (1.0 / rad) / (2.0 * dpiMultiplier);

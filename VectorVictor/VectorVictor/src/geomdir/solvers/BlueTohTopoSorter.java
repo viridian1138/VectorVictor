@@ -286,7 +286,7 @@ public class BlueTohTopoSorter {
 	/**
 	* Hash map containing all BlueToh join nodes.
 	*/
-	protected HashMap<ASGNode,ObjObj> blueTohJoinMap = new HashMap<ASGNode,ObjObj>();
+	protected HashMap<ASGNode,ObjObj<BlueTohVarNode>> blueTohJoinMap = new HashMap<ASGNode,ObjObj<BlueTohVarNode>>();
 
 	/**
 	* Hash set containing all BlueToh join nodes.
@@ -324,8 +324,8 @@ public class BlueTohTopoSorter {
 		ASGNode var1 = BlueTohSolverLinkage.getDisambigASG(ivar1);
 		ASGNode var2 = BlueTohSolverLinkage.getDisambigASG(ivar2);
 
-		ObjObj ref1 = blueTohJoinMap.get(var1);
-		ObjObj ref2 = blueTohJoinMap.get(var2);
+		ObjObj<BlueTohVarNode> ref1 = blueTohJoinMap.get(var1);
+		ObjObj<BlueTohVarNode> ref2 = blueTohJoinMap.get(var2);
 		if (ref1 != null) {
 			if (ref2 != null)
 				handleVarJoin(ref1, ref2);
@@ -340,28 +340,28 @@ public class BlueTohTopoSorter {
 		}
 	}
 
-	protected void handleSingleJoin(ObjObj ref, ASGNode var) {
+	protected void handleSingleJoin(ObjObj<BlueTohVarNode> ref, ASGNode var) {
 		blueTohJoinMap.put(var, ref);
-		BlueTohVarNode blNode = (BlueTohVarNode) (ref.value);
+		BlueTohVarNode blNode = ref.value;
 		blNode.addASGTwoSided(var);
 	}
 
 	protected void handleNewCreation(ASGNode var1, ASGNode var2) {
 		BlueTohVarNode blVar = new BlueTohVarNode(var1, var2);
-		ObjObj ref = blVar.getFirstRef();
+		ObjObj<BlueTohVarNode> ref = blVar.getFirstRef();
 		blueTohJoinMap.put(var1, ref);
 		blueTohJoinMap.put(var2, ref);
 		blueTohVarSet.add(blVar);
 	}
 
-	protected void handleVarJoin(ObjObj ref1, ObjObj ref2) {
+	protected void handleVarJoin(ObjObj<BlueTohVarNode> ref1, ObjObj<BlueTohVarNode> ref2) {
 		if (ref1.value != ref2.value) {
-			BlueTohVarNode blNode1 = (BlueTohVarNode) (ref1.value);
-			BlueTohVarNode blNode2 = (BlueTohVarNode) (ref2.value);
+			BlueTohVarNode blNode1 = ref1.value;
+			BlueTohVarNode blNode2 = ref2.value;
 			blNode1.unifyTo(blNode2);
-			Iterator<ObjObj> it = blNode1.getRefIterator();
+			Iterator<ObjObj<BlueTohVarNode>> it = blNode1.getRefIterator();
 			while (it.hasNext()) {
-				ObjObj ref = it.next();
+				ObjObj<BlueTohVarNode> ref = it.next();
 				ref.value = blNode2;
 			}
 			blueTohVarSet.remove(blNode1);
@@ -560,10 +560,10 @@ public class BlueTohTopoSorter {
 
 	protected final BlueTohVarNode findBlueTohVarNode(ASGNode iasg) {
 		ASGNode asg = BlueTohSolverLinkage.getDisambigASG(iasg);
-		ObjObj obj = blueTohJoinMap.get(asg);
+		ObjObj<BlueTohVarNode> obj = blueTohJoinMap.get(asg);
 		BlueTohVarNode var = null;
 		if (obj != null)
-			var = (BlueTohVarNode) (obj.value);
+			var = obj.value;
 		return (var);
 	}
 

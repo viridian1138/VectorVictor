@@ -157,7 +157,7 @@ import geomdir.*;
 * user of the GeoPad kit.
 * @author Thorn Green
 */
-class ELexeme extends Meta
+class ELexeme extends Meta<ELexeme>
 	{
 /**
 * Value for a non-filled expression.

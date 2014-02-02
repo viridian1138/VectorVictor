@@ -156,136 +156,22 @@ import java.io.Externalizable;
  * wishes to create a list of lists (perhaps for a simple sparse matrix).
  * @author Thorn Green
  */
-public class AltLowList_HighList extends LowLevelList implements Externalizable {
+public class AltLowList_HighList extends AltLowLevelList<HighLevelList> {
 	
 	/**
-	* Version number used to support versioned persistence.
-	*/
-	static final long serialVersionUID = (AltLowList_HighList.class).getName().hashCode() + "v3/98A".hashCode();
-	
-    /**
-     * Returns the HighLevelList.
-     */
-    public Meta getNode() {
-        return (myRec);
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public void setNode(Meta input) { throw( new UndefinedOperation() );
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public void setCopyMode(int copy) { throw( new UndefinedOperation() );
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public int getCopyMode() { throw( new UndefinedOperation() );
-    };
-    /**
-     * Sets the CopyInfoMode for this node.
-     */
-    public void setCopyInfoMode(int copy) {
-        this.copyInfoMode = copy;
-    };
-    /**
-     * Gets the CopyInfoMode for this node.
-     */
-    public int getCopyInfoMode() {
-        return (this.copyInfoMode);
-    };
-    /**
      * Copies the node according to the current CopyInfoMode.
      * @return The copy.
      */
-    public Meta copyNode() {
-        AltLowList_HighList temp = new AltLowList_HighList();
+    public AltLowLevelList<HighLevelList> copyNode() {
+        AltLowLevelList<HighLevelList> temp = new AltLowList_HighList();
         this.copyDat(temp);
         temp.setHead(true);
         return (temp);
     };
-    /**
-     * Initializes the structure.
-     */
-    public void iAltHigh() {
-        this.copyInfoMode = Meta.COPY_DATA_INFO;
-    };
-    public AltLowList_HighList() {
-        super();
-        this.iAltHigh();
-    };
-    /**
-     * Disposes the structure according to the current EraseMode.
-     */
-    public void dispose() {
-        this.eraseDat();
-    };
     
-    /**
-     * Reads serial data.
-     */
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        super.readExternal(in);
-        
-        try {
-            VersionBuffer myv = (VersionBuffer) (in.readObject());
-            VersionBuffer.chkNul(myv);
-            
-            myRec = (HighLevelList) (myv.getProperty("MyRec"));
-            VersionBuffer.chkNul(myRec);
-            copyInfoMode = myv.getInt("ThisCopyInfoMode");
-        } catch (ClassCastException e) {
-            throw (new DataFormatException(e));
-        }
-    }
-    
-    /**
-     * Writes serial data.
-     * <P>
-     * @serialData TBD.
-     */
-    public void writeExternal(ObjectOutput out) throws IOException {
-        VersionBuffer myv = new VersionBuffer(VersionBuffer.WRITE);
-        
-        myv.setProperty("MyRec", myRec);
-        myv.setInt("ThisCopyInfoMode", copyInfoMode);
-        
-        super.writeExternal(out);
-        out.writeObject(myv);
-    }
-    
-    /**
-     * The HighLevelList stored in the node.
-     */
-    protected HighLevelList myRec = new HighLevelList();
-    /**
-     * The CopyInfoMode for the node.
-     */
-    protected int copyInfoMode;
-    /**
-     * Copies to the parameter <code>input</code> using the current CopyInfoMode.
-     */
-    protected void copyDat(AltLowList_HighList input) {
-        if (copyInfoMode != Meta.COPY_DATA_INFO)
-            myRec.exeCopyInfo(copyInfoMode, input.dvGetMyRec());
-        
-                /* For future exception handling purposes, it's very important that things happen
-                        in this order. */
-        
-        input.dvSetCopyInfoMode(copyInfoMode);
-        input.dvSetEraseMode(eraseMode);
-    };
-    
-    private final HighLevelList dvGetMyRec() {
-        return (myRec);
-    }
-    private final void dvSetCopyInfoMode(int in) {
-        copyInfoMode = in;
-    }
-    private final void dvSetEraseMode(int in) {
-        eraseMode = in;
+    public HighLevelList construct()
+    {
+    	return( new HighLevelList() );
     }
     
 };

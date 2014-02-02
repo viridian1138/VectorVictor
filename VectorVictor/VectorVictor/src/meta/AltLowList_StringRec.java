@@ -151,95 +151,22 @@ package meta;
  * unless you are making direct modifications to {@link FlexString}.
  * @author Thorn Green
  */
-class AltLowList_StringRec extends LowLevelList {
-    /**
-     * Returns the StringRec.
-     */
-    public Meta getNode() {
-        return (myRec);
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public void setNode(Meta input) { throw( new UndefinedOperation() );
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public void setCopyMode(int copy) { throw( new UndefinedOperation() );
-    };
-    /**
-     * This is an undefined operation.  Do not use.
-     */
-    public int getCopyMode() { throw( new UndefinedOperation() );
-    };
-    /**
-     * Sets the CopyInfoMode for this node.
-     */
-    public void setCopyInfoMode(int copy) {
-        this.copyInfoMode = copy;
-    };
-    /**
-     * Gets the CopyInfoMode for this node.
-     */
-    public int getCopyInfoMode() {
-        return (this.copyInfoMode);
-    };
-    /**
+public class AltLowList_StringRec extends AltLowLevelList<StringRec> {
+	
+	/**
      * Copies the node according to the current CopyInfoMode.
      * @return The copy.
      */
-    public Meta copyNode() {
-        AltLowList_StringRec temp = new AltLowList_StringRec();
+    public AltLowLevelList<StringRec> copyNode() {
+        AltLowLevelList<StringRec> temp = new AltLowList_StringRec();
         this.copyDat(temp);
         temp.setHead(true);
         return (temp);
     };
-    /**
-     * Initializes the structure.
-     */
-    public void iAltStrRec() {
-        this.copyInfoMode = Meta.COPY_DATA_INFO;
-    };
-    public AltLowList_StringRec() {
-        super();
-        this.iAltStrRec();
-    };
-    /**
-     * Disposes the structure according to the current EraseMode.
-     */
-    public void dispose() {
-        this.eraseDat();
-    };
-    /**
-     * The StringRec stored in the node.
-     */
-    protected StringRec myRec = new StringRec();
-    /**
-     * The CopyInfoMode for the node.
-     */
-    protected int copyInfoMode;
-    /**
-     * Copies to the parameter <code>input</code> using the current CopyInfoMode.
-     */
-    protected void copyDat(AltLowList_StringRec input) {
-        if (copyInfoMode != Meta.COPY_DATA_INFO)
-            myRec.exeCopyInfo(copyInfoMode, input.dvGetMyRec());
-        
-                /* For future exception handling purposes, it's very important that things happen
-                        in this order. */
-        
-        input.dvSetCopyInfoMode(copyInfoMode);
-        input.dvSetEraseMode(eraseMode);
-    };
     
-    private final StringRec dvGetMyRec() {
-        return (myRec);
+    public StringRec construct()
+    {
+    	return( new StringRec() );
     }
-    private final void dvSetCopyInfoMode(int in) {
-        copyInfoMode = in;
-    }
-    private final void dvSetEraseMode(int in) {
-        eraseMode = in;
-    }
+    
 };

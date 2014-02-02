@@ -169,7 +169,7 @@ import meta.VersionBuffer;
 * and input/output information for the variable.
 * @author Thorn Green
 */
-public class ASGNode extends Meta implements Externalizable {
+public class ASGNode extends Meta<ASGNode> implements Externalizable {
 	/**
 	* Copies the node's contents to the node <code>out</code>.
 	*/
@@ -183,31 +183,31 @@ public class ASGNode extends Meta implements Externalizable {
 		myMvec.copyAllInfo(out.dvGetMvec());
 		minimizationMvec.copyAllInfo(out.dvGetMinimizationMvec());
 	};
-	public Meta copyNode() {
+	public ASGNode copyNode() {
 		ASGNode temp = new ASGNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copySub() {
+	public ASGNode copySub() {
 		ASGNode temp = new ASGNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copyAll() {
+	public ASGNode copyAll() {
 		ASGNode temp = new ASGNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public void copyNodeInfo(Meta in) {
-		ASGNode temp = (ASGNode) in;
+	public void copyNodeInfo(ASGNode in) {
+		ASGNode temp = in;
 		datCpy(temp);
 	};
-	public void copySubInfo(Meta in) {
-		ASGNode temp = (ASGNode) in;
+	public void copySubInfo(ASGNode in) {
+		ASGNode temp = in;
 		datCpy(temp);
 	};
-	public void copyAllInfo(Meta in) {
-		ASGNode temp = (ASGNode) in;
+	public void copyAllInfo(ASGNode in) {
+		ASGNode temp = in;
 		datCpy(temp);
 	};
 	public void eraseNode() {};

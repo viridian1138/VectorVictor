@@ -164,7 +164,7 @@ public class BlueTohVarNode extends Object {
 		refSet.add(firstRef);
 	}
 
-	public ObjObj getFirstRef() {
+	public ObjObj<BlueTohVarNode> getFirstRef() {
 		return (firstRef);
 	}
 
@@ -195,15 +195,15 @@ public class BlueTohVarNode extends Object {
 		asgSet.add(inv);
 	}
 
-	public void addRef(ObjObj in) {
+	public void addRef(ObjObj<BlueTohVarNode> in) {
 		refSet.add(in);
 	}
 
 	public void unifyTo(BlueTohVarNode out) {
 		{
-		Iterator<ObjObj> it = refSet.iterator();
+		Iterator<ObjObj<BlueTohVarNode>> it = refSet.iterator();
 		while (it.hasNext()) {
-			ObjObj ob = it.next();
+			ObjObj<BlueTohVarNode> ob = it.next();
 			ob.value = out;
 			out.addRef(ob);
 		}
@@ -223,7 +223,7 @@ public class BlueTohVarNode extends Object {
 		return (asgSet.iterator());
 	}
 
-	public Iterator<ObjObj> getRefIterator() {
+	public Iterator<ObjObj<BlueTohVarNode>> getRefIterator() {
 		return (refSet.iterator());
 	}
 
@@ -333,7 +333,7 @@ public class BlueTohVarNode extends Object {
 
 	protected int predExpCount = 0;
 	protected ExpNode predExp = null;
-	protected HashSet<ObjObj> refSet = new HashSet<ObjObj>();
+	protected HashSet<ObjObj<BlueTohVarNode>> refSet = new HashSet<ObjObj<BlueTohVarNode>>();
 	protected HashSet<ASGNode> asgSet = new HashSet<ASGNode>();
-	protected ObjObj firstRef = new ObjObj();
+	protected ObjObj<BlueTohVarNode> firstRef = new ObjObj<BlueTohVarNode>();
 }

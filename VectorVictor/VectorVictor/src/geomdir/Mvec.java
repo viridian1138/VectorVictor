@@ -163,7 +163,7 @@ import meta.VersionBuffer;
 * A 2-D Geometric Algebra multivector.
 * @author Thorn Green
 */
-public class Mvec extends Meta implements Externalizable {
+public class Mvec extends Meta<Mvec> implements Externalizable {
 	/**
 	* Copies the entire contents of the multivector.
 	*/
@@ -173,31 +173,31 @@ public class Mvec extends Meta implements Externalizable {
 		out.setBasis2(ba2);
 		out.setBasis12(ba12);
 	};
-	public Meta copyNode() {
+	public Mvec copyNode() {
 		final Mvec temp = new Mvec();
 		mcpy(temp);
 		return (temp);
 	};
-	public Meta copySub() {
+	public Mvec copySub() {
 		final Mvec temp = new Mvec();
 		mcpy(temp);
 		return (temp);
 	};
-	public Meta copyAll() {
+	public Mvec copyAll() {
 		final Mvec temp = new Mvec();
 		mcpy(temp);
 		return (temp);
 	};
-	public void copyNodeInfo(final Meta in) {
-		final Mvec temp = (Mvec) in;
+	public void copyNodeInfo(final Mvec in) {
+		final Mvec temp = in;
 		mcpy(temp);
 	};
-	public void copySubInfo(final Meta in) {
-		final Mvec temp = (Mvec) in;
+	public void copySubInfo(final Mvec in) {
+		final Mvec temp = in;
 		mcpy(temp);
 	};
-	public void copyAllInfo(final Meta in) {
-		final Mvec temp = (Mvec) in;
+	public void copyAllInfo(final Mvec in) {
+		final Mvec temp = in;
 		mcpy(temp);
 	};
 	public void eraseNode() {};

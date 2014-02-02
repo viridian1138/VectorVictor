@@ -167,7 +167,7 @@ import java.io.ObjectOutput;
  * Two important classes that use LowLevelType are {@link LowLevelList} and {@link LowLevelBinTree}.
  * @author Thorn Green
  */
-public abstract class LowLevelType extends Meta implements Externalizable {
+public abstract class LowLevelType<U extends LowLevelType, T extends Meta> extends Meta<U> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -181,11 +181,11 @@ public abstract class LowLevelType extends Meta implements Externalizable {
     /**
      * Returns the data stored in the node.
      */
-    public abstract Meta getNode();
+    public abstract T getNode();
     /**
      * Stores data in a particular node.
      */
-    public abstract void setNode(final Meta input);
+    public abstract void setNode(final T input);
     /**
      * Sets the CopyMode of a particular node, if supported.
      */
@@ -260,7 +260,7 @@ public abstract class LowLevelType extends Meta implements Externalizable {
      * Erases a node's data according to its current EraseMode.
      */
     protected final void eraseDat() {
-        Meta data = getNode();
+        T data = getNode();
         
         if (eraseMode != Meta.WAKE)
             data.exeErase(eraseMode);

@@ -161,7 +161,7 @@ import meta.VersionBuffer;
 * another object.
 * @author Thorn Green
 */
-public class ObjObj extends Meta implements Externalizable {
+public class ObjObj<T> extends Meta<ObjObj<T>> implements Externalizable {
 	public void wake() {};
 
 	/**
@@ -172,7 +172,7 @@ public class ObjObj extends Meta implements Externalizable {
 	/**
 	* Constructor that stores <code>in</code> as the value of the reference.
 	*/
-	public ObjObj(Object in) {
+	public ObjObj(T in) {
 		value = in;
 	}
 
@@ -189,7 +189,7 @@ public class ObjObj extends Meta implements Externalizable {
 	*/
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		try {
-			value = in.readObject();
+			value = (T)( in.readObject() );
 			VersionBuffer.chkNul(value);
 		}
 		catch (ClassCastException e) {
@@ -200,5 +200,5 @@ public class ObjObj extends Meta implements Externalizable {
 	/**
 	* The stored reference.
 	*/
-	public Object value;
+	public T value;
 }

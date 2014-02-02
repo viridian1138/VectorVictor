@@ -166,7 +166,7 @@ import verdantium.mathimage.MathImage;
 * of the algebraic workspace.
 * @author Thorn Green
 */
-	public class AlgNode extends Meta implements Externalizable
+	public class AlgNode extends Meta<AlgNode> implements Externalizable
 		{
 /**
 * Gets the MathImage that is displayed on the line.

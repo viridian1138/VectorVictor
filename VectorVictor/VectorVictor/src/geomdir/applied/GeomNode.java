@@ -167,7 +167,7 @@ import android.graphics.PointF;
 * of the geometric workspace.
 * @author Thorn Green
 */
-	public class GeomNode extends Meta implements Externalizable
+	public class GeomNode extends Meta<GeomNode> implements Externalizable
 		{
 /**
 * Gets all elements on the line to be depicted.

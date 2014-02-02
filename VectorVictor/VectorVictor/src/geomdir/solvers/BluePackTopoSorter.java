@@ -281,7 +281,7 @@ public class BluePackTopoSorter {
 	/**
 	* Hash map containing all BluePack join nodes.
 	*/
-	protected HashMap<ASGNode,ObjObj> bluePackJoinMap = new HashMap<ASGNode,ObjObj>();
+	protected HashMap<ASGNode,ObjObj<BluePackVarNode>> bluePackJoinMap = new HashMap<ASGNode,ObjObj<BluePackVarNode>>();
 
 	/**
 	* Hash set containing all BluePack join nodes.
@@ -316,8 +316,8 @@ public class BluePackTopoSorter {
 		return (false);
 	}
 
-	protected final boolean isRefNegated(ObjObj ref, ASGNode var) {
-		BluePackVarNode blNode = (BluePackVarNode) (ref.value);
+	protected final boolean isRefNegated(ObjObj<BluePackVarNode> ref, ASGNode var) {
+		BluePackVarNode blNode = ref.value;
 		return (blNode.isNegatedVar(var));
 	}
 
@@ -325,8 +325,8 @@ public class BluePackTopoSorter {
 		ASGNode var1 = BluePackSolverLinkage.getDisambigASG(ivar1);
 		ASGNode var2 = BluePackSolverLinkage.getDisambigASG(ivar2);
 
-		ObjObj ref1 = bluePackJoinMap.get(var1);
-		ObjObj ref2 = bluePackJoinMap.get(var2);
+		ObjObj<BluePackVarNode> ref1 = bluePackJoinMap.get(var1);
+		ObjObj<BluePackVarNode> ref2 = bluePackJoinMap.get(var2);
 		if (ref1 != null) {
 			if (ref2 != null)
 				handleVarJoin(ref1, ref2, negate ^ isRefNegated(ref1, var1) ^ isRefNegated(ref2, var2));
@@ -341,28 +341,28 @@ public class BluePackTopoSorter {
 		}
 	}
 
-	protected void handleSingleJoin(ObjObj ref, ASGNode var, boolean negate) {
+	protected void handleSingleJoin(ObjObj<BluePackVarNode> ref, ASGNode var, boolean negate) {
 		bluePackJoinMap.put(var, ref);
-		BluePackVarNode blNode = (BluePackVarNode) (ref.value);
+		BluePackVarNode blNode = ref.value;
 		blNode.addASGTwoSided(var, negate);
 	}
 
 	protected void handleNewCreation(ASGNode var1, ASGNode var2, boolean negate) {
 		BluePackVarNode blVar = new BluePackVarNode(var1, var2, negate);
-		ObjObj ref = blVar.getFirstRef();
+		ObjObj<BluePackVarNode> ref = blVar.getFirstRef();
 		bluePackJoinMap.put(var1, ref);
 		bluePackJoinMap.put(var2, ref);
 		bluePackVarSet.add(blVar);
 	}
 
-	protected void handleVarJoin(ObjObj ref1, ObjObj ref2, boolean negate) {
+	protected void handleVarJoin(ObjObj<BluePackVarNode> ref1, ObjObj<BluePackVarNode> ref2, boolean negate) {
 		if (ref1.value != ref2.value) {
-			BluePackVarNode blNode1 = (BluePackVarNode) (ref1.value);
-			BluePackVarNode blNode2 = (BluePackVarNode) (ref2.value);
+			BluePackVarNode blNode1 = ref1.value;
+			BluePackVarNode blNode2 = ref2.value;
 			blNode1.unifyTo(blNode2, negate);
-			Iterator<ObjObj> it = blNode1.getRefIterator();
+			Iterator<ObjObj<BluePackVarNode>> it = blNode1.getRefIterator();
 			while (it.hasNext()) {
-				ObjObj ref = it.next();
+				ObjObj<BluePackVarNode> ref = it.next();
 				ref.value = blNode2;
 			}
 			bluePackVarSet.remove(blNode1);
@@ -561,10 +561,10 @@ public class BluePackTopoSorter {
 
 	protected final BluePackVarNode findBluePackVarNode(ASGNode iasg) {
 		ASGNode asg = BluePackSolverLinkage.getDisambigASG(iasg);
-		ObjObj obj = bluePackJoinMap.get(asg);
+		ObjObj<BluePackVarNode> obj = bluePackJoinMap.get(asg);
 		BluePackVarNode var = null;
 		if (obj != null)
-			var = (BluePackVarNode) (obj.value);
+			var = obj.value;
 		return (var);
 	}
 

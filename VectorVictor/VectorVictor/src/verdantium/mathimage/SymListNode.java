@@ -155,7 +155,7 @@ import meta.VersionBuffer;
 * Defines a node in a {@link SymMap}.
 * @author Thorn Green
 */
-public class SymListNode extends Meta implements Externalizable {
+public class SymListNode extends Meta<SymListNode> implements Externalizable {
 	/**
 	* Returns the symbol.
 	*/

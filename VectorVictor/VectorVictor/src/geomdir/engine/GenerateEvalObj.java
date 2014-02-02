@@ -319,7 +319,7 @@ class GenerateEvalObj {
 		TypeId<Object> obj_class = TypeId.get( Object.class );
 		// TypeId<Vector> vect_class = TypeId.get( Vector.class );
 		
-		MethodId<?,Void> cnst = f_class.getConstructor( mstk_class , hlst_class );
+		MethodId<? extends EvalObj,Void> cnst = f_class.getConstructor( mstk_class , hlst_class );
 		
 		Code codeA = dex.declare( cnst , Modifier.PUBLIC );
 		
@@ -327,16 +327,16 @@ class GenerateEvalObj {
 		
 		
 
-		MethodId<EvalObj, ?> m_super = eval_class.getConstructor( );
+		MethodId<EvalObj, Void> m_super = eval_class.getConstructor( );
 
 		
 		MethodId<HighLevelList, Meta> m_gnod = hlst_class.getMethod(meta_class, "getNode");
 
 		
-		MethodId<HighLevelList, ?> m_srch = hlst_class.getMethod(TypeId.VOID, "searchHead");
+		MethodId<HighLevelList, Void> m_srch = hlst_class.getMethod(TypeId.VOID, "searchHead");
 
 		
-		MethodId<HighLevelList, ?> m_right = hlst_class.getMethod(TypeId.VOID, "right");
+		MethodId<HighLevelList, Void> m_right = hlst_class.getMethod(TypeId.VOID, "right");
 
 		
 		MethodId<Mstack, Object> m_gobj = mstk_class.getMethod(obj_class, "elementAt", TypeId.INT);
@@ -430,9 +430,9 @@ class GenerateEvalObj {
 		CodeFacade code)
 		throws IOException {
 		
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname, mvec_class, mvec_class);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname, mvec_class, mvec_class);
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 		
 		Local<Mvec> t0 = code.newLocal( mvec_class );
 		Local<Mvec> t1 = code.newLocal( mvec_class );
@@ -455,9 +455,9 @@ class GenerateEvalObj {
 	protected static int biUnaryOp(String opname, int cur_index, TypeId<Mvec> mvec_class, 
 			CodeFacade code)
 		throws IOException {
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname, mvec_class);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname, mvec_class);
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 		Local<Mvec> t0 = code.newLocal( mvec_class );
 		Local<Mvec> t1 = code.newLocal( mvec_class );
@@ -481,7 +481,7 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code)
 		throws IOException {
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname);
 
 		if (c_ref_fld_info[cur_index - 1] == tmp_fld_info[cur_index - 1]) {
 			Local<Mvec> t0 = code.newLocal( mvec_class );
@@ -489,7 +489,7 @@ class GenerateEvalObj {
 			code.invokeVirtual( m_op , null , t0 );
 		}
 		else {
-			MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+			MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 			Local<Mvec> t0 = code.newLocal( mvec_class );
 			Local<Mvec> t1 = code.newLocal( mvec_class );
@@ -510,7 +510,7 @@ class GenerateEvalObj {
 	protected static int setValOp(String opname, int cur_index, TypeId<Mvec> mvec_class, 
 			CodeFacade code )
 		throws IOException {
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname);
 
 		c_ref_fld_info[cur_index] = tmp_fld_info[cur_index];
 		Local<Mvec> t0 = code.newLocal( mvec_class );
@@ -536,7 +536,7 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code)
 		throws IOException {
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
 
 		TypeId<Object> obj_class = TypeId.get( Object.class );
 		Local<Object> t0 = code.newLocal( obj_class );
@@ -601,7 +601,7 @@ class GenerateEvalObj {
 		if (!sequest && (tmp_fld_info[cur_index - 1] == c_ref_fld_info[cur_index - 1]))
 			return;
 
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
 
 		Local<Mvec> t0 = code.newLocal( mvec_class );
 		code.sget( tmp_fld_info[cur_index - 1] , t0 );
@@ -654,7 +654,7 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code)
 		throws IOException {
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, setOpname, TypeId.DOUBLE);
 		Local<Mvec> t0 = code.newLocal( mvec_class );
 		code.sget( tmp_fld_info[cur_index] , t0 );
 		Local<Double> t1 = code.newLocal( TypeId.DOUBLE );
@@ -700,14 +700,14 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code )
 		throws IOException {
-		ObjObj tp = (ObjObj) (lexm.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lexm.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
 		int count = 0;
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 		TypeId<Mvec[]> c_marr = TypeId.get( "[Lgeomdir/Mvec;" );
 
@@ -733,7 +733,7 @@ class GenerateEvalObj {
 
 		FieldId<?, Mvec> phi = c_ref_fld_info[nreta];
 		
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
 				TypeId.INT , TypeId.INT , c_marr , mvec_class , c_marr , c_marr );
 
 		
@@ -801,14 +801,14 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code)
 		throws IOException {
-		ObjObj tp = (ObjObj) (lexm.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lexm.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
 		int count = 0;
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 		TypeId<Mvec[]> c_marr = TypeId.get( "[Lgeomdir/Mvec;" );
 
@@ -846,7 +846,7 @@ class GenerateEvalObj {
 		int nret = cur_index - NumBi - NumStep + 1;
 		int nreta = nret - 1;
 
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
 				TypeId.INT , TypeId.INT , c_marr , c_marr , c_marr , c_marr );
 		
 		TypeId<Object> obj_class = TypeId.get( Object.class );
@@ -912,14 +912,14 @@ class GenerateEvalObj {
 		TypeId<Mvec> mvec_class,
 		CodeFacade code)
 		throws IOException {
-		ObjObj tp = (ObjObj) (lexm.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lexm.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
 		int count = 0;
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 		
 		TypeId<Mvec[]> c_marr = TypeId.get( "[Lgeomdir/Mvec;" );
 		
@@ -1013,7 +1013,7 @@ class GenerateEvalObj {
 		int nret = cur_index - NumBi - NumStep + 1;
 		int nreta = nret - 1;
 
-		MethodId<Mvec, ?> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
+		MethodId<Mvec, Void> m_op = mvec_class.getMethod(TypeId.VOID, opname, 
 				TypeId.INT , TypeId.INT , c_marr , c_marr , c_marr , c_marr , c_marr );
 		
 		TypeId<Object> obj_class = TypeId.get( Object.class );
@@ -1088,7 +1088,7 @@ class GenerateEvalObj {
 		int numArgs = MyPlug.getNumStaticArgs(val);
 		int offset = MyPlug.getMstackOffset(val);
 
-		MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+		MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 		TypeId<? extends DepicPlugin> plug_class = TypeId.get( MyPlug.getClass() );
 
@@ -1107,7 +1107,7 @@ class GenerateEvalObj {
 		code.sget(temp_fld, mv);
 		args[ count ] = mv;
 		
-		MethodId<? extends DepicPlugin, ?> m_plug = plug_class.getMethod(TypeId.VOID, methodName, argTypes );
+		MethodId<? extends DepicPlugin, Void> m_plug = plug_class.getMethod(TypeId.VOID, methodName, argTypes );
 		
 		code.invokeStatic(m_plug, null, args);
 		
@@ -1308,12 +1308,11 @@ class GenerateEvalObj {
 		ClassLoader loader = dexMaker.generateAndLoad(
 			       Meta.getDefaultClassLoader(), dataDirectory );
 		
-		Class clss = loader.loadClass( cname );
+		Class<? extends EvalObj> clss = (Class<? extends EvalObj>)( loader.loadClass( cname ) );
 		Class[] typ = { Mstack.class, HighLevelList.class };
 		Object[] param = { stk, code_list };
-		Constructor cnst = clss.getConstructor(typ);
-		Object obj = cnst.newInstance(param);
-		EvalObj eval = (EvalObj) (obj);
+		Constructor<? extends EvalObj> cnst = clss.getConstructor(typ);
+		EvalObj eval = cnst.newInstance(param);
 		if (eval == null)
 			throw (new RuntimeException("createEvalObj Failed."));
 		return (eval);
@@ -1330,7 +1329,7 @@ class GenerateEvalObj {
 		
 		TypeId<Mvec> mvec_class = TypeId.get( Mvec.class );
 		
-		MethodId<?,Void> eval = f_class.getMethod(TypeId.VOID, "eval", mvec_class);
+		MethodId<? extends EvalObj,Void> eval = f_class.getMethod(TypeId.VOID, "eval", mvec_class);
 		
 		Code codeA = dex.declare( eval , Modifier.PUBLIC | Modifier.FINAL );
 		
@@ -1354,7 +1353,7 @@ class GenerateEvalObj {
 		}
 
 		if (c_ref_fld_info[0] != tmp_fld_info[0]) {
-			MethodId<Mvec, ?> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
+			MethodId<Mvec, Void> m_mcpy = mvec_class.getMethod(TypeId.VOID, "mcpy", mvec_class);
 
 			Local<Mvec> tn0 = code.newLocal( mvec_class );
 			code.sget(var_fld_info[0], tn0);			
@@ -1378,7 +1377,7 @@ class GenerateEvalObj {
 		DexMaker dex = new DexMaker();
 		
 		TypeId<? extends EvalObj> this_class = TypeId.get( "Lgeomdir/engine/ctp_" + class_num + ";" );
-		TypeId<?> super_class = TypeId.get( EvalObj.class );
+		TypeId<EvalObj> super_class = TypeId.get( EvalObj.class );
 		
 		String fileName = "ctp_" + class_num;
 		

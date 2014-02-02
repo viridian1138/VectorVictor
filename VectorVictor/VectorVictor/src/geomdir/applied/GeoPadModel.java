@@ -1838,7 +1838,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 */
 	protected void keyHandleNewDigit( int in ) throws MathImageParseException
 		{
-		ObjObj MyLex = new ObjObj();
+		ObjObj<String> MyLex = new ObjObj<String>();
 		String mys = new String( ( new Integer( in ) ).toString() );
 		MyLex.value = mys;
 		

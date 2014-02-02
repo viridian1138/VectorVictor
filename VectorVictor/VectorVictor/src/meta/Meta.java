@@ -153,7 +153,7 @@ package meta;
  * information, see the <A HREF="package.html">Package Docs</A>.
  * @author Thorn Green
  */
-public abstract class Meta extends Object {
+public abstract class Meta<T extends Meta> extends Object {
     /**
      * Safety parameter for the checking of illegal operations.  Does nothing in the current version.
      */
@@ -185,7 +185,7 @@ public abstract class Meta extends Object {
                  * Copies a high-level structure, or the particular node of a low-level structure on which the
                  * method is called.  Internal data is also copied.
                  */
-                public Meta copyNode() {
+                public T copyNode() {
                     throwEx();
                     return (null);
                 };
@@ -201,7 +201,7 @@ public abstract class Meta extends Object {
                  * node on which the method was called.  For a data structure such as a digraph with loops where there is
                  * no clear hierarchy, this operation is undefined.
                  */
-                public Meta copySub() {
+                public T copySub() {
                     throwEx();
                     return (null);
                 };
@@ -214,7 +214,7 @@ public abstract class Meta extends Object {
                  * Copies a high-level structure, or all nodes in a low-level structure.  Internal data is also
                  * copied.
                  */
-                public Meta copyAll() {
+                public T copyAll() {
                     throwEx();
                     return (null);
                 };
@@ -227,7 +227,7 @@ public abstract class Meta extends Object {
                  * Copies a high-level structure without copying its internal data, returning an empty structure
                  * of identical type.  Undefined for a low-level structure.
                  */
-                public Meta copyData() {
+                public T copyData() {
                     throwEx();
                     return (null);
                 };
@@ -241,7 +241,7 @@ public abstract class Meta extends Object {
                  * data structure and gives the new data structure a pointer to the same data as the original structure.
                  * This results in both structures "sharing" the internal data.
                  */
-                public Meta copyDataPlusPtr() {
+                public T copyDataPlusPtr() {
                     throwEx();
                     return (null);
                 };
@@ -256,7 +256,7 @@ public abstract class Meta extends Object {
                  * operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public Meta copyUser1() {
+                public T copyUser1() {
                     throwEx();
                     return (null);
                 };
@@ -271,7 +271,7 @@ public abstract class Meta extends Object {
                  * operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public Meta copyUser2() {
+                public T copyUser2() {
                     throwEx();
                     return (null);
                 };
@@ -286,7 +286,7 @@ public abstract class Meta extends Object {
                  * operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public Meta copyUser3() {
+                public T copyUser3() {
                     throwEx();
                     return (null);
                 };
@@ -301,7 +301,7 @@ public abstract class Meta extends Object {
                  * operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public Meta copyUser4() {
+                public T copyUser4() {
                     throwEx();
                     return (null);
                 };
@@ -314,8 +314,8 @@ public abstract class Meta extends Object {
                  * Returns a pointer to the data structure to which the message was sent.  Makes no other
                  * attempts to copy the data structure.
                  */
-                public Meta copyDoNothing() {
-                    return (this);
+                public T copyDoNothing() {
+                    return ( (T) this );
                 };
                 /**
                  * Switch value for the {@link #copyReturnNull()} operation.  Use as a parameter for setCopyMode()
@@ -325,7 +325,7 @@ public abstract class Meta extends Object {
                 /**
                  * Returns NULL.  Makes no other attempts to copy the data structure.
                  */
-                public Meta copyReturnNull() {
+                public T copyReturnNull() {
                     return (null);
                 };
                 /**
@@ -338,7 +338,7 @@ public abstract class Meta extends Object {
                  * data structure pointed to by "in."  Undefined for most low-level structures.  Tuples are a notable
                  * exception.
                  */
-                public void copyNodeInfo(Meta in) {
+                public void copyNodeInfo(T in) {
                     throwEx();
                 };
                 /**
@@ -352,7 +352,7 @@ public abstract class Meta extends Object {
                  * the data structure pointed to by "in."  Undefined for most low-level structures.  Tuples are a
                  * notable exception.
                  */
-                public void copySubInfo(Meta in) {
+                public void copySubInfo(T in) {
                     throwEx();
                 };
                 /**
@@ -365,7 +365,7 @@ public abstract class Meta extends Object {
                  * structure pointed to by "in."  Undefined for most low-level structures.  Tuples are a notable
                  * exception.
                  */
-                public void copyAllInfo(Meta in) {
+                public void copyAllInfo(T in) {
                     throwEx();
                 };
                 /**
@@ -379,7 +379,7 @@ public abstract class Meta extends Object {
                  * certain kinds of propagation control.  Note: one could also call this operation
                  * copyDoNothingInfo().
                  */
-                public void copyDataInfo(Meta in) {};
+                public void copyDataInfo(T in) {};
                 /**
                  * Switch value for the {@link #copyDataPlusPtrInfo(meta.Meta)} operation.  Use as a parameter for setCopyInfoMode()
                  * in a high-level DS.
@@ -389,7 +389,7 @@ public abstract class Meta extends Object {
                  * For pointer-oriented high-level data structure operations, copies the pointer to one
                  * data structure's internal data to another data structure.
                  */
-                public void copyDataPlusPtrInfo(Meta in) {
+                public void copyDataPlusPtrInfo(T in) {
                     throwEx();
                 };
                 /**
@@ -403,7 +403,7 @@ public abstract class Meta extends Object {
                  * copy operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public void copyUser1info(Meta in) {
+                public void copyUser1info(T in) {
                     throwEx();
                 };
                 /**
@@ -417,7 +417,7 @@ public abstract class Meta extends Object {
                  * copy operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public void copyUser2info(Meta in) {
+                public void copyUser2info(T in) {
                     throwEx();
                 };
                 /**
@@ -431,7 +431,7 @@ public abstract class Meta extends Object {
                  * copy operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public void copyUser3info(Meta in) {
+                public void copyUser3info(T in) {
                     throwEx();
                 };
                 /**
@@ -445,7 +445,7 @@ public abstract class Meta extends Object {
                  * copy operations are provided.  The implementation of a certain data structure can override them in an
                  * application-specific way.
                  */
-                public void copyUser4info(Meta in) {
+                public void copyUser4info(T in) {
                     throwEx();
                 };
                 /**
@@ -693,9 +693,9 @@ public abstract class Meta extends Object {
          * Applies the mode <code>CopyMode</code> to this object.
          * @return Copy created according to the specified mode.
          */
-                public final Meta exeCopy(int CopyMode) {
+                public final T exeCopy(int CopyMode) {
                     
-                    Meta temp = null;
+                    T temp = null;
                     switch (CopyMode) {
                         case COPY_NODE : /* 1 */
                             temp = copyNode();
@@ -739,7 +739,7 @@ public abstract class Meta extends Object {
          * Applies the mode <code>CopyInfoMode</code> to this object,
          * and placing the result in <code>in</code>.
          */
-                public final void exeCopyInfo(int CopyInfoMode, Meta in) {
+                public final void exeCopyInfo(int CopyInfoMode, T in) {
                     
                     switch (CopyInfoMode) {
                         case COPY_NODE_INFO : /* 12 */

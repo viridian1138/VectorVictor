@@ -108,7 +108,7 @@ package meta;
 
 
 
-public class VersionBufferNode extends Meta {
+public class VersionBufferNode extends Meta<VersionBufferNode> {
     
     public VersionBufferNode(
             int callId,

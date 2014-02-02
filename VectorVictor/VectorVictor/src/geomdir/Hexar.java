@@ -156,36 +156,36 @@ import android.graphics.PointF;
 * the integer-precision values are no longer needed.
 * @author Thorn Green
 */
-public class Hexar extends Meta {
+public class Hexar extends Meta<Hexar> {
 	public final void datCpy(Hexar out) {
 		out.getLoc().set(loc.x, loc.y);
 		glo.mcpy(out.getGlo());
 	};
-	public Meta copyNode() {
+	public Hexar copyNode() {
 		Hexar temp = new Hexar();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copySub() {
+	public Hexar copySub() {
 		Hexar temp = new Hexar();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copyAll() {
+	public Hexar copyAll() {
 		Hexar temp = new Hexar();
 		datCpy(temp);
 		return (temp);
 	};
-	public void copyNodeInfo(Meta in) {
-		Hexar temp = (Hexar) in;
+	public void copyNodeInfo(Hexar in) {
+		Hexar temp = in;
 		datCpy(temp);
 	};
-	public void copySubInfo(Meta in) {
-		Hexar temp = (Hexar) in;
+	public void copySubInfo(Hexar in) {
+		Hexar temp = in;
 		datCpy(temp);
 	};
-	public void copyAllInfo(Meta in) {
-		Hexar temp = (Hexar) in;
+	public void copyAllInfo(Hexar in) {
+		Hexar temp = in;
 		datCpy(temp);
 	};
 	public void eraseNode() {};

@@ -163,8 +163,9 @@ import java.io.ObjectOutput;
  * Instead, use {@link HighLevelList} for typical applications in which a linked list
  * is needed.
  * @author Thorn Green
+ * @param <T>
  */
-public abstract class LowLevelList extends LowLevelType implements Externalizable {
+public abstract class LowLevelList<U extends LowLevelList, T extends Meta> extends LowLevelType<U,T> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -174,50 +175,50 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
     /**
      * @see meta.Meta
      */
-    public abstract Meta copyNode();
+    public abstract  U copyNode();
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
-        LowLevelList inCopy = (LowLevelList) this;
-        LowLevelList outCopy = null;
-        LowLevelList temp = null;
+    public U copySub() {
+        U inCopy = (U) this;
+        U outCopy = null;
+        U temp = null;
         
-        outCopy = (LowLevelList) inCopy.copyNode();
+        outCopy = (U) inCopy.copyNode();
         
         while (!(inCopy.right().getHead())) {
-            inCopy = inCopy.right();
-            temp = (LowLevelList) inCopy.copyNode();
+            inCopy = (U)inCopy.right();
+            temp = (U) inCopy.copyNode();
             temp.setHead(false);
             outCopy.insRight(temp);
-            outCopy = outCopy.right();
+            outCopy = (U)outCopy.right();
         }
         
-        return (outCopy.right());
+        return ((U)outCopy.right());
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
-        LowLevelList inCopy = (LowLevelList) this;
-        LowLevelList stCopy = inCopy.searchHead();
-        LowLevelList goCopy = stCopy;
-        LowLevelList outCopy = null;
-        LowLevelList temp = null;
+    public U copyAll() {
+        U inCopy = (U) this;
+        U stCopy = (U) inCopy.searchHead();
+        U goCopy = stCopy;
+        U outCopy = null;
+        U temp = null;
         
-        outCopy = (LowLevelList) goCopy.copyNode();
+        outCopy = (U) goCopy.copyNode();
         
         while (goCopy.right() != stCopy) {
-            goCopy = goCopy.right();
-            temp = (LowLevelList) goCopy.copyNode();
+            goCopy = (U) goCopy.right();
+            temp = (U) goCopy.copyNode();
             temp.setHead(false);
             outCopy.insRight(temp);
-            outCopy = outCopy.right();
+            outCopy = (U) outCopy.right();
         }
         
         while (goCopy != inCopy) {
-            goCopy = goCopy.right();
-            outCopy = outCopy.right();
+            goCopy = (U) goCopy.right();
+            outCopy = (U) outCopy.right();
         }
         
         return (outCopy);
@@ -236,14 +237,14 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * @see meta.Meta
      */
     public void eraseSub() {
-        LowLevelList temp = this;
-        LowLevelList next;
+        U temp = (U) this;
+        U next;
         
         if (this.getHead())
             this.eraseAll();
         else {
             while (!temp.getHead()) {
-                next = temp.right();
+                next = (U) temp.right();
                 temp.disconnect();
                 temp.dispose();
                 temp = next;
@@ -254,11 +255,11 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * @see meta.Meta
      */
     public void eraseAll() {
-        LowLevelList next;
-        LowLevelList temp = this.right();
+        U next;
+        U temp = this.right();
         
         while (temp != this) {
-            next = temp.right();
+            next = (U) temp.right();
             temp.dispose();
             temp = next;
         }
@@ -272,13 +273,13 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
     /**
      * Returns the node to the right of this node.
      */
-    public final LowLevelList right() {
+    public final U right() {
         return (this.right);
     };
     /**
      * Returns the node to the left of this node.
      */
-    public final LowLevelList left() {
+    public final U left() {
         return (this.left);
     };
     /**
@@ -286,8 +287,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      */
     public final void iLowLevelList() {
         this.setHead(true);
-        this.dvSetRight(this);
-        this.left = this;
+        this.dvSetRight( (U) this);
+        this.left = (U) this;
     };
     public LowLevelList() {
         super();
@@ -297,8 +298,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * Inserts the data <code>in</code> to the left of the node
      * on which this method is called.
      */
-    public final void insertLeft(final Meta in) {
-        final LowLevelList temp = new StdLowLevelList();
+    public final void insertLeft(final T in) {
+        final U temp = (U)( new StdLowLevelList<T>() );
         temp.setHead(this.head);
         this.head = false;
         temp.setNode(in);
@@ -308,8 +309,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * Inserts the data <code>in</code> to the right of the node
      * on which this method is called.
      */
-    public final void insertRight(final Meta in) {
-        final LowLevelList temp = new StdLowLevelList();
+    public final void insertRight(final T in) {
+        final U temp = (U)( new StdLowLevelList<T>() );
         temp.setHead(false);
         temp.setNode(in);
         this.insRight(temp);
@@ -318,8 +319,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * Inserts the node <code>in</code> to the left of the node
      * on which this method is called.
      */
-    public final void importInsertLeft(final LowLevelList in) {
-        final LowLevelList temp = in;
+    public final void importInsertLeft(final U in) {
+        final U temp = in;
         temp.setHead(this.head);
         this.head = false;
         this.insLeft(temp);
@@ -328,8 +329,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
      * Inserts the node <code>in</code> to the left of the node
      * on which this method is called.
      */
-    public final void importInsertRight(final LowLevelList in) {
-        final LowLevelList temp = in;
+    public final void importInsertRight(final U in) {
+        final U temp = in;
         temp.setHead(false);
         this.insRight(temp);
     };
@@ -341,8 +342,8 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
             this.right().setHead(true);
         this.left().dvSetRight(this.right());
         this.right().dvSetLeft(this.left());
-        this.right = this;
-        this.left = this;
+        this.right = (U) this;
+        this.left = (U) this;
         this.head = true;
     };
     
@@ -356,7 +357,7 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
     /**
      * Returns the data contained in the node.
      */
-    public abstract Meta getNode();
+    public abstract T getNode();
     /**
      * Gets whether this node is the head.
      */
@@ -372,10 +373,10 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
     /**
      * Returns the head of the list.
      */
-    public final LowLevelList searchHead() {
-        LowLevelList temp = this;
+    public final U searchHead() {
+        U temp = (U) this;
         while (!(temp.getHead())) {
-            temp = temp.right();
+            temp = (U) temp.right();
         }
         return (temp);
     };
@@ -413,21 +414,21 @@ public abstract class LowLevelList extends LowLevelType implements Externalizabl
     }
     
     private transient boolean head;
-    private transient LowLevelList right;
-    private transient LowLevelList left;
-    private final void dvSetRight(final LowLevelList in) {
+    private transient U right;
+    private transient U left;
+    private final void dvSetRight(final U in) {
         right = in;
     }
-    private final void dvSetLeft(final LowLevelList in) {
+    private final void dvSetLeft(final U in) {
         left = in;
     }
-    private final void insRight(final LowLevelList temp) {
+    private final void insRight(final U temp) {
         temp.dvSetRight(this.right());
         temp.dvSetLeft(this);
         this.right().dvSetLeft(temp);
         this.right = temp;
     };
-    private final void insLeft(final LowLevelList temp) {
+    private final void insLeft(final U temp) {
         temp.dvSetLeft(this.left);
         temp.dvSetRight(this);
         this.left().dvSetRight(temp);

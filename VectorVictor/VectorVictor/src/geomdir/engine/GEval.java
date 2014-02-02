@@ -949,8 +949,8 @@ public class GEval extends GEsym {
 		HighLevelList tmp = new HighLevelList();
 		codeList.copyDataPlusPtrInfo(tmp);
 		Lexeme node = (Lexeme) (tmp.getNode());
-		ObjObj obj = (ObjObj) (node.getMetaPtr());
-		int[] vi = (int[]) (obj.value);
+		ObjObj<int[]> obj = (ObjObj<int[]>) (node.getMetaPtr());
+		int[] vi = obj.value;
 		int numBi = vi[0];
 		int numStep = vi[1];
 		int ret = 1 - numBi - numStep;
@@ -964,8 +964,8 @@ public class GEval extends GEsym {
 		HighLevelList tmp = new HighLevelList();
 		codeList.copyDataPlusPtrInfo(tmp);
 		Lexeme node = (Lexeme) (tmp.getNode());
-		ObjObj obj = (ObjObj) (node.getMetaPtr());
-		int[] vi = (int[]) (obj.value);
+		ObjObj<int[]> obj = (ObjObj<int[]>) (node.getMetaPtr());
+		int[] vi = obj.value;
 		int numBi = vi[0];
 		int ret = -numBi;
 		return (ret);
@@ -1026,8 +1026,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastLeft(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1039,9 +1039,9 @@ public class GEval extends GEsym {
 
 		Mvec phi;
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();
@@ -1065,8 +1065,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastRight(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1078,9 +1078,9 @@ public class GEval extends GEsym {
 
 		Mvec phi;
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();
@@ -1104,8 +1104,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastBlossomLeft(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1116,10 +1116,10 @@ public class GEval extends GEsym {
 		Mvec MyResult[];
 		Mvec paramhi[];
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramhi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramhi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();
@@ -1146,8 +1146,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastBlossomRight(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1158,10 +1158,10 @@ public class GEval extends GEsym {
 		Mvec MyResult[];
 		Mvec paramhi[];
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramhi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramhi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();
@@ -1188,8 +1188,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastBlossomLeftComp(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1201,11 +1201,11 @@ public class GEval extends GEsym {
 		Mvec paramlo[];
 		Mvec paramhi[];
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramlo = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramhi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramlo = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramhi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();
@@ -1242,8 +1242,8 @@ public class GEval extends GEsym {
 	@author Thorn Green
 	*/
 	public final void deCastBlossomRightComp(Lexeme lex, Mstack mStack, Staque oStack) {
-		ObjObj tp = (ObjObj) (lex.getMetaPtr());
-		int[] vl = (int[]) (tp.value);
+		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
+		int[] vl = tp.value;
 		int NumBi = vl[0];
 		int NumStep = vl[1];
 		int MyIndex = vl[2];
@@ -1255,11 +1255,11 @@ public class GEval extends GEsym {
 		Mvec paramlo[];
 		Mvec paramhi[];
 
-		MyBi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyTmp = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		MyResult = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramlo = (Mvec[]) (((ObjObj) (oStack.pop())).value);
-		paramhi = (Mvec[]) (((ObjObj) (oStack.pop())).value);
+		MyBi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyTmp = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		MyResult = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramlo = ((ObjObj<Mvec[]>) (oStack.pop())).value;
+		paramhi = ((ObjObj<Mvec[]>) (oStack.pop())).value;
 
 		for (count = 0; count < NumBi; ++count) {
 			MyBi[count] = mStack.pop();

@@ -106,12 +106,13 @@
 
 
 
+
 package meta;
 
-import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.Externalizable;
 
 
 
@@ -133,8 +134,6 @@ import java.io.ObjectOutput;
  *    | 08/12/2001            | Thorn Green (viridian_1138@yahoo.com)           | First-Cut at Error Handling.                                         | First-Cut at Error Handling.
  *    | 09/29/2001            | Thorn Green (viridian_1138@yahoo.com)           | Meta contained anachronisms from C++ that could hurt performance.    | Removed a number of the anachronisms.
  *    | 05/10/2002            | Thorn Green (viridian_1138@yahoo.com)           | Redundant information in persistent storage.                         | Made numerous persistence and packaging changes.
- *    | 08/07/2004            | Thorn Green (viridian_1138@yahoo.com)           | Establish baseline for all changes in the last year.                 | Establish baseline for all changes in the last year.
- *    | 03/21/2005            | Thorn Green (viridian_1138@yahoo.com)           | Improve Insert Performance                                           | Added final keywords for inserts.
  *    | 10/13/2005            | Thorn Green (viridian_1138@yahoo.com)           | Update copyright.                                                    | Update copyright.
  *    |                       |                                                 |                                                                      |
  *    |                       |                                                 |                                                                      |
@@ -153,75 +152,69 @@ import java.io.ObjectOutput;
  */
 
 /**
- * StdLowLevelList is the standard LowLevelList instance created by LowLevelList.
- * For more information, see {@link LowLevelList}.  This is an internal structure
- * to LowLevelList, and you should not be using it directly unless you are making
- * modifications to {@link LowLevelList} or {@link HighLevelList}.
- * This class is public only to make it serializable.
+ * This is a {@link LowLevelList} node containing a {@link HighLevelList}.  This is useful if one
+ * wishes to create a list of lists (perhaps for a simple sparse matrix).
  * @author Thorn Green
  */
-public class StdLowLevelList<T extends Meta> extends LowLevelList<StdLowLevelList<T>,T> implements Externalizable {
+public abstract class AltLowLevelList<T extends Meta> extends LowLevelList<AltLowLevelList<T>,T> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
 	*/
-	static final long serialVersionUID = (StdLowLevelList.class).getName().hashCode() + "v3/98A".hashCode();
+	static final long serialVersionUID = (AltLowLevelList.class).getName().hashCode() + "v3/98A".hashCode();
 	
     /**
-     * Returns the object stored in the node.
+     * Returns the HighLevelList.
      */
     public T getNode() {
-        return (this.data);
+        return (myRec);
     };
     /**
-     * Sets the object stored in the node.
+     * This is an undefined operation.  Do not use.
      */
-    public void setNode(final T input) {
-        this.data = input;
+    public void setNode(T input) { throw( new UndefinedOperation() );
     };
     /**
-     * Sets the CopyMode for the node.
+     * This is an undefined operation.  Do not use.
      */
-    public void setCopyMode(final int copy) {
-        this.thisCopyMode = copy;
+    public void setCopyMode(int copy) { throw( new UndefinedOperation() );
     };
     /**
-     * Gets the CopyMode for the node.
+     * This is an undefined operation.  Do not use.
      */
-    public int getCopyMode() {
-        return (this.thisCopyMode);
+    public int getCopyMode() { throw( new UndefinedOperation() );
     };
     /**
-     * Sets the CopyInfoMode for the node.
+     * Sets the CopyInfoMode for this node.
      */
-    public void setCopyInfoMode(final int copy) { throw( new UndefinedOperation() );
+    public void setCopyInfoMode(int copy) {
+        this.copyInfoMode = copy;
     };
     /**
-     * Gets the CopyInfoMode for the node.
+     * Gets the CopyInfoMode for this node.
      */
-    public int getCopyInfoMode() { throw( new UndefinedOperation() );
+    public int getCopyInfoMode() {
+        return (this.copyInfoMode);
     };
     /**
-     * Copies the node according to the current copy mode.
+     * Initializes the structure.
      */
-    public StdLowLevelList<T> copyNode() {
-    	StdLowLevelList<T> temp = new StdLowLevelList<T>();
-        this.copyDat(temp);
-        temp.setHead(true);
-        return (temp);
+    public void iAltHigh() {
+        this.copyInfoMode = Meta.COPY_DATA_INFO;
     };
-    public StdLowLevelList() {
+    public AltLowLevelList() {
         super();
+        this.iAltHigh();
     };
     /**
-     * Erases the node according to the current delete mode.
+     * Disposes the structure according to the current EraseMode.
      */
     public void dispose() {
         this.eraseDat();
     };
     
     /**
-     * Reads the node from serial data.
+     * Reads serial data.
      */
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         super.readExternal(in);
@@ -230,60 +223,62 @@ public class StdLowLevelList<T extends Meta> extends LowLevelList<StdLowLevelLis
             VersionBuffer myv = (VersionBuffer) (in.readObject());
             VersionBuffer.chkNul(myv);
             
-            data = (T) (myv.getProperty("data"));
-            thisCopyMode = myv.getInt("ThisCopyMode");
+            T arec = (T) (myv.getProperty("MyRec"));
+            arec.copyAllInfo( myRec );
+            VersionBuffer.chkNul(myRec);
+            copyInfoMode = myv.getInt("ThisCopyInfoMode");
         } catch (ClassCastException e) {
             throw (new DataFormatException(e));
         }
     }
     
     /**
-     * Writes the node to serial data.
+     * Writes serial data.
+     * <P>
      * @serialData TBD.
      */
     public void writeExternal(ObjectOutput out) throws IOException {
         VersionBuffer myv = new VersionBuffer(VersionBuffer.WRITE);
         
-        if (data != null)
-            myv.setProperty("data", data);
-        myv.setInt("ThisCopyMode", thisCopyMode);
+        myv.setProperty("MyRec", myRec);
+        myv.setInt("ThisCopyInfoMode", copyInfoMode);
         
         super.writeExternal(out);
         out.writeObject(myv);
     }
     
-    private final void dvSetNode(T in) {
-        data = in;
-    }
-    private final void dvSetCopyMode(int in) {
-        thisCopyMode = in;
-    }
+    protected abstract T construct();
     
     /**
-     * The stored data.
+     * The HighLevelList stored in the node.
      */
-    protected T data = null;
+    protected final T myRec = construct();
     /**
-     * The CopyMode.
+     * The CopyInfoMode for the node.
      */
-    protected int thisCopyMode = Meta.COPY_DO_NOTHING;
-    
+    protected int copyInfoMode;
     /**
-     * Copies the stored data according to the current mode, and places the result
-     * in <code>input</code>.
+     * Copies to the parameter <code>input</code> using the current CopyInfoMode.
      */
-    protected void copyDat(final StdLowLevelList<T> input) {
-        try {
-            if (thisCopyMode != Meta.COPY_DO_NOTHING)
-                input.dvSetNode((T)(data.exeCopy(thisCopyMode)));
-            else
-                input.dvSetNode(data);
-        } catch (OutOfMemoryError ex) {
-            if (getNode() != null)
-                eraseDat();
-        }
+    protected void copyDat(AltLowLevelList<T> input) {
+        if (copyInfoMode != Meta.COPY_DATA_INFO)
+            myRec.exeCopyInfo(copyInfoMode, input.dvGetMyRec());
         
-        input.dvSetCopyMode(thisCopyMode);
-        input.setEraseMode(eraseMode);
+                /* For future exception handling purposes, it's very important that things happen
+                        in this order. */
+        
+        input.dvSetCopyInfoMode(copyInfoMode);
+        input.dvSetEraseMode(eraseMode);
     };
+    
+    private final T dvGetMyRec() {
+        return (myRec);
+    }
+    private final void dvSetCopyInfoMode(int in) {
+        copyInfoMode = in;
+    }
+    private final void dvSetEraseMode(int in) {
+        eraseMode = in;
+    }
+    
 };

@@ -169,7 +169,7 @@ import meta.VersionBuffer;
 * Node that contains an expression and its executable representation.
 * @author Thorn Green
 */
-public class ExpNode extends Meta implements Externalizable {
+public class ExpNode extends Meta<ExpNode> implements Externalizable {
 	public final void datCpy(ExpNode out) {
 		out.dvCopyVarName(VarName);
 		out.dvCopyExprn(Exprn);
@@ -178,31 +178,31 @@ public class ExpNode extends Meta implements Externalizable {
 		out.dvSetMstackSpaceRequired(mStackSpaceRequired);
 		out.dvSetEval(eval);
 	};
-	public Meta copyNode() {
+	public ExpNode copyNode() {
 		ExpNode temp = new ExpNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copySub() {
+	public ExpNode copySub() {
 		ExpNode temp = new ExpNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public Meta copyAll() {
+	public ExpNode copyAll() {
 		ExpNode temp = new ExpNode();
 		datCpy(temp);
 		return (temp);
 	};
-	public void copyNodeInfo(Meta in) {
-		ExpNode temp = (ExpNode) in;
+	public void copyNodeInfo(ExpNode in) {
+		ExpNode temp = in;
 		datCpy(temp);
 	};
-	public void copySubInfo(Meta in) {
-		ExpNode temp = (ExpNode) in;
+	public void copySubInfo(ExpNode in) {
+		ExpNode temp = in;
 		datCpy(temp);
 	};
-	public void copyAllInfo(Meta in) {
-		ExpNode temp = (ExpNode) in;
+	public void copyAllInfo(ExpNode in) {
+		ExpNode temp = in;
 		datCpy(temp);
 	};
 	public void eraseNode() {

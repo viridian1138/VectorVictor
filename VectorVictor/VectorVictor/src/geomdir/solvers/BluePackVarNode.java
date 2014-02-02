@@ -166,7 +166,7 @@ public class BluePackVarNode extends Object {
 		refSet.add(firstRef);
 	}
 
-	public ObjObj getFirstRef() {
+	public ObjObj<BluePackVarNode> getFirstRef() {
 		return (firstRef);
 	}
 
@@ -200,7 +200,7 @@ public class BluePackVarNode extends Object {
 		}
 	}
 
-	public void addRef(ObjObj in) {
+	public void addRef(ObjObj<BluePackVarNode> in) {
 		refSet.add(in);
 	}
 
@@ -214,9 +214,9 @@ public class BluePackVarNode extends Object {
 
 	public void unifyTo(BluePackVarNode out, boolean negate) {
 		{
-		Iterator<ObjObj> it = refSet.iterator();
+		Iterator<ObjObj<BluePackVarNode>> it = refSet.iterator();
 		while (it.hasNext()) {
-			ObjObj ob = it.next();
+			ObjObj<BluePackVarNode> ob = it.next();
 			ob.value = out;
 			out.addRef(ob);
 		}
@@ -264,7 +264,7 @@ public class BluePackVarNode extends Object {
 		return (asgMnsSet.iterator());
 	}
 
-	public Iterator<ObjObj> getRefIterator() {
+	public Iterator<ObjObj<BluePackVarNode>> getRefIterator() {
 		return (refSet.iterator());
 	}
 
@@ -480,8 +480,8 @@ public class BluePackVarNode extends Object {
 	protected int predExpCount = 0;
 	protected ExpNode predExp = null;
 	protected boolean predMns = false;
-	protected HashSet<ObjObj> refSet = new HashSet<ObjObj>();
+	protected HashSet<ObjObj<BluePackVarNode>> refSet = new HashSet<ObjObj<BluePackVarNode>>();
 	protected HashSet<ASGNode> asgCpySet = new HashSet<ASGNode>();
 	protected HashSet<ASGNode> asgMnsSet = new HashSet<ASGNode>();
-	protected ObjObj firstRef = new ObjObj();
+	protected ObjObj<BluePackVarNode> firstRef = new ObjObj<BluePackVarNode>();
 }

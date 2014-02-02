@@ -157,7 +157,7 @@ import android.graphics.RectF;
 * Defines the lexeme type used by {@link MathImage}.
 * @author Thorn Green
 */
-public class SLexeme extends Meta implements Externalizable {
+public class SLexeme extends Meta<SLexeme> implements Externalizable {
 	/**
 	* Copies the lexeme to <code>out</code>.
 	*/
@@ -176,7 +176,7 @@ public class SLexeme extends Meta implements Externalizable {
 	/**
 	* @see meta.Meta
 	*/
-	public Meta copyNode() {
+	public SLexeme copyNode() {
 		SLexeme temp = new SLexeme();
 		datCpy(temp);
 		return (temp);
@@ -184,7 +184,7 @@ public class SLexeme extends Meta implements Externalizable {
 	/**
 	* @see meta.Meta
 	*/
-	public Meta copySub() {
+	public SLexeme copySub() {
 		SLexeme temp = new SLexeme();
 		datCpy(temp);
 		return (temp);
@@ -192,7 +192,7 @@ public class SLexeme extends Meta implements Externalizable {
 	/**
 	* @see meta.Meta
 	*/
-	public Meta copyAll() {
+	public SLexeme copyAll() {
 		SLexeme temp = new SLexeme();
 		datCpy(temp);
 		return (temp);
@@ -200,22 +200,22 @@ public class SLexeme extends Meta implements Externalizable {
 	/**
 	* @see meta.Meta
 	*/
-	public void copyNodeInfo(Meta in) {
-		SLexeme temp = (SLexeme) in;
+	public void copyNodeInfo(SLexeme in) {
+		SLexeme temp = in;
 		datCpy(temp);
 	};
 	/**
 	* @see meta.Meta
 	*/
-	public void copySubInfo(Meta in) {
-		SLexeme temp = (SLexeme) in;
+	public void copySubInfo(SLexeme in) {
+		SLexeme temp = in;
 		datCpy(temp);
 	};
 	/**
 	* @see meta.Meta
 	*/
-	public void copyAllInfo(Meta in) {
-		SLexeme temp = (SLexeme) in;
+	public void copyAllInfo(SLexeme in) {
+		SLexeme temp = in;
 		datCpy(temp);
 	};
 	/**
@@ -399,13 +399,13 @@ public class SLexeme extends Meta implements Externalizable {
 	/**
 	* Returns the Meta reference used to hold aux. data.
 	*/
-	public final Meta getMetaPtr() {
+	public final Meta<?> getMetaPtr() {
 		return (MyMeta);
 	};
 	/**
 	* Sets the Meta reference used to hold aux. data.
 	*/
-	public final void setMetaPtr(Meta InPtr) {
+	public final void setMetaPtr(Meta<?> InPtr) {
 		MyMeta = InPtr;
 	};
 	/**
@@ -448,7 +448,7 @@ public class SLexeme extends Meta implements Externalizable {
 	private int StartLoc;
 	private int EndLoc;
 	private int MyMatch;
-	private Meta MyMeta;
+	private Meta<?> MyMeta;
 
 	private double XOffset = 0;
 	private double YOffset = 0;
