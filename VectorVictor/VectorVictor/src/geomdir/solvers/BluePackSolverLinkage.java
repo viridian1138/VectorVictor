@@ -124,6 +124,7 @@ import java.io.ObjectOutput;
 
 import meta.DataFormatException;
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 import meta.VersionBuffer;
 
 
@@ -221,11 +222,11 @@ public class BluePackSolverLinkage extends SolverLinkage {
 
 	protected static ASGNode getASGTraverse(ExpNode exp) {
 		if (exp != null) {
-			HighLevelList codeList = exp.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList = exp.getCodeList();
 			if (!(codeList.empty())) {
 				boolean singleNode = codeList.isSingleNode();
 				if (singleNode) {
-					Lexeme MyLex = (Lexeme) (codeList.getNode());
+					Lexeme MyLex = codeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						ASGNode exASG = (ASGNode) MyLex.getMetaPtr();
 						lastTraverseNegate = false;
@@ -234,11 +235,11 @@ public class BluePackSolverLinkage extends SolverLinkage {
 				}
 				else {
 					codeList.searchHead();
-					Lexeme MyLex = (Lexeme) (codeList.getNode());
+					Lexeme MyLex = codeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						ASGNode exASG = (ASGNode) MyLex.getMetaPtr();
 						codeList.right();
-						MyLex = (Lexeme) (codeList.getNode());
+						MyLex = codeList.getNode();
 						if (MyLex.getMyMatch() == GEval.negation) {
 							codeList.right();
 							if (codeList.getHead()) {
@@ -363,7 +364,7 @@ public class BluePackSolverLinkage extends SolverLinkage {
 			VersionBuffer myv = (VersionBuffer) (in.readObject());
 			VersionBuffer.chkNul(myv);
 
-			HighLevelList tmp = (HighLevelList) (myv.getProperty("topoList"));
+			HighLevelList<StdLowLevelList<ASGNode>,ASGNode> tmp = (HighLevelList<StdLowLevelList<ASGNode>,ASGNode>) (myv.getProperty("topoList"));
 			VersionBuffer.chkNul(tmp);
 			tmp.copyDataPlusPtrInfo(topoList);
 			mStackSpaceRequired = myv.getInt("mStackSpaceRequired");
@@ -411,7 +412,7 @@ public class BluePackSolverLinkage extends SolverLinkage {
 	/**
 	* Topological list of expressions.
 	*/
-	protected HighLevelList topoList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ASGNode>,ASGNode> topoList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 	/**
 	* Amount of space required on the Mstack.
 	*/

@@ -128,6 +128,7 @@ import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.Meta;
+import meta.StdLowLevelList;
 import meta.VersionBuffer;
 import meta.WrapRuntimeException;
 
@@ -876,7 +877,7 @@ public class GeomEngine implements Externalizable {
 	*/
 	public final boolean dataCopy(Meta InExp, FlexString VarName, FlexString ExpressionString, int MyMode) {
 		boolean Err;
-		HighLevelList MyCodeList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> MyCodeList = new HighLevelList<StdLowLevelList<Lexeme>,Lexeme>();
 		ExpNode MyExp = (ExpNode) InExp;
 		Err = (MyExp.getCodeGen()).generateCode(ExpressionString, MyCodeList, MyMode);
 		if (!Err) {
@@ -1053,21 +1054,21 @@ public class GeomEngine implements Externalizable {
 	/**
 	* Gets the names of all variables that depend on <code>InStr</code>.
 	*/
-	public void getDependentVariables(FlexString InStr, HighLevelList in) {
+	public void getDependentVariables(FlexString InStr, HighLevelList<StdLowLevelList<FlexString>,FlexString> in) {
 		FlexString VarName = new FlexString();
 		extractVariable(InStr, 0, InStr.strlen(), VarName);
 		ExpNode MyNode = expList.getExp(VarName);
 		boolean Found = (MyNode != null);
 
 		if (Found) {
-			HighLevelList CList = MyNode.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CList = MyNode.getCodeList();
 
 			if (!(CList.empty())) {
 				CList.searchHead();
 				boolean Done = false;
 
 				while (!Done) {
-					Lexeme MyLex = (Lexeme) (CList.getNode());
+					Lexeme MyLex = CList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						ASGNode MyASG = (ASGNode) (MyLex.getMetaPtr());
 						in.insertRight(MyASG.getStr());
@@ -1083,20 +1084,20 @@ public class GeomEngine implements Externalizable {
 	/**
 	* Gets the names of all variables used by <code>InStr</code>.
 	*/
-	public void getUsageVariables(FlexString InStr, HighLevelList in) {
+	public void getUsageVariables(FlexString InStr, HighLevelList<StdLowLevelList<FlexString>,FlexString> in) {
 		FlexString VarName = new FlexString();
 		extractVariable(InStr, 0, InStr.strlen(), VarName);
 		Iterator<?> it = expList.values().iterator();
 		while (it.hasNext()) {
 			ExpNode MyNode = (ExpNode) (it.next());
-			HighLevelList CList = MyNode.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CList = MyNode.getCodeList();
 
 			if (!(CList.empty())) {
 				CList.searchHead();
 				boolean Done1 = false;
 
 				while (!Done1) {
-					Lexeme MyLex = (Lexeme) (CList.getNode());
+					Lexeme MyLex = CList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						ASGNode MyASG = (ASGNode) (MyLex.getMetaPtr());
 						FlexString test = MyASG.getStr();

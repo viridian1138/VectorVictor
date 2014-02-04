@@ -572,10 +572,10 @@ public class Linker extends Callback /* DBN */ {
 			}
 		}
 
-		Iterator ita = LocalAlphaList.values().iterator();
+		Iterator<ASGNode> ita = LocalAlphaList.values().iterator();
 
 		while (ita.hasNext()) {
-			ASGNode myASG = (ASGNode) (ita.next());
+			ASGNode myASG = ita.next();
 			FlexString name = myASG.getStr();
 			ASGNode gloASG = GlobalAlphaList.getASG(name);
 			if (gloASG != null) {

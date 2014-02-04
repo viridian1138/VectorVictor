@@ -119,7 +119,7 @@ import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelBinTree;
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -238,7 +238,7 @@ public class SCodeGen extends Object implements Externalizable {
 					OffY = InOffY;
 				}
 				else {
-					SLexeme st = (SLexeme) (CodeStk.peek());
+					SLexeme st = CodeStk.peek();
 					OffX = st.getXOffset();
 					OffY = st.getYOffset();
 				}
@@ -261,7 +261,7 @@ public class SCodeGen extends Object implements Externalizable {
 					OffY = InOffY;
 				}
 				else {
-					SLexeme st = (SLexeme) (CodeStk.peek());
+					SLexeme st = CodeStk.peek();
 					OffX = st.getXOffset();
 					OffY = st.getYOffset();
 				}
@@ -271,7 +271,7 @@ public class SCodeGen extends Object implements Externalizable {
 				double MyOffY = OffY + MyNode.getYOffset();
 				MyNode.setXOffset(MyOffX);
 				MyNode.setYOffset(MyOffY);
-				HighLevelList myl = MyList;
+				HighLevelList<StdLowLevelList<SLexeme>,SLexeme> myl = MyList;
 				myl.insertRight(MyNode);
 				myl.setCopyMode(Meta.COPY_DO_NOTHING);
 				myl.setEraseMode(Meta.WAKE);
@@ -299,7 +299,7 @@ public class SCodeGen extends Object implements Externalizable {
 			boolean Done = false;
 
 			while (!Done) {
-				SLexeme MyNode = (SLexeme) (MyList.getNode());
+				SLexeme MyNode = MyList.getNode();
 				FlexString mys = (FlexString) (MyNode.getMetaPtr());
 				Paint pnt = MyNode.getPaintNonNull();
 				mys.drawString(g, pnt, (float) (MyNode.getXOffset()), (float) (MyNode.getYOffset()) );
@@ -334,7 +334,7 @@ public class SCodeGen extends Object implements Externalizable {
 			boolean Done = false;
 
 			while (!Done) {
-				SLexeme MyNode = (SLexeme) (MyList.getNode());
+				SLexeme MyNode = MyList.getNode();
 				FlexString mys = (FlexString) (MyNode.getMetaPtr());
 				
 				mys.drawString(g , MyNode.getPaintNonNull() , 
@@ -450,12 +450,12 @@ public class SCodeGen extends Object implements Externalizable {
 			new Integer( Color.BLACK ) );
 	}
 
-	private static Stack CodeStk = new Stack();
+	private static Stack<SLexeme> CodeStk = new Stack<SLexeme>();
 	private boolean DrawCursor = true;
 	private RectF CrsrRect = null;
 	private SLexeme CrsrLex = null;
 	private int Iwidth = 0;
 	private int Iheight = 0;
 	private transient static final SEparser MySEparser = new SEparser();
-	private HighLevelList MyList = new HighLevelList();
+	private HighLevelList<StdLowLevelList<SLexeme>,SLexeme> MyList = new HighLevelList<StdLowLevelList<SLexeme>,SLexeme>();
 };
