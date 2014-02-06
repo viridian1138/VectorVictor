@@ -115,6 +115,7 @@ import java.util.HashMap;
 
 import meta.FlexString;
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 import verdantium.core.BackgroundListener;
 import verdantium.mathimage.MathImage;
 import verdantium.mathimage.MathImageParseException;
@@ -246,7 +247,7 @@ public interface ToolPort extends DepictorPort, BackgroundListener {
 	/**
 	* Gets the display list of the view.
 	*/
-	public HighLevelList getDispList();
+	public HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getDispList();
 	/**
 	* Gets whether the last mouse-down event was matched by some control.
 	*/

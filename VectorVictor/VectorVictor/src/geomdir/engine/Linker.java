@@ -10,7 +10,7 @@ import java.util.Iterator;
 import meta.Callback;
 import meta.FlexString;
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import meta.WrapRuntimeException;
 
 
@@ -232,7 +232,7 @@ public class Linker extends Callback /* DBN */ {
 		ExprHashMap RHSimplicitExpList,
 		ExprHashMap DynLHSimplicitExpList,
 		ExprHashMap DynRHSimplicitExpList,
-		HighLevelList UnqVarList,
+		HighLevelList<StdLowLevelList<ASGNode>,ASGNode> UnqVarList,
 		SolverLinkage linkage,
 		Object CreateObj,
 		Method CreateVisit,
@@ -447,14 +447,13 @@ public class Linker extends Callback /* DBN */ {
 
 		while (it.hasNext()) {
 			ExpNode MyExp = it.next();
-			HighLevelList CodeList = MyExp.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
 				CodeList.searchHead();
 
 				while (!Done1) {
-					Meta MyMeta2 = CodeList.getNode();
-					Lexeme MyLex = (Lexeme) MyMeta2;
+					Lexeme MyLex = CodeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						if (MyLex.getEndLoc() > MyLex.getStartLoc())
 							MyCodeGen.extractVariable(MyExp.getExprn(), MyLex.getStartLoc(), MyLex.getEndLoc(), InStr);
@@ -488,7 +487,7 @@ public class Linker extends Callback /* DBN */ {
 		ExprHashMap RHSimplicitExpList,
 		ASGHashMap LocalAlphaList,
 		ASGHashMap GlobalAlphaList,
-		HighLevelList UnqVarList,
+		HighLevelList<StdLowLevelList<ASGNode>,ASGNode> UnqVarList,
 		Object CreateObj,
 		Method CreateVisit) {
 		FlexString InStr = new FlexString();
@@ -499,14 +498,13 @@ public class Linker extends Callback /* DBN */ {
 		while (it.hasNext()) {
 			ExpNode MyExp = it.next();
 
-			HighLevelList CodeList = MyExp.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
 				CodeList.searchHead();
 
 				while (!Done1) {
-					Meta MyMeta2 = CodeList.getNode();
-					Lexeme MyLex = (Lexeme) MyMeta2;
+					Lexeme MyLex = CodeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						if (MyLex.getEndLoc() > MyLex.getStartLoc())
 							MyCodeGen.extractVariable(MyExp.getExprn(), MyLex.getStartLoc(), MyLex.getEndLoc(), InStr);
@@ -524,15 +522,14 @@ public class Linker extends Callback /* DBN */ {
 		it = LHSimplicitExpList.values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode MyExp = (ExpNode) (it.next());
-			HighLevelList CodeList = MyExp.getCodeList();
+			ExpNode MyExp = it.next();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
 				CodeList.searchHead();
 
 				while (!Done1) {
-					Meta MyMeta2 = CodeList.getNode();
-					Lexeme MyLex = (Lexeme) MyMeta2;
+					Lexeme MyLex = CodeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						if (MyLex.getEndLoc() > MyLex.getStartLoc())
 							MyCodeGen.extractVariable(MyExp.getExprn(), MyLex.getStartLoc(), MyLex.getEndLoc(), InStr);
@@ -550,15 +547,14 @@ public class Linker extends Callback /* DBN */ {
 		it = RHSimplicitExpList.values().iterator();
 
 		while (it.hasNext()) {
-			ExpNode MyExp = (ExpNode) (it.next());
-			HighLevelList CodeList = MyExp.getCodeList();
+			ExpNode MyExp = it.next();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
 				CodeList.searchHead();
 
 				while (!Done1) {
-					Meta MyMeta2 = CodeList.getNode();
-					Lexeme MyLex = (Lexeme) MyMeta2;
+					Lexeme MyLex = CodeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						if (MyLex.getEndLoc() > MyLex.getStartLoc())
 							MyCodeGen.extractVariable(MyExp.getExprn(), MyLex.getStartLoc(), MyLex.getEndLoc(), InStr);
@@ -675,7 +671,7 @@ public class Linker extends Callback /* DBN */ {
 		FlexString InStr,
 		ASGHashMap LocalVarList,
 		ASGHashMap GlobalVarList,
-		HighLevelList UnqVarList,
+		HighLevelList<StdLowLevelList<ASGNode>,ASGNode> UnqVarList,
 		Object CreateObj,
 		Method CreateVisit) {
 		ASGNode MyASG;

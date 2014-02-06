@@ -114,6 +114,7 @@ package geomdir.engine;
 
 import java.util.Vector;
 
+import meta.*;
 import meta.Callback;
 import meta.FlexString;
 import meta.HighLevelBinTree;
@@ -193,7 +194,7 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> If an error happened, the output list will be empty.<BR>
 	@author Thorn Green.
 	*/
-	public final boolean generateCode(FlexString instr, HighLevelList codeList, int myMode) {
+	public final boolean generateCode(FlexString instr, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList, int myMode) {
 		boolean err;
 		HighLevelBinTree myTree = new HighLevelBinTree();
 		GEparser myo = myGEparser;
@@ -214,10 +215,10 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> The output list will be generated.<BR>
 	@author Thorn Green.
 	*/
-	public final void genFromTree(HighLevelBinTree myTree, HighLevelList inList) {
+	public final void genFromTree(HighLevelBinTree myTree, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> inList) {
 		mStackSpaceRequired = 0;
 		mStackSpaceCurrent = 0;
-		HighLevelList myl = myList;
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = myList;
 		inList.eraseAllInfo();
 		inList.copyDataPlusPtrInfo(myl);
 		myTree.inOrder(myTree, this, Callback.CALLBACK_1);
@@ -292,8 +293,8 @@ public class CodeGen extends Callback /* DBN */ {
 	@author Thorn Green.
 	*/
 	public void callback1(Meta in) {
-		HighLevelList myl = myList;
-		myl.insertRight(in);
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = myList;
+		myl.insertRight( (Lexeme) in );
 		myl.setCopyMode(Meta.COPY_DO_NOTHING);
 		myl.setEraseMode(Meta.WAKE);
 
@@ -341,5 +342,5 @@ public class CodeGen extends Callback /* DBN */ {
 	/**
 	* The generated code list.
 	*/
-	private final HighLevelList myList = new HighLevelList();
+	private final HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myList = new HighLevelList<StdLowLevelList<Lexeme>,Lexeme>();
 };

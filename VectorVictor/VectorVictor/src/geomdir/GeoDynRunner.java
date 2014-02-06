@@ -123,6 +123,7 @@ import geomdir.engine.GeomEngine;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
+import meta.*;
 import meta.FlexString;
 import meta.HighLevelList;
 import meta.WrapRuntimeException;
@@ -553,7 +554,7 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 	/**
 	* Gets the list of unique non-engine variables to be used by the solver.
 	*/
-	public HighLevelList getUnqVarList() {
+	public HighLevelList<StdLowLevelList<ASGNode>,ASGNode> getUnqVarList() {
 		return (UnqVarList);
 	}
 
@@ -798,7 +799,7 @@ public class GeoDynRunner implements geomdir.DynRunner, DynRunnerImpl {
 	private final DGPHashMap VarList = new DGPHashMap();
 	private final ASGHashMap AlphaVarList = new ASGHashMap();
 	private final ASGHashMap ConstVarList = new ASGHashMap();
-	private final HighLevelList UnqVarList = new HighLevelList();
+	private final HighLevelList<StdLowLevelList<ASGNode>,ASGNode> UnqVarList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 	private final ExprHashMap ExpList = new ExprHashMap();
 	private final ExprHashMap LHSimplicitExpList = new ExprHashMap();
 	private final ExprHashMap RHSimplicitExpList = new ExprHashMap();

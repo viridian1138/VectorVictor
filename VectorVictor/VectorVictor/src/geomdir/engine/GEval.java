@@ -112,6 +112,7 @@ import geomdir.Mvec;
 import geomdir.ObjObj;
 import meta.HighLevelList;
 import meta.Staque;
+import meta.*;
 
 
 
@@ -162,13 +163,13 @@ import meta.Staque;
 */
 public class GEval extends GEsym {
 	/* public static final int eof = 1; */
-	public final void eof(Mstack mStack, Staque oStack) { /* never called */
+	public final void eof(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 	/* public static final int err = 2; */
-	public final void err(Mstack mStack, Staque oStack) { /* never called */
+	public final void err(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 	/* public static final int space = 3; */
-	public final void space(Mstack mStack, Staque oStack) { /* never called */
+	public final void space(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 
 	/* public static final int plus = 4; */
@@ -183,7 +184,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void plus(Mstack mStack, Staque oStack) {
+	public final void plus(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -204,7 +205,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void minus(Mstack mStack, Staque oStack) {
+	public final void minus(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -225,7 +226,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void vplus(Mstack mStack, Staque oStack) {
+	public final void vplus(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -246,7 +247,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void vminus(Mstack mStack, Staque oStack) {
+	public final void vminus(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -267,7 +268,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void prod(Mstack mStack, Staque oStack) {
+	public final void prod(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -289,7 +290,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void div(Mstack mStack, Staque oStack) {
+	public final void div(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -310,7 +311,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void dot(Mstack mStack, Staque oStack) {
+	public final void dot(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -331,7 +332,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void cross(Mstack mStack, Staque oStack) {
+	public final void cross(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -352,7 +353,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void wedge(Mstack mStack, Staque oStack) {
+	public final void wedge(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		Mvec BVec = mStack.pop();
 		Mvec AVec = mStack.pop();
 
@@ -362,17 +363,17 @@ public class GEval extends GEsym {
 	};
 
 	/* public static final int Lparen = 13; */
-	public final void lparen(Mstack mStack, Staque oStack) { /* never called */
+	public final void lparen(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 	/* public static final int Rparen = 14; */
-	public final void rparen(Mstack mStack, Staque oStack) { /* never called */
+	public final void rparen(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 
 	/* public static final int Lbrac = 15; */
 	/* Handled special. */
 
 	/* public static final int Rbrac = 16; */
-	public final void rbrac(Mstack mStack, Staque oStack) { /* never called */
+	public final void rbrac(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 
 	/* public static final int exp = 17; */
@@ -387,7 +388,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void exp(Mstack mStack, Staque oStack) {
+	public final void exp(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().exp(temp);
 
 		mStack.push(temp);
@@ -405,7 +406,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void cos(Mstack mStack, Staque oStack) {
+	public final void cos(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().cos(temp);
 
 		mStack.push(temp);
@@ -423,7 +424,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void sin(Mstack mStack, Staque oStack) {
+	public final void sin(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().sin(temp);
 
 		mStack.push(temp);
@@ -441,7 +442,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void sinh(Mstack mStack, Staque oStack) {
+	public final void sinh(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().sinh(temp);
 
 		mStack.push(temp);
@@ -459,7 +460,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void cosh(Mstack mStack, Staque oStack) {
+	public final void cosh(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().cosh(temp);
 
 		mStack.push(temp);
@@ -477,7 +478,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void reverse(Mstack mStack, Staque oStack) {
+	public final void reverse(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().mcpy(temp);
 		temp.reverse();
 
@@ -497,7 +498,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void inverse(Mstack mStack, Staque oStack) {
+	public final void inverse(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().mcpy(temp);
 		temp.inverse();
 
@@ -516,7 +517,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void magnitude(Mstack mStack, Staque oStack) {
+	public final void magnitude(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().mcpy(temp);
 		temp.magnitude();
 
@@ -534,7 +535,7 @@ public class GEval extends GEsym {
 	<B>Post:</B> Basis12 will be pushed onto the stack.<BR>
 	@author Thorn Green
 	*/
-	public final void basis12(Mstack mStack, Staque oStack) {
+	public final void basis12(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		temp.setToBasis12();
 
 		mStack.push(temp);
@@ -551,7 +552,7 @@ public class GEval extends GEsym {
 	<B>Post:</B> Basis1 will be pushed onto the stack.<BR>
 	@author Thorn Green
 	*/
-	public final void basis1(Mstack mStack, Staque oStack) {
+	public final void basis1(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		temp.setToBasis1();
 
 		mStack.push(temp);
@@ -568,7 +569,7 @@ public class GEval extends GEsym {
 	<B>Post:</B> Basis2 will be pushed onto the stack.<BR>
 	@author Thorn Green
 	*/
-	public final void basis2(Mstack mStack, Staque oStack) {
+	public final void basis2(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		temp.setToBasis2();
 
 		mStack.push(temp);
@@ -585,23 +586,23 @@ public class GEval extends GEsym {
 	<B>Post:</B> Pi will be pushed onto the stack.<BR>
 	@author Thorn Green
 	*/
-	public final void pi(Mstack mStack, Staque oStack) {
+	public final void pi(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		temp.setToPi();
 
 		mStack.push(temp);
 	};
 
 	/* public static final int Lbrak = 29; */
-	public final void lbrak(Mstack mStack, Staque oStack) { /* never called */
+	public final void lbrak(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 	/* public static final int Rbrak = 30; */
-	public final void rbrak(Mstack mStack, Staque oStack) { /* never called */
+	public final void rbrak(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* never called */
 	};
 	/* public static final int variable = 31; */
-	public final void variable(Mstack mStack, Staque oStack) { /* Handled by High Level Eval Routine */
+	public final void variable(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* Handled by High Level Eval Routine */
 	};
 	/* public static final int NumConst = 32; */
-	public final void numConst(Mstack mStack, Staque oStack) { /* Handled by High Level Eval Routine */
+	public final void numConst(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) { /* Handled by High Level Eval Routine */
 	};
 
 	/* public static final int negation = 33; */
@@ -616,7 +617,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void negation(Mstack mStack, Staque oStack) {
+	public final void negation(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().mcpy(temp);
 		temp.minus();
 
@@ -635,7 +636,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void phasToVect(Mstack mStack, Staque oStack) {
+	public final void phasToVect(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().phasToVect(temp);
 
 		mStack.push(temp);
@@ -653,7 +654,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void unitOf(Mstack mStack, Staque oStack) {
+	public final void unitOf(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().mcpy(temp);
 		temp.unitOf();
 
@@ -672,7 +673,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void ln(Mstack mStack, Staque oStack) {
+	public final void ln(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		mStack.pop().ln(temp);
 
 		mStack.push(temp);
@@ -681,12 +682,12 @@ public class GEval extends GEsym {
 	/* public static final int DeCastBlossomLeftComp = 37; -- Handled Separate */
 
 	/* public static final int Comma = 38; */
-	public final void comma(Mstack mStack, Staque oStack) {
+	public final void comma(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		/* Never Executed. */
 	}
 
 	/* public static final int CompObj = 39; */
-	public final void compObj(Mstack mStack, Staque oStack) {
+	public final void compObj(Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		/* Never Executed. */
 	}
 
@@ -709,7 +710,7 @@ public class GEval extends GEsym {
 	<B>Post:</B> The proper method will be executed with the parameters.<BR>
 	@author Thorn Green
 	*/
-	public final void exeGE(int in, Mstack mStack, Staque oStack) {
+	public final void exeGE(int in, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		switch (in) {
 			case vplus : /* 6 */
 				vplus(mStack, oStack);
@@ -871,7 +872,7 @@ public class GEval extends GEsym {
 	<B>Post:</B> The proper value will be returned.<BR>
 	@author Thorn Green
 	*/
-	public static final int getMstackOffset(int in, HighLevelList codeList) {
+	public static final int getMstackOffset(int in, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList) {
 		int ret = 0;
 
 		switch (in) {
@@ -945,10 +946,10 @@ public class GEval extends GEsym {
 	/**
 	* Returns the Mstack offset used by a blossom operation.
 	*/
-	public static final int getMstackOffsetDeCastBlossom(HighLevelList codeList) {
-		HighLevelList tmp = new HighLevelList();
+	public static final int getMstackOffsetDeCastBlossom(HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList) {
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> tmp = new HighLevelList<StdLowLevelList<Lexeme>,Lexeme>();
 		codeList.copyDataPlusPtrInfo(tmp);
-		Lexeme node = (Lexeme) (tmp.getNode());
+		Lexeme node = tmp.getNode();
 		ObjObj<int[]> obj = (ObjObj<int[]>) (node.getMetaPtr());
 		int[] vi = obj.value;
 		int numBi = vi[0];
@@ -960,10 +961,10 @@ public class GEval extends GEsym {
 	/**
 	* Returns the Mstack offset used by a DeCast operation.
 	*/
-	public static final int getMstackOffsetDeCast(HighLevelList codeList) {
-		HighLevelList tmp = new HighLevelList();
+	public static final int getMstackOffsetDeCast(HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList) {
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> tmp = new HighLevelList<StdLowLevelList<Lexeme>,Lexeme>();
 		codeList.copyDataPlusPtrInfo(tmp);
-		Lexeme node = (Lexeme) (tmp.getNode());
+		Lexeme node = tmp.getNode();
 		ObjObj<int[]> obj = (ObjObj<int[]>) (node.getMetaPtr());
 		int[] vi = obj.value;
 		int numBi = vi[0];
@@ -982,7 +983,7 @@ public class GEval extends GEsym {
 		will be pushed onto it.<BR>
 	@author Thorn Green
 	*/
-	public final void lbrac(Lexeme lexm, Mstack mStack, Staque oStack) {
+	public final void lbrac(Lexeme lexm, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		int SwCase;
 		Mvec AVec = mStack.pop();
 
@@ -1025,7 +1026,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastLeft(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastLeft(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];
@@ -1064,7 +1065,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastRight(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastRight(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];
@@ -1103,7 +1104,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastBlossomLeft(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastBlossomLeft(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];
@@ -1145,7 +1146,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastBlossomRight(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastBlossomRight(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];
@@ -1187,7 +1188,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastBlossomLeftComp(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastBlossomLeftComp(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];
@@ -1241,7 +1242,7 @@ public class GEval extends GEsym {
 		will be pushed onto the mStack.<BR>
 	@author Thorn Green
 	*/
-	public final void deCastBlossomRightComp(Lexeme lex, Mstack mStack, Staque oStack) {
+	public final void deCastBlossomRightComp(Lexeme lex, Mstack mStack, Staque<StdLowLevelList<?>,?> oStack) {
 		ObjObj<int[]> tp = (ObjObj<int[]>) (lex.getMetaPtr());
 		int[] vl = tp.value;
 		int NumBi = vl[0];

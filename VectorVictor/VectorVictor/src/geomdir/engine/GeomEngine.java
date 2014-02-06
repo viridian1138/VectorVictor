@@ -127,7 +127,7 @@ import java.util.Vector;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import meta.StdLowLevelList;
 import meta.VersionBuffer;
 import meta.WrapRuntimeException;
@@ -680,9 +680,9 @@ public class GeomEngine implements Externalizable {
 			InKey.insertString(FKey);
 			FKey.insertChar('>');
 
-			Iterator<?> it = LHSimplicitExpList.values().iterator();
+			Iterator<ExpNode> it = LHSimplicitExpList.values().iterator();
 			while (it.hasNext()) {
-				MyExp = (ExpNode) (it.next());
+				MyExp = it.next();
 				if (MyExp.getVarName().baseCmp(FKey, 0)) {
 					MyExp.eraseNode();
 					it.remove();
@@ -691,7 +691,7 @@ public class GeomEngine implements Externalizable {
 
 			it = RHSimplicitExpList.values().iterator();
 			while (it.hasNext()) {
-				MyExp = (ExpNode) (it.next());
+				MyExp = it.next();
 				if (MyExp.getVarName().baseCmp(FKey, 0)) {
 					MyExp.eraseNode();
 					it.remove();
@@ -966,7 +966,7 @@ public class GeomEngine implements Externalizable {
 		ExprHashMap LocalLHSimplicitExpList,
 		ExprHashMap LocalRHSimplicitExpList,
 		ASGHashMap LocalVarList,
-		HighLevelList UnqVarList,
+		HighLevelList<StdLowLevelList<ASGNode>,ASGNode> UnqVarList,
 		Object CreateObj,
 		Method CreateVisit,
 		Object DeleteObj,

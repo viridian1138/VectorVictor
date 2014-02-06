@@ -125,11 +125,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.net.URL;
 
-import meta.DataFormatException;
-import meta.FlexString;
-import meta.HighLevelList;
-import meta.Meta;
-import meta.VersionBuffer;
+import meta.*;
 import verdantium.utils.VTextProperties;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -1103,7 +1099,7 @@ public class Tracer2 extends DrawObj implements Externalizable {
 	public void popDragUndo() {
 		Mvec TmpVect = new Mvec();
 		Mvec TmpLq = new Mvec();
-		HighLevelList TmpList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> TmpList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		VectGlo.copyAllInfo(TmpVect);
 		LQPtr.copyAllInfo(TmpLq);
@@ -1357,7 +1353,7 @@ public class Tracer2 extends DrawObj implements Externalizable {
 			VersionBuffer.chkNul(LQPtr);
 			LQSelfAlloc = (IntObj) (myv.getProperty("LQSelfAlloc"));
 			VersionBuffer.chkNul(LQSelfAlloc);
-			PointList = (HighLevelList) (myv.getProperty("PointList"));
+			PointList = (HighLevelList<StdLowLevelList<Mvec>,Mvec>) (myv.getProperty("PointList"));
 			VersionBuffer.chkNul(PointList); */
 		}
 		catch (ClassCastException e) {
@@ -1535,7 +1531,7 @@ public class Tracer2 extends DrawObj implements Externalizable {
 		return (true);
 	}
 
-	HighLevelList PointList = new HighLevelList();
+	HighLevelList<StdLowLevelList<Mvec>,Mvec> PointList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 	int TextOffsetX = -10;
 	int TextOffsetY = 10;

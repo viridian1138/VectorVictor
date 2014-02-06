@@ -128,7 +128,7 @@ import java.net.URL;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
-import meta.Meta;
+import meta.*;
 import meta.VersionBuffer;
 import verdantium.utils.VTextProperties;
 import android.graphics.Canvas;
@@ -1044,7 +1044,7 @@ public class Tracer1 extends DrawObj implements Externalizable {
 	*/
 	public void popDragUndo() {
 		Mvec TmpVect = new Mvec();
-		HighLevelList TmpList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> TmpList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 		boolean TmpTraceOn;
 
 		VectGlo.copyAllInfo(TmpVect);
@@ -1313,7 +1313,7 @@ public class Tracer1 extends DrawObj implements Externalizable {
 			VersionBuffer.chkNul(Domain);
 			IODef = (IntObj) (myv.getProperty("IODef"));
 			VersionBuffer.chkNul(IODef);
-			PointList = (HighLevelList) (myv.getProperty("PointList"));
+			PointList = (HighLevelList<StdLowLevelList<Mvec>,Mvec>) (myv.getProperty("PointList"));
 			VersionBuffer.chkNul(PointList);
 			TraceOn = myv.getBoolean("TraceOn"); */
 		}
@@ -1456,7 +1456,7 @@ public class Tracer1 extends DrawObj implements Externalizable {
 		return (true);
 	}
 
-	HighLevelList PointList = new HighLevelList();
+	HighLevelList<StdLowLevelList<Mvec>,Mvec> PointList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 	boolean TraceOn = false;
 	int TextOffsetX = -10;

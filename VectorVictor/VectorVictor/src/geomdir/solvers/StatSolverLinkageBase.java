@@ -439,42 +439,42 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList expAlphaVarList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ASGNode>,ASGNode> expAlphaVarList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList totAlphaVarList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ASGNode>,ASGNode> totAlphaVarList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList expDynAlphaVarList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ASGNode>,ASGNode> expDynAlphaVarList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList totDynAlphaVarList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ASGNode>,ASGNode> totDynAlphaVarList = new HighLevelList<StdLowLevelList<ASGNode>,ASGNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList lHSimplicitExpList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ExpNode>,ExpNode> lHSimplicitExpList = new HighLevelList<StdLowLevelList<ExpNode>,ExpNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList rHSimplicitExpList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ExpNode>,ExpNode> rHSimplicitExpList = new HighLevelList<StdLowLevelList<ExpNode>,ExpNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList dynLHSimplicitExpList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ExpNode>,ExpNode> dynLHSimplicitExpList = new HighLevelList<StdLowLevelList<ExpNode>,ExpNode>();
 
 	/**
 	* List of all non-implicit expressions as a set of ASG nodes.
 	*/
-	protected HighLevelList dynRHSimplicitExpList = new HighLevelList();
+	protected HighLevelList<StdLowLevelList<ExpNode>,ExpNode> dynRHSimplicitExpList = new HighLevelList<StdLowLevelList<ExpNode>,ExpNode>();
 
 	/**
 	* Map of variables.

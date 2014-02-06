@@ -935,8 +935,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	/**
 	* Places a copy of the list of user expressions in a HighLevelList, and returns it.
 	*/
-	public HighLevelList formUserExpList() {
-		HighLevelList TmpList = new HighLevelList();
+	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserExpList() {
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> TmpList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 		Iterator<FragNode> it = getVarList().values().iterator();
 
 		while (it.hasNext()) {
@@ -1606,8 +1606,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	/**
 	* Crestes a copy of the list of user variables, and returns it.
 	*/
-	public HighLevelList formUserVarList() {
-		HighLevelList TmpList = new HighLevelList();
+	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserVarList() {
+		HighLevelList<StdLowLevelList<FlexString>,FlexString> TmpList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 
 		Iterator<FragNode> it = VarList.values().iterator();
 
@@ -1881,15 +1881,15 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Removes a window event listener from the mdoel.
 	*/
 /*	public void removeWindowRecord(Object in) {
-		HighLevelList temp = WindowRecords;
-		HighLevelList next = new HighLevelList();
+		HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord> temp = WindowRecords;
+		HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord> next = new HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord>();
 
 		if (!(temp.empty())) {
 			temp.searchHead();
 			boolean Done = false;
 
 			while (!Done) {
-				WindowRecord MyRec = (WindowRecord) (temp.getNode());
+				WindowRecord MyRec = temp.getNode();
 				temp.copyDataPlusPtrInfo(next);
 				next.right();
 
@@ -2402,13 +2402,13 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	}
 
 /*	public void stopAllWindows(Object top) {
-		HighLevelList winList = getWindowList();
+		HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord> winList = getWindowList();
 		if (!(winList.empty())) {
 			winList.searchHead();
 			boolean Done = false;
 
 			while (!Done) {
-				WindowRecord obj = (WindowRecord) (winList.getNode());
+				WindowRecord obj = winList.getNode();
 				Object val = obj.getWindow();
 
 				if ((val instanceof VerdantiumComponent) && (val != top))
@@ -2499,7 +2499,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	/**
 	* Gets the window list.
 	*/
-//	public HighLevelList getWindowList() {
+//	public HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord> getWindowList() {
 //		return (WindowRecords);
 //	}
 	/**
@@ -2646,6 +2646,6 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	protected transient PropertyChangeSupport PropL = null;
 	private transient HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>> depicListListeners = 
 			new HighLevelList<StdLowLevelList<ObjObj<DepicListListener>>,ObjObj<DepicListListener>>();
-//	private transient HighLevelList WindowRecords = new HighLevelList();
+//	private transient HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord> WindowRecords = new HighLevelList<StdLowLevelList<WindowRecord>,WindowRecord>();
 	private int UnqID = 1;
 }

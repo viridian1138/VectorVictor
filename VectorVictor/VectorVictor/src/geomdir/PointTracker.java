@@ -113,6 +113,7 @@ package geomdir;
 
 import java.beans.PropertyChangeListener;
 
+import meta.*;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
@@ -215,7 +216,7 @@ class PointTracker implements DepictorPort {
 		Canvas g = null;
 		Paint p = new Paint();
 
-		HighLevelList DisplayList = new HighLevelList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		tar.getDispList().copyDataPlusPtrInfo(DisplayList);
 		boolean Done = false;
 		boolean BoundMode = tar.getBoundMode();
@@ -223,7 +224,7 @@ class PointTracker implements DepictorPort {
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+				DGMNode MyDGM = DisplayList.getNode();
 				CurDGM = MyDGM;
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				CurObj = MyDrw;

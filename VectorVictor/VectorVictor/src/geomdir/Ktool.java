@@ -115,6 +115,7 @@ import geomdir.engine.EngineConstants;
 
 import java.net.URL;
 
+import meta.*;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
@@ -397,7 +398,7 @@ public abstract class Ktool {
 		*	and its ClickRec are stored in the state variables of the canvas.<BR>
 		*@author Thorn Green
 		*/
-		protected boolean checkDisplayControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
+		protected boolean checkDisplayControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			boolean Done = false;
 			boolean dragSolverError = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -412,7 +413,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
@@ -655,7 +656,7 @@ public abstract class Ktool {
 		*<B>Post:</B> If an erase control has been clicked on, the appropriate erasure will be attempted.<BR>
 		*@author Thorn Green
 		*/
-		protected void checkEraseControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
+		protected void checkEraseControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			FlexString CurString = new FlexString();
 			FlexString DelDepicString = new FlexString("\\");
 			double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -669,7 +670,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
@@ -940,7 +941,7 @@ public abstract class Ktool {
 		*/
 		protected void checkAssignToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			Object[] LHS,
 			Object[] RHS,
 			IntObj Active,
@@ -954,7 +955,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -984,7 +985,7 @@ public abstract class Ktool {
 		*/
 		protected void checkAssignFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			FlexString NewString,
 			PointF OutPt,
 			ToolPort in) {
@@ -1007,7 +1008,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					MyDrw.checkAssignFromControl(
@@ -1571,7 +1572,7 @@ public abstract class Ktool {
 		*	that depictor.<BR>
 		*@author Thorn Green
 		*/
-		protected void checkColorControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
+		protected void checkColorControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
 			in.setLastClick(GeomConstants.NoMatch);
@@ -1580,7 +1581,7 @@ public abstract class Ktool {
 				DisplayList.searchHead();
 				DisplayList.left();
 				while (!Done) {
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					Done = DisplayList.getHead();
@@ -1688,7 +1689,7 @@ public abstract class Ktool {
 		*<B>Post:</B> If a to-front hot-spot has been clicked on, the depictor will be brought to the front.<BR>
 		*@author Thorn Green
 		*/
-		protected void checkFntControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
+		protected void checkFntControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			DGMNode DragDGM = null;
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1700,7 +1701,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
@@ -1711,7 +1712,7 @@ public abstract class Ktool {
 							/* pushUndoObjChg( MyDrw );
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
-							DragDGM = (DGMNode) DisplayList.getNode();
+							DragDGM = DisplayList.getNode();
 							in.setLastClick(GeomConstants.Match);
 							Priority = MRec.clickPriority;
 						}
@@ -1789,7 +1790,7 @@ public abstract class Ktool {
 		*<B>Post:</B> If a to-back hot-spot has been clicked on, the depictor will be sent to the back.<BR>
 		*@author Thorn Green
 		*/
-		protected void checkBakControls(PointF InPt, HighLevelList DisplayList, ToolPort in) {
+		protected void checkBakControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			DGMNode DragDGM = null;
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1801,7 +1802,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
@@ -1812,7 +1813,7 @@ public abstract class Ktool {
 							/* pushUndoObjChg( MyDrw );
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
-							DragDGM = (DGMNode) DisplayList.getNode();
+							DragDGM = DisplayList.getNode();
 							in.setLastClick(GeomConstants.Match);
 							Priority = MRec.clickPriority;
 						}
@@ -1853,7 +1854,7 @@ public abstract class Ktool {
 	*/
 	public static class SelectionTool extends Ktool {
 		boolean DraggingSelection = false;
-		HighLevelList DropList = null;
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DropList = null;
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
 			PointF LocEvent =
@@ -1863,7 +1864,7 @@ public abstract class Ktool {
 			in.getStPt().y = LocEvent.y;
 			in.getCrPt().x = LocEvent.x;
 			in.getCrPt().y = LocEvent.y;
-			DropList = new HighLevelList();
+			DropList = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 			DraggingSelection = true;
 			in.setUpDrag(false);
 			return (false);
@@ -1929,7 +1930,7 @@ public abstract class Ktool {
 					int CurMode = SelectionTool.this.getDrawingMode(in);
 
 					while (!Done) {
-						DGMNode CurDGM = (DGMNode) (DropList.getNode());
+						DGMNode CurDGM = DropList.getNode();
 						CurDGM.getMyDraw().drawYourTools(in, CurDGM.getMyCoord(), bound, g, p, CurMode);
 
 						DropList.right();
@@ -1964,7 +1965,7 @@ public abstract class Ktool {
 
 		}
 
-		public HighLevelList getDropList() {
+		public HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getDropList() {
 			return (DropList);
 		}
 
@@ -2095,7 +2096,7 @@ public abstract class Ktool {
 		*/
 		protected void checkAdditToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -2108,7 +2109,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -2143,7 +2144,7 @@ public abstract class Ktool {
 		*/
 		protected void checkAdditFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -2160,7 +2161,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -2303,7 +2304,7 @@ public abstract class Ktool {
 		*/
 		protected void checkSubitToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -2316,7 +2317,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -2351,7 +2352,7 @@ public abstract class Ktool {
 		*/
 		protected void checkSubitFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -2368,7 +2369,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -2511,7 +2512,7 @@ public abstract class Ktool {
 		*/
 		protected void checkComparitToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -2524,7 +2525,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -2559,7 +2560,7 @@ public abstract class Ktool {
 		*/
 		protected void checkComparitFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -2576,7 +2577,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -2719,7 +2720,7 @@ public abstract class Ktool {
 		*/
 		protected void checkMultitToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -2732,7 +2733,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -2767,7 +2768,7 @@ public abstract class Ktool {
 		*/
 		protected void checkMultitFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -2784,7 +2785,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -2927,7 +2928,7 @@ public abstract class Ktool {
 		*/
 		protected void checkDivitToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -2940,7 +2941,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -2975,7 +2976,7 @@ public abstract class Ktool {
 		*/
 		protected void checkDivitFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -2992,7 +2993,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -3133,7 +3134,7 @@ public abstract class Ktool {
 		*	in NewString and SuffixString.  Otherwise, Active is set to zero.<BR>
 		*@author Thorn Green
 		*/
-		protected void checkMapToControls(PointF InPt, HighLevelList DisplayList, IntObj Active, ToolPort in) {
+		protected void checkMapToControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, IntObj Active, ToolPort in) {
 			boolean Done = false;
 
 			objB = null;
@@ -3144,7 +3145,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -3178,7 +3179,7 @@ public abstract class Ktool {
 		*/
 		protected void checkMapFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -3195,7 +3196,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
@@ -3340,7 +3341,7 @@ public abstract class Ktool {
 		*/
 		protected void checkCircMapToControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			IntObj Active,
 			ToolPort in) {
 			boolean Done = false;
@@ -3353,7 +3354,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if (Active.value == 0) {
@@ -3387,7 +3388,7 @@ public abstract class Ktool {
 		*/
 		protected void checkCircMapFromControls(
 			PointF InPt,
-			HighLevelList DisplayList,
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList,
 			PointF OutPt,
 			ToolPort in) {
 			ClickRec CurDist = new ClickRec();
@@ -3404,7 +3405,7 @@ public abstract class Ktool {
 				while (!Done) {
 					Done = DisplayList.getHead();
 
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					double TmpDist = CurDist.curDist;
