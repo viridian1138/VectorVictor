@@ -118,7 +118,7 @@ import java.util.Vector;
 import meta.HighLevelList;
 import meta.Meta;
 import meta.Staque;
-
+import meta.*;
 
 
 /**
@@ -174,13 +174,12 @@ public class Executor extends Object {
 	<B>Post:</B> DestVect is set to the proper value.<BR>
 	@author Thorn Green.
 	*/
-	protected final void evaluateExpression(HighLevelList CodeList, Mvec DestVect) {
+	protected final void evaluateExpression(HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList, Mvec DestVect) {
 		boolean Done = false;
 		mStack.clearSp();
 		if (!(CodeList.empty())) {
 			while (!Done) {
-				Meta MyMeta = CodeList.getNode();
-				Lexeme MyLex = (Lexeme) MyMeta;
+				Lexeme MyLex = CodeList.getNode();
 				int MyMatch = MyLex.getMyMatch();
 				switch (MyMatch) {
 					case GEval.variable :
@@ -277,13 +276,12 @@ public class Executor extends Object {
 	<B>Post:</B> The multivector value of all dependent variables is set to the proper value.<BR>
 	@author Thorn Green.
 	*/
-	public final void evaluateAllExpressions(HighLevelList ASGList) {
+	public final void evaluateAllExpressions(HighLevelList<StdLowLevelList<ASGNode>,ASGNode> ASGList) {
 		boolean Done = false;
 
 		if (!(ASGList.empty())) {
 			while (!Done) {
-				Meta MyMeta = ASGList.getNode();
-				ASGNode MyASG = (ASGNode) MyMeta;
+				ASGNode MyASG = ASGList.getNode();
 				ExpNode MyExp = MyASG.getExpNode();
 				EvalObj eval = MyExp.getEval();
 				if (eval != null) {

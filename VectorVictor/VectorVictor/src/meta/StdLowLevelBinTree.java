@@ -160,7 +160,7 @@ import java.io.ObjectOutput;
  * This class is public only to make it serializable (at some future point).
  * @author Thorn Green
  */
-public class StdLowLevelBinTree extends LowLevelBinTree {
+public class StdLowLevelBinTree<T extends Meta> extends LowLevelBinTree<StdLowLevelBinTree<T>,T> {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -170,13 +170,13 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
     /**
      * Returns the object stored in the node.
      */
-    public Meta getNode() {
+    public T getNode() {
         return (this.data);
     };
     /**
      * Sets the object stored in the node.
      */
-    public void setNode(Meta input) {
+    public void setNode(T input) {
         this.data = input;
     };
     /**
@@ -204,8 +204,8 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
     /**
      * Copies the node according to the current copy mode.
      */
-    public Meta copyNode() {
-        StdLowLevelBinTree out = new StdLowLevelBinTree();
+    public StdLowLevelBinTree<T> copyNode() {
+        StdLowLevelBinTree<T> out = new StdLowLevelBinTree<T>();
         copyDat(out);
         return (out);
     };
@@ -227,7 +227,7 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
         this.eraseDat();
     };
     
-    private final void dvSetNode(Meta in) {
+    private final void dvSetNode(T in) {
         data = in;
     }
     private final void dvSetCopyMode(int in) {
@@ -237,7 +237,7 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
     /**
      * The stored data.
      */
-    protected Meta data;
+    protected T data;
     /**
      * The CopyMode.
      */
@@ -246,10 +246,10 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
      * Copies the stored data according to the current mode, and places the result
      * in <code>input</code>.
      */
-    protected void copyDat(StdLowLevelBinTree input) {
+    protected void copyDat(StdLowLevelBinTree<T> input) {
         try {
             if (thisCopyMode != Meta.COPY_DO_NOTHING)
-                input.dvSetNode(data.exeCopy(thisCopyMode));
+                input.dvSetNode((T)(data.exeCopy(thisCopyMode)));
             else
                 input.dvSetNode(data);
         } catch (OutOfMemoryError ex) {
@@ -271,7 +271,7 @@ public class StdLowLevelBinTree extends LowLevelBinTree {
             VersionBuffer myv = (VersionBuffer) (in.readObject());
             VersionBuffer.chkNul(myv);
             
-            data = (Meta) (myv.getProperty("data"));
+            data = (T) (myv.getProperty("data"));
             thisCopyMode = myv.getInt("ThisCopyMode");
         } catch (ClassCastException e) {
             throw (new DataFormatException(e));

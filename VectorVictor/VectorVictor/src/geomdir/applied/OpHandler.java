@@ -262,9 +262,9 @@ class OpHandler
 					boolean Done = false;
 					while( !Done )
 						{
-						Mvec chg = (Mvec) ChgList.getNode();
-						Mvec src = (Mvec) SrcList.getNode();
-						Mvec dst = (Mvec) DstList.getNode();
+						Mvec chg = ChgList.getNode();
+						Mvec src = SrcList.getNode();
+						Mvec dst = DstList.getNode();
 						Mvec tmp1 = new Mvec();
 						Mvec tmp2 = new Mvec();
 
@@ -667,9 +667,9 @@ class OpHandler
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -968,9 +968,9 @@ class OpHandler
 		objAI.getAdditiveExtents( objaDGM.getMyCoord() , mvcapos , mvcatl );
 		objBI.getAdditiveExtents( objbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -1293,9 +1293,9 @@ class OpHandler
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -1674,9 +1674,9 @@ class OpHandler
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -1973,9 +1973,9 @@ class OpHandler
 		objAI.getAdditiveExtents( objaDGM.getMyCoord() , mvcapos , mvcatl );
 		objBI.getAdditiveExtents( objbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -2294,9 +2294,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 //		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 //		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-//		HighLevelList ChgList = new HighLevelList();
-//		HighLevelList SrcList = new HighLevelList();
-//		HighLevelList DstList = new HighLevelList();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 //		ChgList.insertRight( mvcA );
 //		ChgList.insertRight( mvcB );
@@ -2686,9 +2686,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -3056,9 +3056,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -3343,9 +3343,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -3566,9 +3566,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -3996,9 +3996,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objB.updateYourself( MyKit , nbDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objB.getAdditiveExtents( nbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -4372,9 +4372,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objC.updateYourself( MyKit , ncDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( objC.portGetVect() );
 		ChgList.insertRight( mdC );
@@ -4497,9 +4497,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objC.updateYourself( MyKit , ncDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( objC.portGetVect() );
 		ChgList.insertRight( mdC );
@@ -4661,9 +4661,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -5047,9 +5047,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -5291,9 +5291,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -5680,9 +5680,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -5926,9 +5926,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		Mvec adel = new Mvec();
 		aval.mult( bval , adel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -6203,9 +6203,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		Mvec bdel = new Mvec();
 		mvcatl.vsub( mvcapos , bdel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -6481,9 +6481,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		mdA.vsub( mvcA , adel );
 		mvcatl.vsub( mvcapos , bdel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -6771,9 +6771,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 		objAI.getAdditiveExtents( objaDGM.getMyCoord() , mvcapos , mvcatl );
 		objBI.getAdditiveExtents( objbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -7069,9 +7069,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -7674,9 +7674,9 @@ protected boolean generalSubAnimateSimp( DrawObj objAI , DrawObj objBI , DGMNode
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -8107,9 +8107,9 @@ protected void sscaPhasDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 		objC.updateYourself( MyKit , ncDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( objC.portGetVect() );
 		ChgList.insertRight( mdC );
@@ -8232,9 +8232,9 @@ protected void sscaPhasDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 		objC.updateYourself( MyKit , ncDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( objC.portGetVect() );
 		ChgList.insertRight( mdC );
@@ -8399,9 +8399,9 @@ protected void sscaVectDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -9021,9 +9021,9 @@ protected void sscaVectDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -9265,9 +9265,9 @@ protected void vectSscaDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -9658,9 +9658,9 @@ protected void vectSscaDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -9905,9 +9905,9 @@ protected void phasDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode objaDG
 		mdA.vsub( mvcA , adel );
 		mvcatl.vsub( mvcapos , bdel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -10205,9 +10205,9 @@ protected void vectPhasDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 		objB.setValuePort( 1 );
 		objA.portGetVect().divide( objB.portGetVect() , bdel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -10481,9 +10481,9 @@ protected void phasVectDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode ob
 		Mvec adel = new Mvec();
 		aval.mult( bval , adel );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mdA );
@@ -10747,9 +10747,9 @@ protected void vectDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode objaDG
 		objAI.getAdditiveExtents( objaDGM.getMyCoord() , mvcapos , mvcatl );
 		objBI.getAdditiveExtents( objbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -11044,9 +11044,9 @@ protected void sscaDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode objaDG
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -11556,9 +11556,9 @@ protected void sscaDivideAnimate( DrawObj objAI , DrawObj objBI , DGMNode objaDG
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -11877,9 +11877,9 @@ protected void sscaDlikePropAnimate( DrawObj objAI , DrawObj objBI , DGMNode obj
 
 
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -12905,9 +12905,9 @@ protected void sscaDlikePropAnimate( DrawObj objAI , DrawObj objBI , DGMNode obj
 		objAI.getAdditiveExtents( objaDGM.getMyCoord() , mvcapos , mvcatl );
 		objBI.getAdditiveExtents( objbDGM.getMyCoord() , mvcbpos , mvcbtl );
 
-		HighLevelList ChgList = new HighLevelList();
-		HighLevelList SrcList = new HighLevelList();
-		HighLevelList DstList = new HighLevelList();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 
 		ChgList.insertRight( mvcA );
 		ChgList.insertRight( mvcB );
@@ -15644,9 +15644,9 @@ protected void sscaDlikePropAnimate( DrawObj objAI , DrawObj objBI , DGMNode obj
 		objA.updateYourself( MyKit , naDGM.getMyCoord() , MyKit.getBoundMode() , AdditionMode );
 		objA.getAdditiveExtents( naDGM.getMyCoord() , mvcapos , mvcatl );
 
-//		HighLevelList ChgList = new HighLevelList();
-//		HighLevelList SrcList = new HighLevelList();
-//		HighLevelList DstList = new HighLevelList();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
+//		HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList = new HighLevelList<StdLowLevelList<Mvec>,Mvec>();
 //
 //		ChgList.insertRight( mvcA );
 //		ChgList.insertRight( mvcB );

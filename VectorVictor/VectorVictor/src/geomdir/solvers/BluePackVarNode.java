@@ -118,6 +118,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 
 
 
@@ -272,7 +273,7 @@ public class BluePackVarNode extends Object {
 		return (asgMnsSet.contains(var));
 	}
 
-	protected void addNodeToList(ASGNode inputNode, ASGNode outputNode, boolean negate, HighLevelList outputList) {
+	protected void addNodeToList(ASGNode inputNode, ASGNode outputNode, boolean negate, HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		EvalObj copyObj = null;
 		if (negate)
 			copyObj = new NegateEvalObj(inputNode.getMvec());
@@ -286,14 +287,14 @@ public class BluePackVarNode extends Object {
 		outputList.insertRight(dummyNode);
 	}
 
-	protected void addNodeToList(ExpNode inputNode, ASGNode outputNode, HighLevelList outputList) {
+	protected void addNodeToList(ExpNode inputNode, ASGNode outputNode, HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		ASGNode dummyNode = new ASGNode();
 		dummyNode.setMvec(outputNode.getMvec());
 		dummyNode.setExpNode(inputNode);
 		outputList.insertRight(dummyNode);
 	}
 
-	public void crossBuildAsgn(HighLevelList outputList) {
+	public void crossBuildAsgn(HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		if (predMns) {
 			Iterator<ASGNode> it = asgMnsSet.iterator();
 			ASGNode inputNode = null;

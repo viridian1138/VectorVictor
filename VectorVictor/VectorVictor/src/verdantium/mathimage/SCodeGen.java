@@ -193,7 +193,7 @@ public class SCodeGen extends Object implements Externalizable {
 		MyF.addNotify();
 		g = (Canvas)( MyF.getGraphics() ); */
 
-		HighLevelBinTree MyTree = new HighLevelBinTree();
+		HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme> MyTree = new HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme>();
 
 		SEparser myo = MySEparser;
 
@@ -202,7 +202,7 @@ public class SCodeGen extends Object implements Externalizable {
 		CrsrRect = myo.getCrsrRect();
 
 		if (!(MyTree.empty())) {
-			SLexeme MyNode = (SLexeme) (MyTree.getNode());
+			SLexeme MyNode = MyTree.getNode();
 			double OffX = -MyNode.getImgRect().left;
 			double OffY = -MyNode.getImgRect().top;
 			Iwidth = (int) (MyNode.getImgRect().width() ) + 1;
@@ -222,8 +222,8 @@ public class SCodeGen extends Object implements Externalizable {
 	<B>Post:</B> The output list will be generated.<BR>
 	@author Thorn Green.
 	*/
-	public final void genFromTree(HighLevelBinTree TBase, double InOffX, double InOffY) {
-		HighLevelBinTree T = new HighLevelBinTree();
+	public final void genFromTree(HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme> TBase, double InOffX, double InOffY) {
+		HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme> T = new HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme>();
 		boolean Done = false;
 
 		TBase.copyDataPlusPtrInfo(T);
@@ -243,7 +243,7 @@ public class SCodeGen extends Object implements Externalizable {
 					OffY = st.getYOffset();
 				}
 
-				SLexeme MyNode = (SLexeme) (T.getNode());
+				SLexeme MyNode = T.getNode();
 				double MyOffX = OffX + MyNode.getXOffset();
 				double MyOffY = OffY + MyNode.getYOffset();
 				MyNode.setXOffset(MyOffX);
@@ -266,7 +266,7 @@ public class SCodeGen extends Object implements Externalizable {
 					OffY = st.getYOffset();
 				}
 
-				SLexeme MyNode = (SLexeme) (T.getNode());
+				SLexeme MyNode = T.getNode();
 				double MyOffX = OffX + MyNode.getXOffset();
 				double MyOffY = OffY + MyNode.getYOffset();
 				MyNode.setXOffset(MyOffX);
@@ -409,7 +409,7 @@ public class SCodeGen extends Object implements Externalizable {
 
 			Iwidth = myv.getInt("Iwidth");
 			Iheight = myv.getInt("Iheight");
-			MyList = (HighLevelList) (myv.getProperty("MyList"));
+			MyList = (HighLevelList<StdLowLevelList<SLexeme>,SLexeme>) (myv.getProperty("MyList"));
 			VersionBuffer.chkNul(MyList); */
 		}
 		catch (ClassCastException e) {
@@ -444,7 +444,7 @@ public class SCodeGen extends Object implements Externalizable {
 
 		myo.parseAll(
 			parseStr,
-			new HighLevelBinTree(),
+			new HighLevelBinTree<StdLowLevelBinTree<SLexeme>,SLexeme>(),
 			MyMode | MathImageConstants.ParseOnlyMode,
 			pnt,
 			new Integer( Color.BLACK ) );

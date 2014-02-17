@@ -161,7 +161,7 @@ import java.io.ObjectOutput;
  * is needed.
  * @author Thorn Green
  */
-public abstract class LowLevelBinTree extends LowLevelType implements Externalizable {
+public abstract class LowLevelBinTree<U extends LowLevelBinTree, T extends Meta> extends LowLevelType<U,T> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -171,54 +171,54 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * @see meta.Meta
      */
-    public abstract Meta copyNode();
+    public abstract U copyNode();
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
-        LowLevelBinTree ptr = (LowLevelBinTree) this;
-        LowLevelBinTree end = listParent();
-        LowLevelBinTree out;
+    public U copySub() {
+        U ptr = (U) this;
+        U end = listParent();
+        U out;
         
         if (end == this) { throw( new UndefinedOperation() );
         }
         
-        out = (LowLevelBinTree) ptr.copyNode();
+        out = (U) ptr.copyNode();
         ptr.copyLeft(out);
-        ptr = ptr.right();
+        ptr = (U)( ptr.right() );
         
         while (ptr != end) {
-            out.importAddRight((LowLevelBinTree) ptr.copyNode());
-            out = out.right();
+            out.importAddRight((U) ptr.copyNode());
+            out = (U)( out.right() );
             ptr.copyLeft(out);
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
         }
         
-        out = out.right();
+        out = (U)( out.right() );
         return (out);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
-        LowLevelBinTree ptr = (LowLevelBinTree) this;
-        LowLevelBinTree temp = ptr.listParent();
-        LowLevelBinTree out;
+    public U copyAll() {
+        U ptr = (U) this;
+        U temp = (U)( ptr.listParent() );
+        U out;
         
         while (temp != ptr) {
             ptr = temp;
-            temp = ptr.listParent();
+            temp = (U)( ptr.listParent() );
         }
         
-        out = (LowLevelBinTree) temp.copyNode();
+        out = (U) temp.copyNode();
         temp.copyLeft(out);
-        temp = temp.right();
+        temp = (U)( temp.right() );
         
         while (temp != ptr) {
-            out.importAddRight((LowLevelBinTree) temp.copyNode());
-            out = out.right();
+            out.importAddRight((U) temp.copyNode());
+            out = (U)( out.right() );
             temp.copyLeft(out);
-            temp = temp.right();
+            temp = (U)( temp.right() );
         }
         
         return (out);
@@ -228,21 +228,21 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
      */
     public void eraseNode() {
         if (lThread() == true) {
-            LowLevelBinTree temp;
-            LowLevelBinTree parent = listParent();
-            LowLevelBinTree t = this;
+            U temp;
+            U parent = listParent();
+            U t = (U) this;
             if (parent.left() == this) {
                 parent.dvSetLeft(t.right());
-                temp = t.right();
+                temp = (U)( t.right() );
                 while (temp.lThread() == false)
-                    temp = temp.left();
+                    temp = (U)( temp.left() );
                 temp.dvSetLeft(t.left());
             } else {
                 if (rThread() == false) {
                     t.left().dvSetRight(t.right());
-                    t = t.right();
+                    t = (U)( t.right() );
                     while (t.lThread() == false)
-                        t = t.left();
+                        t = (U)( t.left() );
                     t.dvSetLeft(this.left());
                 } else {
                     t.left().right().dvSetRight(t.right());
@@ -259,30 +259,30 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
      * @see meta.Meta
      */
     public void eraseSub() {
-        LowLevelBinTree ptr;
-        LowLevelBinTree end = findEnd();
-        LowLevelBinTree delTemp;
+        U ptr;
+        U end = findEnd();
+        U delTemp;
         
         if (end != this)
-            end = end.right();
+            end = (U)( end.right() );
         else { throw( new UndefinedOperation() );
         }
         
         if (end.left() == this)
             end.pruneLeftComp();
         else {
-            ptr = this;
+            ptr = (U) this;
             while (!(ptr.lThread()))
-                ptr = ptr.left();
-            ptr = ptr.left();
+                ptr = (U)( ptr.left() );
+            ptr = (U)( ptr.left() );
             ptr.dvSetRight(end);
             ptr.dvSetRThread(true);
             
-            ptr = this;
+            ptr = (U) this;
             while (ptr != end) {
                 ptr.pruneLeftComp();
                 delTemp = ptr;
-                ptr = ptr.right();
+                ptr = (U)( ptr.right() );
                 delTemp.dispose();
             }
         }
@@ -291,20 +291,20 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
      * @see meta.Meta
      */
     public void eraseAll() {
-        LowLevelBinTree ptr = this;
-        LowLevelBinTree temp = ptr.listParent();
-        LowLevelBinTree delTemp;
+        U ptr = (U) this;
+        U temp = (U)( ptr.listParent() );
+        U delTemp;
         
         while (temp != ptr) {
             ptr = temp;
-            temp = ptr.listParent();
+            temp = (U)( ptr.listParent() );
         }
         
-        temp = temp.right();
+        temp = (U)( temp.right() );
         while (temp != ptr) {
             temp.pruneLeft();
             delTemp = temp;
-            temp = temp.right();
+            temp = (U)( temp.right() );
             delTemp.dispose();
         }
         
@@ -318,13 +318,13 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Returns the node to the right of this node.
      */
-    public final LowLevelBinTree right() {
+    public final U right() {
         return (right);
     };
     /**
      * Returns the node to the left of this node.
      */
-    public final LowLevelBinTree left() {
+    public final U left() {
         return (left);
     };
     /**
@@ -343,8 +343,8 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
      * Initializes the binary tree.
      */
     public final void iLowLevelBinTree() {
-        left = this;
-        right = this;
+        left = (U) this;
+        right = (U) this;
         lthread = true;
         rthread = false;
     };
@@ -362,7 +362,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Adds a node to the right of this one.
      */
-    public final void addRight(Meta in) {
+    public final void addRight(T in) {
         if (rthread)
             addRightLeaf();
         else
@@ -372,7 +372,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Adds a node to the left of this one.
      */
-    public final void addLeft(Meta in) {
+    public final void addLeft(T in) {
         if (lthread)
             addLeftLeaf();
         else
@@ -382,7 +382,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Adds a node to the right of this one.
      */
-    public final void importAddRight(LowLevelBinTree in) {
+    public final void importAddRight(U in) {
         if (rthread)
             importAddRightLeaf(in);
         else
@@ -391,7 +391,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Adds a node to the left of this one.
      */
-    public final void importAddLeft(LowLevelBinTree in) {
+    public final void importAddLeft(U in) {
         if (lthread)
             importAddLeftLeaf(in);
         else
@@ -400,96 +400,96 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Places a copy of the left subtree of this node in <code>out</code>.
      */
-    public final void copyLeft(LowLevelBinTree out) {
+    public final void copyLeft(U out) {
         if (!lthread)
             copyLeftComp(out);
     };
     /**
      * Returns the data in this node.
      */
-    public abstract Meta getNode();
+    public abstract T getNode();
     /**
      * Performs an inorder traversal, executing the Callback with each node visited.
      */
-    public final void inOrder(LowLevelBinTree tStop, Callback inClass, int in) {
-        LowLevelBinTree t = this;
+    public final void inOrder(U tStop, Callback<T> inClass) {
+        U t = (U)( this );
         boolean done = false;
         
         while (!done)
             if (!(t.lThread())) {
-            t = t.left();
+            t = (U)( t.left() );
             } else {
-            inClass.exeCall(in, t.getNode());
+            inClass.callback((T)(t.getNode()));
             while ((t.rThread()) && (!done)) {
-                t = t.right();
-                inClass.exeCall(in, t.getNode());
+                t = (U)( t.right() );
+                inClass.callback((T)(t.getNode()));
                 if (t == tStop)
                     done = true;
             }
             if (t == tStop)
                 done = true;
-            t = t.right();
+            t = (U)( t.right() );
             }
     };
     /**
-     * Performs a preorder traversal, executing the Callback with each node visited.
+     * Performs a preorder traversal, executing the Callback<T> with each node visited.
      */
-    public final void preOrder(LowLevelBinTree tStop, Callback inClass, int in) {
-        LowLevelBinTree t = this;
+    public final void preOrder(U tStop, Callback<T> inClass) {
+        U t = (U) this;
         
         while (tStop.rThread())
-            tStop = tStop.right();
-        tStop = tStop.right();
+            tStop = (U)( tStop.right() );
+        tStop = (U)( tStop.right() );
         while (t != tStop) {
-            inClass.exeCall(in, t.getNode());
+            inClass.callback((T)(t.getNode()));
             if (t.lThread() == false)
-                t = t.left();
+                t = (U)( t.left() );
             else {
                 while (t.rThread())
-                    t = t.right();
-                t = t.right();
+                    t = (U)( t.right() );
+                t = (U)( t.right() );
             }
         }
     };
     
     /**
-     * Performs a postorder traversal, executing the Callback with each node visited.
+     * Performs a postorder traversal, executing the Callback<T> with each node visited.
      */
-    public final void postOrder(LowLevelBinTree tStop, Callback inClass, int in) {
+    public final void postOrder(U tStop, Callback<T> inClass) {
         /* Not Implemented Yet. */
     };
     /**
      * Copies this tree to the right of <code>out</code>.
      */
-    public final void pasteRight(LowLevelBinTree out) {
-        LowLevelBinTree src = this;
-        LowLevelBinTree dest = out;
+    public final void pasteRight(U out) {
+        U src = (U) this;
+        U dest = out;
         boolean done = false;
         
         while (!done) {
-            dest.importAddRight((LowLevelBinTree) src.copyNode());
-            dest = dest.right();
+            dest.importAddRight((U) src.copyNode());
+            dest = (U)( dest.right() );
             src.copyLeft(dest);
-            src = src.right();
+            src = (U)( src.right() );
             done = (src == this);
         }
     };
     /**
      * Copies this tree to the left of <code>out</code>.
      */
-    public final void pasteLeft(LowLevelBinTree out) {
-        LowLevelBinTree temp = this;
-        LowLevelBinTree ptr = out;
-        ptr.importAddLeft((LowLevelBinTree) copyNode());
-        ptr = ptr.left();
+    public final void pasteLeft(U out) {
+        U temp = (U) this;
+        U ptr = out;
+        ptr.importAddLeft((U) copyNode());
+        ptr = (U)( ptr.left() );
         copyLeft(ptr);
         
-        temp = temp.right();
+        temp = (U)( temp.right() );
         while (temp != this) {
-            ptr.importAddRight((LowLevelBinTree) temp.copyNode());
-            ptr = ptr.right();
+            ptr.importAddRight((U) temp.copyNode());
+            ptr = (U)( ptr.right() );
             temp.copyLeft(ptr);
-            temp = temp.right();
+            temp = (U)( temp.right() );
         }
         
     };
@@ -497,14 +497,14 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Traverses to the right until a right-thread is found.  Then returns that node.
      */
-    public final LowLevelBinTree findEnd() {
-        LowLevelBinTree ptr = this;
+    public final U findEnd() {
+        U ptr = (U) this;
         
         if (!(ptr.rThread()))
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
         
         while ((!(ptr.rThread())) && (ptr != this))
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
         
         return (ptr);
     };
@@ -519,18 +519,18 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
      * As if the binary tree is a representation of a generalized list, finds
      * the "parent" of the current node and returns it.
      */
-    public final LowLevelBinTree listParent() {
-        LowLevelBinTree ptr = (LowLevelBinTree) this;
+    public final U listParent() {
+        U ptr = (U) this;
         
         if (!(ptr.rThread())) {
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
             while ((!(ptr.rThread())) && (ptr != this))
-                ptr = ptr.right();
+                ptr = (U)( ptr.right() );
             
             if (ptr != this)
-                ptr = ptr.right();
+                ptr = (U)( ptr.right() );
         } else
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
         
         return (ptr);
     };
@@ -538,15 +538,15 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Connects this tree to the right of <code>out</code>.
      */
-    public final void connectRight(LowLevelBinTree out) {
-        LowLevelBinTree m = out;
-        LowLevelBinTree s = this;
+    public final void connectRight(U out) {
+        U m = out;
+        U s = (U) this;
         
-        LowLevelBinTree sl = s;
+        U sl = s;
         while (!(sl.lThread()))
-            sl = sl.left();
+            sl = (U)( sl.left() );
         
-        LowLevelBinTree sr = sl.left();
+        U sr = (U)( sl.left() );
         
         sr.dvSetRight(m.right());
         sr.dvSetRThread(m.rThread());
@@ -557,10 +557,10 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         m.dvSetRThread(false);
         
         if (!(sr.rThread())) {
-            LowLevelBinTree temp = sr.right();
+            U temp = (U)( sr.right() );
             
             while (!(temp.lThread()))
-                temp = temp.left();
+                temp = (U)( temp.left() );
             
             temp.dvSetLeft(sr);
         }
@@ -569,15 +569,15 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
     /**
      * Connects this tree to the left of <code>out</code>.
      */
-    public final void connectLeft(LowLevelBinTree out) {
-        LowLevelBinTree m = out;
-        LowLevelBinTree s = this;
+    public final void connectLeft(U out) {
+        U m = out;
+        U s = (U) this;
         
-        LowLevelBinTree sl = s;
+        U sl = s;
         while (!(sl.lThread()))
-            sl = sl.left();
+            sl = (U)( sl.left() );
         
-        LowLevelBinTree sr = sl.left();
+        U sr = (U)( sl.left() );
         
         sr.dvSetRight(m);
         sr.dvSetRThread(true);
@@ -588,23 +588,23 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         m.dvSetLThread(false);
         
         if (!(sl.lThread())) {
-            LowLevelBinTree temp = sl.left();
+            U temp = (U)( sl.left() );
             
             while (!(temp.rThread()))
-                temp = temp.right();
+                temp = (U)( temp.right() );
             
             temp.dvSetRight(sl);
         }
     }
     
-    private LowLevelBinTree right;
-    private LowLevelBinTree left;
+    private U right;
+    private U left;
     private boolean lthread;
     private boolean rthread;
-    private final void dvSetRight(LowLevelBinTree in) {
+    private final void dvSetRight(U in) {
         right = in;
     }
-    private final void dvSetLeft(LowLevelBinTree in) {
+    private final void dvSetLeft(U in) {
         left = in;
     }
     private final void dvSetLThread(boolean in) {
@@ -614,7 +614,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         rthread = in;
     }
     private final void addRightLeaf() {
-        LowLevelBinTree ptr = new StdLowLevelBinTree();
+        U ptr = (U)( new StdLowLevelBinTree<T>() );
         ptr.dvSetLeft(this);
         ptr.dvSetLThread(true);
         ptr.dvSetRight(right);
@@ -623,7 +623,7 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         rthread = false;
     };
     private final void addLeftLeaf() {
-        LowLevelBinTree ptr = new StdLowLevelBinTree();
+        U ptr = (U)( new StdLowLevelBinTree<T>() );
         ptr.dvSetRight(this);
         ptr.dvSetRThread(true);
         ptr.dvSetLeft(left);
@@ -632,13 +632,13 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         lthread = false;
     };
     private final void addRightComp() {
-        LowLevelBinTree nextT;
-        LowLevelBinTree newT;
+        U nextT;
+        U newT;
         
         nextT = right;
         while (nextT.lThread() != true)
-            nextT = nextT.left();
-        newT = new StdLowLevelBinTree();
+            nextT = (U)( nextT.left() );
+        newT = (U)( new StdLowLevelBinTree<T>() );
         newT.dvSetRight(right);
         newT.dvSetRThread(rthread);
         right = newT;
@@ -647,10 +647,10 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         nextT.dvSetLeft(newT);
     };
     private final void addLeftComp() {
-        LowLevelBinTree ptr = new StdLowLevelBinTree();
-        LowLevelBinTree temp = this.left();
+        U ptr = (U)( new StdLowLevelBinTree<T>() );
+        U temp = this.left();
         while (!(temp.rThread()))
-            temp = temp.right();
+            temp = (U)( temp.right() );
         ptr.dvSetLeft(this.left);
         ptr.dvSetLThread(false);
         ptr.dvSetRight(temp.right());
@@ -658,8 +658,8 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         temp.dvSetRight(ptr);
         this.left = ptr;
     };
-    private final void importAddRightLeaf(LowLevelBinTree in) {
-        LowLevelBinTree ptr = in;
+    private final void importAddRightLeaf(U in) {
+        U ptr = in;
         ptr.dvSetLeft(this);
         ptr.dvSetLThread(true);
         ptr.dvSetRight(right);
@@ -667,8 +667,8 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         right = ptr;
         rthread = false;
     };
-    private final void importAddLeftLeaf(LowLevelBinTree in) {
-        LowLevelBinTree ptr = in;
+    private final void importAddLeftLeaf(U in) {
+        U ptr = in;
         ptr.dvSetRight(this);
         ptr.dvSetRThread(true);
         ptr.dvSetLeft(left);
@@ -676,13 +676,13 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         left = ptr;
         lthread = false;
     };
-    private final void importAddRightComp(LowLevelBinTree in) {
-        LowLevelBinTree nextT;
-        LowLevelBinTree newT;
+    private final void importAddRightComp(U in) {
+        U nextT;
+        U newT;
         
         nextT = right;
         while (nextT.lThread() != true)
-            nextT = nextT.left();
+            nextT = (U)( nextT.left() );
         newT = in;
         newT.dvSetRight(right);
         newT.dvSetRThread(rthread);
@@ -691,11 +691,11 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         newT.dvSetLeft(nextT.left());
         nextT.dvSetLeft(newT);
     };
-    private final void importAddLeftComp(LowLevelBinTree in) {
-        LowLevelBinTree ptr = in;
-        LowLevelBinTree temp = this.left;
+    private final void importAddLeftComp(U in) {
+        U ptr = in;
+        U temp = this.left;
         while (!(temp.rThread()))
-            temp = temp.right();
+            temp = (U)( temp.right() );
         ptr.dvSetLeft(this.left);
         ptr.dvSetLThread(false);
         ptr.dvSetRight(temp.right());
@@ -704,52 +704,52 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         this.left = ptr;
     };
     private final void pruneLeftComp() {
-        LowLevelBinTree temp;
-        LowLevelBinTree ptr;
-        LowLevelBinTree delTemp;
+        U temp;
+        U ptr;
+        U delTemp;
         
-        temp = this;
+        temp = (U) this;
         while (!(temp.lThread()))
-            temp = temp.left();
-        temp = temp.left();
+            temp = (U)( temp.left() );
+        temp = (U)( temp.left() );
         
         ptr = this.left;
         while (ptr != this) {
             while (!(ptr.lThread()))
-                ptr = ptr.left();
+                ptr = (U)( ptr.left() );
             
             while ((ptr.rThread()) && (ptr.right() != this)) {
                 delTemp = ptr;
-                ptr = ptr.right();
+                ptr = (U)( ptr.right() );
                 delTemp.dispose();
             }
             
             delTemp = ptr;
-            ptr = ptr.right();
+            ptr = (U)( ptr.right() );
             delTemp.dispose();
         }
         
         lthread = true;
         left = temp;
     };
-    private final void copyLeftComp(LowLevelBinTree dest) {
-        LowLevelBinTree t = this.left;
-        dest.importAddLeft((LowLevelBinTree) t.copyNode());
-        dest = dest.left();
+    private final void copyLeftComp(U dest) {
+        U t = this.left;
+        dest.importAddLeft((U) t.copyNode());
+        dest = (U)( dest.left() );
         while (t != this) {
             while (!(t.lThread())) {
-                t = t.left();
-                dest.importAddLeft((LowLevelBinTree) t.copyNode());
-                dest = dest.left();
+                t = (U)( t.left() );
+                dest.importAddLeft((U) t.copyNode());
+                dest = (U)( dest.left() );
             }
             while ((t.rThread()) && (t.right() != this)) {
-                t = t.right();
-                dest = dest.right();
+                t = (U)( t.right() );
+                dest = (U)( dest.right() );
             }
-            t = t.right();
+            t = (U)( t.right() );
             if (t != this) {
-                dest.importAddRight((LowLevelBinTree) t.copyNode());
-                dest = dest.right();
+                dest.importAddRight((U) t.copyNode());
+                dest = (U)( dest.right() );
             }
         }
     };
@@ -763,8 +763,8 @@ public abstract class LowLevelBinTree extends LowLevelType implements Externaliz
         try {
             VersionBuffer myv = (VersionBuffer) (in.readObject());
             VersionBuffer.chkNul(myv);
-            left = (LowLevelBinTree) (myv.getProperty("Left"));
-            right = (LowLevelBinTree) (myv.getProperty("Right"));
+            left = (U) (myv.getProperty("Left"));
+            right = (U) (myv.getProperty("Right"));
             lthread = myv.getBoolean("lthread");
             rthread = myv.getBoolean("rthread");
         } catch (ClassCastException e) {

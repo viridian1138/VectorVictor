@@ -125,6 +125,7 @@ import geomdir.applied.GeoPadKit;
 
 import java.util.ArrayList;
 
+import meta.*;
 import meta.FlexString;
 import meta.HighLevelList;
 import verdantium.EtherEvent;
@@ -159,18 +160,61 @@ public class SymDialog {
 	
 	
 	
-	private transient HighLevelList ScriptList = new HighLevelList();
-	private transient HighLevelList SubscriptList = new HighLevelList();
-	private transient HighLevelList SuperscriptList = new HighLevelList();
-	private transient HighLevelList OverscriptList = new HighLevelList();
-	private transient HighLevelList UnderscriptList = new HighLevelList();
-
-	public final static int ScriptMode = 0;
-	public final static int SubscriptMode = 1;
-	public final static int SuperscriptMode = 2;
-	public final static int OverscriptMode = 3;
-	public final static int UnderscriptMode = 4;
-	public final static int NonCursorMode = 5;
+	private transient HighLevelList<StdLowLevelList<FlexString>,FlexString> ScriptList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	private transient HighLevelList<StdLowLevelList<FlexString>,FlexString> SubscriptList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	private transient HighLevelList<StdLowLevelList<FlexString>,FlexString> SuperscriptList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	private transient HighLevelList<StdLowLevelList<FlexString>,FlexString> OverscriptList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	private transient HighLevelList<StdLowLevelList<FlexString>,FlexString> UnderscriptList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
+	
+	
+	public enum InsertMode
+	{
+		SCRIPT_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				return( in.ScriptList );
+			}
+		},
+		SUBSCRIPT_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				return( in.SubscriptList );
+			}
+		},
+		SUPERSCRIPT_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				return( in.SuperscriptList );
+			}
+		},
+		OVERSCRIPT_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				return( in.OverscriptList );
+			}
+		},
+		UNDERSCRIPT_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				return( in.UnderscriptList );
+			}
+		},
+		NON_CURSOR_MODE
+		{
+			public HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in )
+			{
+				throw( new RuntimeException( "Not Supported" ) );
+			}
+		};
+		
+		public abstract HighLevelList<StdLowLevelList<FlexString>,FlexString> getList( SymDialog in );
+	};
+	
 	
 	private transient FlexString TotStr = new FlexString();
 	private transient boolean EmptyFlag = true;
@@ -312,7 +356,7 @@ public class SymDialog {
               	        	 try
               	        	 {
               	        		 
-              	        		FlexString htm = SymDialog.this.buildEqnString(SymDialog.NonCursorMode);
+              	        		FlexString htm = SymDialog.this.buildEqnString( SymDialog.InsertMode.NON_CURSOR_MODE );
               	        		boolean Empty = EmptyFlag;
               	        		FlexString tag = new FlexString( createSymbolName.getText().toString() );
 
@@ -510,31 +554,14 @@ public class SymDialog {
 * Inserts a string of markup symbols into the editing panel.
 */
 void performInsert(String InStr) throws MathImageParseException {
-	HighLevelList MyList = null;
+	HighLevelList<StdLowLevelList<FlexString>,FlexString> MyList = null;
 	
-	final int CurInsertMode = createScriptSpinner.getSelectedItemPosition();
+	final InsertMode CurInsertMode = InsertMode.values()[ createScriptSpinner.getSelectedItemPosition() ];
 
 //	if (CurInsertMode == OverscriptMode) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //		OverscriptingMode = StdMode;
 
-	switch (CurInsertMode) {
-		case ScriptMode :
-			MyList = ScriptList;
-			break;
-		case SubscriptMode :
-			MyList = SubscriptList;
-			break;
-		case SuperscriptMode :
-			MyList = SuperscriptList;
-			break;
-		case OverscriptMode :
-			MyList = OverscriptList;
-			break;
-		case UnderscriptMode :
-			MyList = UnderscriptList;
-			break;
-
-	}
+	MyList = CurInsertMode.getList( this );
 
 	if (!(MyList.empty())) {
 		MyList.searchHead();
@@ -552,33 +579,16 @@ void performInsert(String InStr) throws MathImageParseException {
 * Deletes one set of symbols from the editing panel.
 */
 void performDelete() {
-	HighLevelList MyList = null;
+	HighLevelList<StdLowLevelList<FlexString>,FlexString> MyList = null;
 	
-	final int CurInsertMode = createScriptSpinner.getSelectedItemPosition();
+	final InsertMode CurInsertMode = InsertMode.values()[ createScriptSpinner.getSelectedItemPosition() ];
 
 	// if ((CurInsertMode == OverscriptMode) && (OverscriptingMode == HatMode)) { !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//	OverscriptingMode = StdMode;
 	//	OverscriptList.eraseAllInfo();
 	// }
 
-	switch (CurInsertMode) {
-		case ScriptMode :
-			MyList = ScriptList;
-			break;
-		case SubscriptMode :
-			MyList = SubscriptList;
-			break;
-		case SuperscriptMode :
-			MyList = SuperscriptList;
-			break;
-		case OverscriptMode :
-			MyList = OverscriptList;
-			break;
-		case UnderscriptMode :
-			MyList = UnderscriptList;
-			break;
-
-	}
+	MyList = CurInsertMode.getList( this );
 
 	if (!(MyList.empty())) {
 		MyList.searchHead();
@@ -604,8 +614,8 @@ void performDelete() {
 */
 public void rebuildEquation() throws MathImageParseException {
 	// MyTime.stop(); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	final int CurInsertMode = createScriptSpinner.getSelectedItemPosition();
-	int CurMode = CurInsertMode;
+	final InsertMode CurInsertMode = InsertMode.values()[ createScriptSpinner.getSelectedItemPosition() ];
+	InsertMode CurMode = CurInsertMode;
 	// if (SrcMode)
 	//	CurMode = NonCursorMode; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -673,7 +683,7 @@ public void rebuildEquation() throws MathImageParseException {
 * Builds and returns an equation string  representing the
 * user's input given the current mode.
 */
-public FlexString buildEqnString(int CurMode) {
+public FlexString buildEqnString(InsertMode CurMode) {
 	String sp = "&sp;";
 
 	boolean SumLen =
@@ -682,7 +692,7 @@ public FlexString buildEqnString(int CurMode) {
 			|| !(OverscriptList.empty())
 			|| !(UnderscriptList.empty());
 
-	if ( ( CurMode != ScriptMode ) && ( CurMode != NonCursorMode ) )
+	if ( ( CurMode != InsertMode.SCRIPT_MODE ) && ( CurMode != InsertMode.NON_CURSOR_MODE ) )
 		SumLen = true;
 
 	boolean BoldOn = createSymbolBoldBox.isChecked();
@@ -699,12 +709,12 @@ public FlexString buildEqnString(int CurMode) {
 //		TotStr.insertJavaString("<HAT>");
 //	}
 
-	if (CurMode == ScriptMode)
+	if (CurMode == InsertMode.SCRIPT_MODE)
 		TotStr.insertJavaString("<CURSOR>");
 
 	condenseText(ScriptList, TotStr);
 
-	if (CurMode == ScriptMode)
+	if (CurMode == InsertMode.SCRIPT_MODE)
 		TotStr.insertJavaString("</CURSOR>");
 
 //	if (OverscriptingMode == HatMode) { !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -714,60 +724,60 @@ public FlexString buildEqnString(int CurMode) {
 	if (SumLen)
 		TotStr.insertJavaString("</BOX>");
 
-	if ((!(SubscriptList.empty())) || (CurMode == SubscriptMode))
+	if ((!(SubscriptList.empty())) || (CurMode == InsertMode.SUBSCRIPT_MODE))
 		TotStr.insertJavaString("<SUB>");
 
-	if (CurMode == SubscriptMode)
+	if (CurMode == InsertMode.SUBSCRIPT_MODE)
 		TotStr.insertJavaString("<CURSOR>");
 
 	condenseText(SubscriptList, TotStr);
 
-	if (CurMode == SubscriptMode)
+	if (CurMode == InsertMode.SUBSCRIPT_MODE)
 		TotStr.insertJavaString("</CURSOR>");
 
-	if ((!(SubscriptList.empty())) || (CurMode == SubscriptMode))
+	if ((!(SubscriptList.empty())) || (CurMode == InsertMode.SUBSCRIPT_MODE))
 		TotStr.insertJavaString("</SUB>");
 
-	if ((!(SuperscriptList.empty())) || (CurMode == SuperscriptMode))
+	if ((!(SuperscriptList.empty())) || (CurMode == InsertMode.SUPERSCRIPT_MODE))
 		TotStr.insertJavaString("<SUP>");
 
-	if (CurMode == SuperscriptMode)
+	if (CurMode == InsertMode.SUPERSCRIPT_MODE)
 		TotStr.insertJavaString("<CURSOR>");
 
 	condenseText(SuperscriptList, TotStr);
 
-	if (CurMode == SuperscriptMode)
+	if (CurMode == InsertMode.SUPERSCRIPT_MODE)
 		TotStr.insertJavaString("</CURSOR>");
 
-	if ((!(SuperscriptList.empty())) || (CurMode == SuperscriptMode))
+	if ((!(SuperscriptList.empty())) || (CurMode == InsertMode.SUPERSCRIPT_MODE))
 		TotStr.insertJavaString("</SUP>");
 
-	if ((!(OverscriptList.empty())) || (CurMode == OverscriptMode))
+	if ((!(OverscriptList.empty())) || (CurMode == InsertMode.OVERSCRIPT_MODE))
 		TotStr.insertJavaString("<ABOVE>");
 
-	if (CurMode == OverscriptMode)
+	if (CurMode == InsertMode.OVERSCRIPT_MODE)
 		TotStr.insertJavaString("<CURSOR>");
 
 	condenseText(OverscriptList, TotStr);
 
-	if (CurMode == OverscriptMode)
+	if (CurMode == InsertMode.OVERSCRIPT_MODE)
 		TotStr.insertJavaString("</CURSOR>");
 
-	if ((!(OverscriptList.empty())) || (CurMode == OverscriptMode))
+	if ((!(OverscriptList.empty())) || (CurMode == InsertMode.OVERSCRIPT_MODE))
 		TotStr.insertJavaString("</ABOVE>");
 
-	if ((!(UnderscriptList.empty())) || (CurMode == UnderscriptMode))
+	if ((!(UnderscriptList.empty())) || (CurMode == InsertMode.UNDERSCRIPT_MODE))
 		TotStr.insertJavaString("<BELOW>");
 
-	if (CurMode == UnderscriptMode)
+	if (CurMode == InsertMode.UNDERSCRIPT_MODE)
 		TotStr.insertJavaString("<CURSOR>");
 
 	condenseText(UnderscriptList, TotStr);
 
-	if (CurMode == UnderscriptMode)
+	if (CurMode == InsertMode.UNDERSCRIPT_MODE)
 		TotStr.insertJavaString("</CURSOR>");
 
-	if ((!(UnderscriptList.empty())) || (CurMode == UnderscriptMode))
+	if ((!(UnderscriptList.empty())) || (CurMode == InsertMode.UNDERSCRIPT_MODE))
 		TotStr.insertJavaString("</BELOW>");
 
 	if (TotStr.strlen() == 0) {
@@ -808,14 +818,14 @@ public FlexString buildEqnString(int CurMode) {
 * Concatenates the string instances in <code>in</code>, and places the result
 * in <code>MyStr</code>.
 */
-void condenseText(HighLevelList in, FlexString MyStr) {
+void condenseText(HighLevelList<StdLowLevelList<FlexString>,FlexString> in, FlexString MyStr) {
 
 	if (!(in.empty())) {
 		boolean Done = false;
 		in.searchHead();
 
 		while (!Done) {
-			FlexString NdStr = (FlexString) (in.getNode());
+			FlexString NdStr = in.getNode();
 			NdStr.insertString(MyStr);
 
 			in.right();

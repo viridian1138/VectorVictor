@@ -117,11 +117,13 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import meta.*;
 import meta.DataFormatException;
 import meta.HighLevelList;
 import meta.Meta;
 import meta.VersionBuffer;
 import android.graphics.PointF;
+import geomdir.DGMNode;
 
 
 
@@ -172,13 +174,13 @@ import android.graphics.PointF;
 /**
 * Gets all elements on the line to be depicted.
 */
-		public final HighLevelList getAlgLines( )
+		public final HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getAlgLines( )
 			{ return( AlgLines ); }
 
 /**
 * Gets the lines, and rays added to the depiction.
 */
-		public final HighLevelList getAlgElements( )
+		public final HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getAlgElements( )
 			{ return( AlgElements ); }
 /**
 * Gets the coordinate at which the depictors are to be displayed.
@@ -267,9 +269,9 @@ import android.graphics.PointF;
 				VersionBuffer.chkNul( myv );
 
 				OnlySingleDepic = myv.getBoolean( "OnlySingleDepic" );
-				AlgLines = (HighLevelList)( myv.getProperty( "AlgLines" ) );
+				AlgLines = (HighLevelList<StdLowLevelList<DGMNode>,DGMNode>)( myv.getProperty( "AlgLines" ) );
 				VersionBuffer.chkNul( AlgLines );
-				AlgElements = (HighLevelList)( myv.getProperty( "AlgElements" ) );
+				AlgElements = (HighLevelList<StdLowLevelList<DGMNode>,DGMNode>)( myv.getProperty( "AlgElements" ) );
 				VersionBuffer.chkNul( AlgElements );
 				AlgLineCoord = (PointF)( myv.getProperty( "AlgLineCoord" ) );
 				VersionBuffer.chkNul( AlgLineCoord );
@@ -310,8 +312,8 @@ import android.graphics.PointF;
 		private boolean Locked = false;
 
 		private boolean OnlySingleDepic = false;
-		private HighLevelList AlgLines = new HighLevelList();
-		private HighLevelList AlgElements = new HighLevelList();
+		private HighLevelList<StdLowLevelList<DGMNode>,DGMNode> AlgLines = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
+		private HighLevelList<StdLowLevelList<DGMNode>,DGMNode> AlgElements = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		private PointF AlgLineCoord = new PointF();
 		}
 

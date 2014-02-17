@@ -119,6 +119,7 @@ import geomdir.engine.ExpNode;
 import java.util.Iterator;
 
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 
 
 
@@ -234,13 +235,13 @@ public class StatSolverExec extends Executor {
 	* to the value in <code>out</code>.  Uses <code>tol</code> to provide some tolerance information for 
 	* calculating the magnitude of the addition.
 	*/
-	public final int deltaAllExpressions(final HighLevelList ASGList, final int startIdx, final InternalVirtualArray Y) {
+	public final int deltaAllExpressions(final HighLevelList<StdLowLevelList<ASGNode>,ASGNode> ASGList, final int startIdx, final InternalVirtualArray Y) {
 		boolean Done = false;
 		int idx = startIdx;
 
 		if (!(ASGList.empty())) {
 			while (!Done) {
-				ASGNode MyASG = (ASGNode) (ASGList.getNode());
+				ASGNode MyASG = ASGList.getNode();
 				ExpNode MyExp = MyASG.getExpNode();
 				evaluateExpression(MyExp.getCodeList(), tmp);
 				tmp.sub(MyASG.getMvec(), Y.getMvec(idx));
@@ -259,8 +260,8 @@ public class StatSolverExec extends Executor {
 	* calculating the magnitude of the addition.
 	*/
 	public final int deltaAllImplicitExpressions(
-		final HighLevelList LeftList,
-		final HighLevelList RightList,
+		final HighLevelList<StdLowLevelList<ExpNode>,ExpNode> LeftList,
+		final HighLevelList<StdLowLevelList<ExpNode>,ExpNode> RightList,
 		final int startIdx,
 		final InternalVirtualArray Y) {
 		int idx = startIdx;
@@ -269,8 +270,8 @@ public class StatSolverExec extends Executor {
 			boolean Done = false;
 
 			while (!Done) {
-				ExpNode LeftExp = (ExpNode) (LeftList.getNode());
-				ExpNode RightExp = (ExpNode) (RightList.getNode());
+				ExpNode LeftExp = LeftList.getNode();
+				ExpNode RightExp = RightList.getNode();
 				evaluateExpression(LeftExp.getCodeList(), tmp);
 				evaluateExpression(RightExp.getCodeList(), tmp2);
 				tmp.sub(tmp2, Y.getMvec(idx));
@@ -289,12 +290,12 @@ public class StatSolverExec extends Executor {
 	* to the value in <code>out</code>.  Uses <code>tol</code> to provide some tolerance information for 
 	* calculating the magnitude of the addition.
 	*/
-	public final void deltaAllMinimizationDirectives(final HighLevelList ASGList, final boolean skipCousins, final double[] out) {
+	public final void deltaAllMinimizationDirectives(final HighLevelList<StdLowLevelList<ASGNode>,ASGNode> ASGList, final boolean skipCousins, final double[] out) {
 		if (!(ASGList.empty())) {
 			boolean Done = false;
 
 			while (!Done) {
-				ASGNode asg = (ASGNode) (ASGList.getNode());
+				ASGNode asg = ASGList.getNode();
 				addDirectiveToMinimizationValue(asg, skipCousins, out);
 				ASGList.right();
 				Done = ASGList.getHead();

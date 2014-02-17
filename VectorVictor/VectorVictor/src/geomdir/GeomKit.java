@@ -1307,7 +1307,7 @@ public class GeomKit
 	*<B>Post:</B> The display of the canvas will be painted into the graphics context.<BR>
 	*@author Thorn Green.
 	*/
-	public void draw(Canvas g, Paint p, HighLevelList DispList) {
+	public void draw(Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DispList) {
 		calcVisibleRect( g );
 		Rect VRect = retVisibleRect();
 
@@ -2329,7 +2329,7 @@ public class GeomKit
 			DispList2.searchHead();
 
 			while (!Done) {
-				DGMNode TestDGM = (DGMNode) (DispList2.getNode());
+				DGMNode TestDGM = DispList2.getNode();
 				if (TestDGM.getMyDraw() == Node1.getMyDraw()) {
 					Node2 = TestDGM.getMyCoord();
 				}
@@ -3358,7 +3358,7 @@ public class GeomKit
 	* Reserved for future expansion.
 	*/
 	void popUndoMakeDepic() /* Will be reworked !!!!!!! */ {
-		/* UndoDragObj = ( (DGMNode) getModelManager().getVarList().getFrag( UndoDepicName ) ).getMyDraw();
+		/* UndoDragObj = getModelManager().getVarList().getFrag( UndoDepicName ).getMyDraw();
 		getModelManager().getVarList().clear();
 		UndoType = GeomKit.UndoDeleteDepic; */
 	}
@@ -3378,7 +3378,7 @@ public class GeomKit
 	*/
 	void popUndoDeleteDepic() /* Will be reworked !!!!!!! */ {
 		/* getModelManager().getVarList().insertNode( UndoDragObj.getVectName() );
-		DrawObj Und = ( (DGMNode) getModelManager().getVarList().getFrag( UndoDragObj.getVectName() ) ).getMyDraw();
+		DrawObj Und = getModelManager().getVarList().getFrag( UndoDragObj.getVectName() ).getMyDraw();
 		getModelManager().getVarList().setNode( UndoDragObj ); */
 		/* Und.eraseNode() */
 
@@ -4135,14 +4135,14 @@ public class GeomKit
 	/**
 	* Creates a copy of the list of expressions.
 	*/
-	public HighLevelList formUserExpList() {
+	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserExpList() {
 		return (getModelManager().formUserExpList());
 	}
 
 	/**
 	* Creates a copy of the list of variables.
 	*/
-	public HighLevelList formUserVarList() {
+	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserVarList() {
 		return (getModelManager().formUserVarList());
 	}
 
@@ -4350,7 +4350,7 @@ public class GeomKit
 		if (!(DispList1.empty())) {
 			DispList1.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DispList1.getNode();
+				DGMNode MyDGM = DispList1.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				if (InDrw == MyDrw) {
 					LastClickDGM1 = MyDGM;
@@ -4368,7 +4368,7 @@ public class GeomKit
 		if (!(DispList2.empty())) {
 			DispList2.searchHead();
 			while (!Done) {
-				DGMNode MyDGM = (DGMNode) DispList2.getNode();
+				DGMNode MyDGM = DispList2.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				if (InDrw == MyDrw) {
 					LastClickDGM2 = MyDGM;
@@ -4432,13 +4432,13 @@ public class GeomKit
 	/**
 	* Clones the display list of the view.
 	*/
-	void cloneDispList(HighLevelList in) {
+	void cloneDispList(HighLevelList<StdLowLevelList<DGMNode>,DGMNode> in) {
 		if (!(in.empty())) {
 			in.searchHead();
 			boolean Done = false;
 
 			while (!Done) {
-				DGMNode InNode = (DGMNode) in.getNode();
+				DGMNode InNode = in.getNode();
 
 				DGMNode MyNode = new DGMNode();
 				DispList1.insertRight(MyNode);
@@ -4494,9 +4494,9 @@ public class GeomKit
 			setModelManager(tmpmod);
 			ShowDisplayControls = myv.getBoolean("ShowDisplayControls");
 			ToolType = myv.getInt("ToolType");
-			DispList1 = (HighLevelList) (myv.getProperty("DispList1"));
+			DispList1 = (HighLevelList<StdLowLevelList<DGMNode>,DGMNode>) (myv.getProperty("DispList1"));
 			VersionBuffer.chkNul(DispList1);
-			DispList2 = (HighLevelList) (myv.getProperty("DispList2"));
+			DispList2 = (HighLevelList<StdLowLevelList<DGMNode>,DGMNode>) (myv.getProperty("DispList2"));
 			VersionBuffer.chkNul(DispList2);
 			PrintColor = (Integer) (myv.getProperty("PrintColor"));
 			VersionBuffer.chkNul(PrintColor);
@@ -5168,7 +5168,9 @@ public class GeomKit
 	/**
 	* Performs animation in a view.
 	*/
-	void doAnimation(HighLevelList ChgList, HighLevelList SrcList, HighLevelList DstList, int NumFrame) {
+	void doAnimation(HighLevelList<StdLowLevelList<Mvec>,Mvec> ChgList, 
+			HighLevelList<StdLowLevelList<Mvec>,Mvec> SrcList, 
+			HighLevelList<StdLowLevelList<Mvec>,Mvec> DstList, int NumFrame) {
 		/* int count;
 
 		for (count = 0; count < NumFrame; count++) {
@@ -5180,9 +5182,9 @@ public class GeomKit
 				DstList.searchHead();
 				boolean Done = false;
 				while (!Done) {
-					Mvec chg = (Mvec) ChgList.getNode();
-					Mvec src = (Mvec) SrcList.getNode();
-					Mvec dst = (Mvec) DstList.getNode();
+					Mvec chg = ChgList.getNode();
+					Mvec src = SrcList.getNode();
+					Mvec dst = DstList.getNode();
 					Mvec tmp1 = new Mvec();
 					Mvec tmp2 = new Mvec();
 

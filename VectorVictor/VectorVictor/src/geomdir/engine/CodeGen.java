@@ -181,7 +181,7 @@ import meta.Meta;
 * modifications to each usage of a variable in the list.
 * @author Thorn Green
 */
-public class CodeGen extends Callback /* DBN */ {
+public class CodeGen extends Callback<Lexeme> /* DBN */ {
 
 	/**
 	Converts the expression into a series of instructions that can be executed
@@ -196,7 +196,7 @@ public class CodeGen extends Callback /* DBN */ {
 	*/
 	public final boolean generateCode(FlexString instr, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList, int myMode) {
 		boolean err;
-		HighLevelBinTree myTree = new HighLevelBinTree();
+		HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> myTree = new HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme>();
 		GEparser myo = myGEparser;
 
 		err = myo.parseAll(instr, myTree, myMode);
@@ -215,13 +215,13 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> The output list will be generated.<BR>
 	@author Thorn Green.
 	*/
-	public final void genFromTree(HighLevelBinTree myTree, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> inList) {
+	public final void genFromTree(HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> myTree, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> inList) {
 		mStackSpaceRequired = 0;
 		mStackSpaceCurrent = 0;
 		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = myList;
 		inList.eraseAllInfo();
 		inList.copyDataPlusPtrInfo(myl);
-		myTree.inOrder(myTree, this, Callback.CALLBACK_1);
+		myTree.inOrder(myTree, this);
 		myTree.eraseAllInfo();
 		if (!myl.empty())
 			myl.right();
@@ -292,13 +292,14 @@ public class CodeGen extends Callback /* DBN */ {
 	<B>Post:</B> Pointer in added to myList.<BR>
 	@author Thorn Green.
 	*/
-	public void callback1(Meta in) {
+	@Override
+	public void callback(Lexeme in) {
 		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> myl = myList;
-		myl.insertRight( (Lexeme) in );
+		myl.insertRight( in );
 		myl.setCopyMode(Meta.COPY_DO_NOTHING);
 		myl.setEraseMode(Meta.WAKE);
 
-		Lexeme myLex = (Lexeme) in;
+		Lexeme myLex = in;
 		int match = myLex.getMyMatch();
 		int mStackDelta = 0;
 

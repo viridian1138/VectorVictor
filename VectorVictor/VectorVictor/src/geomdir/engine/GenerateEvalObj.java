@@ -122,6 +122,7 @@ import java.util.Vector;
 
 import meta.HighLevelList;
 import meta.Meta;
+import meta.*;
 
 import com.google.dexmaker.BinaryOp;
 import com.google.dexmaker.Code;
@@ -225,7 +226,7 @@ class GenerateEvalObj {
 	protected static void generate_c_fld_info(
 		DexMaker dex,
 		TypeId<?> f_class,
-		HighLevelList code_list,
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list,
 		int max_stack) {
 
 		TypeId<Mvec> f_desc = TypeId.get( Mvec.class );
@@ -237,7 +238,7 @@ class GenerateEvalObj {
 		code_list.searchHead();
 		boolean done = false;
 		while (!done) {
-			Lexeme lx = (Lexeme) (code_list.getNode());
+			Lexeme lx = code_list.getNode();
 			int tag = lx.getMyMatch();
 			if (tag == GEval.variable)
 				max_var++;
@@ -305,7 +306,7 @@ class GenerateEvalObj {
 	protected static void generate_constructor(
 		DexMaker dex,
 		TypeId<? extends EvalObj> f_class,
-		HighLevelList code_list,
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list,
 		int max_stack)
 		throws IOException {
 		
@@ -379,7 +380,7 @@ class GenerateEvalObj {
 		code.invokeVirtual( m_srch , null , code.getParameter( 1 , hlst_class )  );
 		boolean done = false;
 		while (!done) {
-			Lexeme lexm = (Lexeme) (code_list.getNode());
+			Lexeme lexm = code_list.getNode();
 			int tag = lexm.getMyMatch();
 			if (tag == GEval.variable) {
 				Local<Meta> t0 = code.newLocal( meta_class );
@@ -1300,7 +1301,7 @@ class GenerateEvalObj {
 	* Generates an EvalObj given the describing class file object,
 	* stack and original code list.
 	*/
-	protected static EvalObj createEvalObj(DexMaker dexMaker, String cname, Mstack stk, HighLevelList code_list)
+	protected static EvalObj createEvalObj(DexMaker dexMaker, String cname, Mstack stk, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list)
 		throws Exception {
 		
 		File dataDirectory = null; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1324,7 +1325,7 @@ class GenerateEvalObj {
 	protected static void generate_evaluator(
 		DexMaker dex,
 		TypeId<? extends EvalObj> f_class,
-		HighLevelList code_list)
+		HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list)
 		throws IOException {
 		
 		TypeId<Mvec> mvec_class = TypeId.get( Mvec.class );
@@ -1346,7 +1347,7 @@ class GenerateEvalObj {
 		code_list.searchHead();
 		boolean done = false;
 		while (!done) {
-			Lexeme lexm = (Lexeme) (code_list.getNode());
+			Lexeme lexm = code_list.getNode();
 			cur_index = handleOp(cur_index, lexm, code, f_class, mvec_class);
 			code_list.right();
 			done = code_list.getHead();
@@ -1370,7 +1371,7 @@ class GenerateEvalObj {
 	* Produces an optimized EvalObj given the current stack, and a code list describing
 	* what to evaluate.
 	*/
-	protected static EvalObj createEvalObj(int max_stack, Mstack stk, HighLevelList code_list) throws Exception {
+	protected static EvalObj createEvalObj(int max_stack, Mstack stk, HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list) throws Exception {
 		int class_num = glo_class_num;
 		glo_class_num++;
 
@@ -1400,7 +1401,7 @@ class GenerateEvalObj {
 	public static void attachEvalObj(ExpNode exp, Mstack stk) {
 		if (exp.getEval() == null) {
 			int max_stack = exp.getMstackSpaceRequired();
-			HighLevelList code_list = exp.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> code_list = exp.getCodeList();
 			EvalObj eval = null;
 			try {
 				eval = createEvalObj(max_stack, stk, code_list);

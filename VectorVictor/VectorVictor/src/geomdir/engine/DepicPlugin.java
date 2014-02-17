@@ -114,7 +114,7 @@ package geomdir.engine;
 import meta.FlexString;
 import meta.HighLevelBinTree;
 import meta.Staque;
-
+import meta.*;
 
 
 /**
@@ -187,7 +187,7 @@ public abstract class DepicPlugin {
 	* Parses a function to determine if it is handled by this plugin.  If so,
 	* returns a parse tree that handles the expression.  Otherwise returns null.
 	*/
-	public abstract HighLevelBinTree parseOps(FlexString TestStr, Lexeme InLex, HighLevelBinTree Args);
+	public abstract HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> parseOps(FlexString TestStr, Lexeme InLex, HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> Args);
 
 	/**
 	* Returns the mStack offset used by the operation.
@@ -209,12 +209,12 @@ public abstract class DepicPlugin {
 	/**
 	* Counts the number of arguments in a tree.
 	*/
-	public int countArgs(HighLevelBinTree in) {
+	public int countArgs(HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> in) {
 		int cnt = 0;
 
 		if (in != null) {
 			boolean Done = false;
-			HighLevelBinTree TempTree = new HighLevelBinTree();
+			HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> TempTree = new HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme>();
 			in.copyDataPlusPtrInfo(TempTree);
 
 			if (!(TempTree.empty())) {

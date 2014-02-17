@@ -190,9 +190,9 @@ public class WidthPlugin extends DepicPlugin
 /**
 * Parses TestStr.  If it contains a function defined by this plugin, place the result in InLex.
 */
-	public HighLevelBinTree parseOps( FlexString TestStr , Lexeme InLex , HighLevelBinTree Args )
+	public HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> parseOps( FlexString TestStr , Lexeme InLex , HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> Args )
 		{
-		HighLevelBinTree ret = null;
+		HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> ret = null;
 		int ArgCnt = countArgs( Args );
 
 		if( ( TestStr.stcmp( "scasubwid(" ) == 0 ) && ( ArgCnt == 2 ) )
@@ -226,9 +226,9 @@ public class WidthPlugin extends DepicPlugin
 /**
 * Builds a unary parameter list.
 */
-	private HighLevelBinTree buildUnary( Lexeme FunLex , HighLevelBinTree TempTree )
+	private HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> buildUnary( Lexeme FunLex , HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> TempTree )
 		{
-		HighLevelBinTree MyTree = new HighLevelBinTree();
+		HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> MyTree = new HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme>();
 
 		MyTree.addRight( FunLex );
 		MyTree.setCopyMode( Meta.COPY_DO_NOTHING );

@@ -169,46 +169,10 @@ package meta;
  * transparently benefit from the same inorder traversal routine.
  * @author Thorn Green
  */
-public class Callback extends Object {
-    final public static int CALLBACK_1 = 1;
-    public void callback1(Meta in) {
-        throwEx();
-    };
-    final public static int CALLBACK_2 = 2;
-    public void callback2(Meta in) {
-        throwEx();
-    };
-    final public static int CALLBACK_3 = 3;
-    public void callback3(Meta in) {
-        throwEx();
-    };
-    final public static int CALLBACK_4 = 4;
-    public void callback4(Meta in) {
+public class Callback<T extends Meta> extends Object {
+    public void callback(T in) {
         throwEx();
     };
     void throwEx() { throw( new Meta.UndefinedOperation() );
     }
-    
-    /**
-     * Sends the object <code>in</code> through the Callback
-     * <code>Call</code>.
-     */
-    public void exeCall(int call, Meta in) {
-        
-        switch (call) {
-            case CALLBACK_1 :
-                callback1(in);
-                break;
-            case CALLBACK_2 :
-                callback2(in);
-                break;
-            case CALLBACK_3 :
-                callback3(in);
-                break;
-            case CALLBACK_4 :
-                callback4(in);
-                break;
-        }
-    }
-    
 };

@@ -114,6 +114,7 @@ package geomdir.engine;
 import geomdir.Mvec;
 
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 
 
 
@@ -218,7 +219,7 @@ public interface DynRunner {
 	/**
 	* Gets the list of unique non-engine variables to be used by the solver.
 	*/
-	public abstract HighLevelList getUnqVarList();
+	public abstract HighLevelList<StdLowLevelList<ASGNode>,ASGNode> getUnqVarList();
 	/**
 	* Sets whether the view in which drag operations are to be handled
 	* is a bound depiction.

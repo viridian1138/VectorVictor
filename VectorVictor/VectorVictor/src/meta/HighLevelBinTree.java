@@ -164,7 +164,7 @@ import java.io.ObjectOutput;
  * features supported by HighLevelBinTree.<P>
  * @author Thorn Green
  */
-public class HighLevelBinTree extends Meta implements Externalizable {
+public class HighLevelBinTree<U extends LowLevelBinTree, T extends Meta> extends Meta<HighLevelBinTree<U,T>> implements Externalizable {
 	
 	/**
 	* Version number used to support versioned persistence.
@@ -174,11 +174,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyNode() {
-        HighLevelBinTree temp = new HighLevelBinTree();
+    public HighLevelBinTree<U,T> copyNode() {
+        HighLevelBinTree<U,T> temp = new HighLevelBinTree<U,T>();
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copyNode());
+            temp.dvSetMyTree((U) myTree.copyNode());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -188,11 +188,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copySub() {
-        HighLevelBinTree temp = new HighLevelBinTree();
+    public HighLevelBinTree<U,T> copySub() {
+        HighLevelBinTree<U,T> temp = new HighLevelBinTree<U,T>();
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copySub());
+            temp.dvSetMyTree((U) myTree.copySub());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -202,11 +202,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyAll() {
-        HighLevelBinTree temp = new HighLevelBinTree();
+    public HighLevelBinTree<U,T> copyAll() {
+        HighLevelBinTree<U,T> temp = new HighLevelBinTree<U,T>();
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copyAll());
+            temp.dvSetMyTree((U) myTree.copyAll());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -216,16 +216,16 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public Meta copyData() {
-        HighLevelBinTree temp = new HighLevelBinTree();
+    public HighLevelBinTree<U,T> copyData() {
+        HighLevelBinTree<U,T> temp = new HighLevelBinTree<U,T>();
         
         return (temp);
     };
     /**
      * @see meta.Meta
      */
-    public Meta copyDataPlusPtr() {
-        HighLevelBinTree temp = new HighLevelBinTree();
+    public HighLevelBinTree<U,T> copyDataPlusPtr() {
+        HighLevelBinTree<U,T> temp = new HighLevelBinTree<U,T>();
         temp.dvSetMyTree(myTree);
         
         return (temp);
@@ -233,11 +233,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyNodeInfo(Meta in) {
-        HighLevelBinTree temp = (HighLevelBinTree) in;
+    public void copyNodeInfo(HighLevelBinTree<U,T> in) {
+        HighLevelBinTree<U,T> temp = (HighLevelBinTree<U,T>) in;
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copyNode());
+            temp.dvSetMyTree((U) myTree.copyNode());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -245,11 +245,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copySubInfo(Meta in) {
-        HighLevelBinTree temp = (HighLevelBinTree) in;
+    public void copySubInfo(HighLevelBinTree<U,T> in) {
+        HighLevelBinTree<U,T> temp = (HighLevelBinTree<U,T>) in;
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copySub());
+            temp.dvSetMyTree((U) myTree.copySub());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -257,11 +257,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyAllInfo(Meta in) {
-        HighLevelBinTree temp = (HighLevelBinTree) in;
+    public void copyAllInfo(HighLevelBinTree<U,T> in) {
+        HighLevelBinTree<U,T> temp = (HighLevelBinTree<U,T>) in;
         
         if (this.myTree != null) {
-            temp.dvSetMyTree((LowLevelBinTree) myTree.copyAll());
+            temp.dvSetMyTree((U) myTree.copyAll());
         } else {
             temp.dvSetMyTree(null);
         }
@@ -269,12 +269,12 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * @see meta.Meta
      */
-    public void copyDataInfo(Meta in) {};
+    public void copyDataInfo(HighLevelBinTree<U,T> in) {};
     /**
      * @see meta.Meta
      */
-    public void copyDataPlusPtrInfo(Meta in) {
-        HighLevelBinTree temp = (HighLevelBinTree) in;
+    public void copyDataPlusPtrInfo(HighLevelBinTree<U,T> in) {
+        HighLevelBinTree<U,T> temp = (HighLevelBinTree<U,T>) in;
         temp.dvSetMyTree(myTree);
     };
     public void eraseNode() {
@@ -309,11 +309,11 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      * @see meta.Meta
      */
     public void eraseNodeInfo() {
-        LowLevelBinTree temp;
+        U temp;
         
         if (this.myTree != null) {
             if (myTree.right() != myTree)
-                temp = myTree.right();
+                temp = (U)( myTree.right() );
             else
                 temp = null;
             myTree.eraseNode();
@@ -324,7 +324,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      * @see meta.Meta
      */
     public void eraseSubInfo() {
-        LowLevelBinTree temp;
+        U temp;
         
         if (this.myTree != null) {
             temp = null;
@@ -365,13 +365,13 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      * Moves the current node one node to the right.
      */
     public final void right() {
-        myTree = myTree.right();
+        myTree = (U)( myTree.right() );
     };
     /**
      * Moves the current node one node to the left.
      */
     public final void left() {
-        myTree = myTree.left();
+        myTree = (U)( myTree.left() );
     };
     /**
      * Returns true iff. the left link of the current node is threaded.
@@ -388,13 +388,13 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Returns the data in the current node.
      */
-    public final Meta getNode() {
-        return (myTree.getNode());
+    public final T getNode() {
+        return ((T)(myTree.getNode()));
     };
     /**
      * Sets the data in the current node to <code>in</code>.
      */
-    public final void setNode(Meta in) {
+    public final void setNode(T in) {
         myTree.setNode(in);
     };
     /**
@@ -442,40 +442,40 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Returns true iff. the tree nodes are identical.
      */
-    public final boolean equal(HighLevelBinTree compTree) {
+    public final boolean equal(HighLevelBinTree<U,T> compTree) {
         return (myTree == compTree.dvGetMyTree());
     };
     /**
      * Inserts the data <code>in</code> to the left of the current node.
      */
-    public final void addLeft(Meta in) {
+    public final void addLeft(T in) {
         if (this.myTree != null) {
             myTree.addLeft(in);
-            myTree = myTree.left();
+            myTree = (U)(myTree.left());
         } else {
-            myTree = new StdLowLevelBinTree();
+            myTree = (U)( new StdLowLevelBinTree<T>() );
             myTree.setNode(in);
         }
     };
     /**
      * Inserts the data <code>in</code> to the right of the current node.
      */
-    public final void addRight(Meta in) {
+    public final void addRight(T in) {
         if (this.myTree != null) {
             myTree.addRight(in);
-            myTree = myTree.right();
+            myTree = (U)(myTree.right());
         } else {
-            myTree = new StdLowLevelBinTree();
+            myTree = (U)( new StdLowLevelBinTree<T>() );
             myTree.setNode(in);
         }
     };
     /**
      * Inserts the node <code>in</code> to the left of the current node.
      */
-    public final void importAddLeft(LowLevelBinTree in) {
+    public final void importAddLeft(U in) {
         if (this.myTree != null) {
             myTree.importAddLeft(in);
-            myTree = myTree.left();
+            myTree = (U)(myTree.left());
         } else {
             myTree = in;
         }
@@ -483,10 +483,10 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Inserts the node <code>in</code> to the right of the current node.
      */
-    public final void importAddRight(LowLevelBinTree in) {
+    public final void importAddRight(U in) {
         if (this.myTree != null) {
             myTree.importAddRight(in);
-            myTree = myTree.right();
+            myTree = (U)(myTree.right());
         } else {
             myTree = in;
         }
@@ -505,7 +505,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Places a copy of the left subtree of the current node in <code>out</code>.
      */
-    public final void copyLeft(HighLevelBinTree out) {
+    public final void copyLeft(HighLevelBinTree<U,T> out) {
         if (myTree != null) {
             if (out.dvGetMyTree() != null)
                 myTree.copyLeft(out.dvGetMyTree());
@@ -517,34 +517,34 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Performs an inorder traversal, executing the Callback with each node visited.
      */
-    public final void inOrder(HighLevelBinTree TStop, Callback InClass, int in) {
+    public final void inOrder(HighLevelBinTree<U,T> TStop, Callback<T> InClass) {
         if (myTree != null) {
-            myTree.inOrder(TStop.dvGetMyTree(), InClass, in);
+            myTree.inOrder(TStop.dvGetMyTree(), InClass);
         }
     };
     /**
      * Performs an preorder traversal, executing the Callback with each node visited.
      */
-    public final void preOrder(HighLevelBinTree TStop, Callback InClass, int in) {
+    public final void preOrder(HighLevelBinTree<U,T> TStop, Callback<T> InClass) {
         if (myTree != null) {
-            myTree.preOrder(TStop.dvGetMyTree(), InClass, in);
+            myTree.preOrder(TStop.dvGetMyTree(), InClass);
         }
     };
     /**
      * Performs an postorder traversal, executing the Callback with each node visited.
      */
-    public final void postOrder(HighLevelBinTree TStop, Callback InClass, int in) {
+    public final void postOrder(HighLevelBinTree<U,T> TStop, Callback<T> InClass) {
         if (myTree != null) {
-            myTree.postOrder(TStop.dvGetMyTree(), InClass, in);
+            myTree.postOrder(TStop.dvGetMyTree(), InClass);
         }
     };
     /**
      * Copies this tree to the right of <code>out</code>.
      */
-    public final void pasteRight(HighLevelBinTree out) {
+    public final void pasteRight(HighLevelBinTree<U,T> out) {
         if (myTree != null) {
             if (out.dvGetMyTree() != null) {
-                myTree.pasteRight(out.dvGetMyTree());
+                myTree.pasteRight((U)(out.dvGetMyTree()));
             } else {
                 /* Do Something Here. */
             }
@@ -553,10 +553,10 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Copies this tree to the left of <code>out</code>.
      */
-    public final void pasteLeft(HighLevelBinTree out) {
+    public final void pasteLeft(HighLevelBinTree<U,T> out) {
         if (myTree != null) {
             if (out.dvGetMyTree() != null) {
-                myTree.pasteLeft(out.dvGetMyTree());
+                myTree.pasteLeft((U)(out.dvGetMyTree()));
             } else {
                 /* Do Something Here. */
             }
@@ -565,10 +565,10 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Connects this tree to the right of <code>out</code>.
      */
-    public final void connectRight(HighLevelBinTree out) {
+    public final void connectRight(HighLevelBinTree<U,T> out) {
         if (myTree != null) {
             if (out.dvGetMyTree() != null) {
-                myTree.connectRight(out.dvGetMyTree());
+                myTree.connectRight((U)(out.dvGetMyTree()));
             } else {
                 /* Do Something Here. */
             }
@@ -577,10 +577,10 @@ public class HighLevelBinTree extends Meta implements Externalizable {
     /**
      * Connects this tree to the left of <code>out</code>.
      */
-    public final void connectLeft(HighLevelBinTree out) {
+    public final void connectLeft(HighLevelBinTree<U,T> out) {
         if (myTree != null) {
             if (out.dvGetMyTree() != null) {
-                myTree.connectLeft(out.dvGetMyTree());
+                myTree.connectLeft((U)(out.dvGetMyTree()));
             } else {
                 /* Do Something Here. */
             }
@@ -592,7 +592,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      */
     public final void findEnd() {
         if (myTree != null)
-            myTree = myTree.findEnd();
+            myTree = (U)( myTree.findEnd() );
         else {
             /* Do Something Here. */
         }
@@ -603,7 +603,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      */
     public final void listParent() {
         if (myTree != null)
-            myTree = myTree.listParent();
+            myTree = (U)( myTree.listParent() );
         else {
             /* Do Something Here. */
         }
@@ -615,7 +615,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
      * @serialData TBD.
      */
     public void writeExternal(ObjectOutput out) throws IOException {
-        LowLevelBinTree tmp = myTree;
+        U tmp = myTree;
         
         if (tmp == null) {} else {
             out.writeObject(myTree);
@@ -633,7 +633,7 @@ public class HighLevelBinTree extends Meta implements Externalizable {
             Object myo = in.readObject();
             
             while (myo instanceof LowLevelBinTree) {
-                LowLevelBinTree myl = (LowLevelBinTree) myo;
+                U myl = (U) myo;
                 VersionBuffer.chkNul(myl);
                 
                 if (myTree == null) {
@@ -648,12 +648,12 @@ public class HighLevelBinTree extends Meta implements Externalizable {
         
     }
     
-    private final void dvSetMyTree(LowLevelBinTree in) {
+    private final void dvSetMyTree(U in) {
         myTree = in;
     }
-    private final LowLevelBinTree dvGetMyTree() {
+    private final U dvGetMyTree() {
         return (myTree);
     }
     
-    private LowLevelBinTree myTree;
+    private U myTree;
 };

@@ -117,6 +117,7 @@ import meta.FlexString;
 import meta.HighLevelBinTree;
 import meta.Meta;
 import meta.Staque;
+import meta.*;
 
 /**
 *
@@ -193,8 +194,8 @@ public class Tracer2Plugin extends DepicPlugin {
 	/**
 	* Parses TestStr.  If it contains a function defined by this plugin, place the result in InLex.
 	*/
-	public HighLevelBinTree parseOps(FlexString TestStr, Lexeme InLex, HighLevelBinTree Args) {
-		HighLevelBinTree ret = null;
+	public HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> parseOps(FlexString TestStr, Lexeme InLex, HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> Args) {
+		HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> ret = null;
 		int ArgCnt = countArgs(Args);
 
 		if ((TestStr.stcmp("trac2plugval(") == 0) && (ArgCnt == 0)) {
@@ -225,8 +226,8 @@ public class Tracer2Plugin extends DepicPlugin {
 	/**
 	* Builds a unary parameter list.
 	*/
-	private HighLevelBinTree buildConst(Lexeme FunLex) {
-		HighLevelBinTree MyTree = new HighLevelBinTree();
+	private HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> buildConst(Lexeme FunLex) {
+		HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme> MyTree = new HighLevelBinTree<StdLowLevelBinTree<Lexeme>,Lexeme>();
 
 		MyTree.addRight(FunLex);
 		MyTree.setCopyMode(Meta.COPY_DO_NOTHING);

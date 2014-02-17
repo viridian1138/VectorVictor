@@ -139,6 +139,7 @@ import java.util.Vector;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 import meta.WrapRuntimeException;
 import verdantium.EtherEvent;
 import verdantium.EtherEventHandler;
@@ -345,7 +346,7 @@ public class GeoPadGeomPanel extends GeoPadKit implements EtherEventHandler
 * Draws the workspace.
 */
 	@Override
-	public void draw( Canvas g , Paint p, HighLevelList DispList )
+	public void draw( Canvas g , Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DispList )
 		{
 		calcVisibleRect( g );
 		p.setStyle( Style.FILL );
@@ -594,14 +595,14 @@ Performs a global to local coordinate conversion on the input Hexar.
 		
 		if( MyNode != null )
 			{
-			HighLevelList MyH2 = (HighLevelList)( MyNode.getAlgElements( ) );
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH2 = MyNode.getAlgElements( );
 			updateDisplayDepictors( this , MyH2 );
 			updateCurrentDisplay( this , g , p , MyH2 );
 			}
 
 		if( MyNode != null )
 			{
-			HighLevelList MyH = (HighLevelList)( MyNode.getAlgLines( ) );
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgLines( );
 			updateDisplayDepictors( this , MyH );
 			updateCurrentDisplay( this , g , p , MyH );
 			}
@@ -623,7 +624,7 @@ Redraws the depictional representation for a
 */
 	protected void			updateCurrentDisplay( GeomKit thePort ,
 			Canvas g , Paint p,
-			HighLevelList DisplayList )
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList )
 
 
 
@@ -639,7 +640,7 @@ Redraws the depictional representation for a
 		while( !Done )
 			{
 			DrawObj ThisDrw;
-			DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+			DGMNode MyDGM = DisplayList.getNode();
 			DrawObj MyDrw = MyDGM.getMyDraw();
 			MyDrw.drawYourself( thePort , MyDGM.getMyCoord() , BoundMode , g , p , ThisMode );
 
@@ -683,7 +684,7 @@ Redraws the depictional representation for a
 
 			if( MyNode2 != null )
 				{
-				HighLevelList MyList = MyNode2.getAlgLines();
+				HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyList = MyNode2.getAlgLines();
 				MyNode = pullFromDrawingList( MyList , MyObj );
 				}
 			}
@@ -695,7 +696,7 @@ Redraws the depictional representation for a
 /**
 * Inserts the prompt element into the current prompt line.
 */
-	protected void insertPromptElement( DrawObj in , HighLevelList MyH )
+	protected void insertPromptElement( DrawObj in , HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH )
 		{
 		if( in instanceof Para1 )
 			{
@@ -755,7 +756,7 @@ Redraws the depictional representation for a
 
 		if( in != null )
 			{
-			HighLevelList MyH = new HighLevelList();
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 			
 			addNodeDelegates( in , MyNode , MyH );
 
@@ -766,7 +767,7 @@ Redraws the depictional representation for a
 			}
 			else
 			{
-			HighLevelList MyH = new HighLevelList();
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 
 			MyH.copyDataPlusPtrInfo( MyNode.getAlgLines() );
 			deConstrainAlgElements();
@@ -790,7 +791,7 @@ Redraws the depictional representation for a
 /**
 * Sets the current line of the workspace.
 */
-	public void setCurrentPromptLine( Set in , boolean SingleDepicOnly , double LineHeightFactor )
+	public void setCurrentPromptLine( Set<DGMNode> in , boolean SingleDepicOnly , double LineHeightFactor )
 		{
 		if( ( CurIndex + 1 ) > geomNodes.size() )
 			{
@@ -798,7 +799,7 @@ Redraws the depictional representation for a
 			geomNodes.setElementAt( new GeomNode( ) , CurIndex );
 			}
 
-		HighLevelList MyH = new HighLevelList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		GeomNode MyNode2 = geomNodes.elementAt( CurIndex );
 		MyNode2.setOnlySingleDepic( SingleDepicOnly );
 		if( LineHeightFactor > 0.0 ) 
@@ -818,16 +819,16 @@ Redraws the depictional representation for a
 
 		if( !( in.isEmpty() ) )
 			{
-			Iterator it = in.iterator();
+			Iterator<DGMNode> it = in.iterator();
 
-			DGMNode CDGM = (DGMNode)( it.next() );
+			DGMNode CDGM = it.next();
 			setLineCoord( CurIndex , CDGM.getMyDraw() );		
 
 			it = in.iterator();
 
 			while( it.hasNext() )
 				{
-				DGMNode MyNode = (DGMNode)( it.next() );
+				DGMNode MyNode = it.next();
 				DrawObj MyObj = MyNode.getMyDraw();
 				
 				DGMNode MyDGM = new DGMNode();
@@ -855,14 +856,14 @@ Redraws the depictional representation for a
 /**
 * Sets the current line of the workspace.
 */
-	public void setCurrentPromptLine( Set in , boolean SingleDepicOnly )
+	public void setCurrentPromptLine( Set<DGMNode> in , boolean SingleDepicOnly )
 		{ setCurrentPromptLine( in , SingleDepicOnly , -1.0 ); }
 
 
 /**
 * Returns whether a particular depictor is in the given list.
 */
-	public boolean depictorInList( DrawObj in , HighLevelList MyList )
+	public boolean depictorInList( DrawObj in , HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyList )
 		{
 		boolean Found = false;
 
@@ -875,7 +876,7 @@ Redraws the depictional representation for a
 
 				while( !Done )
 					{
-					DGMNode MyNode = (DGMNode)( MyList.getNode() );
+					DGMNode MyNode = MyList.getNode();
 					DrawObj MyObj = MyNode.getMyDraw();
 
 					Found = Found || ( MyObj == in );
@@ -903,7 +904,7 @@ Redraws the depictional representation for a
 			GeomNode MyNode = geomNodes.elementAt( count );
 			if( MyNode != null ) 
 				{
-				HighLevelList MyList = MyNode.getAlgLines();
+				HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyList = MyNode.getAlgLines();
 				Found = Found || depictorInList( in , MyList );
 				}
 			}
@@ -927,11 +928,11 @@ Redraws the depictional representation for a
 /**
 * Adds the delegates of the given DrawObj to <code>DispList</code>.
 */
-	public void addNodeDelegates( DrawObj in , GeomNode MyNode , HighLevelList DispList )
+	public void addNodeDelegates( DrawObj in , GeomNode MyNode , HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DispList )
 		{
 		if( !( MyNode.getOnlySingleDepic() ) )
 			{
-			HighLevelList MyList = in.getDelegators();
+			HighLevelList<StdLowLevelList<DrawObj>,DrawObj> MyList = in.getDelegators();
 
 			if( !( MyList.empty() ) )
 				{
@@ -940,7 +941,7 @@ Redraws the depictional representation for a
 
 				while( !Done )
 					{
-					DrawObj MyObj = (DrawObj)( MyList.getNode() );
+					DrawObj MyObj = MyList.getNode();
 					addNodeDelegates( MyObj , MyNode , DispList );
 
 					if( !( DispList.empty() ) )
@@ -965,11 +966,11 @@ Redraws the depictional representation for a
 /**
 * Returns whether a depictor is in a particular list.
 */
-	protected boolean drawObjInList( DrawObj MyObj , HighLevelList temp )
+	protected boolean drawObjInList( DrawObj MyObj , HighLevelList<StdLowLevelList<DGMNode>,DGMNode> temp )
 		{
 		DGMNode MyDrawObj = null;
 		DGMNode RetNode = null;
-		HighLevelList next = new HighLevelList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> next = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 
 		if( !( temp.empty() ) )
 			{
@@ -978,7 +979,7 @@ Redraws the depictional representation for a
 
 			while( !Done )
 				{
-				MyDrawObj = (DGMNode) temp.getNode();
+				MyDrawObj = temp.getNode();
 				temp.copyDataPlusPtrInfo( next );
 				next.right();
 
@@ -1013,7 +1014,7 @@ Redraws the depictional representation for a
 				
 				if( MyNode != null )
 					{
-					HighLevelList MyL = MyNode.getAlgLines();
+					HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyL = MyNode.getAlgLines();
 					boolean Found = drawObjInList( FromObj , MyL );
 
 					if( Found )
@@ -1122,15 +1123,15 @@ Redraws the depictional representation for a
 		}
 
 	GeomNode MyNode = geomNodes.elementAt( CurIndex );
-	HighLevelList MyH = MyNode.getAlgLines();
-	HighLevelList MyH2 = MyNode.getAlgElements();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgLines();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
 
 	if( Works )
 		{
 		PointF InPt = new PointF( 0 , 0 );
 		FlexString Vari = new FlexString();
-		MyH = new HighLevelList();
+		MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		DrawObj MyObj = getModelManager().createNonNamedVar( new PointF( 50 , 50 ) , 
 			"Bezier Type I" , false );
 		( (Bez1) MyObj ).setPow( 3 );
@@ -1191,15 +1192,15 @@ Redraws the depictional representation for a
 		}
 
 	GeomNode MyNode = geomNodes.elementAt( CurIndex );
-	HighLevelList MyH = MyNode.getAlgLines();
-	HighLevelList MyH2 = MyNode.getAlgElements();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgLines();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
 
 	if( Works )
 		{
 		PointF InPt = new PointF( 0 , 0 );
 		FlexString Vari = new FlexString();
-		MyH = new HighLevelList();
+		MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		DrawObj MyObj = getModelManager().createNonNamedVar( new PointF( 50 , 50 ) , 
 			"Ray Type I" , false );
 		DGMNode MyDGM = new DGMNode();
@@ -1240,15 +1241,15 @@ Redraws the depictional representation for a
 		}
 
 	GeomNode MyNode = geomNodes.elementAt( CurIndex );
-	HighLevelList MyH = MyNode.getAlgLines();
-	HighLevelList MyH2 = MyNode.getAlgElements();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgLines();
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH2 = MyNode.getAlgElements();
 	boolean Works = ( chkDispListNull( MyH ) ) && ( chkDispListNull( MyH2 ) );
 
 	if( Works )
 		{
 		PointF InPt = new PointF( 0 , 0 );
 		FlexString Vari = new FlexString();
-		MyH = new HighLevelList();
+		MyH = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 		DrawObj MyObj = getModelManager().createNonNamedVar( new PointF( 50 , 50 ) , 
 			"Line Type I" , false );
 		DGMNode MyDGM = new DGMNode();
@@ -1288,13 +1289,13 @@ Redraws the depictional representation for a
 
 				if( MyNode != null )
 					{
-					HighLevelList myl = MyNode.getAlgLines();	
+					HighLevelList<StdLowLevelList<DGMNode>,DGMNode> myl = MyNode.getAlgLines();	
 
 					if( !( myl.empty() ) )
 						{
 						myl.searchHead();
 						myl.left();
-						DGMNode MyDGM = (DGMNode)( myl.getNode() );
+						DGMNode MyDGM = myl.getNode();
 						MyDrw = MyDGM.getMyDraw();
 						}
 					}
@@ -1323,13 +1324,13 @@ Redraws the depictional representation for a
 
 				if( MyNode != null )
 					{
-					HighLevelList myl = MyNode.getAlgLines();	
+					HighLevelList<StdLowLevelList<DGMNode>,DGMNode> myl = MyNode.getAlgLines();	
 
 					if( !( myl.empty() ) )
 						{
 						myl.searchHead();
 						myl.left();
-						DGMNode MyDGM = (DGMNode)( myl.getNode() );
+						DGMNode MyDGM = myl.getNode();
 						MyDrw = MyDGM.getMyDraw();
 						}
 
@@ -1492,9 +1493,9 @@ Redraws the depictional representation for a
 /**
 * Gets the display list associated with the current prompt line.
 */
-	public HighLevelList getDispList( )
+	public HighLevelList<StdLowLevelList<DGMNode>,DGMNode> getDispList( )
 		{
-		HighLevelList TryList = null;
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> TryList = null;
 
 		if( CurClickLine < geomNodes.size() ) 
 			{
@@ -1503,7 +1504,7 @@ Redraws the depictional representation for a
 			}
 
 
-		HighLevelList tmp = TryList;
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> tmp = TryList;
 
 		if( tmp == null ) tmp = TempList;
 
@@ -1514,7 +1515,7 @@ Redraws the depictional representation for a
 /**
 * Checks whether the display list input is null or empty.
 */
-	public boolean chkDispListNull( HighLevelList in )
+	public boolean chkDispListNull( HighLevelList<StdLowLevelList<DGMNode>,DGMNode> in )
 		{
 		boolean tmp = false;
 
@@ -1555,7 +1556,7 @@ Redraws the depictional representation for a
 		
 		if( MyNode != null )
 			{
-			HighLevelList MyH = MyNode.getAlgElements();
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgElements();
 
 			if( !( MyH.empty() ) )
 				{
@@ -1564,7 +1565,7 @@ Redraws the depictional representation for a
 
 				while( !Done )
 					{
-					DGMNode MyDGM = (DGMNode)( MyH.getNode() );
+					DGMNode MyDGM = MyH.getNode();
 					DrawObj RayObj = MyDGM.getMyDraw();
 					if( /* RayObj instanceof Bez1  */ false )
 						constrainBezier( RayObj , PermObj );
@@ -1664,7 +1665,7 @@ Redraws the depictional representation for a
 		
 		if( MyNode != null )
 			{
-			HighLevelList MyH = MyNode.getAlgElements();
+			HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyH = MyNode.getAlgElements();
 
 			if( !( MyH.empty() ) )
 				{
@@ -1673,7 +1674,7 @@ Redraws the depictional representation for a
 
 				while( !Done )
 					{
-					DGMNode MyDGM = (DGMNode)( MyH.getNode() );
+					DGMNode MyDGM = MyH.getNode();
 					DrawObj RayObj = MyDGM.getMyDraw();
 					deConstrainRay( RayObj );
 
@@ -2356,7 +2357,7 @@ public Object processObjEtherEvent( EtherEvent in , Object refcon )
    
 	
    
-	private transient HighLevelList TempList = new HighLevelList();
+	private transient HighLevelList<StdLowLevelList<DGMNode>,DGMNode> TempList = new HighLevelList<StdLowLevelList<DGMNode>,DGMNode>();
 	private transient int CurClickLine = 1;
 	private transient int DragLine = 1;
 	private int CurIndex = 1;

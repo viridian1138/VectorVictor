@@ -111,7 +111,7 @@ package geomdir.engine;
 
 import meta.FlexString;
 import meta.HighLevelList;
-
+import meta.*;
 
 
 /**
@@ -148,11 +148,11 @@ class SymUtils extends Object {
 
 	private static FlexString getASGTraverse(ExpNode exp) {
 		if (exp != null) {
-			HighLevelList codeList = exp.getCodeList();
+			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> codeList = exp.getCodeList();
 			if (!(codeList.empty())) {
 				boolean singleNode = codeList.isSingleNode();
 				if (singleNode) {
-					Lexeme MyLex = (Lexeme) (codeList.getNode());
+					Lexeme MyLex = codeList.getNode();
 					if (MyLex.getMyMatch() == GEval.variable) {
 						return (exp.getExprn());
 					}

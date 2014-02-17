@@ -146,6 +146,7 @@ import java.io.ObjectOutput;
 import meta.DataFormatException;
 import meta.FlexString;
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 import meta.WrapRuntimeException;
 import verdantium.EtherEvent;
 import verdantium.kluges.TwoDScrollView;
@@ -745,7 +746,7 @@ Programmed By: Thorn Green.
 	if( checkDepictorTypeMatch( LastClickDraw ) )
 		{
 		Numer1 TmpLabel = null;
-		HighLevelList tmp = LastClickDraw.getDelegators();
+		HighLevelList<StdLowLevelList<DrawObj>,DrawObj> tmp = LastClickDraw.getDelegators();
 		if( !( tmp.empty() ) )
 			{
 			boolean Done = false;
@@ -780,7 +781,7 @@ Programmed By: Thorn Green.
 	if( checkDepictorTypeMatch( LastClickDraw ) )
 		{
 		Ruler1 TmpRuler = null;
-		HighLevelList tmp = LastClickDraw.getDelegators();
+		HighLevelList<StdLowLevelList<DrawObj>,DrawObj> tmp = LastClickDraw.getDelegators();
 		if( !( tmp.empty() ) )
 			{
 			boolean Done = false;
@@ -830,7 +831,7 @@ Programmed By: Thorn Green.
 	if( checkDepictorTypeMatch( LastClickDraw ) )
 		{
 		Circ1 TmpCirc = null;
-		HighLevelList tmp = LastClickDraw.getDelegators();
+		HighLevelList<StdLowLevelList<DrawObj>,DrawObj> tmp = LastClickDraw.getDelegators();
 		if( !( tmp.empty() ) )
 			{
 			boolean Done = false;
@@ -1340,7 +1341,7 @@ Programmed By: Thorn Green.
 
 	if( checkDepictorTypeMatch( LastClickDraw ) )
 		{
-		HighLevelList tmp = LastClickDraw.getDelegators();
+		HighLevelList<StdLowLevelList<DrawObj>,DrawObj> tmp = LastClickDraw.getDelegators();
 		if( !( tmp.empty() ) )
 			{
 			boolean Done = false;
@@ -1661,11 +1662,11 @@ Programmed By: Thorn Green
 			}
 			else
 			{
-			HighLevelList tmp = MyObj.getDelegated();
+			HighLevelList<StdLowLevelList<DrawObj>,DrawObj> tmp = MyObj.getDelegated();
 
 			if( !( tmp.empty() ) )
 				{
-				DrawObj drw = (DrawObj)( tmp.getNode() );
+				DrawObj drw = tmp.getNode();
 
 				return( checkDepic( drw ) );
 				}
@@ -1690,7 +1691,7 @@ Programmed By: Thorn Green
 */
 	public void addNodeDelegates( DrawObj in )
 		{
-		HighLevelList MyList = in.getDelegators();
+		HighLevelList<StdLowLevelList<DrawObj>,DrawObj> MyList = in.getDelegators();
 
 		if( !( MyList.empty() ) )
 			{
@@ -1699,7 +1700,7 @@ Programmed By: Thorn Green
 
 			while( !Done )
 				{
-				DrawObj MyObj = (DrawObj)( MyList.getNode() );
+				DrawObj MyObj = MyList.getNode();
 				addNodeDelegates( MyObj );
 
 				super.localDisplayAppend( in );
@@ -1714,7 +1715,7 @@ Programmed By: Thorn Green
 */
 	protected boolean checkDelegationAdd( DrawObj FromObj , DrawObj ToObj )
 		{
-		HighLevelList DisplayList = getDispList();
+		HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList = getDispList();
 		DrawObj chk = checkDepic( FromObj );
 		boolean Works = ( chk != null );
 
@@ -1729,7 +1730,7 @@ Programmed By: Thorn Green
 				while( !Done )
 					{
 					DrawObj ThisDrw;
-					DGMNode MyDGM = (DGMNode) DisplayList.getNode();
+					DGMNode MyDGM = DisplayList.getNode();
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					if( MyDrw == chk )
@@ -2177,7 +2178,7 @@ Programmed By: Thorn Green
 			while( !Done )
 				{
 				DrawObj ThisDrw;
-				DGMNode MyDGM = (DGMNode) DispList1.getNode();
+				DGMNode MyDGM = DispList1.getNode();
 				DrawObj MyDrw = MyDGM.getMyDraw();
 				if( MyNode == MyDrw )
 					{

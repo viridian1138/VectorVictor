@@ -117,6 +117,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import meta.HighLevelList;
+import meta.StdLowLevelList;
 
 
 
@@ -227,7 +228,7 @@ public class BlueTohVarNode extends Object {
 		return (refSet.iterator());
 	}
 
-	protected void addNodeToList(ASGNode inputNode, ASGNode outputNode, HighLevelList outputList) {
+	protected void addNodeToList(ASGNode inputNode, ASGNode outputNode, HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		EvalObj copyObj = new CopyEvalObj(inputNode.getMvec());
 		ASGNode dummyNode = new ASGNode();
 		ExpNode dummyExp = new ExpNode();
@@ -237,14 +238,14 @@ public class BlueTohVarNode extends Object {
 		outputList.insertRight(dummyNode);
 	}
 
-	protected void addNodeToList(ExpNode inputNode, ASGNode outputNode, HighLevelList outputList) {
+	protected void addNodeToList(ExpNode inputNode, ASGNode outputNode, HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		ASGNode dummyNode = new ASGNode();
 		dummyNode.setMvec(outputNode.getMvec());
 		dummyNode.setExpNode(inputNode);
 		outputList.insertRight(dummyNode);
 	}
 
-	public void crossBuildAsgn(HighLevelList outputList) {
+	public void crossBuildAsgn(HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
 		Iterator<ASGNode> it = asgSet.iterator();
 		ASGNode inputNode = null;
 
