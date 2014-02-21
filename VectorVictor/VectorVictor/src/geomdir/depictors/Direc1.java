@@ -195,7 +195,7 @@ public class Direc1 extends Vect1 implements Externalizable {
 	/**
 	* Draws the directional.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
 		p.setStyle( Style.STROKE );
 
@@ -206,7 +206,7 @@ public class Direc1 extends Vect1 implements Externalizable {
 		p.setColor(FrontLineColor);
 
 		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (ToolMode == 13)) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -233,7 +233,7 @@ public class Direc1 extends Vect1 implements Externalizable {
 		/* g.setColor( TextColor ); */
 
 		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -254,9 +254,9 @@ public class Direc1 extends Vect1 implements Externalizable {
 	/**
 	* Updates the directional.
 	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		super.updateYourself(ThePort, PrtCon, bound, ToolMode);
+		super.updateYourself(ThePort, PrtCon, bound, toolMode);
 
 		if (Dcon.getLine1() == null) {
 			Dcon.setLine1(new RectF());

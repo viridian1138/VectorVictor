@@ -279,7 +279,7 @@ Programmed By: Thorn Green.
 	AxisRad.value = 50;
 	ArrLen = 6.0;
 	LastClick = GeomKit.NoMatch;
-	requestPrevToolModeChange( GeomKit.FreeTransformationMode );
+	requestPrevToolModeChange( 1 );
 	/* CurReply = NULL; */
 	
 	tFont = new Paint();

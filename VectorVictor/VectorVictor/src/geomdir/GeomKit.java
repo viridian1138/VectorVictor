@@ -127,6 +127,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -341,7 +342,7 @@ public class GeomKit
 		AxisRad.value = 50;
 		ArrLen = 6.0;
 		LastClick = GeomConstants.NoMatch;
-		requestPrevToolModeChange(GeomConstants.FreeTransformationMode);
+		requestPrevToolModeChange( 1 );
 		/* CurReply = NULL; */
 		tFont = new Paint();
 		tFont.setTextSize( 12 );
@@ -423,7 +424,7 @@ public class GeomKit
 		AxisRad.value = 50;
 		ArrLen = 6.0;
 		LastClick = GeomConstants.NoMatch;
-		requestPrevToolModeChange(GeomConstants.FreeTransformationMode);
+		requestPrevToolModeChange( 1 );
 		resetViewPosition(XOrigin, YOrigin, new Rect(1000, 1000, 1000, 1000));
 
 		tFont = new Paint();
@@ -1459,7 +1460,7 @@ public class GeomKit
 	*<B>Post:</B> The specified arrow will be drawn in the graphics context.<BR>
 	*@author Thorn Green.
 	*/
-	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, int PrevToolMode) {
+	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, GeomConstants.ToolMode PrevToolMode) {
 		final int CircWid = 6;
 		double xa = HDhex.getPtx();
 		double ya = HDhex.getPty();
@@ -1472,7 +1473,7 @@ public class GeomKit
 		p.setColor(caller.getFrontLineColor());
 
 		boolean tmp = caller.getFrontLineVisible();
-		if ((!tmp) && (PrevToolMode == 13)) {
+		if ((!tmp) && (PrevToolMode == GeomConstants.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DrawObj.DefBack);
 		}
@@ -2396,7 +2397,7 @@ public class GeomKit
 	*/
 	protected void updateCurrentDisplay(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
-		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
+		GeomConstants.ToolMode ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
@@ -2440,7 +2441,7 @@ public class GeomKit
 	*/
 	protected void updateDisplayDepictors(GeomKit thePort, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
-		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
+		GeomConstants.ToolMode ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
@@ -2465,7 +2466,7 @@ public class GeomKit
 	*/
 	protected void updateDisplayControls(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
 		boolean Done = false;
-		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
+		GeomConstants.ToolMode ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		if (!(DisplayList.empty())) {
 			DisplayList.searchHead();
@@ -2491,7 +2492,7 @@ public class GeomKit
 	*@author Thorn Green
 	*/
 	protected void updateSingleControl(GeomKit thePort, Canvas g, Paint p, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList) {
-		int ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
+		GeomConstants.ToolMode ThisMode = (getGeoTool(PrevToolMode)).getDrawingMode(this);
 
 		DrawObj MyDrw = LocalLastClickDraw;
 
@@ -2653,7 +2654,7 @@ public class GeomKit
 		ArcToolRad.value = 20;
 		AxisRad.value = 50;
 		ArrLen = 6.0;
-		requestPrevToolModeChange(GeomConstants.FreeTransformationMode);
+		requestPrevToolModeChange( 1 );
 		resetViewPosition(XOrigin, YOrigin, new Rect(1000, 1000, 0, 0));
 	}
 
@@ -4080,6 +4081,20 @@ public class GeomKit
 	protected final Ktool getGeoTool(int mode) {
 		return (geoTools.elementAt(mode));
 	}
+	
+	protected final Ktool getGeoTool( GeomConstants.ToolMode in )
+	{
+		Iterator<Ktool> it = geoTools.iterator();
+		while( it.hasNext() )
+		{
+			Ktool tool = it.next();
+			if( tool.getDrawingMode( this ) == in )
+			{
+				return( tool );
+			}
+		}
+		return( null );
+	}
 
 	/**
 	* Sets the tool set for the view.
@@ -4334,7 +4349,7 @@ public class GeomKit
 	*/
 	protected void toolHomeOrigin() {
 		MotionEvent xx = null;
-		boolean err = getGeoTool(5).handlePreDrag(xx, this);
+		boolean err = getGeoTool(GeomConstants.ToolMode.HOME_MODE).handlePreDrag(xx, this);
 	}
 
 	/**

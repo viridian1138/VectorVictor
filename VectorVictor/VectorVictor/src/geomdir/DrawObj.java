@@ -238,7 +238,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		CoordContext PrtCon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode);
+		GeomConstants.ToolMode toolMode);
 	/**
 	* Causes the depictor to update itself and state of its CoordContext in anticipation
 	* of a future rendering request.  Gives the depictor a chance to synchronize its
@@ -259,7 +259,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	* both the free and bound depiction views.  As a result there is one depictor, but two separate CoordContext
 	* objects to store pixel location information.
 	*/
-	public abstract void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode);
+	public abstract void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, GeomConstants.ToolMode toolMode);
 	/**
 	* Renders the depictors control points, and other tools.  In particular the "hot-spots" associated with a
 	* depictor for a particular ToolMode.  The "hot-spots" are small "knobs" or "tags" drawn on top of the
@@ -279,7 +279,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		CoordContext PrtCon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode);
+		GeomConstants.ToolMode toolMode);
 	/**
 	* Handles a mouse-down event.  Returns a ClickRec if the mouse-event was near
 	* a control point of the depictor.  In more detail, clickedInRegion() determines
@@ -301,7 +301,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode);
+		GeomConstants.ToolMode toolMode);
 	/**
 	* Performs a drag operation that has not been delegated to a DynRunner.  In particular,
 	* one iteration of the dragging of a "hot-spot" to a new location in a way consistent
@@ -323,7 +323,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		GeomConstants.ToolMode toolMode,
 		PointF InPt);
 	/**
 	* Handles a single-click event.  Handling single-clicks is problematic in the
@@ -335,7 +335,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode) {
+		GeomConstants.ToolMode toolMode) {
 		};
 	/**
 	* Handles a ClickRec returned by the depictor in erase mode by specifying
@@ -608,9 +608,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 			TextPtSz = myv.getInt("TextPtSz");
 			FragID = (FlexString) (myv.getProperty("FragID"));
 			VersionBuffer.chkNul(FragID);
-			Delegated = (HighLevelList) (myv.getProperty("Delegated"));
+			Delegated = (HighLevelList<StdLowLevelList<DrawObj>,DrawObj>) (myv.getProperty("Delegated"));
 			VersionBuffer.chkNul(Delegated);
-			Delegators = (HighLevelList) (myv.getProperty("Delegators"));
+			Delegators = (HighLevelList<StdLowLevelList<DrawObj>,DrawObj>) (myv.getProperty("Delegators"));
 			VersionBuffer.chkNul(Delegators);
 
 			Object myo = myv.getProperty("BasicFrontLineStrokeWidth");
@@ -801,7 +801,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		Canvas g,
 		Paint p,
 		Mvec Vect,
-		int PrevToolMode,
+		GeomConstants.ToolMode PrevToolMode,
 		double ArcToolRad) {
 		double xa = hex.getPtx();
 		double ya = hex.getPty();
@@ -816,7 +816,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		p.setColor(getBackLineColor());
 
 		boolean tmp = getBackLineVisible();
-		if ((!tmp) && (PrevToolMode == 13)) {
+		if ((!tmp) && (PrevToolMode == GeomConstants.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -919,7 +919,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		Canvas g,
 		Paint p,
 		Mvec Vect,
-		int PrevToolMode,
+		GeomConstants.ToolMode PrevToolMode,
 		double xa,
 		double ya,
 		double ArcToolRad) {
@@ -1001,7 +1001,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		Canvas g,
 		Paint p,
 		Mvec Vect,
-		int PrevToolMode,
+		GeomConstants.ToolMode PrevToolMode,
 		double xa,
 		double ya,
 		double ArcToolRad) {
@@ -1085,7 +1085,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		Canvas g,
 		Paint p,
 		Mvec Vect,
-		int PrevToolMode,
+		GeomConstants.ToolMode PrevToolMode,
 		double ArcToolRad) {
 		double xa = hex.getPtx();
 		double ya = hex.getPty();
@@ -1098,7 +1098,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		p.setColor(getBackLineColor());
 
 		boolean tmp = getBackLineVisible();
-		if ((!tmp) && (PrevToolMode == 13)) {
+		if ((!tmp) && (PrevToolMode == GeomConstants.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -1157,7 +1157,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		Canvas g,
 		Paint p,
 		Mvec Vect,
-		int PrevToolMode,
+		GeomConstants.ToolMode PrevToolMode,
 		double ArcToolRad) {
 		double xa = hex.getPtx();
 		double ya = hex.getPty();
@@ -1170,7 +1170,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		p.setColor(getBackLineColor());
 
 		boolean tmp = getBackLineVisible();
-		if ((!tmp) && (PrevToolMode == 13)) {
+		if ((!tmp) && (PrevToolMode == GeomConstants.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}

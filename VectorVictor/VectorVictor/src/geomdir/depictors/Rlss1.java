@@ -589,20 +589,20 @@ public class Rlss1 extends DrawObj implements Externalizable {
 	/**
 	* Updates the depictor for future rendering.
 	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		switch (DepicType) {
 			case TypeA :
-				updateYourselfTypeA(ThePort, PrtCon, bound, ToolMode);
+				updateYourselfTypeA(ThePort, PrtCon, bound, toolMode);
 				break;
 			case TypeB :
-				updateYourselfTypeB(ThePort, PrtCon, bound, ToolMode);
+				updateYourselfTypeB(ThePort, PrtCon, bound, toolMode);
 				break;
 		}
 	}
 	/**
 	* Updates a depictor set to type-A.
 	*/
-	private final void updateYourselfTypeA(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	private final void updateYourselfTypeA(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		RlssContext Dcon = (RlssContext) PrtCon;
 		if (DragThrough) {
 			tLGetHex(Dcon).getGlo().setBasis1((hDGetVect()).getBasis1() + dir.getBasis1() * (getVect().getBasis()));
@@ -649,7 +649,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		int numStepsOut = Math.min(numStepsIn, maxGraduations);
 
 		boolean tmpb = FrontLineVisible;
-		if ((!tmpb) && (ToolMode == 13)) {
+		if ((!tmpb) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmpb = true;
 		}
 
@@ -698,10 +698,10 @@ public class Rlss1 extends DrawObj implements Externalizable {
 			(lines[ctx]).set((float)x3, (float)y3, (float)x4, (float)y4);
 		}
 
-		switch (ToolMode) {
-			case DepictorPort.TranslateMode :
-			case DepictorPort.SelectionMode :
-			case DepictorPort.FreeTransformationMode :
+		switch (toolMode) {
+			case TRANSLATE_MODE :
+			case SELECTION_MODE :
+			case FREE_TRANSFORMATION_MODE :
 				{
 					Mvec t1 = new Mvec();
 					HDHexGlo.vadd(tLGetHex(Dcon).getGlo(), t1);
@@ -709,9 +709,9 @@ public class Rlss1 extends DrawObj implements Externalizable {
 					ThePort.hexloc(HDHexGlo, bound, temp1GetHex(Dcon));
 				}
 				break;
-			case DepictorPort.RotationMode :
-			case DepictorPort.DilationMode :
-			case DepictorPort.AssignMode :
+			case ROTATION_MODE :
+			case DILATION_MODE :
+			case ASSIGN_MODE :
 				{
 					Mvec t1 = new Mvec();
 					Mvec t2 = new Mvec();
@@ -727,7 +727,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 					ThePort.hexloc(HDHexGlo, bound, temp2GetHex(Dcon));
 				}
 				break;
-			case DepictorPort.AdditionMode :
+			case ADDITION_MODE :
 				{
 					if (Dcon.getRect1() == null) {
 						Dcon.setRect1(new RectF());
@@ -736,7 +736,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 				break;
 		}
 
-		if (ToolMode == DepictorPort.ErasureMode) {
+		if (toolMode == DepictorPort.ToolMode.ERASURE_MODE) {
 			Mvec t1 = new Mvec();
 			Mvec t2 = new Mvec();
 			double oneT = 1.0 / 3.0;
@@ -753,7 +753,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 	/**
 	* Updates a depictor set to type-B.
 	*/
-	private final void updateYourselfTypeB(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	private final void updateYourselfTypeB(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		RlssContext Dcon = (RlssContext) PrtCon;
 		if (DragThrough) {
 			tLGetHex(Dcon).getGlo().setBasis1((hDGetVect()).getBasis1() - dir.getBasis1() * getVect().getBasis());
@@ -800,7 +800,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		int numStepsOut = Math.min(numStepsIn, maxGraduations);
 
 		boolean tmpb = FrontLineVisible;
-		if ((!tmpb) && (ToolMode == 13)) {
+		if ((!tmpb) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmpb = true;
 		}
 
@@ -849,10 +849,10 @@ public class Rlss1 extends DrawObj implements Externalizable {
 			(lines[ctx]).set((float)x3, (float)y3, (float)x4, (float)y4);
 		}
 
-		switch (ToolMode) {
-			case DepictorPort.TranslateMode :
-			case DepictorPort.SelectionMode :
-			case DepictorPort.FreeTransformationMode :
+		switch (toolMode) {
+			case TRANSLATE_MODE :
+			case SELECTION_MODE :
+			case FREE_TRANSFORMATION_MODE :
 				{
 					Mvec t1 = new Mvec();
 					HDHexGlo.vadd(tLGetHex(Dcon).getGlo(), t1);
@@ -860,9 +860,9 @@ public class Rlss1 extends DrawObj implements Externalizable {
 					ThePort.hexloc(HDHexGlo, bound, temp1GetHex(Dcon));
 				}
 				break;
-			case DepictorPort.RotationMode :
-			case DepictorPort.DilationMode :
-			case DepictorPort.AssignMode :
+			case ROTATION_MODE :
+			case DILATION_MODE :
+			case ASSIGN_MODE :
 				{
 					Mvec t1 = new Mvec();
 					Mvec t2 = new Mvec();
@@ -878,7 +878,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 					ThePort.hexloc(HDHexGlo, bound, temp2GetHex(Dcon));
 				}
 				break;
-			case DepictorPort.AdditionMode :
+			case ADDITION_MODE :
 				{
 					if (Dcon.getRect1() == null) {
 						Dcon.setRect1(new RectF());
@@ -887,7 +887,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 				break;
 		}
 
-		if (ToolMode == DepictorPort.ErasureMode) {
+		if (toolMode == DepictorPort.ToolMode.ERASURE_MODE) {
 			Mvec t1 = new Mvec();
 			Mvec t2 = new Mvec();
 			double oneT = 1.0 / 3.0;
@@ -905,7 +905,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 	/**
 	* Renders the ruler.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		RlssContext Dcon = (RlssContext) PrtCon;
 		int actualGraduations = Dcon.getActualGraduations();
 		RectF[] lines = Dcon.getRlssLines();
@@ -914,7 +914,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		p.setColor(FrontLineColor);
 
 		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (ToolMode == 13)) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -930,7 +930,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		/* g.setColor( TextColor ); */
 
 		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -951,13 +951,13 @@ public class Rlss1 extends DrawObj implements Externalizable {
 	/**
 	* Draws the control points and other tools for the depictor.
 	*/
-	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		switch (DepicType) {
 			case TypeA :
-				drawYourToolsTypeA(ThePort, PrtCon, bound, g, p, ToolMode);
+				drawYourToolsTypeA(ThePort, PrtCon, bound, g, p, toolMode);
 				break;
 			case TypeB :
-				drawYourToolsTypeB(ThePort, PrtCon, bound, g, p, ToolMode);
+				drawYourToolsTypeB(ThePort, PrtCon, bound, g, p, toolMode);
 				break;
 		}
 	}
@@ -969,38 +969,38 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		Canvas g, Paint p, 
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.ErasureMode :
-					drawEraseToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case ERASURE_MODE :
+					drawEraseToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.TranslateMode :
-					drawTranslateToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case TRANSLATE_MODE :
+					drawTranslateToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.RotationMode :
-					drawRotateToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case ROTATION_MODE :
+					drawRotateToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.DilationMode :
-					drawDilateToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case DILATION_MODE :
+					drawDilateToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.SelectionMode :
-					drawSelectionToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case SELECTION_MODE :
+					drawSelectionToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.LabelMode :
-					drawTextToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case LABEL_MODE :
+					drawTextToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.AdditionMode :
-					drawAdditToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case ADDITION_MODE :
+					drawAdditToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.MapMode :
-					drawMapToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case MAP_MODE :
+					drawMapToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.GeoPadMode :
-					drawGeoPadToolsTypeA(ThePort, Dcon, bound, g, p, ToolMode);
+				case GEO_PAD_MODE :
+					drawGeoPadToolsTypeA(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.FreeTransformationMode :
+				case FREE_TRANSFORMATION_MODE :
 					{
 						if (((dIGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 							ThePort.paintBlueKnob(g, p, tLGetPoint(Dcon).x, tLGetPoint(Dcon).y);
@@ -1014,7 +1014,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 
 					}
 					break;
-				case DepictorPort.AccessoryTransMode :
+				case ACCESSORY_TRANS_MODE :
 					{
 						if (((getMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 							&& ((dIGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
@@ -1024,7 +1024,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 
 					}
 					break;
-				case DepictorPort.AssignMode :
+				case ASSIGN_MODE :
 					{
 						if (ThePort.getAdvancedControls()
 							&& ((dIGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) == 0) {
@@ -1055,7 +1055,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0) {
 			ThePort.paintOrangeKnob(g, p, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 		}
@@ -1077,7 +1077,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound));
 		{
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
@@ -1092,7 +1092,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 
 	};
@@ -1104,7 +1104,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (TextVisible && getNamedVar()) {
 			ThePort.paintBlueKnob(
 				g, p,
@@ -1120,7 +1120,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if ((dIGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -1140,7 +1140,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& ((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& (!bound)) {
@@ -1160,7 +1160,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (getNamedVar()) {
 			if (g != null) {
 				p.setStyle(Style.STROKE);
@@ -1192,7 +1192,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (getNamedVar())
 			ThePort.paintBlueKnob(g, p, tLGetHex(Dcon).getLoc().x, tLGetHex(Dcon).getLoc().y);
 
@@ -1206,7 +1206,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((getMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			ThePort.paintBlueKnob(g, p, tLGetPoint(Dcon).x, tLGetPoint(Dcon).y);
 
@@ -1241,38 +1241,38 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		Canvas g, Paint p, 
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.ErasureMode :
-					drawEraseToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case ERASURE_MODE :
+					drawEraseToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.TranslateMode :
-					drawTranslateToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case TRANSLATE_MODE :
+					drawTranslateToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.RotationMode :
-					drawRotateToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case ROTATION_MODE :
+					drawRotateToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.DilationMode :
-					drawDilateToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case DILATION_MODE :
+					drawDilateToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.SelectionMode :
-					drawSelectionToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case SELECTION_MODE :
+					drawSelectionToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.LabelMode :
-					drawTextToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case LABEL_MODE :
+					drawTextToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.AdditionMode :
-					drawAdditToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case ADDITION_MODE :
+					drawAdditToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.MapMode :
-					drawMapToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case MAP_MODE :
+					drawMapToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.GeoPadMode :
-					drawGeoPadToolsTypeB(ThePort, Dcon, bound, g, p, ToolMode);
+				case GEO_PAD_MODE :
+					drawGeoPadToolsTypeB(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.FreeTransformationMode :
+				case FREE_TRANSFORMATION_MODE :
 					{
 						if (((dIGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 
@@ -1286,7 +1286,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 						}
 					}
 					break;
-				case DepictorPort.AccessoryTransMode :
+				case ACCESSORY_TRANS_MODE :
 					{
 						if (((getMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 							&& ((dIGetMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
@@ -1295,7 +1295,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 						}
 					}
 					break;
-				case DepictorPort.AssignMode :
+				case ASSIGN_MODE :
 					{
 						if (ThePort.getAdvancedControls()
 							&& ((dIGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) == 0) {
@@ -1326,7 +1326,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0) {
 			ThePort.paintOrangeKnob(g, p, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 		}
@@ -1348,7 +1348,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -1362,7 +1362,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 
 	};
@@ -1374,7 +1374,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (TextVisible && getNamedVar()) {
 			ThePort.paintBlueKnob(g, p, temptxtGetHex(Dcon).getLoc().x, temptxtGetHex(Dcon).getLoc().y);
 		}
@@ -1387,7 +1387,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if ((dIGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -1407,7 +1407,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& ((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)
 			&& (!bound)) {
@@ -1427,7 +1427,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (getNamedVar()) {
 			if (g != null) {
 				p.setStyle(Style.STROKE);
@@ -1459,7 +1459,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (getNamedVar())
 			ThePort.paintBlueKnob(g, p, tLGetHex(Dcon).getLoc().x, tLGetHex(Dcon).getLoc().y);
 
@@ -1473,7 +1473,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((getMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			ThePort.paintBlueKnob(g, p, tLGetPoint(Dcon).x, tLGetPoint(Dcon).y);
 
@@ -1508,14 +1508,14 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		ClickRec tmp = null;
 		switch (DepicType) {
 			case TypeA :
-				tmp = clickedInRegionTypeA(ThePort, PrtCon, bound, LocEvent, ToolMode);
+				tmp = clickedInRegionTypeA(ThePort, PrtCon, bound, LocEvent, toolMode);
 				break;
 			case TypeB :
-				tmp = clickedInRegionTypeB(ThePort, PrtCon, bound, LocEvent, ToolMode);
+				tmp = clickedInRegionTypeB(ThePort, PrtCon, bound, LocEvent, toolMode);
 				break;
 		}
 		return (tmp);
@@ -1528,37 +1528,37 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.FreeTransformationMode :
-					return (checkControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case FREE_TRANSFORMATION_MODE :
+					return (checkControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ErasureMode :
-					return (checkEraseControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ERASURE_MODE :
+					return (checkEraseControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.TranslateMode :
-					return (checkTransControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case TRANSLATE_MODE :
+					return (checkTransControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.RotationMode :
-					return (checkRotateControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ROTATION_MODE :
+					return (checkRotateControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.DilationMode :
-					return (checkDilateControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case DILATION_MODE :
+					return (checkDilateControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ColorMode :
-					return (checkColorControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case COLOR_MODE :
+					return (checkColorControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
-				case DepictorPort.LabelMode :
-					return (checkTextControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case LABEL_MODE :
+					return (checkTextControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.AccessoryTransMode :
-					return (checkAccControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ACCESSORY_TRANS_MODE :
+					return (checkAccControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.GeoPadMode :
-					return (checkGeoPadControlsTypeA(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case GEO_PAD_MODE :
+					return (checkGeoPadControlsTypeA(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
 			}
@@ -1575,7 +1575,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1634,7 +1634,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1680,7 +1680,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1707,7 +1707,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1739,7 +1739,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1849,7 +1849,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2049,7 +2049,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2109,7 +2109,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		RectF TempRect;
@@ -2192,7 +2192,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2275,37 +2275,37 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.FreeTransformationMode :
-					return (checkControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case FREE_TRANSFORMATION_MODE :
+					return (checkControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ErasureMode :
-					return (checkEraseControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ERASURE_MODE :
+					return (checkEraseControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.TranslateMode :
-					return (checkTransControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case TRANSLATE_MODE :
+					return (checkTransControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.RotationMode :
-					return (checkRotateControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ROTATION_MODE :
+					return (checkRotateControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.DilationMode :
-					return (checkDilateControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case DILATION_MODE :
+					return (checkDilateControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ColorMode :
-					return (checkColorControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case COLOR_MODE :
+					return (checkColorControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
-				case DepictorPort.LabelMode :
-					return (checkTextControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case LABEL_MODE :
+					return (checkTextControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.AccessoryTransMode :
-					return (checkAccControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ACCESSORY_TRANS_MODE :
+					return (checkAccControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.GeoPadMode :
-					return (checkGeoPadControlsTypeB(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case GEO_PAD_MODE :
+					return (checkGeoPadControlsTypeB(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
 			}
@@ -2322,7 +2322,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2381,7 +2381,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2411,7 +2411,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2438,7 +2438,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2470,7 +2470,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2529,7 +2529,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2581,7 +2581,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2641,7 +2641,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		RectF TempRect;
@@ -2724,7 +2724,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -2929,13 +2929,13 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		switch (DepicType) {
 			case TypeA :
-				singleClickControlTypeA(ThePort, PrtCon, bound, in, ToolMode);
+				singleClickControlTypeA(ThePort, PrtCon, bound, in, toolMode);
 				break;
 			case TypeB :
-				singleClickControlTypeB(ThePort, PrtCon, bound, in, ToolMode);
+				singleClickControlTypeB(ThePort, PrtCon, bound, in, toolMode);
 				break;
 		}
 	}
@@ -2948,8 +2948,8 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode) {
-		if ((ToolMode == DepictorPort.FreeTransformationMode) || (ToolMode == DepictorPort.AccessoryTransMode)) {
+		DepictorPort.ToolMode toolMode) {
+		if ((toolMode == DepictorPort.ToolMode.FREE_TRANSFORMATION_MODE) || (toolMode == DepictorPort.ToolMode.ACCESSORY_TRANS_MODE)) {
 			APPRec MRec = (APPRec) in;
 
 			if (MRec.getValue() == ManualDragVectCp) {
@@ -2962,7 +2962,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 			}
 		}
 
-		if ((ToolMode == DepictorPort.GeoPadMode)) {
+		if ((toolMode == DepictorPort.ToolMode.GEO_PAD_MODE)) {
 			APPRec MRec = (APPRec) in;
 
 			if (MRec.getValue() == ManualDragVectDis) {
@@ -2981,8 +2981,8 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode) {
-		if ((ToolMode == DepictorPort.FreeTransformationMode) || (ToolMode == DepictorPort.AccessoryTransMode)) {
+		DepictorPort.ToolMode toolMode) {
+		if ((toolMode == DepictorPort.ToolMode.FREE_TRANSFORMATION_MODE) || (toolMode == DepictorPort.ToolMode.ACCESSORY_TRANS_MODE)) {
 			APPRec MRec = (APPRec) in;
 
 			if (MRec.getValue() == ManualDragVectCp) {
@@ -2995,7 +2995,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 			}
 		}
 
-		if ((ToolMode == DepictorPort.GeoPadMode)) {
+		if ((toolMode == DepictorPort.ToolMode.GEO_PAD_MODE)) {
 			APPRec MRec = (APPRec) in;
 
 			if (MRec.getValue() == ManualDragVectDis) {
@@ -3015,14 +3015,14 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		switch (DepicType) {
 			case TypeA :
-				dragDisplayControlTypeA(ThePort, PrtCon, bound, in, ToolMode, InPt);
+				dragDisplayControlTypeA(ThePort, PrtCon, bound, in, toolMode, InPt);
 				break;
 			case TypeB :
-				dragDisplayControlTypeB(ThePort, PrtCon, bound, in, ToolMode, InPt);
+				dragDisplayControlTypeB(ThePort, PrtCon, bound, in, toolMode, InPt);
 				break;
 		}
 	}
@@ -3036,16 +3036,16 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		DefContext Dcon = (DefContext) PrtCon;
-		switch (ToolMode) {
+		switch (toolMode) {
 
-			case DepictorPort.LabelMode :
-				dragTextEventTypeA(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case LABEL_MODE :
+				dragTextEventTypeA(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
-			case DepictorPort.GeoPadMode :
-				dragGeoPadEventTypeA(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case GEO_PAD_MODE :
+				dragGeoPadEventTypeA(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
 
 		}
@@ -3059,7 +3059,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();
@@ -3115,7 +3115,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();
@@ -3175,16 +3175,16 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		DefContext Dcon = (DefContext) PrtCon;
-		switch (ToolMode) {
+		switch (toolMode) {
 
-			case DepictorPort.LabelMode :
-				dragTextEventTypeB(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case LABEL_MODE :
+				dragTextEventTypeB(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
-			case DepictorPort.GeoPadMode :
-				dragGeoPadEventTypeB(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case GEO_PAD_MODE :
+				dragGeoPadEventTypeB(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
 
 		}
@@ -3198,7 +3198,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();
@@ -3254,7 +3254,7 @@ public class Rlss1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();

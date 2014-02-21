@@ -227,9 +227,9 @@ class OpHandler
 	public final static int UniDimensionalFlatResult = 2;
 	private int UniDimensionalScalars = NoUniDimensionalScalars;
 
-	final static int AdditionMode = 16;
-	final static int SubtractionMode = 17;
-	final static int ComparisonMode = 18;
+	final static GeomConstants.ToolMode AdditionMode = GeomConstants.ToolMode.ADDITION_MODE;
+	final static GeomConstants.ToolMode SubtractionMode = GeomConstants.ToolMode.SUBTRACTION_MODE;
+	final static GeomConstants.ToolMode ComparisonMode = GeomConstants.ToolMode.COMPARISON_MODE;
 
 
 	public OpHandler( EduKit InKit , EduModel InMan )

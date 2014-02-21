@@ -120,6 +120,7 @@ import geomdir.DrawObj;
 import geomdir.DrawObjFactory;
 import geomdir.FragNode;
 import geomdir.GeomConstants;
+import geomdir.GeomConstants.ToolMode;
 import geomdir.GeomKitEtherEvent;
 import geomdir.IntObj;
 import geomdir.Ktool;
@@ -145,12 +146,6 @@ import java.io.ObjectOutput;
 import java.util.Iterator;
 
 import meta.*;
-import meta.DataFormatException;
-import meta.FlexString;
-import meta.HighLevelList;
-import meta.Staque;
-import meta.StdLowLevelList;
-import meta.WrapRuntimeException;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.mathimage.MathImageParseException;
@@ -1455,7 +1450,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Places items on the "clipboard".
 */
-	protected void buildClipboardComp( HighLevelList InList , ClipSet Clipboard )
+	protected void buildClipboardComp( HighLevelList<StdLowLevelList<DGMNode>,DGMNode> InList , ClipSet Clipboard )
 		{
 		if( InList != null )
 			{
@@ -1466,7 +1461,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 
 				while( !Done )
 					{
-					DGMNode MyNode = (DGMNode)( InList.getNode() );
+					DGMNode MyNode = InList.getNode();
 					Clipboard.add( MyNode );
 
 					InList.right();
@@ -1479,7 +1474,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 /**
 * Returns whether the give list is null or empty.
 */
-	protected boolean isDList( HighLevelList in )
+	protected boolean isDList( HighLevelList<StdLowLevelList<DGMNode>,DGMNode> in )
 		{
 		boolean flg = false;
 
@@ -2275,7 +2270,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyParamOne.makeCoordContext();
 			KeyParamOne.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyParamOne );
 			}
@@ -2300,7 +2295,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyParamTwo.makeCoordContext();
 			KeyParamTwo.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyParamTwo );
 			}
@@ -2325,7 +2320,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyParamThree.makeCoordContext();
 			KeyParamThree.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyParamThree );
 			}
@@ -2350,7 +2345,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyParamFour.makeCoordContext();
 			KeyParamFour.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyParamFour );
 			}
@@ -2375,7 +2370,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyParamFive.makeCoordContext();
 			KeyParamFive.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyParamFive );
 			}
@@ -3687,7 +3682,7 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 			MyDGM = new DGMNode();
 			CoordContext MyCoord = KeyCacheDepic.makeCoordContext();
 			KeyCacheDepic.updateYourself( FreeDepicPanel ,
-				MyCoord , false , FreeDepicPanel.GeoPadMode );
+				MyCoord , false , ToolMode.GEO_PAD_MODE );
 			MyDGM.setMyCoord( MyCoord );
 			MyDGM.setMyDraw( KeyCacheDepic );
 			}

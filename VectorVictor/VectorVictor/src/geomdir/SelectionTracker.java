@@ -121,6 +121,7 @@ import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 
 import meta.HighLevelList;
+import meta.*;
 
 /**
 *
@@ -162,7 +163,7 @@ import meta.HighLevelList;
 */
 class SelectionTracker extends PointTracker {
 	RectF MyChk;
-	HighLevelList MyDropList;
+	HighLevelList<StdLowLevelList<DGMNode>,DGMNode> MyDropList;
 
 	public SelectionTracker(ToolPort in) {
 		super(in);
@@ -171,7 +172,7 @@ class SelectionTracker extends PointTracker {
 	* Specifies the rendering mode, the rectangle to check, and the list in which to place the set
 	* of depictors selected.
 	*/
-	public void trackSelection(int ThisMode, RectF Chk, HighLevelList DropList) {
+	public void trackSelection(GeomConstants.ToolMode ThisMode, RectF Chk, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DropList) {
 		MyChk = Chk;
 		MyDropList = DropList;
 		DropList.eraseAllInfo();

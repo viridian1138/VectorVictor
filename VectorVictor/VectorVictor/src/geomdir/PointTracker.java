@@ -207,7 +207,7 @@ class PointTracker implements DepictorPort {
 	* Sets the (x,y) of the mouse point, the current mode, and the initial distance
 	* to compare against.
 	*/
-	public DrawObj trackPoints(double inX, double inY, int ThisMode, double Dist) {
+	public DrawObj trackPoints(double inX, double inY, GeomConstants.ToolMode ThisMode, double Dist) {
 		MouseX = inX;
 		MouseY = inY;
 		ShrtDist = Dist;
@@ -292,8 +292,8 @@ class PointTracker implements DepictorPort {
 	public double defaultGravityField(PointF p, double x, double y) {
 		return (tar.defaultGravityField(p, x, y));
 	}
-	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, int ToolMode) {
-		tar.externArrow(g, p, caller, HDhex, TLhex, ToolMode);
+	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, GeomConstants.ToolMode toolMode ) {
+		tar.externArrow(g, p, caller, HDhex, TLhex, toolMode);
 	};
 //	public void loadMvecProperties(VTextProperties in, String key, Mvec chg) throws DataFormatException {
 //		tar.loadMvecProperties(in, key, chg);

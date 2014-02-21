@@ -292,10 +292,10 @@ public class Ruler1 extends Dsca1 implements Externalizable {
 	/**
 	* Updates the depictor.
 	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		int count;
 		double MinDepth = 30.0;
-		super.updateYourself(ThePort, PrtCon, bound, ToolMode);
+		super.updateYourself(ThePort, PrtCon, bound, toolMode);
 		RulerContext Dcon = (RulerContext) PrtCon;
 		int PrevMajorGrad = Dcon.getCurrentMajorGrad();
 		int MajorGrad = MajorGraduationLevel;
@@ -373,7 +373,7 @@ public class Ruler1 extends Dsca1 implements Externalizable {
 	/**
 	* Renders the ruler.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		RulerContext Dcon = (RulerContext) PrtCon;
 		int MajorGrad = Dcon.getCurrentMajorGrad();
 		p.setStyle(Style.STROKE);
@@ -408,7 +408,7 @@ public class Ruler1 extends Dsca1 implements Externalizable {
 		p.setColor(FrontLineColor);
 
 		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (ToolMode == 13)) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -491,7 +491,7 @@ public class Ruler1 extends Dsca1 implements Externalizable {
 		/* g.setColor( TextColor ); */
 
 		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -519,11 +519,11 @@ public class Ruler1 extends Dsca1 implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
-		ClickRec MyRec = super.clickedInRegion(ThePort, PrtCon, bound, LocEvent, ToolMode);
+		DepictorPort.ToolMode toolMode) {
+		ClickRec MyRec = super.clickedInRegion(ThePort, PrtCon, bound, LocEvent, toolMode);
 
 		if ((MyRec == null)
-			&& ((ToolMode == DepictorPort.FreeTransformationMode) || (ToolMode == DepictorPort.AccessoryTransMode))) {
+			&& ((toolMode == DepictorPort.ToolMode.FREE_TRANSFORMATION_MODE) || (toolMode == DepictorPort.ToolMode.ACCESSORY_TRANS_MODE))) {
 			RulerContext Dcon = (RulerContext) PrtCon;
 			double BariText = 1.0;
 			double OffsetText = 1.0;

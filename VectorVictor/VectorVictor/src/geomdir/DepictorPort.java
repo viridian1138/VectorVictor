@@ -216,7 +216,7 @@ public interface DepictorPort extends EtherEventHandler, SymbolHolder, GeomConst
 	* Draws a standard version of a vector with arrowhead.  The kit that implements this interface
 	* can change how a vector looks by changing the implementation of this method.
 	*/
-	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, int ToolMode);
+	public void externArrow(Canvas g, Paint p, DrawObj caller, Hexar HDhex, Hexar TLhex, GeomConstants.ToolMode toolMode );
 	/**
 	* Loads the persistent properties of a multivector.
 	*/

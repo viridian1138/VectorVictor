@@ -473,7 +473,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Updates the depictor for future rendering.
 	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
 		double ba1 = (getVect()).getBasis1();
 		double ba2 = (getVect()).getBasis2();
@@ -501,10 +501,10 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		td.setBasis2(-tmp);
 		tc.vadd(td, TemptxtGlo);
 		ThePort.hexloc(HDHexGlo, bound, TemptxtGlo, temptxtGetHex(Dcon));
-		switch (ToolMode) {
-			case DepictorPort.TranslateMode :
-			case DepictorPort.SelectionMode :
-			case DepictorPort.FreeTransformationMode :
+		switch (toolMode) {
+			case TRANSLATE_MODE :
+			case SELECTION_MODE :
+			case FREE_TRANSFORMATION_MODE :
 				{
 					Mvec t1 = new Mvec();
 					HDHexGlo.vadd(tLGetHex(Dcon).getGlo(), t1);
@@ -512,8 +512,8 @@ public class Ucon1 extends DrawObj implements Externalizable {
 					ThePort.hexloc(HDHexGlo, bound, temp1GetHex(Dcon));
 				}
 				break;
-			case DepictorPort.RotationMode :
-			case DepictorPort.DilationMode :
+			case ROTATION_MODE :
+			case DILATION_MODE :
 				{
 					Mvec t1 = new Mvec();
 					Mvec t2 = new Mvec();
@@ -534,15 +534,15 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Renders the depictor.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DepictorPort Win = ThePort;
 		DefContext Dcon = (DefContext) PrtCon;
-		Win.externArrow(g, p, this, hDGetHex(Dcon), tLGetHex(Dcon), ToolMode);
+		Win.externArrow(g, p, this, hDGetHex(Dcon), tLGetHex(Dcon), toolMode);
 
 		/* g.setColor( TextColor ); */
 
 		boolean tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -562,29 +562,29 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Renders the depictor's control points and other tools.
 	*/
-	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.ErasureMode :
-					drawEraseTools(ThePort, Dcon, bound, g, p, ToolMode);
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case ERASURE_MODE :
+					drawEraseTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.TranslateMode :
-					drawTranslateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case TRANSLATE_MODE :
+					drawTranslateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.RotationMode :
-					drawRotateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case ROTATION_MODE :
+					drawRotateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.DilationMode :
-					drawDilateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case DILATION_MODE :
+					drawDilateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.SelectionMode :
-					drawSelectionTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case SELECTION_MODE :
+					drawSelectionTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.LabelMode :
-					drawTextTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case LABEL_MODE :
+					drawTextTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.FreeTransformationMode :
+				case FREE_TRANSFORMATION_MODE :
 					{
 						if (!bound) {
 
@@ -600,7 +600,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 
 					}
 					break;
-				case DepictorPort.AssignMode :
+				case ASSIGN_MODE :
 					{
 						if ((((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) == 0) && (!bound)) {
 							ThePort.paintBlueKnob(g, p, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
@@ -615,7 +615,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 
 					}
 					break;
-				case DepictorPort.GeoPadMode :
+				case GEO_PAD_MODE :
 					{
 						if (!bound) {
 
@@ -625,7 +625,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 
 					}
 					break;
-				case DepictorPort.AccessoryTransMode :
+				case ACCESSORY_TRANS_MODE :
 					{
 						if (((getMovable()).value >= DepictorPort.MABLE_BY_ANY) && (!bound)) {
 
@@ -641,7 +641,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Renders depictor tools for erasure mode.
 	*/
-	protected void drawEraseTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawEraseTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0) {
 			ThePort.paintOrangeKnob(g, p, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 		}
@@ -659,7 +659,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -673,14 +673,14 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 
 	};
 	/**
 	* Renders depictor tools for text mode.
 	*/
-	protected void drawTextTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawTextTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if (TextVisible && getNamedVar()) {
 			ThePort.paintBlueKnob(
 				g, p,
@@ -691,7 +691,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Renders depictor tools for rotation mode.
 	*/
-	protected void drawRotateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawRotateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if ((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -706,7 +706,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Renders depictor tools for dilation mode.
 	*/
-	protected void drawDilateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawDilateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if (((hDGetMovable()).value >= DepictorPort.MABLE_BY_ANY) && (!bound)) {
 			ThePort.paintBlueKnob(g, p, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		}
@@ -724,37 +724,37 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.FreeTransformationMode :
-					return (checkControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case FREE_TRANSFORMATION_MODE :
+					return (checkControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ErasureMode :
-					return (checkEraseControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ERASURE_MODE :
+					return (checkEraseControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.TranslateMode :
-					return (checkTransControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case TRANSLATE_MODE :
+					return (checkTransControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.RotationMode :
-					return (checkRotateControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ROTATION_MODE :
+					return (checkRotateControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.DilationMode :
-					return (checkDilateControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case DILATION_MODE :
+					return (checkDilateControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ColorMode :
-					return (checkColorControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case COLOR_MODE :
+					return (checkColorControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
-				case DepictorPort.LabelMode :
-					return (checkTextControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case LABEL_MODE :
+					return (checkTextControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.AccessoryTransMode :
-					return (checkAccControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ACCESSORY_TRANS_MODE :
+					return (checkAccControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.GeoPadMode :
-					return (checkGeoPadControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case GEO_PAD_MODE :
+					return (checkGeoPadControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 			}
 		}
@@ -768,7 +768,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -816,7 +816,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -848,7 +848,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -874,7 +874,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -904,7 +904,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -997,7 +997,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1102,7 +1102,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 	/**
 	* Returns whether the user clicked in the gravity field of an free transformation mode control.
 	*/
-	ClickRec checkControls(DepictorPort ThePort, DefContext Dcon, boolean bound, PointF InPt, int ToolMode) {
+	ClickRec checkControls(DepictorPort ThePort, DefContext Dcon, boolean bound, PointF InPt, DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1191,7 +1191,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1248,7 +1248,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -1410,29 +1410,29 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		DefContext Dcon = (DefContext) PrtCon;
-		switch (ToolMode) {
+		switch (toolMode) {
 
-			case DepictorPort.FreeTransformationMode :
+			case FREE_TRANSFORMATION_MODE :
 				updateUnitValue(ThePort, Dcon, bound, (APPRec) in, InPt, 2.0);
 				break;
 
-			case DepictorPort.AccessoryTransMode :
+			case ACCESSORY_TRANS_MODE :
 				updateUnitValueAcTrans(ThePort, Dcon, bound, (APPRec) in, InPt, 1.0);
 				break;
 
-			case DepictorPort.DilationMode :
-				dragDilateEvent(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case DILATION_MODE :
+				dragDilateEvent(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
 
-			case DepictorPort.GeoPadMode :
+			case GEO_PAD_MODE :
 				updateUnitValue(ThePort, Dcon, bound, (APPRec) in, InPt, 1.0);
 				break;
 
-			case DepictorPort.LabelMode :
-				dragTextEvent(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case LABEL_MODE :
+				dragTextEvent(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
 
 		}
@@ -1446,7 +1446,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();
@@ -1471,7 +1471,7 @@ public class Ucon1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 		int VectDragMode = InRec.getValue();

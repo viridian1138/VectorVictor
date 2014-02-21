@@ -427,17 +427,17 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Updates the depictor for future rendering.
 	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, int ToolMode) {
+	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
 		ThePort.hexloc(MDHexGlo, bound, MDHexGlo, mDGetHex(Dcon));
-		switch (ToolMode) {
-			case DepictorPort.TranslateMode :
-			case DepictorPort.ColorMode :
-			case DepictorPort.SelectionMode :
+		switch (toolMode) {
+			case TRANSLATE_MODE :
+			case COLOR_MODE :
+			case SELECTION_MODE :
 				{}
 				break;
-			case DepictorPort.RotationMode :
-			case DepictorPort.DilationMode :
+			case ROTATION_MODE :
+			case DILATION_MODE :
 				{}
 				break;
 		}
@@ -445,10 +445,10 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Renders the depictor.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DepictorPort Win = ThePort;
 		DefContext Dcon = (DefContext) PrtCon;
-		drawTwistDialPhasor(Win, mDGetHex(Dcon), g, p, getVect(), ToolMode, ArcToolRad);
+		drawTwistDialPhasor(Win, mDGetHex(Dcon), g, p, getVect(), toolMode, ArcToolRad);
 
 		/* g.setColor( caller.TextColor ); */
 
@@ -456,7 +456,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		double ya = mDGetHex(Dcon).getPty();
 
 		boolean tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -468,29 +468,29 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Renders the depictor's control points and other tools.
 	*/
-	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourTools(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.ErasureMode :
-					drawEraseTools(ThePort, Dcon, bound, g, p, ToolMode);
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case ERASURE_MODE :
+					drawEraseTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.TranslateMode :
-					drawTranslateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case TRANSLATE_MODE :
+					drawTranslateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.RotationMode :
-					drawRotateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case ROTATION_MODE :
+					drawRotateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.DilationMode :
-					drawDilateTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case DILATION_MODE :
+					drawDilateTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.SelectionMode :
-					drawSelectionTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case SELECTION_MODE :
+					drawSelectionTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.LabelMode :
-					drawTextTools(ThePort, Dcon, bound, g, p, ToolMode);
+				case LABEL_MODE :
+					drawTextTools(ThePort, Dcon, bound, g, p, toolMode);
 					break;
-				case DepictorPort.AssignMode :
+				case ASSIGN_MODE :
 					{
 
 						if ((((mDGetMovable().value) & DepictorPort.MABLE_ASGN_MASK) == 0) && (!bound)) {
@@ -498,8 +498,8 @@ public class Twist1 extends DrawObj implements Externalizable {
 						}
 					}
 					break;
-				case DepictorPort.FreeTransformationMode :
-				case DepictorPort.AccessoryTransMode :
+				case FREE_TRANSFORMATION_MODE :
+				case ACCESSORY_TRANS_MODE :
 					{
 
 						if ((getMovable().value) >= DepictorPort.MABLE_BY_DIFFERENTIABLE) {
@@ -517,7 +517,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Renders depictor tools for erasure mode.
 	*/
-	protected void drawEraseTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawEraseTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if (((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0) {
 
 			ThePort.paintOrangeKnob(g, p, mDGetPoint(Dcon).x - 2 * ArcToolRad, mDGetPoint(Dcon).y);
@@ -539,7 +539,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 
 		if (((mDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) && (!bound)) {
 
@@ -554,14 +554,14 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		Canvas g, Paint p,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 
 		ThePort.paintBlueKnob(g, p, mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
 	};
 	/**
 	* Renders depictor tools for text mode.
 	*/
-	protected void drawTextTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawTextTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if (TextVisible && getNamedVar()) {
 			ThePort.paintBlueKnob(
 				g, p,
@@ -572,14 +572,14 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Renders depictor tools for rotation mode.
 	*/
-	protected void drawRotateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	protected void drawRotateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		if ((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE) {}
 
 	};
 	/**
 	* Renders depictor tools for dilation mode.
 	*/
-	protected void drawDilateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, int ToolMode) {};
+	protected void drawDilateTools(DepictorPort ThePort, DefContext Dcon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {};
 	/**
 	* Returns a ClickRec iff. the user clicked in the gravity field of a depictor.
 	*/
@@ -588,32 +588,32 @@ public class Twist1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		PointF LocEvent,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
-		if ((ControlsVisible) || (ToolMode == DepictorPort.ColorMode)) {
-			switch (ToolMode) {
-				case DepictorPort.FreeTransformationMode :
-				case DepictorPort.AccessoryTransMode :
-					return (checkControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+		if ((ControlsVisible) || (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
+			switch (toolMode) {
+				case FREE_TRANSFORMATION_MODE :
+				case ACCESSORY_TRANS_MODE :
+					return (checkControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ErasureMode :
-					return (checkEraseControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ERASURE_MODE :
+					return (checkEraseControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.TranslateMode :
-					return (checkTransControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case TRANSLATE_MODE :
+					return (checkTransControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.RotationMode :
-					return (checkRotateControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case ROTATION_MODE :
+					return (checkRotateControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.DilationMode :
-					return (checkDilateControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case DILATION_MODE :
+					return (checkDilateControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
-				case DepictorPort.ColorMode :
-					return (checkColorControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case COLOR_MODE :
+					return (checkColorControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
-				case DepictorPort.LabelMode :
-					return (checkTextControls(ThePort, Dcon, bound, LocEvent, ToolMode));
+				case LABEL_MODE :
+					return (checkTextControls(ThePort, Dcon, bound, LocEvent, toolMode));
 					/* break; */
 
 			}
@@ -629,7 +629,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -690,7 +690,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -721,7 +721,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -746,7 +746,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -779,7 +779,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -797,7 +797,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		PointF InPt,
-		int ToolMode) {
+		DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -808,7 +808,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 	/**
 	* Returns whether the user clicked in the gravity field of an free transformation mode control.
 	*/
-	ClickRec checkControls(DepictorPort ThePort, DefContext Dcon, boolean bound, PointF InPt, int ToolMode) {
+	ClickRec checkControls(DepictorPort ThePort, DefContext Dcon, boolean bound, PointF InPt, DepictorPort.ToolMode toolMode) {
 		APPRec NewRec = new APPRec();
 		APPRec ret = null;
 		double Priority = ClickRec.MIN_PRIORITY + 1;
@@ -997,13 +997,13 @@ public class Twist1 extends DrawObj implements Externalizable {
 		CoordContext PrtCon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		DefContext Dcon = (DefContext) PrtCon;
-		switch (ToolMode) {
+		switch (toolMode) {
 
-			case DepictorPort.LabelMode :
-				dragTextEvent(ThePort, Dcon, bound, in, ToolMode, InPt);
+			case LABEL_MODE :
+				dragTextEvent(ThePort, Dcon, bound, in, toolMode, InPt);
 				break;
 		}
 	}
@@ -1016,7 +1016,7 @@ public class Twist1 extends DrawObj implements Externalizable {
 		DefContext Dcon,
 		boolean bound,
 		ClickRec in,
-		int ToolMode,
+		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		APPRec InRec = (APPRec) in;
 

@@ -197,7 +197,7 @@ public class DirecArc1 extends Arc1 implements Externalizable {
 	/**
 	* Draws the directional arc.
 	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, int ToolMode) {
+	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
 		DefContext Dcon = (DefContext) PrtCon;
 		RectF MyRect = Dcon.getRect1();
 		p.setStyle( Style.STROKE );
@@ -208,7 +208,7 @@ public class DirecArc1 extends Arc1 implements Externalizable {
 		p.setColor(FrontLineColor);
 
 		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (ToolMode == 13)) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
 			tmp = true;
 			p.setColor(DefBack);
 		}
@@ -234,7 +234,7 @@ public class DirecArc1 extends Arc1 implements Externalizable {
 		}
 
 		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (ToolMode == 13) && getNamedVar()) {
+		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
 			tmp = true;
 			p.setColor(DefBack);
 		}

@@ -587,7 +587,7 @@ Performs a global to local coordinate conversion on the input Hexar.
 */
 	public void paintDepic( Canvas g , Paint p , int index , int xp , int yp )
 		{
-		int ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
+		ToolMode ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
 		GeomNode MyNode = geomNodes.elementAt( index );
 		
 
@@ -630,7 +630,7 @@ Redraws the depictional representation for a
 
 	{
 	boolean Done = false;
-	int ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
+	ToolMode ThisMode = geoTools.elementAt( getPrevToolMode() ).getDrawingMode( this );
 	DrawObj LastClick = null;
 	DGMNode LastDGM = null;
 

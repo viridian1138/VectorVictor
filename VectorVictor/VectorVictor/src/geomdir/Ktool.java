@@ -111,14 +111,12 @@
 
 package geomdir;
 
+import geomdir.GeomConstants.ToolMode;
 import geomdir.engine.EngineConstants;
 
 import java.net.URL;
 
 import meta.*;
-import meta.DataFormatException;
-import meta.FlexString;
-import meta.HighLevelList;
 import verdantium.EtherEvent;
 import verdantium.ProgramDirector;
 import verdantium.mathimage.MathImage;
@@ -218,9 +216,9 @@ public abstract class Ktool {
 	/**
 	* Gets the tool mode associated with the tool.
 	*/
-	public int getDrawingMode(ToolPort in) {
-		return (in.getPrevToolMode());
-	};
+	public abstract GeomConstants.ToolMode getDrawingMode(ToolPort in); // {
+	//	return (in.getPrevToolMode());
+	// };
 
 	/**
 	* Handles a single-click event.
@@ -489,8 +487,8 @@ public abstract class Ktool {
 			return (dragSolverError);
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.FreeTransformationMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.FREE_TRANSFORMATION_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -508,8 +506,8 @@ public abstract class Ktool {
 	*/
 	public static class LabelTool extends Ktool.AccessoryTransTool {
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.LabelMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.LABEL_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -596,8 +594,8 @@ public abstract class Ktool {
 			(YOrigin).value = (int) (InPt.y - PrevPt.y + PrevY);
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.HandMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.HAND_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -723,8 +721,8 @@ public abstract class Ktool {
 			in.globalRepaint();
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.ErasureMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ERASURE_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -781,8 +779,8 @@ public abstract class Ktool {
 			in.setCoordRad(35);
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.HomeMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.HOME_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1028,8 +1026,8 @@ public abstract class Ktool {
 
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.AssignMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ASSIGN_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1054,8 +1052,8 @@ public abstract class Ktool {
 	*/
 	public static class TranslateTool extends AccessoryTransTool {
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.TranslateMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.TRANSLATE_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1080,8 +1078,8 @@ public abstract class Ktool {
 	*/
 	public static class RotateTool extends AccessoryTransTool {
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.RotationMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ROTATION_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1106,8 +1104,8 @@ public abstract class Ktool {
 	*/
 	public static class DilateTool extends AccessoryTransTool {
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.DilationMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.DILATION_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1305,8 +1303,8 @@ public abstract class Ktool {
 			}
 		}
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.AccessoryTransMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ACCESSORY_TRANS_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1341,8 +1339,8 @@ public abstract class Ktool {
 			return (false);
 		}
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.AssignMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ASSIGN_MODE);
 		};
 
 		/**
@@ -1506,8 +1504,8 @@ public abstract class Ktool {
 
 		}
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.ZoomMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.ZOOM_MODE);
 		};
 
 		public static URL getUpImgUrl() {
@@ -1556,8 +1554,8 @@ public abstract class Ktool {
 //			return (Cursor.CROSSHAIR_CURSOR);
 //		}
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.ColorMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.COLOR_MODE);
 		};
 
 		DrawObj DragDrw = null;
@@ -1672,8 +1670,8 @@ public abstract class Ktool {
 			return (false);
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.ColorMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.COLOR_MODE);
 		};
 
 //		public int getCursorType() {
@@ -1705,7 +1703,7 @@ public abstract class Ktool {
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
-						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ColorMode);
+						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ToolMode.COLOR_MODE);
 
 					if (MRec != null) {
 						if (MRec.clickPriority < Priority) {
@@ -1773,8 +1771,8 @@ public abstract class Ktool {
 			return (false);
 		};
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.ColorMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.COLOR_MODE);
 		};
 
 //		public int getCursorType() {
@@ -1806,7 +1804,7 @@ public abstract class Ktool {
 					DrawObj MyDrw = MyDGM.getMyDraw();
 
 					ClickRec MRec =
-						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ColorMode);
+						MyDrw.clickedInRegion(in, MyDGM.getMyCoord(), in.getBoundMode(), InPt, ToolPort.ToolMode.COLOR_MODE);
 
 					if (MRec != null) {
 						if (MRec.clickPriority < Priority) {
@@ -1927,7 +1925,7 @@ public abstract class Ktool {
 					boolean Done = false;
 					DropList.searchHead();
 					boolean bound = in.getBoundMode();
-					int CurMode = SelectionTool.this.getDrawingMode(in);
+					ToolPort.ToolMode CurMode = SelectionTool.this.getDrawingMode(in);
 
 					while (!Done) {
 						DGMNode CurDGM = DropList.getNode();
@@ -1978,8 +1976,8 @@ public abstract class Ktool {
 			clearDropList();
 		}
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.SelectionMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.SELECTION_MODE);
 		};
 
 //		public int getCursorType() {
@@ -2189,6 +2187,11 @@ public abstract class Ktool {
 		public static URL getDnImgUrl() {
 			return (AdditTool.class.getResource("images/" + "Icn208.gif"));
 		}
+		
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in)
+		{
+			return( ToolMode.ADDITION_MODE );
+		}
 
 	}
 
@@ -2202,8 +2205,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.AdditionMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -2410,8 +2413,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.AdditionMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -2618,8 +2621,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.AdditionMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -2826,8 +2829,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.AdditionMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -3034,8 +3037,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.MapMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -3239,8 +3242,8 @@ public abstract class Ktool {
 		DGMNode objaDGM = null;
 		DGMNode objbDGM = null;
 
-		public int getDrawingMode(ToolPort in) {
-			return (GeomConstants.MapMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (GeomConstants.ToolMode.ADDITION_MODE);
 		}
 
 		public boolean handlePreDrag(MotionEvent anEvent, ToolPort in) {
@@ -3443,8 +3446,8 @@ public abstract class Ktool {
 	*/
 	public static class GeoPadTool extends Ktool.AccessoryTransTool {
 
-		public int getDrawingMode(ToolPort in) {
-			return (ToolPort.GeoPadMode);
+		public GeomConstants.ToolMode getDrawingMode(ToolPort in) {
+			return (ToolPort.ToolMode.GEO_PAD_MODE);
 		};
 	}
 
