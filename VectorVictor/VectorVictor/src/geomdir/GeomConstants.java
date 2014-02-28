@@ -156,8 +156,14 @@ import geomdir.engine.EngineConstants;
 * @author Thorn Green
 */
 public interface GeomConstants extends EngineConstants {
-	public final static int NoMatch = 1;
-	public final static int Match = 2;
+	
+
+	
+	public static enum MatchResult
+	{
+		NO_MATCH,
+		MATCH
+	};
 	
 	public static enum ToolMode
 	{
@@ -202,32 +208,6 @@ public interface GeomConstants extends EngineConstants {
 		
 	};
 
-//	public final static int FreeTransformationMode = 1;
-//	public final static int HandMode = 2;
-//	public final static int LabelMode = 3;
-//	public final static int ErasureMode = 4;
-//	public final static int HomeMode = 5;
-//	public final static int AssignMode = 6;
-//	public final static int TranslateMode = 7;
-//	public final static int RotationMode = 8;
-//	public final static int DilationMode = 9;
-//	public final static int LockMode = 11;
-//	public final static int ZoomMode = 12;
-//	public final static int ColorMode = 13;
-//	public final static int ToFntMode = 14;
-//	public final static int ToBakMode = 15;
-//
-//	public final static int AdditionMode = 16;
-//	public final static int SubtractionMode = 17;
-//	public final static int ComparisonMode = 18;
-//	public final static int MultiplicationMode = 19;
-//	public final static int DivisionMode = 20;
-//	public final static int MapMode = 21;
-//	public final static int CircMapMode = 22;
-//	public final static int AccessoryTransMode = 23;
-//
-//	public final static int GeoPadMode = 24;
-//	public final static int SelectionMode = 25;
 
 	public final static int VectorOriginType = 1;
 	public final static int ScalarOriginType = 2;

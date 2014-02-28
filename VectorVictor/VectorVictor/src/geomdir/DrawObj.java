@@ -191,12 +191,12 @@ import android.graphics.RectF;
 * a strict superset of the depictor model in Peter Yu's implementation.
 * @author Thorn Green
 */
-public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements EtherEventHandler, Externalizable {
+public abstract class DrawObj<T extends DrawObj, Q extends CoordContext, R extends ClickRec> extends Meta<T> implements EtherEventHandler, Externalizable {
 
 	/**
 	* Copies the members of the depictor.
 	*/
-	public void drDatCpy(DrawObj out) {
+	public void drDatCpy(T out) {
 		/* out.VectName = VectName; */
 		/* out.Movable = Movable; */
 		/* out.VectPtr = VectPtr; */
@@ -213,7 +213,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	/**
 	* Copies the members of the depictor.
 	*/
-	public void datCpy(DrawObj out) {
+	public void datCpy(T out) {
 		drDatCpy(out);
 	};
 	public void wake() {};
@@ -235,7 +235,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public abstract void drawYourself(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		Canvas g, Paint p,
 		GeomConstants.ToolMode toolMode);
@@ -259,7 +259,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	* both the free and bound depiction views.  As a result there is one depictor, but two separate CoordContext
 	* objects to store pixel location information.
 	*/
-	public abstract void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, GeomConstants.ToolMode toolMode);
+	public abstract void updateYourself(DepictorPort ThePort, Q PrtCon, boolean bound, GeomConstants.ToolMode toolMode);
 	/**
 	* Renders the depictors control points, and other tools.  In particular the "hot-spots" associated with a
 	* depictor for a particular ToolMode.  The "hot-spots" are small "knobs" or "tags" drawn on top of the
@@ -276,7 +276,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public abstract void drawYourTools(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		Canvas g, Paint p,
 		GeomConstants.ToolMode toolMode);
@@ -296,9 +296,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	* depictor the mouse-down occurred on.  dragDisplayControl() can take this information and
 	* act appropriately.
 	*/
-	public abstract ClickRec clickedInRegion(
+	public abstract R clickedInRegion(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		PointF LocEvent,
 		GeomConstants.ToolMode toolMode);
@@ -320,9 +320,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public abstract void dragDisplayControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
-		ClickRec in,
+		R in,
 		GeomConstants.ToolMode toolMode,
 		PointF InPt);
 	/**
@@ -332,9 +332,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public void singleClickControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
-		ClickRec in,
+		R in,
 		GeomConstants.ToolMode toolMode) {
 		};
 	/**
@@ -352,7 +352,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	* of the link to be deleted into the delVar.  This provides the symbolic
 	* information that the DepictorPort needs to delete the link.
 	*/
-	public abstract void delVar(DepictorPort ThePort, ClickRec in, FlexString DelVar);
+	public abstract void delVar(DepictorPort ThePort, R in, FlexString DelVar);
 	/**
 	* Stores data to potentially undo a future drag operation.  The pushDragUndo() method on a
 	* DrawObj is usually called between a clickedInRegion() call and a dragDisplayControl() call.
@@ -472,18 +472,18 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	* the current value of the "reset" state.  An instance of the calling DepictorPort is passed in
 	* so that these methods can be called.
 	*/
-	public abstract void resetVects(DepictorPort ThePort, CoordContext PrtCon, boolean bound, boolean state);
+	public abstract void resetVects(DepictorPort ThePort, Q PrtCon, boolean bound, boolean state);
 	/**
 	* Initializes the position and direction of the depictor.
 	*/
-	public void synchResetVects(DepictorPort ThePort, CoordContext PrtCon, boolean bound, boolean state) {};
+	public void synchResetVects(DepictorPort ThePort, Q PrtCon, boolean bound, boolean state) {};
 	/**
 	* Checks whether the assign tool is assigning to a control point
 	* on the depictor.
 	*/
 	public abstract void checkAssignToControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		PointF InPt,
 		Object[] LHS,
@@ -494,9 +494,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public abstract void checkAssignFromControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
-		ClickRec CurDist,
+		R CurDist,
 		PointF InPt,
 		FlexString NewString,
 		PointF OutPt);
@@ -507,8 +507,8 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public void handleCoordAdjust(
 		DepictorPort ThePort,
-		CoordContext Std,
-		CoordContext Initial,
+		Q Std,
+		Q Initial,
 		boolean bound,
 		boolean ChgDelta) {
 		};
@@ -696,8 +696,8 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 		iDrawObj();
 	};
 
-	public void copyUser1Info(Meta out) {
-		DrawObj temp = (DrawObj) out;
+	public void copyUser1Info(T out) {
+		T temp = out;
 		temp.TemporaryVar = TemporaryVar;
 		(getVectName()).copyString(temp.getVectName());
 	}
@@ -776,7 +776,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	public final Mvec getBoundPt(boolean bound, Mvec in) {
 		Mvec BoundPt = in;
 		if (bound && !(getDelegated().empty())) {
-			DrawObj btemp = (DrawObj) (getDelegated().getNode());
+			DrawObj<?,?,?> btemp = getDelegated().getNode();
 			btemp.setValuePort(0);
 			BoundPt = btemp.portGetVect();
 		}
@@ -1459,7 +1459,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	/**
 	* Creates a coordinate context for the depictor.
 	*/
-	public CoordContext makeCoordContext() {
+	public Q makeCoordContext() {
 		return (null);
 	};
 	/**
@@ -1482,7 +1482,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	/**
 	* For a linear depictor, gets the additive extents.
 	*/
-	public void getAdditiveExtents(CoordContext PrtCon, Mvec pos, Mvec tl) {};
+	public void getAdditiveExtents(Q PrtCon, Mvec pos, Mvec tl) {};
 	/**
 	* For a linear depictor, sets the preferred direction.
 	*/
@@ -1590,9 +1590,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public void checkAdditFromControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
-		ClickRec CurDist,
+		R CurDist,
 		PointF InPt,
 		PointF OutPt) {
 		};
@@ -1601,7 +1601,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public boolean checkAdditToControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		PointF InPt,
 		IntObj Active) {
@@ -1612,9 +1612,9 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public void checkMapFromControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
-		ClickRec CurDist,
+		R CurDist,
 		PointF InPt,
 		PointF OutPt) {
 		};
@@ -1623,7 +1623,7 @@ public abstract class DrawObj<T extends DrawObj> extends Meta<T> implements Ethe
 	*/
 	public boolean checkMapToControl(
 		DepictorPort ThePort,
-		CoordContext PrtCon,
+		Q PrtCon,
 		boolean bound,
 		PointF InPt,
 		IntObj Active) {

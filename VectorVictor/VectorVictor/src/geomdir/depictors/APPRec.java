@@ -162,7 +162,7 @@ import android.graphics.PointF;
 * "get-set" methods on private members.  They likely don't need full documentation
 * at this time.
 */
-public class APPRec extends ClickRec {
+public class APPRec<T extends APPRec, Q extends CoordContext> extends ClickRec<T> {
 
 	public int getValue() {
 		return (value);
@@ -182,10 +182,10 @@ public class APPRec extends ClickRec {
 	public Mvec getTransDelta3() {
 		return (transDelta3);
 	}
-	public CoordContext getTransCoord() {
+	public Q getTransCoord() {
 		return (transCoord);
 	}
-	public void setTransCoord(CoordContext in) {
+	public void setTransCoord(Q in) {
 		transCoord = in;
 	}
 
@@ -196,6 +196,6 @@ public class APPRec extends ClickRec {
 	private final Mvec transDelta = new Mvec();
 	private final Mvec transDelta2 = new Mvec();
 	private final Mvec transDelta3 = new Mvec();
-	private CoordContext transCoord = null;
+	private Q transCoord = null;
 
 };

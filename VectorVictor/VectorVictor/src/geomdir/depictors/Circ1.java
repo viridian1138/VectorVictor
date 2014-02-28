@@ -114,6 +114,7 @@ package geomdir.depictors;
 import geomdir.CoordContext;
 import geomdir.DepictorPort;
 
+import java.io.Externalizable;
 import java.net.URL;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -167,96 +168,21 @@ import meta.Meta;
 * plus the "vector port" defines a point on the circle, which by
 * magnitude defines the radius.
 */
-public class Circ1 extends Vect1 {
+public final class Circ1 extends Circ1Base<Circ1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
 
-	/**
-	* Renders the circle.
-	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-		p.setStyle(Style.STROKE);
-		p.setStrokeCap( getFrontLineStroke().getStrokeCap() );
-		p.setStrokeJoin( getFrontLineStroke().getStrokeJoin() );
-		p.setStrokeMiter( getFrontLineStroke().getStrokeMiter() );
-		p.setStrokeWidth( getFrontLineStroke().getStrokeWidth() );
-		p.setColor(FrontLineColor);
-
-		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		RectF MyCirc = Dcon.getCirc1();
-		if (tmp)
-			g.drawOval(MyCirc, p);
-
-		/* g.setColor( TextColor ); */
-
-		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		/* if( tmp ) ( getVectName() ).drawString( g , 
-			txtx , txty ); */
-		if (tmp)
-			drawTextImageJustify(
-				g,
-				getDepicImage(),
-				temptxtGetHex(Dcon).getLoc().x,
-				temptxtGetHex(Dcon).getLoc().y,
-				Dcon.getTxtDelMvec(),
-				TextColor);
-	};
-
-	/**
-	* Updates the circle.
-	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-		super.updateYourself(ThePort, PrtCon, bound, toolMode);
-
-		double deltax = tLGetHex(Dcon).getPtx() - hDGetHex(Dcon).getPtx();
-		double deltay = tLGetHex(Dcon).getPty() - hDGetHex(Dcon).getPty();
-		double length = Math.sqrt((deltax * deltax) + (deltay * deltay));
-
-		if (length < 0.001)
-			length = 5;
-
-		if (Dcon.getCirc1() == null) {
-			Dcon.setCirc1(new RectF());
-		}
-
-		RectF MyCirc = Dcon.getCirc1();
-		MyCirc.set((float)(hDGetHex(Dcon).getPtx() - length), (float)(hDGetHex(Dcon).getPty() - length), 
-				(float)(hDGetHex(Dcon).getPtx() + length), (float)(hDGetHex(Dcon).getPty() + length ) );
-	};
-
-	public Meta copyUser1() {
-		Circ1 temp = new Circ1();
-		super.copyUser1Info(temp);
-		return (temp);
-	};
-	public void copyUser1Info(Meta out) {
-		super.copyUser1Info(out);
-	};
-
-	public Circ1() {
-		BariText = 1.1;
-	};
-
-	/**
-	* Gets the gravity field of the depictor shape given the vector endpoints.
-	*/
-	public double shapeGravityField(PointF p1, PointF p2, PointF in) {
-		return (circGravityField(p1, p2, in, getBasicFrontLineStrokeWidth()));
+	@Override
+	public DefContextImpl makeCoordContext() {
+		return( new DefContextImpl() );
 	}
 
-	public static URL getUpImgUrl() {
-		return (getDefaultUpImgUrl(Circ1.class));
+	@Override
+	public APPRecImpl<DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<DefContextImpl>() );
 	}
 
+	@Override
+	public Circ1 makeMeta() {
+		return( new Circ1() );
+	}
 
-}
+};

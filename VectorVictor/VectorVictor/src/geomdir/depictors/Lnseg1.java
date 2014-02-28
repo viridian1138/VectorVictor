@@ -113,6 +113,7 @@ package geomdir.depictors;
 import geomdir.CoordContext;
 import geomdir.DepictorPort;
 
+import java.io.Externalizable;
 import java.net.URL;
 
 import meta.Meta;
@@ -166,84 +167,21 @@ import android.graphics.RectF;
 * This allows the segment to be set parallel to a named vector by assigmnent.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public class Lnseg1 extends Vect1 {
+public final class Lnseg1 extends Lnseg1Base<Lnseg1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
 
-	/**
-	* Drwas the line segment.
-	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-
-		p.setStrokeCap( getFrontLineStroke().getStrokeCap() );
-		p.setStrokeJoin( getFrontLineStroke().getStrokeJoin() );
-		p.setStrokeMiter( getFrontLineStroke().getStrokeMiter() );
-		p.setStrokeWidth( getFrontLineStroke().getStrokeWidth() );
-		p.setColor(FrontLineColor);
-		p.setStyle(Style.STROKE);
-
-		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		/* g.setColor( new Color( 243 , 237 , 250 ) ); */
-
-		RectF MyLine = Dcon.getLine1();
-		if (tmp)
-			g.drawLine(MyLine.left,MyLine.top,MyLine.right,MyLine.bottom,p);
-
-		/* g.setColor( TextColor ); */
-
-		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		/* if( tmp ) VectName.drawString( g , (int)( x1 - DelX + DelY ) ,
-			(int)( y1 - DelY - DelX ) ); */
-
-		if (tmp)
-			drawTextImageJustify(
-				g,
-				getDepicImage(),
-				temptxtGetHex(Dcon).getLoc().x,
-				temptxtGetHex(Dcon).getLoc().y,
-				Dcon.getTxtDelMvec(),
-				TextColor);
-	};
-
-	/**
-	* Updates the line segment.
-	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-		super.updateYourself(ThePort, PrtCon, bound, toolMode);
-
-		if (Dcon.getLine1() == null) {
-			Dcon.setLine1(new RectF());
-		}
-
-		RectF MyLine = Dcon.getLine1();
-		MyLine.set(
-			(float)(hDGetHex(Dcon).getPtx()),
-			(float)(hDGetHex(Dcon).getPty()),
-			(float)(hDGetHex(Dcon).getPtx()+tLGetHex(Dcon).getPtx()),
-			(float)(hDGetHex(Dcon).getPty()+tLGetHex(Dcon).getPty()));
-	};
-
-	public Meta copyUser1() {
-		Lnseg1 temp = new Lnseg1();
-		super.copyUser1Info(temp);
-		return (temp);
-	};
-	public void copyUser1Info(Meta out) {
-		super.copyUser1Info(out);
-	};
-
-	public static URL getUpImgUrl() {
-		return (getDefaultUpImgUrl(Lnseg1.class));
+	@Override
+	public DefContextImpl makeCoordContext() {
+		return( new DefContextImpl() );
 	}
 
-}
+	@Override
+	public APPRecImpl<DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<DefContextImpl>() );
+	}
+
+	@Override
+	public Lnseg1 makeMeta() {
+		return( new Lnseg1() );
+	}
+
+};

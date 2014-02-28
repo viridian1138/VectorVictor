@@ -164,7 +164,7 @@ import meta.Meta;
 * information stored to determine what to do.
 * @author Thorn Green
 */
-public class ClickRec extends Meta<ClickRec> {
+public class ClickRec<T extends ClickRec> extends Meta<T> {
 	/**
 	* If delegating to a constraint handler, place the DynRunner instance here.
 	*/

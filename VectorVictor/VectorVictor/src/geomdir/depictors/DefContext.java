@@ -167,8 +167,8 @@ import android.graphics.RectF;
 * "get-set" methods on private members.  They likely don't need full documentation
 * at this time.
 */
-public class DefContext<T extends DefContext> extends CoordContext<T> {
-	public final void datCpy(DefContext out) {
+public abstract class DefContext<T extends DefContext> extends CoordContext<T> {
+	public final void datCpy(T out) {
 		out.setX(x);
 		out.setY(y);
 		out.setWidth(width);
@@ -193,35 +193,34 @@ public class DefContext<T extends DefContext> extends CoordContext<T> {
 		hx8.copyAllInfo(out.getHex8());
 	};
 	public T copyNode() {
-		DefContext temp = new DefContext();
+		T temp = makeMeta();
 		datCpy(temp);
-		return ((T)temp);
+		return (temp);
 	};
 	public T copySub() {
-		DefContext temp = new DefContext();
+		T temp = makeMeta();
 		datCpy(temp);
-		return ((T)temp);
+		return (temp);
 	};
 	public T copyAll() {
-		DefContext temp = new DefContext();
+		T temp = makeMeta();
 		datCpy(temp);
-		return ((T)temp);
+		return (temp);
 	};
 	public void copyNodeInfo(T in) {
-		DefContext temp = (DefContext) in;
-		datCpy(temp);
+		datCpy(in);
 	};
 	public void copySubInfo(T in) {
-		DefContext temp = (DefContext) in;
-		datCpy(temp);
+		datCpy(in);
 	};
 	public void copyAllInfo(T in) {
-		DefContext temp = (DefContext) in;
-		datCpy(temp);
+		datCpy(in);
 	};
 	public void eraseNode() {};
 	public void eraseSub() {};
 	public void eraseAll() {};
+	
+	public abstract T makeMeta();
 
 	public final Hexar getHex1() {
 		return (hx1);

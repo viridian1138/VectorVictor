@@ -251,9 +251,9 @@ public interface ToolPort extends DepictorPort, BackgroundListener {
 	/**
 	* Gets whether the last mouse-down event was matched by some control.
 	*/
-	public int getLastClick();
+	public MatchResult getLastClick();
 	/**
-	* Gets the time at which the last mouse-down event orcurred.
+	* Gets the time at which the last mouse-down event occurred.
 	*/
 	public long getMouseDownTime();
 	/**
@@ -276,7 +276,7 @@ public interface ToolPort extends DepictorPort, BackgroundListener {
 	/**
 	* Sets whether the last mouse-down event matched some control point.
 	*/
-	public void setLastClick(int in);
+	public void setLastClick(MatchResult in);
 	/**
 	* Causes the view to store information that will allow it to undo changes
 	* in the coordinate system.

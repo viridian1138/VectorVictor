@@ -114,6 +114,7 @@ package geomdir.depictors;
 import geomdir.CoordContext;
 import geomdir.DepictorPort;
 
+import java.io.Externalizable;
 import java.net.URL;
 
 import meta.Meta;
@@ -168,91 +169,21 @@ import android.graphics.Paint.Style;
 * This allows the line to be set parallel to a named vector by assigmnent.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public class Line1 extends Vect1 {
+public final class Line1 extends Line1Base<Line1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
 
-	/**
-	* Draws the line.
-	*/
-	public void drawYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, Canvas g, Paint p, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-
-		p.setStrokeCap( getFrontLineStroke().getStrokeCap() );
-		p.setStrokeJoin( getFrontLineStroke().getStrokeJoin() );
-		p.setStrokeMiter( getFrontLineStroke().getStrokeMiter() );
-		p.setStrokeWidth( getFrontLineStroke().getStrokeWidth() );
-		p.setColor(FrontLineColor);
-		p.setStyle(Style.STROKE);
-
-		boolean tmp = FrontLineVisible;
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE)) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		InfiniteLine MyLine = Dcon.getInf1();
-		if (tmp)
-			MyLine.draw(g, p);
-
-		/* g.setColor( TextColor ); */
-
-		tmp = TextVisible && getNamedVar();
-		if ((!tmp) && (toolMode == DepictorPort.ToolMode.COLOR_MODE) && getNamedVar()) {
-			tmp = true;
-			p.setColor(DefBack);
-		}
-
-		/* if( tmp ) VectName.drawString( g , (int)( x1 - DelX + DelY ) , 
-			(int)( y1 - DelY - DelX ) ); */
-
-		if (tmp)
-			drawTextImageJustify(
-				g,
-				getDepicImage(),
-				temptxtGetHex(Dcon).getLoc().x,
-				temptxtGetHex(Dcon).getLoc().y,
-				Dcon.getTxtDelMvec(),
-				TextColor);
-	};
-
-	/**
-	* Updates the line.
-	*/
-	public void updateYourself(DepictorPort ThePort, CoordContext PrtCon, boolean bound, DepictorPort.ToolMode toolMode) {
-		DefContext Dcon = (DefContext) PrtCon;
-		super.updateYourself(ThePort, PrtCon, bound, toolMode);
-
-		if (Dcon.getInf1() == null) {
-			Dcon.setInf1(new InfiniteLine());
-		}
-
-		double x1 = hDGetHex(Dcon).getPtx();
-		double y1 = hDGetHex(Dcon).getPty();
-		double x2 = tLGetHex(Dcon).getPtx();
-		double y2 = tLGetHex(Dcon).getPty();
-
-		InfiniteLine MyLine = Dcon.getInf1();
-		MyLine.setLine(x1, y1, x2, y2);
-	};
-
-	public Meta copyUser1() {
-		Line1 temp = new Line1();
-		super.copyUser1Info(temp);
-		return (temp);
-	};
-	public void copyUser1Info(Meta out) {
-		super.copyUser1Info(out);
-	};
-
-	/**
-	* Gets the gravity field of the depictor shape given the vector endpoints.
-	*/
-	public double shapeGravityField(PointF p1, PointF p2, PointF in) {
-		return (linearGravityField(p2, p1, in, getBasicFrontLineStrokeWidth()));
+	@Override
+	public DefContextImpl makeCoordContext() {
+		return( new DefContextImpl() );
 	}
 
-	public static URL getUpImgUrl() {
-		return (getDefaultUpImgUrl(Line1.class));
+	@Override
+	public APPRecImpl<DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<DefContextImpl>() );
 	}
 
+	@Override
+	public Line1 makeMeta() {
+		return( new Line1() );
+	}
 
-}
+};

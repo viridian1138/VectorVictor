@@ -315,7 +315,7 @@ public abstract class Ktool {
 
 			boolean tmp = checkDisplayControls(LocEvent, in.getDispList(), in);
 
-			// if ((in.getLastClick() == ToolPort.Match) && (in.getDragType() == ToolPort.DisplayControls))
+			// if ((in.getLastClick() == ToolPort.MatchResult.MATCH) && (in.getDragType() == ToolPort.DisplayControls))
 			//	in.setLastClickDepic(DragDrw); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			return (tmp);
@@ -324,7 +324,7 @@ public abstract class Ktool {
 		public boolean handleDrag(MotionEvent anEvent, ToolPort in, CoordContext PrtCon) {
 			boolean dragSolverError = false;
 
-			if (in.getLastClick() == ToolPort.Match) {
+			if (in.getLastClick() == ToolPort.MatchResult.MATCH) {
 				PointF LocEvent =
 					new PointF(anEvent.getX() - in.getXOrigin().value, anEvent.getY() - in.getYOrigin().value);
 
@@ -346,17 +346,17 @@ public abstract class Ktool {
 			}
 
 			if (!SingleClick) {
-				if ((in.getLastClick() == ToolPort.Match) && (in.getDragType() == ToolPort.DisplayControls)) {
+				if ((in.getLastClick() == ToolPort.MatchResult.MATCH) && (in.getDragType() == ToolPort.DisplayControls)) {
 					in.setLastClickDepic(DragDrw);
 				}
 				else {
-					if (in.getLastClick() != ToolPort.Match) {
+					if (in.getLastClick() != ToolPort.MatchResult.MATCH) {
 						AccessoryTransTool.this.postDragSelect(anEvent, in);
 					}
 				}
 			}
 
-			if ((in.getLastClick() == ToolPort.Match) && (in.getDragType() == ToolPort.DisplayControls)) {
+			if ((in.getLastClick() == ToolPort.MatchResult.MATCH) && (in.getDragType() == ToolPort.DisplayControls)) {
 				if (DragRec != null) {
 					if (DragRec.dyn != null) {
 						DragRec.dyn.handlePostDrag();
@@ -368,7 +368,7 @@ public abstract class Ktool {
 		public void handleSingleClick(MotionEvent anEvent, ToolPort in) {
 			handlePreDrag(anEvent, in);
 
-			if ((in.getLastClick() == ToolPort.Match) && (in.getDragType() == ToolPort.DisplayControls)) {
+			if ((in.getLastClick() == ToolPort.MatchResult.MATCH) && (in.getDragType() == ToolPort.DisplayControls)) {
 				DragDrw.singleClickControl(
 					in,
 					DragDGM.getMyCoord(),
@@ -434,7 +434,7 @@ public abstract class Ktool {
 					DisplayList.left();
 				}
 
-				if ((DragRec != null) && (in.getLastClick() == GeomConstants.NoMatch)) {
+				if ((DragRec != null) && (in.getLastClick() == GeomConstants.MatchResult.NO_MATCH)) {
 					in.pushUndoObjChg(DragDrw);
 					Mvec  mv = new Mvec();
 					mv.setBasis1( InPt.x );
@@ -444,7 +444,7 @@ public abstract class Ktool {
 					in.setDragType(ToolPort.DisplayControls);
 					in.setUpDrag(true);
 					in.setDragContext(DragDGM);
-					in.setLastClick(GeomConstants.Match);
+					in.setLastClick(GeomConstants.MatchResult.MATCH);
 					if (DragRec.coordAdjust)
 						in.startCoordAdjust();
 				}
@@ -536,7 +536,7 @@ public abstract class Ktool {
 			PointF WinEvent = new PointF(anEvent.getX(), anEvent.getY());
 
 			preDragHand(WinEvent, in.getXOrigin(), in.getYOrigin(), 1, in);
-			in.setLastClick(GeomConstants.Match);
+			in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -633,7 +633,7 @@ public abstract class Ktool {
 		}
 
 		public boolean handlePostDrag(MotionEvent anEvent, ToolPort in) {
-			if (in.getLastClick() != ToolPort.Match) {
+			if (in.getLastClick() != ToolPort.MatchResult.MATCH) {
 				ErasureTool.this.postDragSelect(anEvent, in);
 			}
 
@@ -690,9 +690,9 @@ public abstract class Ktool {
 					DisplayList.left();
 				}
 
-				if ((EraseRec != null) && (in.getLastClick() == GeomConstants.NoMatch)) {
+				if ((EraseRec != null) && (in.getLastClick() == GeomConstants.MatchResult.NO_MATCH)) {
 					SelDrw.delVar(in, EraseRec, CurString);
-					in.setLastClick(GeomConstants.Match);
+					in.setLastClick(GeomConstants.MatchResult.MATCH);
 				}
 
 				DisplayList.right();
@@ -818,7 +818,7 @@ public abstract class Ktool {
 				new PointF(anEvent.getX() - in.getXOrigin().value, anEvent.getY() - in.getYOrigin().value);
 
 			checkAssignFromControls(LocEvent, in.getDispList(), SrcStr, in.getStPt(), in);
-			in.setLastClick(GeomConstants.Match);
+			in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -1147,31 +1147,31 @@ public abstract class Ktool {
 
 				RectF YAxisRect = in.instanceRect(CoordRad * Axes[1][0], CoordRad * Axes[1][1]);
 
-				in.setLastClick(GeomConstants.NoMatch);
+				in.setLastClick(GeomConstants.MatchResult.NO_MATCH);
 				PointF LocEvent =
 					new PointF(
 						anEvent.getX() - in.getXOrigin().value,
 						anEvent.getY() - in.getYOrigin().value);
 
-				if ((in.getLastClick() == GeomConstants.NoMatch) && (XAxisRect.contains(LocEvent.x, LocEvent.y))) {
+				if ((in.getLastClick() == GeomConstants.MatchResult.NO_MATCH) && (XAxisRect.contains(LocEvent.x, LocEvent.y))) {
 					in.pushUndoOrgChg();
 					DragType = ManualDragXAxis;
-					in.setLastClick(GeomConstants.Match);
+					in.setLastClick(GeomConstants.MatchResult.MATCH);
 				}
 
-				if ((in.getLastClick() == GeomConstants.NoMatch)
+				if ((in.getLastClick() == GeomConstants.MatchResult.NO_MATCH)
 					&& (YAxisRect.contains(LocEvent.x, LocEvent.y))
 					&& (OriginType != GeomConstants.ScalarOriginType)) {
 					in.pushUndoOrgChg();
 					DragType = ManualDragYAxis;
-					in.setLastClick(GeomConstants.Match);
+					in.setLastClick(GeomConstants.MatchResult.MATCH);
 				}
 
 			}
 
 			boolean err = false;
 
-			if (in.getLastClick() == GeomConstants.NoMatch) {
+			if (in.getLastClick() == GeomConstants.MatchResult.NO_MATCH) {
 				DragType = DisplayControls;
 				err = super.handlePreDrag(anEvent, in);
 			}
@@ -1223,7 +1223,7 @@ public abstract class Ktool {
 				PointF LocEvent =
 					new PointF(anEvent.getX() - in.getXOrigin().value, anEvent.getY() - in.getYOrigin().value);
 
-				if (in.getLastClick() == GeomConstants.Match)
+				if (in.getLastClick() == GeomConstants.MatchResult.MATCH)
 					switch (DragType) {
 						case DisplayControls :
 							super.handleDrag(anEvent, in, PrtCon);
@@ -1334,7 +1334,7 @@ public abstract class Ktool {
 				new PointF(anEvent.getX() - in.getXOrigin().value, anEvent.getY() - in.getYOrigin().value);
 
 			checkLockFromControls(LocEvent, in.getVarList(), SrcStr, in.getStPt(), in);
-			in.setLastClick(GeomConstants.Match);
+			in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -1543,7 +1543,7 @@ public abstract class Ktool {
 		}
 
 		public boolean handlePostDrag(MotionEvent anEvent, ToolPort in) {
-			if (in.getLastClick() != ToolPort.Match) {
+			if (in.getLastClick() != ToolPort.MatchResult.MATCH) {
 				ColorTool.this.postDragSelect(anEvent, in);
 			}
 
@@ -1573,7 +1573,7 @@ public abstract class Ktool {
 		protected void checkColorControls(PointF InPt, HighLevelList<StdLowLevelList<DGMNode>,DGMNode> DisplayList, ToolPort in) {
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
-			in.setLastClick(GeomConstants.NoMatch);
+			in.setLastClick(GeomConstants.MatchResult.NO_MATCH);
 
 			if (!(DisplayList.empty())) {
 				DisplayList.searchHead();
@@ -1598,7 +1598,7 @@ public abstract class Ktool {
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDrw = MyDrw;
-							in.setLastClick(GeomConstants.Match);
+							in.setLastClick(GeomConstants.MatchResult.MATCH);
 							Priority = MRec.clickPriority;
 						}
 					}
@@ -1609,7 +1609,7 @@ public abstract class Ktool {
 				DisplayList.right();
 			}
 
-			if (in.getLastClick() == GeomConstants.Match) {
+			if (in.getLastClick() == GeomConstants.MatchResult.MATCH) {
 				if (/* in.Nxt == null */
 					true) {
 					try {
@@ -1663,7 +1663,7 @@ public abstract class Ktool {
 		};
 
 		public boolean handlePostDrag(MotionEvent anEvent, ToolPort in) {
-			if (in.getLastClick() != ToolPort.Match) {
+			if (in.getLastClick() != ToolPort.MatchResult.MATCH) {
 				ToFntTool.this.postDragSelect(anEvent, in);
 			}
 
@@ -1691,7 +1691,7 @@ public abstract class Ktool {
 			DGMNode DragDGM = null;
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
-			in.setLastClick(GeomConstants.NoMatch);
+			in.setLastClick(GeomConstants.MatchResult.NO_MATCH);
 
 			if (!(DisplayList.empty())) {
 				DisplayList.searchHead();
@@ -1711,7 +1711,7 @@ public abstract class Ktool {
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDGM = DisplayList.getNode();
-							in.setLastClick(GeomConstants.Match);
+							in.setLastClick(GeomConstants.MatchResult.MATCH);
 							Priority = MRec.clickPriority;
 						}
 					}
@@ -1722,7 +1722,7 @@ public abstract class Ktool {
 				DisplayList.right();
 			}
 
-			if (in.getLastClick() == GeomConstants.Match) {
+			if (in.getLastClick() == GeomConstants.MatchResult.MATCH) {
 				in.bringToFront(DragDGM.getMyDraw());
 			}
 
@@ -1764,7 +1764,7 @@ public abstract class Ktool {
 		};
 
 		public boolean handlePostDrag(MotionEvent anEvent, ToolPort in) {
-			if (in.getLastClick() != ToolPort.Match) {
+			if (in.getLastClick() != ToolPort.MatchResult.MATCH) {
 				ToBakTool.this.postDragSelect(anEvent, in);
 			}
 
@@ -1792,7 +1792,7 @@ public abstract class Ktool {
 			DGMNode DragDGM = null;
 			boolean Done = false;
 			double Priority = ClickRec.MIN_PRIORITY + 1;
-			in.setLastClick(GeomConstants.NoMatch);
+			in.setLastClick(GeomConstants.MatchResult.NO_MATCH);
 
 			if (!(DisplayList.empty())) {
 				DisplayList.searchHead();
@@ -1812,7 +1812,7 @@ public abstract class Ktool {
 							DragType = ToolPort.DisplayControls;
 							DragRec = MRec; */
 							DragDGM = DisplayList.getNode();
-							in.setLastClick(GeomConstants.Match);
+							in.setLastClick(GeomConstants.MatchResult.MATCH);
 							Priority = MRec.clickPriority;
 						}
 					}
@@ -1823,7 +1823,7 @@ public abstract class Ktool {
 				DisplayList.right();
 			}
 
-			if (in.getLastClick() == GeomConstants.Match) {
+			if (in.getLastClick() == GeomConstants.MatchResult.MATCH) {
 				in.sendToBack(DragDGM.getMyDraw());
 			}
 
@@ -2004,7 +2004,7 @@ public abstract class Ktool {
 
 			checkAdditFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -2217,7 +2217,7 @@ public abstract class Ktool {
 
 			checkSubitFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -2425,7 +2425,7 @@ public abstract class Ktool {
 
 			checkComparitFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -2633,7 +2633,7 @@ public abstract class Ktool {
 
 			checkMultitFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -2841,7 +2841,7 @@ public abstract class Ktool {
 
 			checkDivitFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -3049,7 +3049,7 @@ public abstract class Ktool {
 
 			checkMapFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}
@@ -3254,7 +3254,7 @@ public abstract class Ktool {
 
 			checkCircMapFromControls(LocEvent, in.getDispList(), in.getStPt(), in);
 			if (objA != null)
-				in.setLastClick(GeomConstants.Match);
+				in.setLastClick(GeomConstants.MatchResult.MATCH);
 			in.setUpDrag(false);
 			return (false);
 		}

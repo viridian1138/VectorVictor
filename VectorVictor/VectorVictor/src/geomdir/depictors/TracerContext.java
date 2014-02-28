@@ -159,7 +159,8 @@ package geomdir.depictors;
  *
  * A context class for {@link Tracer1} and {@link Tracer2}
  */
-class TracerContext extends DefContext {
+abstract class TracerContext<T extends TracerContext> extends DefContext<T> {
+
 	/* private Polygon TracePoly = new Polygon();
 	
 	

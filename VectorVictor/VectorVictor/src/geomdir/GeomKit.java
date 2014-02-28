@@ -341,7 +341,7 @@ public class GeomKit
 		ArcToolRad.value = 20;
 		AxisRad.value = 50;
 		ArrLen = 6.0;
-		LastClick = GeomConstants.NoMatch;
+		LastClick = GeomConstants.MatchResult.NO_MATCH;
 		requestPrevToolModeChange( 1 );
 		/* CurReply = NULL; */
 		tFont = new Paint();
@@ -423,7 +423,7 @@ public class GeomKit
 		ArcToolRad.value = 20;
 		AxisRad.value = 50;
 		ArrLen = 6.0;
-		LastClick = GeomConstants.NoMatch;
+		LastClick = GeomConstants.MatchResult.NO_MATCH;
 		requestPrevToolModeChange( 1 );
 		resetViewPosition(XOrigin, YOrigin, new Rect(1000, 1000, 1000, 1000));
 
@@ -477,7 +477,7 @@ public class GeomKit
 		/* xs.importString( "#1" );
 		ys.importString( "#2" ); */
 		Active.value = 0;
-		LastClick = GeomConstants.NoMatch;
+		LastClick = GeomConstants.MatchResult.NO_MATCH;
 		tFont = new Paint();
 		tFont.setTextSize( 12 );
 		tFont.setTypeface(Typeface.create(Typeface.SERIF,
@@ -652,7 +652,7 @@ public class GeomKit
 
 		if (!ClickMode)
 			tmp = manipEnd(e, x, y);
-		if( LastClick == Match )
+		if( LastClick == MatchResult.MATCH )
 		{
 			getParent().requestDisallowInterceptTouchEvent(true);
 		}
@@ -688,17 +688,17 @@ public class GeomKit
 		paintOn();
 		boolean ClickMode = getGeoTool(PrevToolMode).getClickMode();
 
-		boolean sgn = ClickMode && (LastClick == Match);
+		boolean sgn = ClickMode && (LastClick == MatchResult.MATCH);
 
 		if (!sgn) {
 			tmp = manipStrt(e, x, y);
-			if (ClickMode && (LastClick == NoMatch))
+			if (ClickMode && (LastClick == MatchResult.NO_MATCH))
 				manipEnd(e, x, y);
 		}
 		else
 			tmp = manipEnd(e, x, y);
 
-		if( LastClick == Match )
+		if( LastClick == MatchResult.MATCH )
 		{
 			getParent().requestDisallowInterceptTouchEvent(true);
 		}
@@ -720,7 +720,7 @@ public class GeomKit
 
 		if (!ClickMode)
 			tmp = manipDrag(e, x, y);
-		if( LastClick == Match )
+		if( LastClick == MatchResult.MATCH )
 		{
 			getParent().requestDisallowInterceptTouchEvent(true);
 		}
@@ -740,7 +740,7 @@ public class GeomKit
 		boolean ClickMode = getGeoTool(PrevToolMode).getClickMode();
 		boolean tmp = false;
 
-		boolean sgn = ClickMode && (LastClick == Match);
+		boolean sgn = ClickMode && (LastClick == MatchResult.MATCH);
 
 		if (sgn)
 			tmp = manipDrag(e, x, y);
@@ -770,7 +770,7 @@ public class GeomKit
 		getModelManager().globalRepaint();
 		painted = true;
 		requestFocus();
-		LastClick = NoMatch;
+		LastClick = MatchResult.NO_MATCH;
 		startDelayOptimize();
 		return (true);
 	}
@@ -1422,7 +1422,7 @@ public class GeomKit
 	public void clickPreDrag(MotionEvent anEvent) {
 		CrPt.x = anEvent.getX() - XOrigin.value;
 		CrPt.y = anEvent.getY() - YOrigin.value;
-		LastClick = GeomConstants.NoMatch;
+		LastClick = GeomConstants.MatchResult.NO_MATCH;
 		DraggingAssign = false;
 
 		getModelManager().setUpDrag(this, false);
@@ -1430,7 +1430,7 @@ public class GeomKit
 
 		/* Keep commented for debug support. */
 		/* DrawMarkRect = ( LastClick == Match ); */
-		if (LastClick == Match)
+		if (LastClick == MatchResult.MATCH)
 			invalidate(); // !!!!!
 	};
 
@@ -1656,7 +1656,7 @@ public class GeomKit
 	/**
 	* Gets whether the last mouse-down event was matched by some control.
 	*/
-	public int getLastClick() {
+	public MatchResult getLastClick() {
 		return (LastClick);
 	}
 	/**
@@ -1686,7 +1686,7 @@ public class GeomKit
 	/**
 	* Sets whether the last mouse-down event matched some control point.
 	*/
-	public void setLastClick(int in) {
+	public void setLastClick(MatchResult in) {
 		LastClick = in;
 	}
 	/**
@@ -2542,7 +2542,7 @@ public class GeomKit
 	*@author Thorn Green
 	*/
 	protected void otherClickPreDrag(MotionEvent anEvent) {
-		LastClick = NoMatch;
+		LastClick = MatchResult.NO_MATCH;
 
 		boolean err = (getGeoTool(PrevToolMode)).handlePreDrag(anEvent, this);
 		getModelManager().setDragSolverError(err);
@@ -5452,7 +5452,7 @@ public class GeomKit
 	public IntObj RealBar = new IntObj();
 	public IntObj ImBar = new IntObj();
 	protected double ArrLen;
-	protected transient int LastClick;
+	protected transient MatchResult LastClick;
 	protected transient boolean MousedDown = false;
 	private Model Manager = null;
 	protected boolean ShowDisplayControls = false;

@@ -278,7 +278,7 @@ Programmed By: Thorn Green.
 	ArcToolRad.value = 20;
 	AxisRad.value = 50;
 	ArrLen = 6.0;
-	LastClick = GeomKit.NoMatch;
+	LastClick = GeomKit.MatchResult.NO_MATCH;
 	requestPrevToolModeChange( 1 );
 	/* CurReply = NULL; */
 	
