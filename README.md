@@ -6,7 +6,7 @@ VectorVictor
 
 
 
-Vector Victor is a Vector Algebra / Geometric Algebra / Physics Calculator For 10.1" Android Tablets.
+Vector Victor is a Vector Algebra / Geometric Algebra / Physics Calculator For 7" Android Tablets (larger tablets are also supported).
 
 
 
