@@ -180,15 +180,17 @@ import android.graphics.RectF;
 * The "vector port" vector defines the position of the point.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R extends APPRec<Point1Base.Point1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int DragNone = 6;
+	protected static enum Point1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		DRAG_NONE
+	};
 
 	static transient int PortMode = 1;
 	public void datCpy(T out) {
@@ -631,7 +633,7 @@ public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R e
 		if ((((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, vectGetHex(Dcon).getLoc().x, vectGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Point1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -642,7 +644,7 @@ public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R e
 		if (noSymBindings()) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Point1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -700,7 +702,7 @@ public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R e
 
 		Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -732,7 +734,7 @@ public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R e
 					vectGetHex(Dcon).getLoc().x + TextOffsetX - XOffset,
 					vectGetHex(Dcon).getLoc().y + TextOffsetY - YOffset);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				/* NewRec.setValue( ManualDragVectPos ); */
+				/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -875,14 +877,14 @@ public abstract class Point1Base<T extends Point1Base, Q extends DefContext, R e
 		double Delta2 = .2;
 		R MyRec = in;
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Point1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Point1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 

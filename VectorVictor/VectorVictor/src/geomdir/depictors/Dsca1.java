@@ -203,7 +203,7 @@ import android.graphics.Paint;
 * the base is "_hd_" (e.g. the tip) minus "_di_" times the value of the scalar.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Dsca1 extends Dsca1Base<Dsca1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Dsca1 extends Dsca1Base<Dsca1,DefContextImpl,APPRecImpl<Dsca1Base.Dsca1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -211,8 +211,8 @@ public final class Dsca1 extends Dsca1Base<Dsca1,DefContextImpl,APPRecImpl<DefCo
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Dsca1Base.Dsca1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Dsca1Base.Dsca1Evt,DefContextImpl>() );
 	}
 
 	@Override

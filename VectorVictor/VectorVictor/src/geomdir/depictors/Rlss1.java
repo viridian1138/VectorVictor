@@ -200,7 +200,7 @@ import android.graphics.RectF;
 * This depictor is currently unfinished.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Rlss1 extends Rlss1Base<Rlss1,Rlss1Base.RlssContextImpl,APPRecImpl<Rlss1Base.RlssContextImpl>> implements Externalizable {
+public final class Rlss1 extends Rlss1Base<Rlss1,Rlss1Base.RlssContextImpl,APPRecImpl<Rlss1Base.Rlss1Evt,Rlss1Base.RlssContextImpl>> implements Externalizable {
 
 	@Override
 	public RlssContextImpl makeCoordContext() {
@@ -208,8 +208,8 @@ public final class Rlss1 extends Rlss1Base<Rlss1,Rlss1Base.RlssContextImpl,APPRe
 	}
 
 	@Override
-	public APPRecImpl<Rlss1Base.RlssContextImpl> makeClickRec() {
-		return( new APPRecImpl<Rlss1Base.RlssContextImpl>() );
+	public APPRecImpl<Rlss1Base.Rlss1Evt,Rlss1Base.RlssContextImpl> makeClickRec() {
+		return( new APPRecImpl<Rlss1Base.Rlss1Evt,Rlss1Base.RlssContextImpl>() );
 	}
 
 	@Override

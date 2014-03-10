@@ -184,7 +184,7 @@ import android.graphics.RectF;
 * of the comparator.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Compar1 extends Compar1Base<Compar1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Compar1 extends Compar1Base<Compar1,DefContextImpl,APPRecImpl<Compar1Base.Compar1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -192,8 +192,8 @@ public final class Compar1 extends Compar1Base<Compar1,DefContextImpl,APPRecImpl
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Compar1Base.Compar1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Compar1Base.Compar1Evt,DefContextImpl>() );
 	}
 
 	@Override

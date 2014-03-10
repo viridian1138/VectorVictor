@@ -167,7 +167,7 @@ import android.graphics.RectF;
 * This allows the segment to be set parallel to a named vector by assigmnent.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Lnseg1Base<T extends Lnseg1Base, Q extends DefContext, R extends APPRec<?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
+public abstract class Lnseg1Base<T extends Lnseg1Base, Q extends DefContext, R extends APPRec<Vect1Base.Vect1Evt,?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
 
 	/**
 	* Drwas the line segment.

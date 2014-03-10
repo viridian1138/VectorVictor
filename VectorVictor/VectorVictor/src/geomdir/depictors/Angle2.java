@@ -195,7 +195,7 @@ import android.graphics.RectF;
 * vector.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Angle2 extends Angle2Base<Angle2,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Angle2 extends Angle2Base<Angle2,DefContextImpl,APPRecImpl<Angle2Base.Angle2Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -203,8 +203,8 @@ public final class Angle2 extends Angle2Base<Angle2,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Angle2Base.Angle2Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Angle2Base.Angle2Evt,DefContextImpl>() );
 	}
 
 	@Override

@@ -188,19 +188,21 @@ import android.graphics.RectF;
 * an area equal to the the imaginary value of the "vector port".
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R extends APPRec<Para1Base.Para1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int MDPort = 3;
 	final static int MXPort = 4;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragMXPos = 4;
-	final static int ManualDragMDPos = 5;
-	final static int DragNone = 6;
+	protected static enum Para1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_MX_POS,
+		MANUAL_DRAG_MD_POS,
+		DRAG_NONE
+	};
 
 	static transient int PortMode = 1;
 
@@ -874,7 +876,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 		if ((((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -886,7 +888,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 			Priority = ThePort.defaultGravityField(InPt, mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
 
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragMDPos);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_MD_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -898,7 +900,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 			Priority = ThePort.defaultGravityField(InPt, mXGetPoint(Dcon).x, mXGetPoint(Dcon).y);
 
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragMXPos);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_MX_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -908,7 +910,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 		if (noSymBindings()) {
 			Priority = shapeGravityField(Dcon, InPt);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1005,7 +1007,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 
 		Priority = shapeGravityField(Dcon, InPt);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* mDGetVect().sub( Temp1Glo ,
@@ -1038,7 +1040,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 					hDGetHex(Dcon).getLoc().x + TextOffsetX - XOffset,
 					hDGetHex(Dcon).getLoc().y + TextOffsetY - YOffset);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( Temp1Glo ,
@@ -1206,7 +1208,7 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 					hDGetHex(Dcon).getLoc().x + TextOffsetX+img.getWidth(),
 					hDGetHex(Dcon).getLoc().y + TextOffsetY+img.getHeight());
 			if (TempRect.contains(InPt.x, InPt.y) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Para1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = ClickRec.MIN_PRIORITY;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1452,35 +1454,35 @@ public abstract class Para1Base<T extends Para1Base, Q extends DefContext, R ext
 		double Delta2 = .2;
 
 		R MyRec = in;
-		if (MyRec.getValue() == ManualDragVectPos) {
+		if (MyRec.getValue() == Para1Evt.MANUAL_DRAG_VECT_POS) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragMDPos) {
+		if (MyRec.getValue() == Para1Evt.MANUAL_DRAG_MD_POS) {
 			Object[] Form = { "_md", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(mDGetVect()).setBasis1((mDGetVect()).getBasis1() + Delta1);
 			(mDGetVect()).setBasis2((mDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragMXPos) {
+		if (MyRec.getValue() == Para1Evt.MANUAL_DRAG_MX_POS) {
 			Object[] Form = { "_mx", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(mXGetVect()).setBasis1((mXGetVect()).getBasis1() + Delta1);
 			(mXGetVect()).setBasis2((mXGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Para1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Para1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 

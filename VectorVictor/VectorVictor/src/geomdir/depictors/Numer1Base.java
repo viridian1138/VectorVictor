@@ -188,16 +188,18 @@ import android.renderscript.Font;
 * of the "vector port" is depicted.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R extends APPRec<Numer1Base.Numer1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int DragNone = 6;
+	protected static enum Numer1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		DRAG_NONE
+	};
 
 	private boolean Apply0 = true;
 	private boolean Apply1 = true;
@@ -806,7 +808,7 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 		if ((((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetHex(Dcon).getLoc().x, hDGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Numer1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -817,7 +819,7 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 		if (noSymBindings()) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Numer1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -875,7 +877,7 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 
 		Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -905,7 +907,7 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 				hDGetHex(Dcon).getLoc().x + LabelTextOffsetX - XOffset,
 				hDGetHex(Dcon).getLoc().y + LabelTextOffsetY - YOffset);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			NewRec.setValue(ManualDragVectDis);
+			NewRec.setValue(Numer1Evt.MANUAL_DRAG_VECT_DIS);
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -920,7 +922,7 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 					hDGetHex(Dcon).getLoc().x + TextOffsetX - XOffset,
 					hDGetHex(Dcon).getLoc().y + TextOffsetY - YOffset);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Numer1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1034,14 +1036,14 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 
 		R MyRec = in;
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Numer1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Numer1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 
@@ -1155,17 +1157,17 @@ public abstract class Numer1Base<T extends Numer1Base, Q extends DefContext, R e
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		int VectDragMode = InRec.getValue();
+		Numer1Evt VectDragMode = InRec.getValue();
 
 		switch (VectDragMode) {
-			case ManualDragVectPos :
+			case MANUAL_DRAG_VECT_POS :
 				{
 					TextOffsetX = (int) (InPt.x - hDGetHex(Dcon).getLoc().x + XOffset);
 					TextOffsetY = (int) (InPt.y - hDGetHex(Dcon).getLoc().y + YOffset);
 				}
 				break;
 
-			case ManualDragVectDis :
+			case MANUAL_DRAG_VECT_DIS :
 				{
 					LabelTextOffsetX = (int) (InPt.x - hDGetHex(Dcon).getLoc().x + XOffset);
 					LabelTextOffsetY = (int) (InPt.y - hDGetHex(Dcon).getLoc().y + YOffset);

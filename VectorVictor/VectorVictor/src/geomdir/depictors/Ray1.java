@@ -169,7 +169,7 @@ import android.graphics.Paint.Style;
 * This allows the line to be set parallel to a named vector by assigmnent.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Ray1 extends Ray1Base<Ray1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Ray1 extends Ray1Base<Ray1,DefContextImpl,APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -177,8 +177,8 @@ public final class Ray1 extends Ray1Base<Ray1,DefContextImpl,APPRecImpl<DefConte
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>() );
 	}
 
 	@Override

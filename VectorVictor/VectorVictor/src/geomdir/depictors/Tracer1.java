@@ -183,7 +183,7 @@ import android.graphics.Paint;
 * the depictor.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Tracer1 extends Tracer1Base<Tracer1,TracerContextImpl,APPRecImpl<TracerContextImpl>> implements Externalizable {
+public final class Tracer1 extends Tracer1Base<Tracer1,TracerContextImpl,APPRecImpl<Tracer1Base.Tracer1Evt,TracerContextImpl>> implements Externalizable {
 
 	@Override
 	public TracerContextImpl makeCoordContext() {
@@ -191,8 +191,8 @@ public final class Tracer1 extends Tracer1Base<Tracer1,TracerContextImpl,APPRecI
 	}
 
 	@Override
-	public APPRecImpl<TracerContextImpl> makeClickRec() {
-		return( new APPRecImpl<TracerContextImpl>() );
+	public APPRecImpl<Tracer1Base.Tracer1Evt,TracerContextImpl> makeClickRec() {
+		return( new APPRecImpl<Tracer1Base.Tracer1Evt,TracerContextImpl>() );
 	}
 
 	@Override

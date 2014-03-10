@@ -180,7 +180,7 @@ import android.graphics.RectF;
 * The "vector port" vector defines the position of the point.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Point1 extends Point1Base<Point1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Point1 extends Point1Base<Point1,DefContextImpl,APPRecImpl<Point1Base.Point1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -188,8 +188,8 @@ public final class Point1 extends Point1Base<Point1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Point1Base.Point1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Point1Base.Point1Evt,DefContextImpl>() );
 	}
 
 	@Override

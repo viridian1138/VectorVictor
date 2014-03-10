@@ -203,7 +203,7 @@ import com.postgreen.vectorvictor.ScreenDensityRatio;
 * that "_d1_" and "_d2_" are positive scalar multiples of each other.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Rlax1 extends Rlax1Base<Rlax1,Rlax1Base.RlaxContextImpl,APPRecImpl<Rlax1Base.RlaxContextImpl>> implements Externalizable {
+public final class Rlax1 extends Rlax1Base<Rlax1,Rlax1Base.RlaxContextImpl,APPRecImpl<Rlax1Base.Rlax1Evt,Rlax1Base.RlaxContextImpl>> implements Externalizable {
 
 	@Override
 	public RlaxContextImpl makeCoordContext() {
@@ -211,8 +211,8 @@ public final class Rlax1 extends Rlax1Base<Rlax1,Rlax1Base.RlaxContextImpl,APPRe
 	}
 
 	@Override
-	public APPRecImpl<Rlax1Base.RlaxContextImpl> makeClickRec() {
-		return( new APPRecImpl<Rlax1Base.RlaxContextImpl>() );
+	public APPRecImpl<Rlax1Base.Rlax1Evt,Rlax1Base.RlaxContextImpl> makeClickRec() {
+		return( new APPRecImpl<Rlax1Base.Rlax1Evt,Rlax1Base.RlaxContextImpl>() );
 	}
 
 	@Override

@@ -196,21 +196,23 @@ import android.graphics.drawable.shapes.Shape;
 * vector.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R extends APPRec<Angle1Base.Angle1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int MDPort = 3;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int ManualDragMDPos = 5;
-	final static int ManualDragPhasAng = 6;
-	final static int ManualDragPhasLen = 7;
-	final static int DragNone = 8;
-
+	protected static enum Angle1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		MANUAL_DRAG_MD_POS,
+		MANUAL_DRAG_PHAS_ANG,
+		MANUAL_DRAG_PHAS_LEN,
+		DRAG_NONE
+	};
+	
 	private boolean PolarForm = false;
 	private boolean AreaForm = false;
 
@@ -1154,7 +1156,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		if ((((hDGetMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1164,7 +1166,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		if ((((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, mLGetHex(Dcon).getLoc().x, mLGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1177,7 +1179,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 			Priority = ThePort.defaultGravityField(InPt, mDGetPoint(Dcon).x, mDGetPoint(Dcon).y);
 
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragMDPos);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_MD_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1187,7 +1189,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		if (noSymBindings()) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1198,7 +1200,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 			if( ( Priority <= ClickRec.MIN_PRIORITY ) && ( 
 				LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 				{
-				NewRec.setValue( ManualDragVecReal );
+				NewRec.setValue( MANUAL_DRAG_VEC_REAL );
 				NewRec.ClickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1276,7 +1278,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 
 		Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1317,7 +1319,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 			Priority =
 				ThePort.defaultGravityField(InPt, temptxtGetHex(Dcon).getLoc().x, temptxtGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1331,7 +1333,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 			if( ( Priority <= ClickRec.MIN_PRIORITY ) && (
 			        LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 			        {
-			        NewRec.setValue( ManualDragMDPos );
+			        NewRec.setValue( MANUAL_DRAG_MD_POS );
 			NewRec.ClickPriority = Priority;
 			        ret = NewRec;
 			        LastClick = DepictorPort.MatchResult.MATCH;
@@ -1737,7 +1739,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 					temptxtGetHex(Dcon).getLoc().x+img.getWidth(),
 					temptxtGetHex(Dcon).getLoc().y+img.getHeight());
 			if (TempRect.contains(InPt.x, InPt.y) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Angle1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = ClickRec.MIN_PRIORITY;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1787,28 +1789,28 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		double Delta2 = .2;
 
 		R MyRec = in;
-		if (MyRec.getValue() == ManualDragVectPos) {
+		if (MyRec.getValue() == Angle1Evt.MANUAL_DRAG_VECT_POS) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragMDPos) {
+		if (MyRec.getValue() == Angle1Evt.MANUAL_DRAG_MD_POS) {
 			Object[] Form = { "_md", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(mDGetVect()).setBasis1((mDGetVect()).getBasis1() + Delta1);
 			(mDGetVect()).setBasis2((mDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Angle1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis((getVect()).getBasis() + Delta1);
 			(getVect()).setBasis12((getVect()).getBasis12() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Angle1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 
@@ -1903,7 +1905,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		if ((toolMode == DepictorPort.ToolMode.GEO_PAD_MODE)) {
 			R MRec = in;
 
-			if (MRec.getValue() == ManualDragVectDis) {
+			if (MRec.getValue() == Angle1Evt.MANUAL_DRAG_VECT_DIS) {
 				/* EtherEvent send = new GeomKitEtherEvent( this , GeomKitEtherEvent.changeDepicLabel ,
 					null , in );
 				ThePort.processObjEtherEvent( send , null ); */
@@ -1942,10 +1944,10 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		int VectDragMode = InRec.getValue();
+		Angle1Evt VectDragMode = InRec.getValue();
 
 		switch (VectDragMode) {
-			case ManualDragVectPos :
+			case MANUAL_DRAG_VECT_POS :
 				Mvec VectVal = new Mvec();
 				Mvec InVect = new Mvec();
 				Mvec dprod = new Mvec();
@@ -1980,7 +1982,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 
 				break;
 
-				/* case ManualDragMDPos:
+				/* case MANUAL_DRAG_MD_POS:
 						TextOffsetX = InPt.x - mDGetHex( Dcon ).getLoc().x + XOffset;
 						TextOffsetY = InPt.y - mDGetHex( Dcon ).getLoc().y + YOffset;
 					break; */

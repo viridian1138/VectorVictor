@@ -166,7 +166,7 @@ import java.io.Externalizable;
 * vector.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Angle1 extends Angle1Base<Angle1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Angle1 extends Angle1Base<Angle1,DefContextImpl,APPRecImpl<Angle1Base.Angle1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -174,8 +174,8 @@ public final class Angle1 extends Angle1Base<Angle1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Angle1Base.Angle1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Angle1Base.Angle1Evt,DefContextImpl>() );
 	}
 
 	@Override

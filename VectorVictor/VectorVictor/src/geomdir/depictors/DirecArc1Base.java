@@ -186,7 +186,7 @@ import android.graphics.Path;
 * that two points are equidistant from a center.  Uses the same
 * ports as {@link Arc1}.
 */
-public abstract class DirecArc1Base<T extends DirecArc1Base, Q extends DefContext, R extends APPRec<?,Q>> extends Arc1Base<T,Q,R> implements Externalizable {
+public abstract class DirecArc1Base<T extends DirecArc1Base, Q extends DefContext, R extends APPRec<Arc1Base.Arc1Evt,?,Q>> extends Arc1Base<T,Q,R> implements Externalizable {
 	public final static int DirNone = 0;
 	public final static int DirUniMid = 1;
 	public final static int DirUniTip = 2;

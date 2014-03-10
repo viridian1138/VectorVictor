@@ -167,7 +167,7 @@ import android.graphics.RectF;
 * This allows the segment to be set parallel to a named vector by assigmnent.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Lnseg1 extends Lnseg1Base<Lnseg1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Lnseg1 extends Lnseg1Base<Lnseg1,DefContextImpl,APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -175,8 +175,8 @@ public final class Lnseg1 extends Lnseg1Base<Lnseg1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>() );
 	}
 
 	@Override

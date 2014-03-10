@@ -191,7 +191,7 @@ import android.graphics.drawable.shapes.ArcShape;
 * the center point of the circle and thus the radius for the circular arc.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Arc1 extends Arc1Base<Arc1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Arc1 extends Arc1Base<Arc1,DefContextImpl,APPRecImpl<Arc1Base.Arc1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -199,8 +199,8 @@ public final class Arc1 extends Arc1Base<Arc1,DefContextImpl,APPRecImpl<DefConte
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Arc1Base.Arc1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Arc1Base.Arc1Evt,DefContextImpl>() );
 	}
 
 	@Override

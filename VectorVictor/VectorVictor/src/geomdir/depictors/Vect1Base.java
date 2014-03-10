@@ -187,17 +187,19 @@ import android.graphics.Paint.Style;
 * of the "_hd_" port.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R extends APPRec<Vect1Base.Vect1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int ManualDragVectCp = 5;
-	final static int DragNone = 6;
+	protected static enum Vect1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		MANUAL_DRAG_VECT_CP,
+		DRAG_NONE
+	};
 
 	static transient int PortMode = 1;
 
@@ -772,7 +774,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		if (!((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Vect1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -782,7 +784,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		if (!((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, tLGetPoint(Dcon).x, tLGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Vect1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -793,7 +795,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		if (noSymBindings()) {
 			Priority = shapeGravityField(hDGetPoint(Dcon), tLGetPoint(Dcon), InPt);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Vect1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -853,7 +855,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 
 		Priority = shapeGravityField(hDGetPoint(Dcon), tLGetPoint(Dcon), InPt);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -882,7 +884,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 			Priority =
 				ThePort.defaultGravityField(InPt, temptxtGetHex(Dcon).getLoc().x, temptxtGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Vect1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1212,7 +1214,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 					temptxtGetHex(Dcon).getLoc().x+img.getWidth(),
 					temptxtGetHex(Dcon).getLoc().y+img.getHeight());
 			if (TempRect.contains(InPt.x, InPt.y) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Vect1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = ClickRec.MIN_PRIORITY;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1291,21 +1293,21 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		double Delta2 = .2;
 
 		R MyRec = in;
-		if (MyRec.getValue() == ManualDragVectPos) {
+		if (MyRec.getValue() == Vect1Evt.MANUAL_DRAG_VECT_POS) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Vect1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Vect1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 
@@ -1384,7 +1386,7 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		if ((toolMode == DepictorPort.ToolMode.GEO_PAD_MODE )) {
 			R MRec = in;
 
-			if (MRec.getValue() == ManualDragVectDis) {
+			if (MRec.getValue() == Vect1Evt.MANUAL_DRAG_VECT_DIS) {
 				/* EtherEvent send = new GeomKitEtherEvent( this , GeomKitEtherEvent.changeDepicLabel ,
 					null , in );
 				ThePort.processObjEtherEvent( send , null ); */
@@ -1424,10 +1426,10 @@ public abstract class Vect1Base<T extends Vect1Base, Q extends DefContext, R ext
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		int VectDragMode = InRec.getValue();
+		Vect1Evt VectDragMode = InRec.getValue();
 
 		switch (VectDragMode) {
-			case ManualDragVectPos :
+			case MANUAL_DRAG_VECT_POS :
 				Mvec VectVal = new Mvec();
 				Mvec InVect = new Mvec();
 				Mvec dprod = new Mvec();

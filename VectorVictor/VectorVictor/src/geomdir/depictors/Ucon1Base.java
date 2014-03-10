@@ -191,18 +191,20 @@ import android.graphics.RectF;
 * in which the depictor points is defined by the unit of the 
 * "vector port".
 */
-public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R extends APPRec<Ucon1Base.Ucon1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int UDPort = 3;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int ManualDragVectCp = 5;
-	final static int DragNone = 6;
+	protected static enum Ucon1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		MANUAL_DRAG_VECT_CP,
+		DRAG_NONE
+	};
 
 	static transient int PortMode = 1;
 
@@ -775,7 +777,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		if (!((hDGetMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, hDGetPoint(Dcon).x, hDGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -785,7 +787,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		if (!((getMovable()).value >= DepictorPort.MABLE_BY_DIFFERENTIABLE)) {
 			Priority = ThePort.defaultGravityField(InPt, tLGetPoint(Dcon).x, tLGetPoint(Dcon).y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -796,7 +798,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		if (noSymBindings()) {
 			Priority = linearSegGravityField(hDGetPoint(Dcon), tLGetPoint(Dcon), InPt, getBasicFrontLineStrokeWidth());
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -854,7 +856,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 
 		Priority = linearSegGravityField(hDGetPoint(Dcon), tLGetPoint(Dcon), InPt, getBasicFrontLineStrokeWidth());
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -883,7 +885,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 			Priority =
 				ThePort.defaultGravityField(InPt, temptxtGetHex(Dcon).getLoc().x, temptxtGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectPos);
+				NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1009,7 +1011,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 					NewRec.coordAdjust = getUseCoordAdjust();
 					NewRec.setTransCoord((Q)(Dcon.copyAll()));
 					HDHexGlo.copyAllInfo(hDGetHex((Q) (NewRec.getTransCoord())).getGlo());
-					NewRec.setValue(ManualDragVectPos);
+					NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_POS);
 
 					NewRec.clickPriority = Priority;
 					ret = NewRec;
@@ -1074,7 +1076,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 				if (getUseMaintainUnit()) {
 					NewRec.coordAdjust = getUseCoordAdjust();
 					NewRec.setTransCoord((Q)(Dcon.copyAll()));
-					NewRec.setValue(ManualDragVectDis);
+					NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_DIS);
 
 					NewRec.clickPriority = Priority;
 					ret = NewRec;
@@ -1113,7 +1115,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 				if (getUseMaintainUnit()) {
 					NewRec.coordAdjust = getUseCoordAdjust();
 					NewRec.setTransCoord((Q)(Dcon.copyAll()));
-					NewRec.setValue(ManualDragVectDis);
+					NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_DIS);
 
 					NewRec.clickPriority = Priority;
 					ret = NewRec;
@@ -1202,7 +1204,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 				if (getUseMaintainUnit()) {
 					NewRec.coordAdjust = getUseCoordAdjust();
 					NewRec.setTransCoord((Q)(Dcon.copyAll()));
-					NewRec.setValue(ManualDragVectDis);
+					NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_DIS);
 
 					NewRec.clickPriority = Priority;
 					ret = NewRec;
@@ -1259,7 +1261,7 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 				if (getUseMaintainUnit()) {
 					NewRec.coordAdjust = getUseCoordAdjust();
 					NewRec.setTransCoord((Q)(Dcon.copyAll()));
-					NewRec.setValue(ManualDragVectDis);
+					NewRec.setValue(Ucon1Evt.MANUAL_DRAG_VECT_DIS);
 
 					NewRec.clickPriority = Priority;
 					ret = NewRec;
@@ -1307,21 +1309,21 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		double Delta2 = .2;
 
 		R MyRec = in;
-		if (MyRec.getValue() == ManualDragVectPos) {
+		if (MyRec.getValue() == Ucon1Evt.MANUAL_DRAG_VECT_POS) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Ucon1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Ucon1Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 
@@ -1447,14 +1449,14 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		int VectDragMode = InRec.getValue();
+		Ucon1Evt VectDragMode = InRec.getValue();
 
 		switch (VectDragMode) {
-			case ManualDragVectPos :
+			case MANUAL_DRAG_VECT_POS :
 				updateUnitValueBackDilate(ThePort, Dcon, bound, in, InPt, 1.5);
 				break;
 
-			case ManualDragVectDis :
+			case MANUAL_DRAG_VECT_DIS :
 				updateUnitValue(ThePort, Dcon, bound, in, InPt, 1.5);
 				break;
 		}
@@ -1472,10 +1474,10 @@ public abstract class Ucon1Base<T extends Ucon1Base, Q extends DefContext, R ext
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		int VectDragMode = InRec.getValue();
+		Ucon1Evt VectDragMode = InRec.getValue();
 
 		switch (VectDragMode) {
-			case ManualDragVectPos :
+			case MANUAL_DRAG_VECT_POS :
 				Mvec VectVal = new Mvec();
 				Mvec InVect = new Mvec();
 				Mvec dprod = new Mvec();

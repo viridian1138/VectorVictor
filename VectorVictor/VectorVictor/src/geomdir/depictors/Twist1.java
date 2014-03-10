@@ -180,7 +180,7 @@ import android.graphics.RectF;
 * The spatial position of the dials is defined by the "_md_" port of the depictor.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Twist1 extends Twist1Base<Twist1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Twist1 extends Twist1Base<Twist1,DefContextImpl,APPRecImpl<Twist1Base.Twist1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -188,8 +188,8 @@ public final class Twist1 extends Twist1Base<Twist1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Twist1Base.Twist1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Twist1Base.Twist1Evt,DefContextImpl>() );
 	}
 
 	@Override

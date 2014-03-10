@@ -188,7 +188,7 @@ import android.graphics.RectF;
 * an area equal to the the imaginary value of the "vector port".
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Tria1 extends Tria1Base<Tria1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Tria1 extends Tria1Base<Tria1,DefContextImpl,APPRecImpl<Tria1Base.Tria1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -196,8 +196,8 @@ public final class Tria1 extends Tria1Base<Tria1,DefContextImpl,APPRecImpl<DefCo
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Tria1Base.Tria1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Tria1Base.Tria1Evt,DefContextImpl>() );
 	}
 
 	@Override

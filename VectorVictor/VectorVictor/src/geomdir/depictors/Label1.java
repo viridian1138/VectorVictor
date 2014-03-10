@@ -189,7 +189,7 @@ import android.graphics.RectF;
 * The vector port of the depictor defines the position of the label.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Label1 extends Label1Base<Label1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Label1 extends Label1Base<Label1,DefContextImpl,APPRecImpl<Label1Base.Label1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -197,8 +197,8 @@ public final class Label1 extends Label1Base<Label1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Label1Base.Label1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Label1Base.Label1Evt,DefContextImpl>() );
 	}
 
 	@Override

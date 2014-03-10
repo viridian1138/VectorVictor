@@ -191,7 +191,7 @@ import android.graphics.Typeface;
 * "_di_" port to a unit vector.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Ruler1 extends Ruler1Base<Ruler1,Ruler1Base.RulerContextImpl,APPRecImpl<Ruler1Base.RulerContextImpl>> implements Externalizable {
+public final class Ruler1 extends Ruler1Base<Ruler1,Ruler1Base.RulerContextImpl,APPRecImpl<Dsca1Base.Dsca1Evt,Ruler1Base.RulerContextImpl>> implements Externalizable {
 
 	@Override
 	public RulerContextImpl makeCoordContext() {
@@ -199,8 +199,8 @@ public final class Ruler1 extends Ruler1Base<Ruler1,Ruler1Base.RulerContextImpl,
 	}
 
 	@Override
-	public APPRecImpl<Ruler1Base.RulerContextImpl> makeClickRec() {
-		return( new APPRecImpl<Ruler1Base.RulerContextImpl>() );
+	public APPRecImpl<Dsca1Base.Dsca1Evt,Ruler1Base.RulerContextImpl> makeClickRec() {
+		return( new APPRecImpl<Dsca1Base.Dsca1Evt,Ruler1Base.RulerContextImpl>() );
 	}
 
 	@Override

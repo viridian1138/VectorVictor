@@ -117,7 +117,7 @@ package geomdir.depictors;
 
 import geomdir.CoordContext;
 
-public final class APPRecImpl<Q extends CoordContext> extends APPRec<APPRecImpl<Q>,Q> {
+public final class APPRecImpl<Z extends Object, Q extends CoordContext> extends APPRec<Z,APPRecImpl<Z,Q>,Q> {
 
 }
 

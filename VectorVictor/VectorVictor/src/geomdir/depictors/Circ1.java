@@ -168,7 +168,7 @@ import meta.Meta;
 * plus the "vector port" defines a point on the circle, which by
 * magnitude defines the radius.
 */
-public final class Circ1 extends Circ1Base<Circ1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Circ1 extends Circ1Base<Circ1,DefContextImpl,APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -176,8 +176,8 @@ public final class Circ1 extends Circ1Base<Circ1,DefContextImpl,APPRecImpl<DefCo
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>() );
 	}
 
 	@Override

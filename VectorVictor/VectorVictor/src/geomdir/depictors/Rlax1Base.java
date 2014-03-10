@@ -203,7 +203,7 @@ import com.postgreen.vectorvictor.ScreenDensityRatio;
 * that "_d1_" and "_d2_" are positive scalar multiples of each other.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxContext, R extends APPRec<Rlax1Base.Rlax1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	
 	
 	public static abstract class RlaxContext<T extends RlaxContext> extends DefContext<T> {
@@ -308,13 +308,15 @@ public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxCon
 	final static int D2Port = 4;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragMDPos = 3;
-	final static int ManualDragMDDis = 4;
-	final static int ManualDragVectMid = 5;
-	final static int ManualDragMDMid = 6;
-	final static int DragNone = 7;
+	protected static enum Rlax1Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_MD_POS,
+		MANUAL_DRAG_MD_DIS,
+		MANUAL_DRAG_VECT_MID,
+		MANUAL_DRAG_MD_MID,
+		DRAG_NONE
+	};
 
 	int MajorGraduationLevel = 3;
 	int MinorGraduationDelta = 3;
@@ -1130,7 +1132,7 @@ public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxCon
 		if ((((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, vectGetHex(Dcon).getLoc().x, vectGetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Rlax1Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1141,7 +1143,7 @@ public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxCon
 		if (noSymBindings()) {
 			Priority = shapeGravityField(Dcon, InPt);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragMDPos);
+				NewRec.setValue(Rlax1Evt.MANUAL_DRAG_MD_POS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1201,7 +1203,7 @@ public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxCon
 
 		Priority = shapeGravityField(Dcon, InPt);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1544,14 +1546,14 @@ public abstract class Rlax1Base<T extends Rlax1Base, Q extends Rlax1Base.RlaxCon
 		double Delta2 = .2;
 		R MyRec = in;
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Rlax1Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragMDPos) {
+		if (MyRec.getValue() == Rlax1Evt.MANUAL_DRAG_MD_POS) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 

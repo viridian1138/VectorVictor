@@ -183,7 +183,7 @@ import android.graphics.Paint;
 * The "_md_" port defines the position of the base point of the bargraph.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Bar1 extends Bar1Base<Bar1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Bar1 extends Bar1Base<Bar1,DefContextImpl,APPRecImpl<Bar1Base.Bar1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -191,8 +191,8 @@ public final class Bar1 extends Bar1Base<Bar1,DefContextImpl,APPRecImpl<DefConte
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Bar1Base.Bar1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Bar1Base.Bar1Evt,DefContextImpl>() );
 	}
 
 	@Override

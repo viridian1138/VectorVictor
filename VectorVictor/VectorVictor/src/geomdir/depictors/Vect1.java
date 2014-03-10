@@ -187,7 +187,7 @@ import android.graphics.Paint.Style;
 * of the "_hd_" port.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Vect1 extends Vect1Base<Vect1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Vect1 extends Vect1Base<Vect1,DefContextImpl,APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -195,8 +195,8 @@ public final class Vect1 extends Vect1Base<Vect1,DefContextImpl,APPRecImpl<DefCo
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>() );
 	}
 
 	@Override

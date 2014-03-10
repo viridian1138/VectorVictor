@@ -183,7 +183,7 @@ import android.graphics.Path;
 * between two elements.  Uses the same ports as
 * {@link Vect1}.
 */
-public final class Direc1 extends Direc1Base<Direc1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Direc1 extends Direc1Base<Direc1,DefContextImpl,APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -191,8 +191,8 @@ public final class Direc1 extends Direc1Base<Direc1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Vect1Base.Vect1Evt,DefContextImpl>() );
 	}
 
 	@Override

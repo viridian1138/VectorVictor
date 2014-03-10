@@ -169,7 +169,7 @@ import meta.Meta;
 * plus the "vector port" defines a point on the circle, which by
 * magnitude defines the radius.
 */
-public abstract class Circ1Base<T extends Circ1Base, Q extends DefContext, R extends APPRec<?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
+public abstract class Circ1Base<T extends Circ1Base, Q extends DefContext, R extends APPRec<Vect1Base.Vect1Evt,?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
 
 	/**
 	* Renders the circle.

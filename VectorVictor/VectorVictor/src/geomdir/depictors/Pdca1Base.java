@@ -186,7 +186,7 @@ import android.graphics.Paint.Style;
 * other depictors.  This depictor is currently unfinished.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R extends APPRec<Pdca1Base.Pdca1Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int HDPort = 2;
 	final static int D1Port = 3;
@@ -194,13 +194,15 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 	final static int OBPort = 5;
 	final static int PrevPort = 100;
 
-	final static int DelHd = 1;
-	final static int DelD1 = 2;
-	final static int DelD2 = 3;
-	final static int DelOb = 4;
-	final static int DelVect = 5;
-	final static int DelDepic = 6;
-	final static int DelNone = 7;
+	protected static enum Pdca1Evt {
+		DEL_HD,
+		DEL_D1,
+		DEL_D2,
+		DEL_OB,
+		DEL_VECT,
+		DEL_DEPIC,
+		DEL_NONE
+	};
 
 	static transient int PortMode = 1;
 	Mvec del1 = new Mvec();
@@ -977,7 +979,7 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 		//				if( ( Priority <= ClickRec.MIN_PRIORITY ) && ( 
 		//					LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 		//					{
-		//					NewRec.setValue( DelHd );
+		//					NewRec.setValue( DEL_HD );
 		//					NewRec.ClickPriority = Priority;
 		//					ret = NewRec;
 		//					LastClick = DepictorPort.MatchResult.MATCH;
@@ -992,7 +994,7 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 		//				if( ( Priority <= ClickRec.MIN_PRIORITY ) && ( 
 		//					LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 		//					{
-		//					NewRec.setValue( DelD1 );
+		//					NewRec.setValue( DEL_D1 );
 		//					NewRec.ClickPriority = Priority;
 		//					ret = NewRec;
 		//					LastClick = DepictorPort.MatchResult.MATCH;
@@ -1006,7 +1008,7 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 		//				if( ( Priority <= ClickRec.MIN_PRIORITY ) && ( 
 		//					LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 		//					{
-		//					NewRec.setValue( DelVect );
+		//					NewRec.setValue( DEL_VECT );
 		//					NewRec.ClickPriority = Priority;
 		//					ret = NewRec;
 		//					LastClick = DepictorPort.MatchResult.MATCH;
@@ -1020,7 +1022,7 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 		//				if( ( Priority <= ClickRec.MIN_PRIORITY ) && ( 
 		//					LastClick == DepictorPort.MatchResult.NO_MATCH ) )
 		//					{
-		//					NewRec.setValue( DelDepic );
+		//					NewRec.setValue( DEL_DEPIC );
 		//					NewRec.ClickPriority = Priority;
 		//					ret = NewRec;
 		//					LastClick = DepictorPort.MatchResult.MATCH;
@@ -1092,7 +1094,7 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 
 		Priority = linearSegGravityField(hDGetPoint(Dcon), tLGetPoint(Dcon), InPt, getBasicFrontLineStrokeWidth());
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1999,34 +2001,34 @@ public abstract class Pdca1Base<T extends Pdca1Base, Q extends DefContext, R ext
 		double Delta1 = .3;
 		double Delta2 = .2;
 		R MyRec = in;
-		if (MyRec.getValue() == DelHd) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_HD) {
 			Object[] Form = { "_hd", this };
 			ThePort.insertFormattedString(Form, CurString);
 			(hDGetVect()).setBasis1((hDGetVect()).getBasis1() + Delta1);
 			(hDGetVect()).setBasis2((hDGetVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == DelD1) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_D1) {
 			Object[] Form = { "_d1", this };
 			ThePort.insertFormattedString(Form, CurString);
 		}
 
-		if (MyRec.getValue() == DelD2) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_D2) {
 			Object[] Form = { "_d2", this };
 			ThePort.insertFormattedString(Form, CurString);
 		}
 
-		if (MyRec.getValue() == DelOb) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_OB) {
 			Object[] Form = { "_ob", this };
 			ThePort.insertFormattedString(Form, CurString);
 		}
 
-		if (MyRec.getValue() == DelVect) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_VECT) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 		}
 
-		if (MyRec.getValue() == DelDepic) {
+		if (MyRec.getValue() == Pdca1Evt.DEL_DEPIC) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 

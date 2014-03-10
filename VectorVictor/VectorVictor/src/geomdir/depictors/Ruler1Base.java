@@ -193,7 +193,7 @@ import android.graphics.Typeface;
 * "_di_" port to a unit vector.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Ruler1Base<T extends Ruler1Base, Q extends Ruler1Base.RulerContext, R extends APPRec<?,Q>> extends Dsca1Base<T,Q,R> implements Externalizable {
+public abstract class Ruler1Base<T extends Ruler1Base, Q extends Ruler1Base.RulerContext, R extends APPRec<Dsca1Base.Dsca1Evt,?,Q>> extends Dsca1Base<T,Q,R> implements Externalizable {
 	
 	
 public static abstract class RulerContext<T extends RulerContext> extends DefContext<T> {

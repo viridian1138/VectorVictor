@@ -191,7 +191,7 @@ import android.graphics.RectF;
 * in which the depictor points is defined by the unit of the 
 * "vector port".
 */
-public final class Ucon1 extends Ucon1Base<Ucon1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Ucon1 extends Ucon1Base<Ucon1,DefContextImpl,APPRecImpl<Ucon1Base.Ucon1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -199,8 +199,8 @@ public final class Ucon1 extends Ucon1Base<Ucon1,DefContextImpl,APPRecImpl<DefCo
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Ucon1Base.Ucon1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Ucon1Base.Ucon1Evt,DefContextImpl>() );
 	}
 
 	@Override

@@ -185,17 +185,19 @@ import android.graphics.Paint.Style;
 * This class is not finished.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext, R extends APPRec<?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
+public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext, R extends APPRec<Tracer2Base.Tracer2Evt,?,Q>> extends DrawObj<T,Q,R> implements Externalizable {
 	final static int VectPort = 1;
 	final static int LQPort = 2;
 	final static int PrevPort = 100;
 
-	final static int ManualDragVectPos = 1;
-	final static int ManualDragVectDis = 2;
-	final static int ManualDragVecReal = 3;
-	final static int ManualDragVecIm = 4;
-	final static int ManualDragVectCp = 5;
-	final static int DragNone = 6;
+	protected static enum Tracer2Evt {
+		MANUAL_DRAG_VECT_POS,
+		MANUAL_DRAG_VECT_DIS,
+		MANUAL_DRAG_VEC_REAL,
+		MANUAL_DRAG_VEC_IM,
+		MANUAL_DRAG_VECT_CP,
+		DRAG_NONE
+	};
 
 	static transient int PortMode = 1;
 	public void datCpy(T out) {
@@ -788,7 +790,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 		if ((((getMovable()).value & DepictorPort.MABLE_ASGN_MASK) > 0)) {
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectDis);
+				NewRec.setValue(Tracer2Evt.MANUAL_DRAG_VECT_DIS);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -799,7 +801,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 		if (noSymBindings()) {
 			Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVecReal);
+				NewRec.setValue(Tracer2Evt.MANUAL_DRAG_VEC_REAL);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -857,7 +859,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 
 		Priority = ThePort.defaultGravityField(InPt, temp1GetHex(Dcon).getLoc().x, temp1GetHex(Dcon).getLoc().y);
 		if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-			/* NewRec.setValue( ManualDragVectPos ); */
+			/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 			NewRec.clickPriority = Priority;
 			ret = NewRec;
 			/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -889,7 +891,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 					vectGetHex(Dcon).getLoc().x + TextOffsetX - XOffset,
 					vectGetHex(Dcon).getLoc().y + TextOffsetY - YOffset);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				/* NewRec.setValue( ManualDragVectPos ); */
+				/* NewRec.setValue( MANUAL_DRAG_VECT_POS ); */
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				/* hDGetVect().sub( temp1GetHex( Dcon ).getGlo() ,
@@ -1024,7 +1026,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 		if ((LastClick == DepictorPort.MatchResult.NO_MATCH) && (!bound)) {
 			Priority = ThePort.defaultGravityField(InPt, temp2GetHex(Dcon).getLoc().x, temp2GetHex(Dcon).getLoc().y);
 			if ((Priority <= ClickRec.MIN_PRIORITY) && (LastClick == DepictorPort.MatchResult.NO_MATCH)) {
-				NewRec.setValue(ManualDragVectCp);
+				NewRec.setValue(Tracer2Evt.MANUAL_DRAG_VECT_CP);
 				NewRec.clickPriority = Priority;
 				ret = NewRec;
 				LastClick = DepictorPort.MatchResult.MATCH;
@@ -1045,14 +1047,14 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 		double Delta2 = .2;
 		R MyRec = in;
 
-		if (MyRec.getValue() == ManualDragVectDis) {
+		if (MyRec.getValue() == Tracer2Evt.MANUAL_DRAG_VECT_DIS) {
 			Object[] Form = { this };
 			ThePort.insertFormattedString(Form, CurString);
 			(getVect()).setBasis1((getVect()).getBasis1() + Delta1);
 			(getVect()).setBasis2((getVect()).getBasis2() + Delta2);
 		}
 
-		if (MyRec.getValue() == ManualDragVecReal) {
+		if (MyRec.getValue() == Tracer2Evt.MANUAL_DRAG_VEC_REAL) {
 			(new FlexString("\\")).copyString(CurString);
 		}
 
@@ -1130,7 +1132,7 @@ public abstract class Tracer2Base<T extends Tracer2Base, Q extends TracerContext
 		if ((toolMode == DepictorPort.ToolMode.FREE_TRANSFORMATION_MODE) || (toolMode == DepictorPort.ToolMode.ACCESSORY_TRANS_MODE)) {
 			R MRec = in;
 
-			if ((MRec.getValue() == ManualDragVectCp)) {
+			if ((MRec.getValue() == Tracer2Evt.MANUAL_DRAG_VECT_CP)) {
 				handleGraphUpdate(ThePort);
 			}
 		}

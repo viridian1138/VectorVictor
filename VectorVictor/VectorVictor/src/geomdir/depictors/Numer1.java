@@ -188,7 +188,7 @@ import android.renderscript.Font;
 * of the "vector port" is depicted.
 * For more information on depictors in general see {@link geomdir.DrawObj}.
 */
-public final class Numer1 extends Numer1Base<Numer1,DefContextImpl,APPRecImpl<DefContextImpl>> implements Externalizable {
+public final class Numer1 extends Numer1Base<Numer1,DefContextImpl,APPRecImpl<Numer1Base.Numer1Evt,DefContextImpl>> implements Externalizable {
 
 	@Override
 	public DefContextImpl makeCoordContext() {
@@ -196,8 +196,8 @@ public final class Numer1 extends Numer1Base<Numer1,DefContextImpl,APPRecImpl<De
 	}
 
 	@Override
-	public APPRecImpl<DefContextImpl> makeClickRec() {
-		return( new APPRecImpl<DefContextImpl>() );
+	public APPRecImpl<Numer1Base.Numer1Evt,DefContextImpl> makeClickRec() {
+		return( new APPRecImpl<Numer1Base.Numer1Evt,DefContextImpl>() );
 	}
 
 	@Override

@@ -184,7 +184,7 @@ import android.graphics.Path;
 * between two elements.  Uses the same ports as
 * {@link Vect1}.
 */
-public abstract class Direc1Base<T extends Direc1Base, Q extends DefContext, R extends APPRec<?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
+public abstract class Direc1Base<T extends Direc1Base, Q extends DefContext, R extends APPRec<Vect1Base.Vect1Evt,?,Q>> extends Vect1Base<T,Q,R> implements Externalizable {
 	public static final int DirNone = 0;
 	public static final int DirUniMid = 1;
 	public static final int DirUniTip = 2;
