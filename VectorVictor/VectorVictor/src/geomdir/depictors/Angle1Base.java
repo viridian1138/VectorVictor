@@ -1944,7 +1944,7 @@ public abstract class Angle1Base<T extends Angle1Base, Q extends DefContext, R e
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		Angle1Evt VectDragMode = InRec.getValue();
+		Angle1Evt VectDragMode = (Angle1Evt)( InRec.getValue() );
 
 		switch (VectDragMode) {
 			case MANUAL_DRAG_VECT_POS :

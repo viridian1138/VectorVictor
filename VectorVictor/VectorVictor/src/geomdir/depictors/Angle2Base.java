@@ -1943,7 +1943,7 @@ public abstract class Angle2Base<T extends Angle2Base, Q extends DefContext, R e
 		DepictorPort.ToolMode toolMode,
 		PointF InPt) {
 		R InRec = in;
-		Angle2Evt VectDragMode = InRec.getValue();
+		Angle2Evt VectDragMode = (Angle2Evt)( InRec.getValue() );
 
 		switch (VectDragMode) {
 			case MANUAL_DRAG_VECT_POS :
