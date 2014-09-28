@@ -155,7 +155,6 @@ import android.graphics.Paint.FontMetrics;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Region;
-import android.renderscript.Font;
 import android.view.MotionEvent;
 import android.view.View.MeasureSpec;
 

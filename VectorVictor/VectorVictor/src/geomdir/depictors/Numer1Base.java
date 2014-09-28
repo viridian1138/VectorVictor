@@ -139,7 +139,6 @@ import android.graphics.Paint.FontMetrics;
 import android.graphics.Paint.Style;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.renderscript.Font;
 
 /**
 *
