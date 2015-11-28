@@ -149,10 +149,8 @@ public class DefinedSymbolSpinnerAdapter extends BaseAdapter implements
 		keys = new FlexString[ sz ];
 		vals = new SymListNode[ sz ];
 		int count = 0;
-		Iterator<FlexString> it = (Iterator<FlexString>)( map.keySet().iterator() );
-		while( it.hasNext() )
+		for( final FlexString str : map.keySet() )
 		{
-			FlexString str = it.next();
 			keys[ count ] = str;
 			vals[ count ] = map.getSym( str );
 			count++;

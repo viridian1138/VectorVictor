@@ -1025,12 +1025,11 @@ public class TwoDScrollView extends FrameLayout {
    }
    mChildToScrollTo = null;
    
-   Iterator<Runnable> it = layoutRunnable.iterator();
-   while( it.hasNext() )
+   for( final Runnable ii : layoutRunnable )
    {
    	try
    	{
-   		it.next().run();
+   		ii.run();
    	}
    	catch( Throwable ex )
    	{

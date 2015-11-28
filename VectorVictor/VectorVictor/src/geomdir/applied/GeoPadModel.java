@@ -1436,11 +1436,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 				}
 			}
 
-		Iterator<DGMNode> it = in.iterator();
-
-		while( it.hasNext() )
+		for( final DGMNode MyNode : in )
 			{
-			DGMNode MyNode = it.next();
 			deleteClipElement( MyNode.getMyDraw() );
 			}
 
@@ -3262,11 +3259,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		{
 		boolean ExtOK = true;
 
-		Iterator<DGMNode> it = in.iterator();
-
-		while( it.hasNext() )
+		for( final DGMNode MyNode : in )
 			{
-			DGMNode MyNode = it.next();
 			DrawObj MyObj = MyNode.getMyDraw();
 
 			FragNode MyFrag = getVarList().getFrag( MyObj.getVectName() );
@@ -3291,12 +3285,9 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		{
 		ClipSet TmpClip = new ClipSet();
 		Staque<StdLowLevelList<DGMNode>,DGMNode> MyQ = new Staque<StdLowLevelList<DGMNode>,DGMNode>();
-		
-		Iterator<DGMNode> it = Clipboard.iterator();
 
-		while( it.hasNext() )
+		for( final DGMNode Tmp : Clipboard )
 			{
-			DGMNode Tmp = it.next();
 			/* TmpClip.insertNode( Tmp ); */
 			MyQ.enq( Tmp );
 			}
@@ -3330,10 +3321,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		int FndCnt = 0;
 		DGMNode RetObj = null;
 
-		Iterator<DGMNode> it = ExprClipboard.iterator();
-		while( it.hasNext() )
+		for( final DGMNode MyNode : ExprClipboard )
 			{
-			DGMNode MyNode = it.next();
 			DrawObj MyDraw = MyNode.getMyDraw();
 			if( checkDepictorTypeMatch( MyDraw ) )
 				{
@@ -3357,13 +3346,10 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		InStr.clearString();
 		InStr.setInsertPoint( 0 );
 		int FndCnt = 0;
-
-		Iterator<DGMNode> it = ExprClipboard.iterator();
 		
-		while( it.hasNext() )
+		for( final DGMNode MyNode : ExprClipboard )
 			{
 			System.out.println( "Entered Inner Loop." );
-			DGMNode MyNode = it.next();
 			DrawObj MyDraw = MyNode.getMyDraw();
 			if( checkDepictorTypeMatch( MyDraw ) )
 				{
@@ -3386,11 +3372,8 @@ protected final int dom_err = 2 * DepictorPort.DOM_PSU;
 		System.out.println( "Paste Into Model" );
 		
 
-		Iterator<DGMNode> it = ExprClipboard.iterator();
-
-		while( it.hasNext() )
+		for( final DGMNode MyNode : ExprClipboard )
 			{
-			DGMNode MyNode = it.next();
 			DrawObj MyObj = MyNode.getMyDraw();
 			
 			FragNode MyFrag = getVarList().getFrag( MyObj.getVectName() );

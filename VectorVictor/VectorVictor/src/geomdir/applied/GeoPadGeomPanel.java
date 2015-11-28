@@ -818,16 +818,16 @@ Redraws the depictional representation for a
 
 		if( !( in.isEmpty() ) )
 			{
+				
 			Iterator<DGMNode> it = in.iterator();
 
 			DGMNode CDGM = it.next();
 			setLineCoord( CurIndex , CDGM.getMyDraw() );		
 
-			it = in.iterator();
+			it = null;
 
-			while( it.hasNext() )
+			for( final DGMNode MyNode : in )
 				{
-				DGMNode MyNode = it.next();
 				DrawObj MyObj = MyNode.getMyDraw();
 				
 				DGMNode MyDGM = new DGMNode();

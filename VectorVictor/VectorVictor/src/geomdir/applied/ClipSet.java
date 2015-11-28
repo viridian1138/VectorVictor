@@ -190,10 +190,8 @@ public class ClipSet extends Object implements Set<DGMNode>
 	public boolean addAll(Collection<? extends DGMNode> c)
 		{
 		boolean ret = false;
-		Iterator<? extends DGMNode> it = c.iterator();
-		while( it.hasNext() )
+		for( final DGMNode nd : c )
 			{
-			DGMNode nd = it.next();
 			boolean rt = add( nd );
 			ret = ret || rt;
 			}
@@ -250,10 +248,8 @@ public class ClipSet extends Object implements Set<DGMNode>
 	public int hashCode() 
                 {
 		int val = 0;
-		Iterator<FlexString> it = map.keySet().iterator();
-		while( it.hasNext() )
+		for( final FlexString nd : map.keySet() )
 			{
-			FlexString nd = it.next();
 			val += nd.hashCode();
 			}
 		return( val );
@@ -289,10 +285,9 @@ public class ClipSet extends Object implements Set<DGMNode>
 	public boolean removeAll(Collection<?> c)
 		{
 		boolean ret = true; 
-		Iterator<?> it = c.iterator();
-		while( it.hasNext() )
+		for( final Object ii : c )
 			{
-			DGMNode nd = (DGMNode)( it.next() );
+			DGMNode nd = (DGMNode)( ii );
 			boolean rt = remove( nd );
 			ret = ret && rt;
 			}
