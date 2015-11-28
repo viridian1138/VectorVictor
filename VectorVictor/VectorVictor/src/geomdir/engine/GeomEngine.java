@@ -1087,9 +1087,7 @@ public class GeomEngine implements Externalizable {
 	public void getUsageVariables(FlexString InStr, HighLevelList<StdLowLevelList<FlexString>,FlexString> in) {
 		FlexString VarName = new FlexString();
 		extractVariable(InStr, 0, InStr.strlen(), VarName);
-		Iterator<?> it = expList.values().iterator();
-		while (it.hasNext()) {
-			ExpNode MyNode = (ExpNode) (it.next());
+		for ( final ExpNode MyNode : expList.values() ) {
 			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CList = MyNode.getCodeList();
 
 			if (!(CList.empty())) {
@@ -1356,10 +1354,7 @@ public class GeomEngine implements Externalizable {
 	public void writeConstraintSystem() {
 		System.out.println("### Input/Output Definitions: ###");
 
-		Iterator<?> it = alphaVarList.values().iterator();
-
-		while (it.hasNext()) {
-			ASGNode MyNode = (ASGNode) (it.next());
+		for ( final ASGNode MyNode : alphaVarList.values() ) {
 			printIODef(MyNode);
 		}
 
@@ -1371,10 +1366,7 @@ public class GeomEngine implements Externalizable {
 			System.out.println("### Objective Function: ###");
 			System.out.println("minimize");
 
-			it = alphaVarList.values().iterator();
-
-			while (it.hasNext()) {
-				ASGNode MyNode = (ASGNode) (it.next());
+			for ( final ASGNode MyNode : alphaVarList.values() ) {
 				writeNextMinimizer(MyNode.getStr(), MyNode.getIODef(), MyNode.getMvec());
 			}
 
@@ -1387,10 +1379,7 @@ public class GeomEngine implements Externalizable {
 		System.out.println("");
 		System.out.println("### Constraints: ###");
 
-		it = expList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyNode = (ExpNode) (it.next());
+		for ( final ExpNode MyNode : expList.values() ) {
 			writeStdConstraint(MyNode);
 		}
 
@@ -1403,11 +1392,8 @@ public class GeomEngine implements Externalizable {
 			writeImplicitConstraint(LHS, RHS);
 		}
 
-		it = alphaVarList.values().iterator();
-
 		if (CurSyntax != EngineConstants.SYNTAX_AMPL_LIKE) {
-			while (it.hasNext()) {
-				ASGNode MyNode = (ASGNode) (it.next());
+			for ( final ASGNode MyNode : alphaVarList.values() ) {
 				printDomain(MyNode.getStr(), MyNode.getDomain());
 			}
 		}

@@ -197,10 +197,8 @@ public class ASGHashMap extends HashMap<FlexString,ASGNode> implements Externali
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
 		Vector<ASGNode> v = new Vector<ASGNode>();
-		Iterator<ASGNode> it = values().iterator();
 
-		while (it.hasNext()) {
-			ASGNode asg = it.next();
+		for ( final ASGNode asg : values() ) {
 			v.setSize(v.size() + 1);
 			v.setElementAt(asg, v.size() - 1);
 		}

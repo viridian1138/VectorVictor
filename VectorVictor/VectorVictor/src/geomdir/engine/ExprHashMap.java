@@ -198,10 +198,8 @@ public class ExprHashMap extends HashMap<FlexString,ExpNode> implements External
 	*/
 	public void writeExternal(ObjectOutput out) throws IOException {
 		Vector<ExpNode> v = new Vector<ExpNode>();
-		Iterator<ExpNode> it = values().iterator();
 
-		while (it.hasNext()) {
-			ExpNode exp = it.next();
+		for ( final ExpNode exp : values() ) {
 			v.setSize(v.size() + 1);
 			v.setElementAt(exp, v.size() - 1);
 		}

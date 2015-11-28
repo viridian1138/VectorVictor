@@ -274,11 +274,8 @@ public class Linker extends Callback /* DBN */ {
 	@author Thorn Green.
 	*/
 	private final void clearMarks(ASGHashMap AlphaVarList) {
-		ASGNode MyASG;
 
-		Iterator<ASGNode> it = AlphaVarList.values().iterator();
-		while (it.hasNext()) {
-			MyASG = it.next();
+		for ( final ASGNode MyASG : AlphaVarList.values() ) {
 			MyASG.setMark(0);
 			MyASG.setMable(EngineConstants.MABLE_UNDEFINED);
 			MyASG.setExpNode(null);
@@ -301,12 +298,11 @@ public class Linker extends Callback /* DBN */ {
 	@author Thorn Green.
 	*/
 	private final void delAllUnmarkedAndFinalMarkASG(ASGHashMap MyList, Object DeleteObj, Method DeleteVisit) {
-		ASGNode myASG;
 		HashSet<ASGNode> tmp = new HashSet<ASGNode>();
 		Iterator<ASGNode> it = MyList.values().iterator();
 
-		while (it.hasNext()) {
-			myASG = it.next();
+		while ( it.hasNext() ) {
+			final ASGNode myASG = it.next();
 			if (myASG.getMark() == 0) {
 				tmp.add(myASG);
 				it.remove();
@@ -318,10 +314,7 @@ public class Linker extends Callback /* DBN */ {
 			}
 		}
 
-		it = tmp.iterator();
-
-		while (it.hasNext()) {
-			myASG = it.next();
+		for ( final ASGNode myASG : tmp ) {
 			Object[] CallLst = { myASG.getDrawObj(), myASG.getStr()};
 			try {
 				DeleteVisit.invoke(DeleteObj, CallLst);
@@ -412,10 +405,7 @@ public class Linker extends Callback /* DBN */ {
 	private final void evalMDef(ExprHashMap ExpList, ASGHashMap AlphaList, Object CreateObj, Method CreateVisit) {
 		FlexString InStr = new FlexString();
 
-		Iterator<ExpNode> it = ExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyExp = it.next();
+		for ( final ExpNode MyExp : ExpList.values() ) {
 			GloExpNode = MyExp;
 			(MyExp.getVarName()).copyString(InStr);
 			markInsert(InStr, AlphaList, false, true, CreateObj, CreateVisit);
@@ -443,10 +433,7 @@ public class Linker extends Callback /* DBN */ {
 		FlexString InStr = new FlexString();
 		CodeGen MyCodeGen = new CodeGen();
 
-		Iterator<ExpNode> it = ExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyExp = it.next();
+		for ( final ExpNode MyExp : ExpList.values() ) {
 			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
@@ -493,10 +480,7 @@ public class Linker extends Callback /* DBN */ {
 		FlexString InStr = new FlexString();
 		CodeGen MyCodeGen = new CodeGen();
 
-		Iterator<ExpNode> it = ExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyExp = it.next();
+		for ( final ExpNode MyExp : ExpList.values() ) {
 
 			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
@@ -519,10 +503,7 @@ public class Linker extends Callback /* DBN */ {
 
 		}
 
-		it = LHSimplicitExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyExp = it.next();
+		for ( final ExpNode MyExp : LHSimplicitExpList.values() ) {
 			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
@@ -544,10 +525,7 @@ public class Linker extends Callback /* DBN */ {
 
 		}
 
-		it = RHSimplicitExpList.values().iterator();
-
-		while (it.hasNext()) {
-			ExpNode MyExp = it.next();
+		for ( final ExpNode MyExp : RHSimplicitExpList.values() ) {
 			HighLevelList<StdLowLevelList<Lexeme>,Lexeme> CodeList = MyExp.getCodeList();
 			boolean Done1 = false;
 			if (!(CodeList.empty())) {
@@ -568,10 +546,7 @@ public class Linker extends Callback /* DBN */ {
 			}
 		}
 
-		Iterator<ASGNode> ita = LocalAlphaList.values().iterator();
-
-		while (ita.hasNext()) {
-			ASGNode myASG = ita.next();
+		for ( final ASGNode myASG : LocalAlphaList.values() ) {
 			FlexString name = myASG.getStr();
 			ASGNode gloASG = GlobalAlphaList.getASG(name);
 			if (gloASG != null) {

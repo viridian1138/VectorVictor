@@ -141,10 +141,9 @@ public class CodeFacade {
 	
 	public void write()
 	{
-		Iterator<Runnable> it = actions.iterator();
-		while( it.hasNext() )
+		for( final Runnable ii : actions )
 		{
-			it.next().run();
+			ii.run();
 		}
 	}
 	
