@@ -1383,12 +1383,10 @@ public class GeomEngine implements Externalizable {
 			writeStdConstraint(MyNode);
 		}
 
-		Iterator<?> itl = LHSimplicitExpList.values().iterator();
-		Iterator<?> itr = RHSimplicitExpList.values().iterator();
+		Iterator<ExpNode> itr = RHSimplicitExpList.values().iterator();
 
-		while (itl.hasNext()) {
-			ExpNode LHS = (ExpNode) (itl.next());
-			ExpNode RHS = (ExpNode) (itr.next());
+		for ( final ExpNode LHS : LHSimplicitExpList.values() ) {
+			ExpNode RHS = itr.next();
 			writeImplicitConstraint(LHS, RHS);
 		}
 

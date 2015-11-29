@@ -4084,10 +4084,8 @@ public class GeomKit
 	
 	protected final Ktool getGeoTool( GeomConstants.ToolMode in )
 	{
-		Iterator<Ktool> it = geoTools.iterator();
-		while( it.hasNext() )
+		for( final Ktool tool : geoTools )
 		{
-			Ktool tool = it.next();
 			if( tool.getDrawingMode( this ) == in )
 			{
 				return( tool );
