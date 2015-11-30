@@ -829,15 +829,13 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Configures all depictors as a block.
 	*/
 	public void readExternalSubUpdate(GeomKit pan) throws MathImageParseException {
-		Iterator<FragNode> it = VarList.values().iterator();
 
 //		MyTarget.showLoadFrame();
 //		MyTarget.setSubjectLab("Configuring Depictors...");
 //		MyTarget.setLoadLab(" ");
 //		MyTarget.setLoadFract(5, 10);
 
-		while (it.hasNext()) {
-			FragNode MyFrag = it.next();
+		for ( final FragNode MyFrag : VarList.values() ) {
 			readExternalSubFragUpdate(pan, MyFrag);
 		}
 
@@ -848,10 +846,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* Configures all depictors in a FragNode, including creating the depictor labels.
 	*/
 	public void readExternalSubFragUpdate(GeomKit pan, FragNode in) throws MathImageParseException {
-		Iterator<DGMNode> it = in.getFragMap().values().iterator();
 
-		while (it.hasNext()) {
-			DGMNode MyDGM = it.next();
+		for ( final DGMNode MyDGM : in.getFragMap().values() ) {
 			DrawObj MyObj = MyDGM.getMyDraw();
 			MyObj.setDepicImage(
 				makeDepicMathImage(
@@ -915,10 +911,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		IntObj MyIntObj = new IntObj();
 		MyIntObj.value = 0;
 
-		Iterator<SymListNode> it = Map.values().iterator();
-
-		while (it.hasNext()) {
-			SymListNode MyNode = it.next();
+		for ( final SymListNode MyNode : Map.values() ) {
 
 			String key2 = key + ".SymList" + ".Symbol_" + (new Integer(MyIntObj.value)).toString();
 
@@ -937,10 +930,8 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	*/
 	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserExpList() {
 		HighLevelList<StdLowLevelList<FlexString>,FlexString> TmpList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
-		Iterator<FragNode> it = getVarList().values().iterator();
 
-		while (it.hasNext()) {
-			FragNode MyNode = it.next();
+		for ( final FragNode MyNode : getVarList().values() ) {
 			if ((MyNode.getMovable().value & EngineConstants.MABLE_ASGN_MASK) > 0) {
 				FlexString VarStr = MyNode.getVectName();
 				FlexString ExpStr = new FlexString();
@@ -982,11 +973,9 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		int TmpDomain = 0;
 
 		DGMHashMap temp = MyFrg.getFragMap();
-		Iterator<DGMNode> it = temp.values().iterator();
 
-		while (it.hasNext()) {
+		for ( final DGMNode MyNode : temp.values() ) {
 			cnt++;
-			DGMNode MyNode = it.next();
 			TmpDomain = TmpDomain | (MyNode.getMyDraw().vectGetEntDomain());
 		}
 
@@ -1439,11 +1428,10 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 		IntObj IODef) {
 		int cnt = 0;
 		DGMHashMap temp = MyFrag.getFragMap();
-		Iterator<DGMNode> it = temp.values().iterator();
 
-		while (it.hasNext()) {
+		for ( final DGMNode ii : temp.values() ) {
 			cnt++;
-			DrawObj MyObj = it.next().getMyDraw();
+			DrawObj MyObj = ii.getMyDraw();
 			MyObj.setValuePort(1);
 			MyObj.portInitPtrs(VarName, Mable, Vect, Domain, IODef);
 		}
@@ -1609,10 +1597,7 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	public HighLevelList<StdLowLevelList<FlexString>,FlexString> formUserVarList() {
 		HighLevelList<StdLowLevelList<FlexString>,FlexString> TmpList = new HighLevelList<StdLowLevelList<FlexString>,FlexString>();
 
-		Iterator<FragNode> it = VarList.values().iterator();
-
-		while (it.hasNext()) {
-			FragNode MyNode = it.next();
+		for ( final FragNode MyNode : VarList.values() ) {
 			FlexString VarStr = MyNode.getVectName();
 			char FstChar = VarStr.getChar(0);
 
@@ -2340,15 +2325,11 @@ public class Model extends Object implements IFactoryModel, EtherEventHandler, E
 	* has different font metrics than non-antialiased text.
 	*/
 	protected void handleRenderUpdate() throws MathImageParseException {
-		Iterator ita = VarList.values().iterator();
 
-		while (ita.hasNext()) {
-			FragNode MyFrag = (FragNode) (ita.next());
+		for ( final FragNode MyFrag : VarList.values() ) {
 			DGMHashMap MyList = MyFrag.getFragMap();
 
-			Iterator<DGMNode> it = MyList.values().iterator();
-			while (it.hasNext()) {
-				DGMNode MyDGM = it.next();
+			for ( final DGMNode MyDGM : MyList.values() ) {
 				DrawObj MyDraw = MyDGM.getMyDraw();
 
 				String Str = (MyDraw.getVectName()).exportString();
