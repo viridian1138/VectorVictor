@@ -323,11 +323,8 @@ public class StatSolverExec extends Executor {
 		final double[] minimizationValues) {
 		int idx = 0;
 
-		Iterator<ASGNode> it = ASGList.values().iterator();
-		ASGNode asg;
 
-		while (it.hasNext()) {
-			asg = it.next();
+		for ( final ASGNode asg : ASGList.values() ) {
 			idx =
 				addInitSlots(
 					asg,
@@ -345,10 +342,8 @@ public class StatSolverExec extends Executor {
 		}
 
 		if (DynASGList != null) {
-			it = DynASGList.values().iterator();
 
-			while (it.hasNext()) {
-				asg = (ASGNode) (it.next());
+			for ( final ASGNode asg : DynASGList.values() ) {
 				idx =
 					addInitSlots(
 						asg,

@@ -2302,9 +2302,7 @@ public abstract class StatSolverBase extends Object {
 		}
 
 		boolean Done = false;
-		Iterator<HighLevelList<StdLowLevelList<SegNode>,SegNode>> it = tm.values().iterator();
-		while (it.hasNext()) {
-			HighLevelList<StdLowLevelList<SegNode>,SegNode> lst = it.next();
+		for ( final HighLevelList<StdLowLevelList<SegNode>,SegNode> lst : tm.values() ) {
 			if (!(lst.empty())) {
 				lst.searchHead();
 				Done = false;

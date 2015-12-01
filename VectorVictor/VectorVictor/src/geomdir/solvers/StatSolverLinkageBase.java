@@ -198,10 +198,8 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 		dynRHSimplicitExpList.eraseAllInfo();
 
 		{
-		Iterator<ASGNode> it = alphaVarMap.values().iterator();
 
-		while (it.hasNext()) {
-			ASGNode asg = it.next();
+		for ( final ASGNode asg : alphaVarMap.values() ) {
 			asg.getMvec().mcpy(asg.getMinimizationMvec());
 			totAlphaVarList.insertRight(asg);
 
@@ -213,10 +211,8 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 		}
 
 		if (dynAlphaVarMap != null) {
-			it = dynAlphaVarMap.values().iterator();
 
-			while (it.hasNext()) {
-				ASGNode asg = it.next();
+			for ( final ASGNode asg : dynAlphaVarMap.values() ) {
 				asg.getMvec().mcpy(asg.getMinimizationMvec());
 				totDynAlphaVarList.insertRight(asg);
 
@@ -229,12 +225,10 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 		}
 		}
 
-		Iterator<FlexString> it;
+		
 		if (lHSimplicitExpMap != null) {
-			it = lHSimplicitExpMap.keySet().iterator();
 
-			while (it.hasNext()) {
-				FlexString key = it.next();
+			for ( final FlexString key : lHSimplicitExpMap.keySet() ) {
 				ExpNode left = lHSimplicitExpMap.get(key);
 				ExpNode right = rHSimplicitExpMap.get(key);
 				lHSimplicitExpList.insertRight(left);
@@ -244,10 +238,8 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 		}
 
 		if (dynLHSimplicitExpMap != null) {
-			it = dynLHSimplicitExpMap.keySet().iterator();
 
-			while (it.hasNext()) {
-				FlexString key = it.next();
+			for ( final FlexString key : dynLHSimplicitExpMap.keySet() ) {
 				ExpNode left = dynLHSimplicitExpMap.get(key);
 				ExpNode right = dynRHSimplicitExpMap.get(key);
 				dynLHSimplicitExpList.insertRight(left);
@@ -311,9 +303,7 @@ public abstract class StatSolverLinkageBase extends AdvancedSolverLinkage {
 	protected final int getMstackSpaceRequired(final ExprHashMap in) {
 		int mSpace = 0;
 		if (in != null) {
-			Iterator<ExpNode> it = in.values().iterator();
-			while (it.hasNext()) {
-				ExpNode exp = it.next();
+			for ( final ExpNode exp : in.values() ) {
 				mSpace = Math.max(exp.getMstackSpaceRequired(), mSpace);
 			}
 		}
