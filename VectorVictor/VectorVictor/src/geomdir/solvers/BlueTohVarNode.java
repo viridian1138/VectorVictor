@@ -202,30 +202,27 @@ public class BlueTohVarNode extends Object {
 
 	public void unifyTo(BlueTohVarNode out) {
 		{
-		Iterator<ObjObj<BlueTohVarNode>> it = refSet.iterator();
-		while (it.hasNext()) {
-			ObjObj<BlueTohVarNode> ob = it.next();
+		for ( final ObjObj<BlueTohVarNode> ob : refSet ) {
 			ob.value = out;
 			out.addRef(ob);
 		}
 		}
 
-		Iterator<ASGNode> it = asgSet.iterator();
-		while (it.hasNext()) {
-			out.addASGRaw( it.next() );
+		for ( final ASGNode ii : asgSet ) {
+			out.addASGRaw( ii );
 		}
 
 		out.setPredExpCount(predExpCount + out.getPredExpCount());
 		if (out.getPredExp() == null)
 			out.setPredExp(predExp);
 	}
-
-	public Iterator<ASGNode> getASGIterator() {
-		return (asgSet.iterator());
+	
+	public Iterable<ASGNode> getASGSet() {
+		return( asgSet );
 	}
 
-	public Iterator<ObjObj<BlueTohVarNode>> getRefIterator() {
-		return (refSet.iterator());
+	public Iterable<ObjObj<BlueTohVarNode>> getRefSet() {
+		return ( refSet );
 	}
 
 	protected void addNodeToList(ASGNode inputNode, ASGNode outputNode, HighLevelList<StdLowLevelList<ASGNode>,ASGNode> outputList) {
@@ -305,10 +302,7 @@ public class BlueTohVarNode extends Object {
 			}
 		}
 
-		it = asgSet.iterator();
-
-		while (it.hasNext()) {
-			ASGNode nd = it.next();
+		for ( final ASGNode nd : asgSet ) {
 			Mvec outputMvec = nd.getMvec();
 			if (outputMvec != inputMvec)
 				inputMvec.mcpy(outputMvec);

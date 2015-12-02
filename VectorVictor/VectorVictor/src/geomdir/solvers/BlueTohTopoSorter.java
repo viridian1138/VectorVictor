@@ -360,9 +360,7 @@ public class BlueTohTopoSorter {
 			BlueTohVarNode blNode1 = ref1.value;
 			BlueTohVarNode blNode2 = ref2.value;
 			blNode1.unifyTo(blNode2);
-			Iterator<ObjObj<BlueTohVarNode>> it = blNode1.getRefIterator();
-			while (it.hasNext()) {
-				ObjObj<BlueTohVarNode> ref = it.next();
+			for ( final ObjObj<BlueTohVarNode> ref : blNode1.getRefSet() ) {
 				ref.value = blNode2;
 			}
 			blueTohVarSet.remove(blNode1);
@@ -381,29 +379,22 @@ public class BlueTohTopoSorter {
 		int mSpace = 0;
 
 		{
-		Iterator<ASGNode> it = globalAsgList.values().iterator();
 
-		while (it.hasNext()) {
-			ASGNode myASG = it.next();
+		for ( final ASGNode myASG : globalAsgList.values() ) {
 			myASG.setAuxMark(0);
 			if (myASG.getDynCousin() != null)
 				myASG.getDynCousin().setAuxMark(BlueTohSolverLinkage.UniqueCousinMark);
 		}
 
 		if (localAsgList != null) {
-			it = localAsgList.values().iterator();
 
-			while (it.hasNext()) {
-				ASGNode myASG = it.next();
+			for ( final ASGNode myASG : localAsgList.values() ) {
 				if (myASG.getDynCousin() == null)
 					myASG.setAuxMark(0);
 			}
 		}
 
-		it = globalAsgList.values().iterator();
-
-		while (it.hasNext()) {
-			ASGNode myASG = it.next();
+		for ( final ASGNode myASG : globalAsgList.values() ) {
 			myASG.setAuxMark(0);
 			boolean trav = handleASGTraverseOneSide(myASG);
 			if (trav) {
@@ -415,10 +406,8 @@ public class BlueTohTopoSorter {
 		}
 
 		if (localAsgList != null) {
-			it = localAsgList.values().iterator();
 
-			while (it.hasNext()) {
-				ASGNode myASG = it.next();
+			for ( final ASGNode myASG : localAsgList.values() ) {
 				boolean trav = handleASGTraverseOneSide(myASG);
 				if (trav) {
 					myASG.setAuxMark(myASG.getAuxMark() | BlueTohSolverLinkage.ConstraintTraverseMark);
@@ -429,10 +418,7 @@ public class BlueTohTopoSorter {
 			}
 		}
 
-		it = globalAsgList.values().iterator();
-
-		while (it.hasNext()) {
-			ASGNode myASG = it.next();
+		for ( final ASGNode myASG : globalAsgList.values() ) {
 			ExpNode myExp = null;
 			if ((myASG.getAuxMark() & BlueTohSolverLinkage.ConstraintTraverseMark) == 0) {
 				myExp = getPredExpOneSideStrict(myASG);
@@ -442,10 +428,8 @@ public class BlueTohTopoSorter {
 		}
 
 		if (localAsgList != null) {
-			it = localAsgList.values().iterator();
 
-			while (it.hasNext()) {
-				ASGNode myASG = it.next();
+			for ( final ASGNode myASG : localAsgList.values() ) {
 				ExpNode myExp = null;
 				if ((myASG.getAuxMark() & BlueTohSolverLinkage.ConstraintTraverseMark) == 0) {
 					myExp = getPredExpOneSideStrict(myASG);
@@ -457,10 +441,7 @@ public class BlueTohTopoSorter {
 		}
 		}
 
-		Iterator<BlueTohVarNode> it = blueTohVarSet.iterator();
-
-		while (it.hasNext()) {
-			BlueTohVarNode myVar = it.next();
+		for ( final BlueTohVarNode myVar : blueTohVarSet ) {
 			ExpNode myExp = getPredExp(myVar);
 			if (myExp != null)
 				mSpace = Math.max(buildTopStructure(myVar, myExp), mSpace);
@@ -469,9 +450,7 @@ public class BlueTohTopoSorter {
 			}
 		}
 
-		Iterator<BlueTohTopoEntryNode> en = varHash.values().iterator();
-		while (en.hasNext()) {
-			BlueTohTopoEntryNode node = en.next();
+		for ( final BlueTohTopoEntryNode node : varHash.values() ) {
 			if (node.getPredCount() == 0)
 				next_nodes.enq(node);
 		}

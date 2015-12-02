@@ -215,36 +215,29 @@ public class BluePackVarNode extends Object {
 
 	public void unifyTo(BluePackVarNode out, boolean negate) {
 		{
-		Iterator<ObjObj<BluePackVarNode>> it = refSet.iterator();
-		while (it.hasNext()) {
-			ObjObj<BluePackVarNode> ob = it.next();
+		for ( final ObjObj<BluePackVarNode> ob : refSet ) {
 			ob.value = out;
 			out.addRef(ob);
 		}
 		}
 
-		Iterator<ASGNode> it;
 		if (negate) {
-			it = asgCpySet.iterator();
-			while (it.hasNext()) {
-				out.addASGMnsRaw(it.next());
+			for ( final ASGNode ii : asgCpySet ) {
+				out.addASGMnsRaw( ii );
 			}
 
-			it = asgMnsSet.iterator();
-			while (it.hasNext()) {
-				out.addASGCpyRaw(it.next());
+			for ( final ASGNode ii : asgMnsSet ) {
+				out.addASGCpyRaw( ii );
 			}
 
 		}
 		else {
-			it = asgCpySet.iterator();
-			while (it.hasNext()) {
-				out.addASGCpyRaw(it.next());
+			for ( final ASGNode ii : asgCpySet ) {
+				out.addASGCpyRaw( ii );
 			}
 
-			it = asgMnsSet.iterator();
-			while (it.hasNext()) {
-				out.addASGMnsRaw(it.next());
+			for ( final ASGNode ii :  asgMnsSet ) {
+				out.addASGMnsRaw( ii );
 			}
 
 		}
@@ -257,16 +250,16 @@ public class BluePackVarNode extends Object {
 
 	}
 
-	public Iterator<ASGNode> getASGCpyIterator() {
-		return (asgCpySet.iterator());
+	public Iterable<ASGNode> getASGCpySet() {
+		return (asgCpySet);
 	}
 
-	public Iterator<ASGNode> getASGMnsIterator() {
-		return (asgMnsSet.iterator());
+	public Iterable<ASGNode> getASGMnsSet() {
+		return (asgMnsSet);
 	}
 
-	public Iterator<ObjObj<BluePackVarNode>> getRefIterator() {
-		return (refSet.iterator());
+	public Iterable<ObjObj<BluePackVarNode>> getRefSet() {
+		return (refSet);
 	}
 
 	public boolean isNegatedVar(ASGNode var) {
@@ -309,10 +302,7 @@ public class BluePackVarNode extends Object {
 				addNodeToList(inputNode, nd, false, outputList);
 			}
 
-			it = asgCpySet.iterator();
-
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgCpySet ) {
 				addNodeToList(inputNode, nd, true, outputList);
 			}
 		}
@@ -330,10 +320,7 @@ public class BluePackVarNode extends Object {
 				addNodeToList(inputNode, nd, false, outputList);
 			}
 
-			it = asgMnsSet.iterator();
-
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgMnsSet ) {
 				addNodeToList(inputNode, nd, true, outputList);
 			}
 		}
@@ -391,10 +378,8 @@ public class BluePackVarNode extends Object {
 			}
 		}
 
-		it = asgMnsSet.iterator();
-
-		while (it.hasNext()) {
-			ASGNode inputNode = it.next();
+		for ( final ASGNode ii : asgMnsSet ) {
+			ASGNode inputNode = ii;
 			if ((inputNode.getExpNode()) == null) {
 				if (inputNode.getDynCousin() != null) {
 					inputNode = inputNode.getDynCousin();
@@ -413,10 +398,8 @@ public class BluePackVarNode extends Object {
 		}
 
 		if (negateInput) {
-			it = asgCpySet.iterator();
 
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgCpySet ) {
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec) {
 					inputMvec.mcpy(outputMvec);
@@ -424,29 +407,21 @@ public class BluePackVarNode extends Object {
 				}
 			}
 
-			it = asgMnsSet.iterator();
-
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgMnsSet ) {
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec)
 					inputMvec.mcpy(outputMvec);
 			}
 		}
 		else {
-			it = asgCpySet.iterator();
 
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgCpySet ) {
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec)
 					inputMvec.mcpy(outputMvec);
 			}
 
-			it = asgMnsSet.iterator();
-
-			while (it.hasNext()) {
-				ASGNode nd = it.next();
+			for ( final ASGNode nd : asgMnsSet ) {
 				Mvec outputMvec = nd.getMvec();
 				if (outputMvec != inputMvec) {
 					inputMvec.mcpy(outputMvec);
