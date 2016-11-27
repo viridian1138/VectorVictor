@@ -10,37 +10,12 @@ Vector Victor is a Vector Algebra / Geometric Algebra / Physics Calculator For 7
 
 
 
-For complete README information on this program, please see the Vector Victor group on Facebook:
+For README information on this program, please see the Vector Victor group on Facebook:
 
 
 https://www.facebook.com/groups/662160243835320/
 
 
-
-
-Report A Bug
-============
-
-
-https://www.facebook.com/groups/662160243835320/
-
-
-
-
-How To Build
-============
-
-
-https://www.facebook.com/groups/662160243835320/
-
-
-
-
-Contributing
-============
-
-
-https://www.facebook.com/groups/662160243835320/
-
+For complete documentation, see http://ianpostgreen.com/thorn/jdoc_vic/VictDoc/index.html
 
 
